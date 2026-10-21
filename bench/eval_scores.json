@@ -1,0 +1,51 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "k": 10,
+  "results": [
+    {
+      "domain": "sample",
+      "query_lang": "zh",
+      "doc_lang": "de",
+      "n": 5,
+      "recall@10": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "domain": "sample",
+      "query_lang": "zh",
+      "doc_lang": "en",
+      "n": 5,
+      "recall@10": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "domain": "sample",
+      "query_lang": "zh",
+      "doc_lang": "ja",
+      "n": 5,
+      "recall@10": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "domain": "sample",
+      "query_lang": "zh",
+      "doc_lang": "ko",
+      "n": 5,
+      "recall@10": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    },
+    {
+      "domain": "sample",
+      "query_lang": "zh",
+      "doc_lang": "zh",
+      "n": 5,
+      "recall@10": 1.0,
+      "mrr@10": 1.0,
+      "ndcg@10": 1.0
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "recall_at": {
+    "50": 0.7394957983193278,
+    "100": 0.8571428571428571,
+    "10": 0.35294117647058826,
+    "20": 0.4957983193277311
+  },
+  "median_rank": 22.0,
+  "near_miss_ratio": 0.021739130434782608,
+  "top_confusions": [
+    {
+      "truth": "Stanley Kubrick",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Orson Welles",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Alfred Hitchcock",
+      "predicted": "Alejandro Gonzalez Inarritu",
+      "count": 1
+    },
+    {
+      "truth": "Francis Ford Coppola",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Martin Scorsese",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Steven Spielberg",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "David Lynch",
+      "predicted": "Alejandro Gonzalez Inarritu",
+      "count": 1
+    },
+    {
+      "truth": "Terrence Malick",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Woody Allen",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "David Fincher",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Quentin Tarantino",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Paul Thomas Anderson",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Coen Brothers",
+      "predicted": "Thomas Vinterberg",
+      "count": 1
+    },
+    {
+      "truth": "Christopher Nolan",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Denis Villeneuve",
+      "predicted": "Takashi Miike",
+      "count": 1
+    },
+    {
+      "truth": "Ridley Scott",
+      "predicted": "Alejandro Gonzalez Inarritu",
+      "count": 1
+    },
+    {
+      "truth": "James Cameron",
+      "predicted": "Kim Ki-duk",
+      "count": 1
+    },
+    {
+      "truth": "Michael Mann",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Clint Eastwood",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Sidney Lumet",
+      "predicted": "Carl Theodor Dreyer",
+      "count": 1
+    },
+    {
+      "truth": "Brian De Palma",
+      "predicted": "Asghar Farhadi",
+      "count": 1
+    },
+    {
+      "truth": "John Carpenter",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "Wes Anderson",
+      "predicted": "Asghar Farhadi",
+      "count": 1
+    },
+    {
+      "truth": "Sofia Coppola",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Spike Lee",
+      "predicted": "Youssef Chahine",
+      "count": 1
+    },
+    {
+      "truth": "Darren Aronofsky",
+      "predicted": "Kim Ki-duk",
+      "count": 1
+    },
+    {
+      "truth": "Ari Aster",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Robert Eggers",
+      "predicted": "Takeshi Kitano",
+      "count": 1
+    },
+    {
+      "truth": "Jordan Peele",
+      "predicted": "Apichatpong Weerasethakul",
+      "count": 1
+    },
+    {
+      "truth": "George Miller",
+      "predicted": "Youssef Chahine",
+      "count": 1
+    }
+  ]
+}

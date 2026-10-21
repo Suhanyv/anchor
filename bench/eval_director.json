@@ -1,0 +1,15 @@
+{
+  "model": "intfloat/multilingual-e5-small",
+  "k": 10,
+  "results": [
+    {
+      "domain": "prompt_image",
+      "query_lang": "zh",
+      "doc_lang": "en",
+      "n": 119,
+      "recall@10": 0.1625,
+      "mrr@10": 0.1579,
+      "ndcg@10": 0.1211
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# torch 不写在这里 —— 它必须从 pytorch 官方索引安装 CUDA 版，
+# Windows 上 PyPI 的 torch 是 CPU-only，装错了 GPU 用不了。
+# 安装方式见 README.md 的「环境」一节。
+#
+# 已有：F:\llm\.venv   （Python 3.12.10）
+
+transformers>=4.40,<5
+sentence-transformers>=3.0
+datasets>=2.19
+accelerate>=0.30
+huggingface-hub>=0.23
+tokenizers>=0.19
+scikit-learn>=1.4
+tqdm
+numpy>=1.26

@@ -1,0 +1,62 @@
+[
+  {
+    "tokenizer": "intfloat/multilingual-e5-small",
+    "vocab": 250002,
+    "rows": [
+      {
+        "case": "EN prompt + params",
+        "tokens": 35,
+        "chars": 101,
+        "fertility": 0.3465
+      },
+      {
+        "case": "EN prompt plain",
+        "tokens": 20,
+        "chars": 73,
+        "fertility": 0.274
+      },
+      {
+        "case": "ZH prompt",
+        "tokens": 26,
+        "chars": 31,
+        "fertility": 0.8387
+      },
+      {
+        "case": "JA text",
+        "tokens": 9,
+        "chars": 16,
+        "fertility": 0.5625
+      },
+      {
+        "case": "KO text",
+        "tokens": 13,
+        "chars": 21,
+        "fertility": 0.619
+      },
+      {
+        "case": "DE compound",
+        "tokens": 7,
+        "chars": 34,
+        "fertility": 0.2059
+      },
+      {
+        "case": "DE sentence",
+        "tokens": 14,
+        "chars": 56,
+        "fertility": 0.25
+      },
+      {
+        "case": "Code",
+        "tokens": 25,
+        "chars": 57,
+        "fertility": 0.4386
+      },
+      {
+        "case": "ZH query",
+        "tokens": 11,
+        "chars": 15,
+        "fertility": 0.7333
+      }
+    ]
+  }
+]

@@ -1,0 +1,246 @@
+{
+  "device": {
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "capability": [
+      8,
+      9
+    ],
+    "sms": 24,
+    "vram_total_gb": 8.0,
+    "torch": "2.9.1+cu130",
+    "cuda": "13.0",
+    "cudnn": 91200,
+    "bf16": true,
+    "ram_total_gb": 15.7
+  },
+  "matmul_tflops": {
+    "bf16": {
+      "1024": 23.31,
+      "2048": 27.67,
+      "4096": 28.61,
+      "8192": 31.26
+    },
+    "fp16": {
+      "1024": 25.61,
+      "2048": 29.92,
+      "4096": 31.17,
+      "8192": 31.27
+    },
+    "fp32": {
+      "1024": 8.62,
+      "2048": 9.3,
+      "4096": 9.25,
+      "8192": 9.14
+    }
+  },
+  "mem_bw_gbs": 240.9,
+  "train": [
+    {
+      "tag": "MiniLM-6L  嵌入",
+      "layers": 6,
+      "hidden": 384,
+      "heads": 6,
+      "params_m": 22.6,
+      "seq": 256,
+      "bs": 64,
+      "step_s": 0.1188,
+      "samples_s": 538.7,
+      "tokens_s": 137901.0,
+      "peak_vram_gb": 1.94,
+      "ram_delta_gb": 0.39
+    },
+    {
+      "tag": "MiniLM-6L  嵌入(大batch)",
+      "layers": 6,
+      "hidden": 384,
+      "heads": 6,
+      "params_m": 22.6,
+      "seq": 256,
+      "bs": 128,
+      "step_s": 0.2371,
+      "samples_s": 539.9,
+      "tokens_s": 138221.0,
+      "peak_vram_gb": 3.57,
+      "ram_delta_gb": 0.11
+    },
+    {
+      "tag": "BERT-base  嵌入",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.3,
+      "seq": 256,
+      "bs": 32,
+      "step_s": 0.3275,
+      "samples_s": 97.7,
+      "tokens_s": 25015.0,
+      "peak_vram_gb": 4.62,
+      "ram_delta_gb": 0.27
+    },
+    {
+      "tag": "BERT-base  嵌入(大batch)",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.3,
+      "seq": 256,
+      "bs": 64,
+      "step_s": 1.0253,
+      "samples_s": 62.4,
+      "tokens_s": 15980.0,
+      "peak_vram_gb": 7.79,
+      "ram_delta_gb": 0.29
+    },
+    {
+      "tag": "BERT-base  reranker",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.5,
+      "seq": 512,
+      "bs": 16,
+      "step_s": 0.3595,
+      "samples_s": 44.5,
+      "tokens_s": 22788.0,
+      "peak_vram_gb": 4.61,
+      "ram_delta_gb": -0.0
+    },
+    {
+      "tag": "BERT-base  reranker(大batch)",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.5,
+      "seq": 512,
+      "bs": 32,
+      "step_s": 1.2614,
+      "samples_s": 25.4,
+      "tokens_s": 12989.0,
+      "peak_vram_gb": 7.79,
+      "ram_delta_gb": 0.33
+    }
+  ],
+  "sustain": {
+    "windows": [
+      {
+        "t_s": 10,
+        "tflops": 45.14,
+        "temp_c": "80",
+        "power_w": "100.49"
+      },
+      {
+        "t_s": 20,
+        "tflops": 31.05,
+        "temp_c": "81",
+        "power_w": "100.91"
+      },
+      {
+        "t_s": 30,
+        "tflops": 31.06,
+        "temp_c": "82",
+        "power_w": "101.31"
+      },
+      {
+        "t_s": 40,
+        "tflops": 31.05,
+        "temp_c": "82",
+        "power_w": "101.60"
+      },
+      {
+        "t_s": 50,
+        "tflops": 31.06,
+        "temp_c": "83",
+        "power_w": "101.96"
+      }
+    ],
+    "drop_pct": 31.2
+  },
+  "summary": {
+    "L6_H384_s256_b64": {
+      "tag": "MiniLM-6L  嵌入",
+      "layers": 6,
+      "hidden": 384,
+      "heads": 6,
+      "params_m": 22.6,
+      "seq": 256,
+      "bs": 64,
+      "step_s": 0.1188,
+      "samples_s": 538.7,
+      "tokens_s": 137901.0,
+      "peak_vram_gb": 1.94,
+      "ram_delta_gb": 0.39
+    },
+    "L6_H384_s256_b128": {
+      "tag": "MiniLM-6L  嵌入(大batch)",
+      "layers": 6,
+      "hidden": 384,
+      "heads": 6,
+      "params_m": 22.6,
+      "seq": 256,
+      "bs": 128,
+      "step_s": 0.2371,
+      "samples_s": 539.9,
+      "tokens_s": 138221.0,
+      "peak_vram_gb": 3.57,
+      "ram_delta_gb": 0.11
+    },
+    "L12_H768_s256_b32": {
+      "tag": "BERT-base  嵌入",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.3,
+      "seq": 256,
+      "bs": 32,
+      "step_s": 0.3275,
+      "samples_s": 97.7,
+      "tokens_s": 25015.0,
+      "peak_vram_gb": 4.62,
+      "ram_delta_gb": 0.27
+    },
+    "L12_H768_s256_b64": {
+      "tag": "BERT-base  嵌入(大batch)",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.3,
+      "seq": 256,
+      "bs": 64,
+      "step_s": 1.0253,
+      "samples_s": 62.4,
+      "tokens_s": 15980.0,
+      "peak_vram_gb": 7.79,
+      "ram_delta_gb": 0.29
+    },
+    "L12_H768_s512_b16": {
+      "tag": "BERT-base  reranker",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.5,
+      "seq": 512,
+      "bs": 16,
+      "step_s": 0.3595,
+      "samples_s": 44.5,
+      "tokens_s": 22788.0,
+      "peak_vram_gb": 4.61,
+      "ram_delta_gb": -0.0
+    },
+    "L12_H768_s512_b32": {
+      "tag": "BERT-base  reranker(大batch)",
+      "layers": 12,
+      "hidden": 768,
+      "heads": 12,
+      "params_m": 109.5,
+      "seq": 512,
+      "bs": 32,
+      "step_s": 1.2614,
+      "samples_s": 25.4,
+      "tokens_s": 12989.0,
+      "peak_vram_gb": 7.79,
+      "ram_delta_gb": 0.33
+    }
+  },
+  "peak_compute_tflops": 31.27,
+  "generated_at": "2026-10-18 20:55:12"
+}

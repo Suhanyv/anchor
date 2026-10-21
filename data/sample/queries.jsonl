@@ -1,0 +1,5 @@
+{"query_id": "q-t01-zh", "query": "赛博朋克城市夜景，霓虹灯招牌，大雨，电影级光照", "lang": "zh", "domain": "sample", "relevant": ["t01-en", "t01-zh", "t01-ja", "t01-ko", "t01-de"]}
+{"query_id": "q-t02-zh", "query": "水彩插画，晨雾中的宁静山村", "lang": "zh", "domain": "sample", "relevant": ["t02-en", "t02-zh", "t02-ja", "t02-ko", "t02-de"]}
+{"query_id": "q-t03-zh", "query": "在发起 API 请求前对用户输入做防抖", "lang": "zh", "domain": "sample", "relevant": ["t03-en", "t03-zh", "t03-ja", "t03-ko", "t03-de"]}
+{"query_id": "q-t04-zh", "query": "等距像素画，小小的咖啡店，温暖橙色灯光", "lang": "zh", "domain": "sample", "relevant": ["t04-en", "t04-zh", "t04-ja", "t04-ko", "t04-de"]}
+{"query_id": "q-t05-zh", "query": "在 Linux 上如何把大日志文件按大小切割轮转", "lang": "zh", "domain": "sample", "relevant": ["t05-en", "t05-zh", "t05-ja", "t05-ko", "t05-de"]}

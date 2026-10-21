@@ -1,0 +1,128 @@
+{
+  "baseline": {
+    "王家卫的风格": {
+      "rank": 57,
+      "top3": [
+        "Zhang Yimou",
+        "Park Chan-wook",
+        "Chen Kaige"
+      ]
+    },
+    "想要黑泽明那种色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 16,
+      "top3": [
+        "Zhang Yimou",
+        "Chen Kaige",
+        "Hayao Miyazaki"
+      ]
+    },
+    "色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 5,
+      "top3": [
+        "Zhang Yimou",
+        "Park Chan-wook",
+        "Jia Zhangke"
+      ]
+    },
+    "霓虹夜色，慢门，暧昧的感觉": {
+      "rank": 46,
+      "top3": [
+        "David Cronenberg",
+        "Fritz Lang",
+        "Takeshi Kitano"
+      ]
+    },
+    "黑白、大雨、群像，那种气势": {
+      "rank": 1,
+      "top3": [
+        "Akira Kurosawa",
+        "Tsai Ming-liang",
+        "Takeshi Kitano"
+      ]
+    }
+  },
+  "v1单面": {
+    "王家卫的风格": {
+      "rank": 1,
+      "top3": [
+        "Wong Kar-wai",
+        "Jia Zhangke",
+        "Hou Hsiao-hsien"
+      ]
+    },
+    "想要黑泽明那种色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 1,
+      "top3": [
+        "Akira Kurosawa",
+        "Masaki Kobayashi",
+        "Hideaki Anno"
+      ]
+    },
+    "色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 2,
+      "top3": [
+        "Paul Thomas Anderson",
+        "Akira Kurosawa",
+        "Yorgos Lanthimos"
+      ]
+    },
+    "霓虹夜色，慢门，暧昧的感觉": {
+      "rank": 1,
+      "top3": [
+        "Wong Kar-wai",
+        "Martin Scorsese",
+        "Michael Mann"
+      ]
+    },
+    "黑白、大雨、群像，那种气势": {
+      "rank": 2,
+      "top3": [
+        "Bong Joon-ho",
+        "Akira Kurosawa",
+        "Jean Renoir"
+      ]
+    }
+  },
+  "v2多面": {
+    "王家卫的风格": {
+      "rank": 1,
+      "top3": [
+        "Wong Kar-wai",
+        "Hou Hsiao-hsien",
+        "Park Chan-wook"
+      ]
+    },
+    "想要黑泽明那种色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 1,
+      "top3": [
+        "Akira Kurosawa",
+        "Masaki Kobayashi",
+        "Yasujiro Ozu"
+      ]
+    },
+    "色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 2,
+      "top3": [
+        "Paul Thomas Anderson",
+        "Akira Kurosawa",
+        "Peter Greenaway"
+      ]
+    },
+    "霓虹夜色，慢门，暧昧的感觉": {
+      "rank": 1,
+      "top3": [
+        "Wong Kar-wai",
+        "Martin Scorsese",
+        "Michael Mann"
+      ]
+    },
+    "黑白、大雨、群像，那种气势": {
+      "rank": 1,
+      "top3": [
+        "Akira Kurosawa",
+        "Jean-Pierre Melville",
+        "Robert Bresson"
+      ]
+    }
+  }
+}

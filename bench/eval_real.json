@@ -1,0 +1,110 @@
+{
+  "base": {
+    "王家卫的风格": {
+      "rank": 93,
+      "top": [
+        "Jafar Panahi",
+        "Asghar Farhadi",
+        "Bong Joon-ho",
+        "Jia Zhangke",
+        "Matteo Garrone",
+        "Tsai Ming-liang",
+        "Hirokazu Kore-eda",
+        "Fritz Lang"
+      ]
+    },
+    "想要黑泽明那种色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 40,
+      "top": [
+        "Hayao Miyazaki",
+        "Alejandro Gonzalez Inarritu",
+        "Hou Hsiao-hsien",
+        "Tsai Ming-liang",
+        "Park Chan-wook",
+        "Nicolas Roeg",
+        "Makoto Shinkai",
+        "Fritz Lang"
+      ]
+    },
+    "色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 74,
+      "top": [
+        "Park Chan-wook",
+        "Hou Hsiao-hsien",
+        "Tsai Ming-liang",
+        "Stanley Kubrick",
+        "Sam Peckinpah",
+        "Alejandro Gonzalez Inarritu",
+        "Zhang Yimou",
+        "Fritz Lang"
+      ]
+    },
+    "霓虹夜色，慢门，暧昧的感觉": {
+      "rank": 68,
+      "top": [
+        "Fritz Lang",
+        "Takeshi Kitano",
+        "Apichatpong Weerasethakul",
+        "Makoto Shinkai",
+        "Darren Aronofsky",
+        "David Lynch",
+        "Terrence Malick",
+        "Hou Hsiao-hsien"
+      ]
+    }
+  },
+  "finetuned": {
+    "王家卫的风格": {
+      "rank": 1,
+      "top": [
+        "Wong Kar-wai",
+        "Jia Zhangke",
+        "Tsui Hark",
+        "Edward Yang",
+        "Chen Kaige",
+        "Hou Hsiao-hsien",
+        "Fritz Lang",
+        "Bong Joon-ho"
+      ]
+    },
+    "想要黑泽明那种色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 1,
+      "top": [
+        "Akira Kurosawa",
+        "Masaki Kobayashi",
+        "Hideaki Anno",
+        "Yasujiro Ozu",
+        "Kenji Mizoguchi",
+        "Takeshi Kitano",
+        "Takashi Miike",
+        "Makoto Shinkai"
+      ]
+    },
+    "色彩鲜艳，整体有秩序又有混乱的效果": {
+      "rank": 37,
+      "top": [
+        "Yorgos Lanthimos",
+        "Alain Resnais",
+        "Rainer Werner Fassbinder",
+        "Michelangelo Antonioni",
+        "Peter Greenaway",
+        "Sergei Eisenstein",
+        "Ang Lee",
+        "Asghar Farhadi"
+      ]
+    },
+    "霓虹夜色，慢门，暧昧的感觉": {
+      "rank": 1,
+      "top": [
+        "Wong Kar-wai",
+        "Martin Scorsese",
+        "Michael Mann",
+        "John Carpenter",
+        "Apichatpong Weerasethakul",
+        "Sofia Coppola",
+        "Thomas Vinterberg",
+        "Woody Allen"
+      ]
+    }
+  }
+}

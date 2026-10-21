@@ -1,0 +1,30 @@
+# ---- 大件：不进仓库 ----
+.venv/
+python312/
+downloads/
+cache/
+temp/
+models/*/
+!models/MODEL_CARD.md
+bench/frames/
+*.whl
+*.exe
+*.mp4
+*.7z
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# ---- 编辑器 / 系统 ----
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ---- 临时 ----
+_wtest.txt
+*.log

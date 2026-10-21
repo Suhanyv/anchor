@@ -1,0 +1,85 @@
+{"doc_id": "t01-en", "text": "cyberpunk city at night, neon signs, heavy rain, cinematic lighting", "lang": "en", "domain": "sample"}
+{"doc_id": "t01-zh", "text": "赛博朋克城市夜景，霓虹灯招牌，大雨，电影级光照", "lang": "zh", "domain": "sample"}
+{"doc_id": "t01-ja", "text": "サイバーパンクの夜景、ネオンサイン、大雨、シネマティックな光", "lang": "ja", "domain": "sample"}
+{"doc_id": "t01-ko", "text": "사이버펑크 도시 야경, 네온 사인, 폭우, 영화적 조명", "lang": "ko", "domain": "sample"}
+{"doc_id": "t01-de", "text": "Cyberpunk-Stadt bei Nacht, Neonreklame, starker Regen, filmische Beleuchtung", "lang": "de", "domain": "sample"}
+{"doc_id": "t02-en", "text": "watercolor illustration of a quiet mountain village in morning mist", "lang": "en", "domain": "sample"}
+{"doc_id": "t02-zh", "text": "水彩插画，晨雾中的宁静山村", "lang": "zh", "domain": "sample"}
+{"doc_id": "t02-ja", "text": "水彩イラスト、朝霧の中の静かな山村", "lang": "ja", "domain": "sample"}
+{"doc_id": "t02-ko", "text": "수채화 일러스트, 아침 안개 속의 조용한 산촌", "lang": "ko", "domain": "sample"}
+{"doc_id": "t02-de", "text": "Aquarellillustration eines stillen Bergdorfs im Morgennebel", "lang": "de", "domain": "sample"}
+{"doc_id": "t03-en", "text": "debounce user input before firing an API request", "lang": "en", "domain": "sample"}
+{"doc_id": "t03-zh", "text": "在发起 API 请求前对用户输入做防抖", "lang": "zh", "domain": "sample"}
+{"doc_id": "t03-ja", "text": "APIリクエスト前にユーザー入力をデバウンスする", "lang": "ja", "domain": "sample"}
+{"doc_id": "t03-ko", "text": "API 요청 전에 사용자 입력을 디바운스하기", "lang": "ko", "domain": "sample"}
+{"doc_id": "t03-de", "text": "Benutzereingabe entprellen, bevor eine API-Anfrage gesendet wird", "lang": "de", "domain": "sample"}
+{"doc_id": "t04-en", "text": "isometric pixel art of a tiny coffee shop, warm orange light", "lang": "en", "domain": "sample"}
+{"doc_id": "t04-zh", "text": "等距像素画，小小的咖啡店，温暖橙色灯光", "lang": "zh", "domain": "sample"}
+{"doc_id": "t04-ja", "text": "アイソメトリックなドット絵の小さな喫茶店、温かいオレンジ色の光", "lang": "ja", "domain": "sample"}
+{"doc_id": "t04-ko", "text": "아이소메트릭 픽셀 아트, 작은 커피숍, 따뜻한 주황색 조명", "lang": "ko", "domain": "sample"}
+{"doc_id": "t04-de", "text": "Isometrische Pixelart eines kleinen Cafés, warmes oranges Licht", "lang": "de", "domain": "sample"}
+{"doc_id": "t05-en", "text": "how to split a large logfile into rotated chunks on linux", "lang": "en", "domain": "sample"}
+{"doc_id": "t05-zh", "text": "在 Linux 上如何把大日志文件按大小切割轮转", "lang": "zh", "domain": "sample"}
+{"doc_id": "t05-ja", "text": "Linuxで大きなログファイルをサイズで分割ローテーションする方法", "lang": "ja", "domain": "sample"}
+{"doc_id": "t05-ko", "text": "Linux에서 큰 로그 파일을 크기별로 분할 순환하는 방법", "lang": "ko", "domain": "sample"}
+{"doc_id": "t05-de", "text": "Wie man eine große Logdatei unter Linux nach Größe rotierend aufteilt", "lang": "de", "domain": "sample"}
+{"doc_id": "n-zh-0", "text": "红烧肉的家常做法 编号0", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-0", "text": "how to bake sourdough bread no.0", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-1", "text": "如何更换汽车轮胎 编号1", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-1", "text": "replacing brake pads on a sedan no.1", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-2", "text": "股票市场的基本面分析 编号2", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-2", "text": "basics of bond valuation no.2", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-3", "text": "婴儿奶粉冲泡温度 编号3", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-3", "text": "best hiking trails in autumn no.3", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-4", "text": "古典钢琴曲推荐 编号4", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-4", "text": "understanding the offside rule no.4", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-5", "text": "装修涂料选购指南 编号5", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-5", "text": "how to bake sourdough bread no.5", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-6", "text": "马拉松训练计划 编号6", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-6", "text": "replacing brake pads on a sedan no.6", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-7", "text": "猫咪掉毛怎么办 编号7", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-7", "text": "basics of bond valuation no.7", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-8", "text": "红烧肉的家常做法 编号8", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-8", "text": "best hiking trails in autumn no.8", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-9", "text": "如何更换汽车轮胎 编号9", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-9", "text": "understanding the offside rule no.9", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-10", "text": "股票市场的基本面分析 编号10", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-10", "text": "how to bake sourdough bread no.10", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-11", "text": "婴儿奶粉冲泡温度 编号11", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-11", "text": "replacing brake pads on a sedan no.11", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-12", "text": "古典钢琴曲推荐 编号12", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-12", "text": "basics of bond valuation no.12", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-13", "text": "装修涂料选购指南 编号13", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-13", "text": "best hiking trails in autumn no.13", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-14", "text": "马拉松训练计划 编号14", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-14", "text": "understanding the offside rule no.14", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-15", "text": "猫咪掉毛怎么办 编号15", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-15", "text": "how to bake sourdough bread no.15", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-16", "text": "红烧肉的家常做法 编号16", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-16", "text": "replacing brake pads on a sedan no.16", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-17", "text": "如何更换汽车轮胎 编号17", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-17", "text": "basics of bond valuation no.17", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-18", "text": "股票市场的基本面分析 编号18", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-18", "text": "best hiking trails in autumn no.18", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-19", "text": "婴儿奶粉冲泡温度 编号19", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-19", "text": "understanding the offside rule no.19", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-20", "text": "古典钢琴曲推荐 编号20", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-20", "text": "how to bake sourdough bread no.20", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-21", "text": "装修涂料选购指南 编号21", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-21", "text": "replacing brake pads on a sedan no.21", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-22", "text": "马拉松训练计划 编号22", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-22", "text": "basics of bond valuation no.22", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-23", "text": "猫咪掉毛怎么办 编号23", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-23", "text": "best hiking trails in autumn no.23", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-24", "text": "红烧肉的家常做法 编号24", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-24", "text": "understanding the offside rule no.24", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-25", "text": "如何更换汽车轮胎 编号25", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-25", "text": "how to bake sourdough bread no.25", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-26", "text": "股票市场的基本面分析 编号26", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-26", "text": "replacing brake pads on a sedan no.26", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-27", "text": "婴儿奶粉冲泡温度 编号27", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-27", "text": "basics of bond valuation no.27", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-28", "text": "古典钢琴曲推荐 编号28", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-28", "text": "best hiking trails in autumn no.28", "lang": "en", "domain": "sample"}
+{"doc_id": "n-zh-29", "text": "装修涂料选购指南 编号29", "lang": "zh", "domain": "sample"}
+{"doc_id": "n-en-29", "text": "understanding the offside rule no.29", "lang": "en", "domain": "sample"}

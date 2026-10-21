@@ -1,0 +1,565 @@
+{
+  "Stanley Kubrick": [
+    "史丹利库柏力克",
+    "库柏力克",
+    "库布里克",
+    "寇比力克"
+  ],
+  "Orson Welles": [
+    "奥逊 威尔斯",
+    "奥逊·威尔斯",
+    "奥森威尔斯",
+    "奥逊威尔斯"
+  ],
+  "Alfred Hitchcock": [
+    "希区考克",
+    "希区柯克",
+    "希區考克",
+    "希治阁"
+  ],
+  "Francis Ford Coppola": [
+    "法兰西斯柯波拉",
+    "科波拉",
+    "柯波拉"
+  ],
+  "Martin Scorsese": [
+    "马丁史柯西斯",
+    "史高西斯",
+    "斯科塞斯",
+    "史柯西斯"
+  ],
+  "Steven Spielberg": [
+    "史蒂芬史匹柏",
+    "斯皮尔柏格",
+    "斯皮尔伯格"
+  ],
+  "David Lynch": [
+    "大卫 林奇",
+    "大卫·林奇",
+    "大卫林奇",
+    "大卫林区",
+    "·林奇",
+    "林区",
+    "林奇"
+  ],
+  "Terrence Malick": [
+    "泰伦斯马力克",
+    "马利克"
+  ],
+  "Woody Allen": [
+    "伍迪 艾伦",
+    "伍迪·艾伦",
+    "伍迪艾伦",
+    "活地亚伦"
+  ],
+  "David Fincher": [
+    "大卫芬奇",
+    "芬奇"
+  ],
+  "Quentin Tarantino": [
+    "昆汀塔伦蒂诺",
+    "昆丁塔伦提诺",
+    "塔伦提诺",
+    "昆汀"
+  ],
+  "Paul Thomas Anderson": [
+    "保罗·托马斯·安德森",
+    "保罗 托马斯 安德森",
+    "保罗托马斯安德森",
+    "保罗汤玛斯安德森",
+    "PTA"
+  ],
+  "Coen Brothers": [
+    "高安兄弟",
+    "柯恩兄弟",
+    "科恩兄弟"
+  ],
+  "Christopher Nolan": [
+    "克里斯多福诺兰",
+    "诺蓝",
+    "诺兰"
+  ],
+  "Denis Villeneuve": [
+    "丹尼斯维伦纽瓦",
+    "丹尼维勒纳夫",
+    "维伦纽瓦",
+    "维勒纳夫"
+  ],
+  "Ridley Scott": [
+    "雷德利·斯科特",
+    "雷德利 斯科特",
+    "雷德利斯科特",
+    "雷德利史考特",
+    "雷利史考特"
+  ],
+  "James Cameron": [
+    "詹姆斯柯麦隆",
+    "卡梅隆",
+    "卡麦隆"
+  ],
+  "Michael Mann": [
+    "迈克尔 曼",
+    "迈克尔·曼",
+    "麦可曼恩",
+    "迈克尔曼"
+  ],
+  "Clint Eastwood": [
+    "克林伊斯威特",
+    "伊斯特伍德",
+    "东木"
+  ],
+  "Sidney Lumet": [
+    "西德尼 吕美特",
+    "西德尼·吕美特",
+    "西德尼吕美特",
+    "薛尼卢梅"
+  ],
+  "Sam Peckinpah": [
+    "山姆毕京柏",
+    "佩金帕"
+  ],
+  "Brian De Palma": [
+    "布莱恩狄帕玛",
+    "德·帕尔马",
+    "德 帕尔马",
+    "德帕尔马",
+    "狄帕玛"
+  ],
+  "David Cronenberg": [
+    "大卫柯能堡",
+    "柯南伯格",
+    "柯能堡"
+  ],
+  "John Carpenter": [
+    "约翰卡本特",
+    "卡朋特"
+  ],
+  "Wes Anderson": [
+    "韦斯 安德森",
+    "韦斯·安德森",
+    "魏斯安德森",
+    "韦斯安德森",
+    "安德森"
+  ],
+  "Sofia Coppola": [
+    "索菲亚·科波拉",
+    "索菲亚 科波拉",
+    "索菲亚科波拉",
+    "苏菲亚柯波拉"
+  ],
+  "Spike Lee": [
+    "斯派克·李",
+    "斯派克 李",
+    "史派克李",
+    "斯派克李"
+  ],
+  "Darren Aronofsky": [
+    "戴伦阿洛诺夫斯基",
+    "阿罗诺夫斯基"
+  ],
+  "Ari Aster": [
+    "阿里·艾斯特",
+    "阿里 艾斯特",
+    "艾瑞艾斯特",
+    "阿里艾斯特"
+  ],
+  "Robert Eggers": [
+    "罗伯艾格斯",
+    "埃格斯"
+  ],
+  "Jordan Peele": [
+    "乔丹·皮尔",
+    "乔丹 皮尔",
+    "乔丹皮尔"
+  ],
+  "Greta Gerwig": [
+    "格蕾塔 葛韦格",
+    "格蕾塔·葛韦格",
+    "格蕾塔葛韦格",
+    "葛莉塔洁薇"
+  ],
+  "George Miller": [
+    "乔治 米勒",
+    "乔治·米勒",
+    "乔治米勒"
+  ],
+  "Ingmar Bergman": [
+    "英格玛柏格曼",
+    "伯格曼",
+    "柏格曼"
+  ],
+  "Federico Fellini": [
+    "费德里柯费里尼",
+    "费里尼"
+  ],
+  "Michelangelo Antonioni": [
+    "米开朗基罗安东尼奥尼",
+    "安东尼奥尼"
+  ],
+  "Pier Paolo Pasolini": [
+    "巴索里尼",
+    "帕索里尼"
+  ],
+  "Luchino Visconti": [
+    "维斯康蒂",
+    "维斯康提"
+  ],
+  "Vittorio De Sica": [
+    "德·西卡",
+    "德 西卡",
+    "德西卡",
+    "狄西嘉"
+  ],
+  "Roberto Rossellini": [
+    "罗塞里尼",
+    "罗西里尼"
+  ],
+  "Jean-Luc Godard": [
+    "高达尔",
+    "戈达尔",
+    "高达"
+  ],
+  "Francois Truffaut": [
+    "特吕弗",
+    "特吕福",
+    "楚浮"
+  ],
+  "Robert Bresson": [
+    "布列松",
+    "布莱松",
+    "布烈松"
+  ],
+  "Jean Renoir": [
+    "雷诺阿",
+    "雷诺瓦",
+    "尚雷诺"
+  ],
+  "Agnes Varda": [
+    "安妮华达",
+    "瓦尔达",
+    "华达"
+  ],
+  "Alain Resnais": [
+    "雷乃",
+    "雷奈"
+  ],
+  "Jean-Pierre Melville": [
+    "尚皮耶梅尔维尔",
+    "梅尔维尔"
+  ],
+  "Jacques Tati": [
+    "贾克大蒂",
+    "塔蒂"
+  ],
+  "Claire Denis": [
+    "克莱尔·德尼",
+    "克莱尔 德尼",
+    "克莱尔德尼"
+  ],
+  "Claude Chabrol": [
+    "夏布洛尔",
+    "夏布洛"
+  ],
+  "Eric Rohmer": [
+    "侯默",
+    "侯麦"
+  ],
+  "Michael Haneke": [
+    "哈内克",
+    "汉内克"
+  ],
+  "Werner Herzog": [
+    "韦纳荷索",
+    "赫尔佐格",
+    "荷索"
+  ],
+  "Rainer Werner Fassbinder": [
+    "法斯班德",
+    "法斯宾德"
+  ],
+  "Wim Wenders": [
+    "文温德斯",
+    "温德斯",
+    "文德斯"
+  ],
+  "Fritz Lang": [
+    "弗里茨 朗",
+    "弗里茨·朗",
+    "佛列兹朗",
+    "弗里茨朗",
+    "弗里兹朗"
+  ],
+  "F. W. Murnau": [
+    "茂瑙",
+    "穆瑙"
+  ],
+  "Carl Theodor Dreyer": [
+    "德雷叶",
+    "德莱叶"
+  ],
+  "Lars von Trier": [
+    "拉斯·冯·提尔",
+    "拉斯 冯 提尔",
+    "拉斯冯提尔",
+    "冯提尔"
+  ],
+  "Krzysztof Kieslowski": [
+    "基耶斯洛夫斯基",
+    "基斯洛夫斯基",
+    "奇士劳斯基"
+  ],
+  "Andrzej Wajda": [
+    "华依达",
+    "瓦伊达"
+  ],
+  "Andrei Tarkovsky": [
+    "塔尔科夫斯基",
+    "塔科夫斯基",
+    "塔可夫斯基"
+  ],
+  "Sergei Eisenstein": [
+    "艾森斯坦",
+    "爱森斯坦"
+  ],
+  "Aleksandr Sokurov": [
+    "索库洛夫",
+    "索科洛夫",
+    "苏古诺夫"
+  ],
+  "Yorgos Lanthimos": [
+    "尤格蓝西莫",
+    "兰斯莫斯",
+    "兰西莫"
+  ],
+  "Pedro Almodovar": [
+    "阿尔莫多瓦",
+    "阿莫多瓦"
+  ],
+  "Luis Bunuel": [
+    "布努埃尔",
+    "布纽尔"
+  ],
+  "Guillermo del Toro": [
+    "德尔 托罗",
+    "德尔·托罗",
+    "德尔托罗",
+    "戴托罗",
+    "陀螺"
+  ],
+  "Paolo Sorrentino": [
+    "索伦蒂诺",
+    "索伦提诺"
+  ],
+  "Matteo Garrone": [
+    "加洛尼"
+  ],
+  "Thomas Vinterberg": [
+    "温特伯格",
+    "凡提柏格"
+  ],
+  "Ken Loach": [
+    "肯 洛奇",
+    "肯·洛奇",
+    "肯洛奇",
+    "肯洛区"
+  ],
+  "Derek Jarman": [
+    "德瑞克贾曼",
+    "贾曼"
+  ],
+  "Nicolas Roeg": [
+    "尼可拉斯罗吉",
+    "罗伊格"
+  ],
+  "Peter Greenaway": [
+    "彼得格林纳威",
+    "格林纳威"
+  ],
+  "Terry Gilliam": [
+    "泰瑞吉兰",
+    "吉列姆"
+  ],
+  "Akira Kurosawa": [
+    "黑澤明",
+    "黑泽明"
+  ],
+  "Yasujiro Ozu": [
+    "小津安二郎",
+    "小津"
+  ],
+  "Kenji Mizoguchi": [
+    "沟口健二",
+    "溝口健二"
+  ],
+  "Masaki Kobayashi": [
+    "小林正樹",
+    "小林正树"
+  ],
+  "Hayao Miyazaki": [
+    "宮崎駿",
+    "宫崎骏",
+    "宫崎峻"
+  ],
+  "Makoto Shinkai": [
+    "新海誠",
+    "新海诚"
+  ],
+  "Takeshi Kitano": [
+    "北野武",
+    "彼得武"
+  ],
+  "Hirokazu Kore-eda": [
+    "是枝裕和"
+  ],
+  "Takashi Miike": [
+    "三池崇史"
+  ],
+  "Hideaki Anno": [
+    "庵野秀明"
+  ],
+  "Wong Kar-wai": [
+    "王家卫",
+    "墨镜王",
+    "王墨镜",
+    "王家衛"
+  ],
+  "John Woo": [
+    "吳宇森",
+    "吴宇森"
+  ],
+  "Tsui Hark": [
+    "徐文光",
+    "徐克"
+  ],
+  "Stephen Chow": [
+    "周星馳",
+    "周星驰",
+    "星爷"
+  ],
+  "Hou Hsiao-hsien": [
+    "侯孝贤",
+    "侯孝賢"
+  ],
+  "Edward Yang": [
+    "杨德昌",
+    "楊德昌"
+  ],
+  "Tsai Ming-liang": [
+    "蔡明亮"
+  ],
+  "Ang Lee": [
+    "李安"
+  ],
+  "Zhang Yimou": [
+    "張藝謀",
+    "张艺谋"
+  ],
+  "Chen Kaige": [
+    "陈凯歌",
+    "陳凱歌"
+  ],
+  "Jia Zhangke": [
+    "賈樟柯",
+    "贾樟柯"
+  ],
+  "Bong Joon-ho": [
+    "奉俊浩",
+    "奉俊昊"
+  ],
+  "Park Chan-wook": [
+    "朴赞郁",
+    "朴贊郁",
+    "朴赞旭"
+  ],
+  "Kim Ki-duk": [
+    "金基德"
+  ],
+  "Lee Chang-dong": [
+    "李沧东",
+    "李昌东",
+    "李滄東"
+  ],
+  "Satyajit Ray": [
+    "萨蒂亚吉特 雷伊",
+    "萨蒂亚吉特·雷伊",
+    "萨蒂亚吉特雷伊",
+    "萨雅吉雷"
+  ],
+  "Apichatpong Weerasethakul": [
+    "阿彼察邦韦拉斯哈古",
+    "阿比查邦",
+    "阿彼察邦"
+  ],
+  "Abbas Kiarostami": [
+    "阿巴斯奇亚罗斯塔米",
+    "基阿鲁斯塔米",
+    "阿巴斯"
+  ],
+  "Jafar Panahi": [
+    "帕纳希",
+    "潘纳希"
+  ],
+  "Mohsen Makhmalbaf": [
+    "马克马巴夫"
+  ],
+  "Alfonso Cuaron": [
+    "阿方索 卡隆",
+    "阿方索·卡隆",
+    "阿方索卡隆",
+    "阿方索库隆",
+    "卡隆"
+  ],
+  "Alejandro Gonzalez Inarritu": [
+    "阿利安卓岗札雷伊纳利图",
+    "伊纳里图",
+    "伊纳利图"
+  ],
+  "Fernando Meirelles": [
+    "梅雷莱斯",
+    "梅瑞尔斯"
+  ],
+  "Glauber Rocha": [
+    "格劳贝尔罗沙",
+    "罗沙"
+  ],
+  "Walter Salles": [
+    "华特萨勒斯",
+    "萨勒斯"
+  ],
+  "Carlos Reygadas": [
+    "雷加达斯"
+  ],
+  "Alejandro Jodorowsky": [
+    "佐杜洛夫斯基",
+    "尤杜洛斯基",
+    "佐杜洛斯基"
+  ],
+  "Lucrecia Martel": [
+    "露柯希亚马泰",
+    "马特尔"
+  ],
+  "Ousmane Sembene": [
+    "桑贝内",
+    "塞姆班"
+  ],
+  "Djibril Diop Mambety": [
+    "吉布里尔迪奥普曼贝蒂",
+    "曼贝蒂"
+  ],
+  "Youssef Chahine": [
+    "约瑟夫夏欣",
+    "沙欣",
+    "夏因"
+  ],
+  "Nuri Bilge Ceylan": [
+    "努瑞贝其锡兰",
+    "比利·盖兰",
+    "比利 盖兰",
+    "比利盖兰",
+    "锡兰"
+  ],
+  "Asghar Farhadi": [
+    "阿斯哈法哈蒂",
+    "法哈蒂"
+  ]
+}
