@@ -489,3 +489,46 @@ reranker 在已训练 retriever 之上的增益尚未测（需每折重训 bi-en
 - ``models/e5-director-v3``
 - ``src/build_hitchcock_pack.py`` / ``src/eval_hitchcock.py``
 - ``bench/eval_hitchcock.json``
+
+---
+
+## 十八、ComfyUI 部署（完成）
+
+### 架构决策：检索走 CPU
+8GB 显存是全系统硬约束。SDXL/Flux 吃 6-8GB，检索模型再占 1GB 必打架。
+- e5-small 在 CPU 上编码单条 query 约 50-150ms —— 够用
+- 语料 embedding 预计算并缓存为 .npy，启动只加载
+- **显存 100% 留给扩散模型**
+
+### 产物
+| 文件 | 作用 |
+|---|---|
+| `src/serve_style.py` | 风格服务，**零第三方依赖**（标准库 http.server） |
+| `comfyui/comfyui_style_hint.py` | ComfyUI 节点，**零依赖**（只用 urllib） |
+
+端点：`GET /health`、`POST /style-hint`、`POST /search`（默认 127.0.0.1:8848）
+
+### 实测（CPU，492 doc）
+| 中文 query | 命中 | facet | score |
+|---|---|---|---|
+| 霓虹夜色，慢门，暧昧的感觉 | 王家卫 | base | 0.4421 |
+| 一个杯子就让人紧张起来 | 希区柯克 | mech_object_threat | 0.5078 |
+| 黑泽明色彩鲜艳、秩序混乱 | 黑泽明 | color_1980s | 0.4838 |
+| 远远的镜头，草船在江上，老渔夫在划 | 蔡明亮 | base | 0.3412 |
+CPU 与 CUDA 结果**逐位一致**。
+
+### 踩到的坑（重要，会再遇到）
+**PowerShell 的 `Invoke-RestMethod -Body <字符串>` 用 ISO-8859-1 编码，中文全变 `?`。**
+症状极具迷惑性：不同 query 返回同一批文档、分数只有正常值的一半。
+服务端本身没问题 —— 是客户端编码。
+正确写法：
+```powershell
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($json)
+Invoke-RestMethod -Uri $url -Method Post -Body $bytes `
+  -ContentType 'application/json; charset=utf-8'
+```
+
+### 暴露的语料缺口
+「草船/雾江/山水」这类**中国传统影像**在 119 位导演语料里完全没有对应 facet。
+系统只能退而求其次命中蔡明亮(slow water) / 塔可夫斯基(water, ruins)。
+-> 需要补一包「东方影像」facet（山水画 / 侯孝贤雾江 / 沟口雾中景）
