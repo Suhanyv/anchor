@@ -532,3 +532,51 @@ Invoke-RestMethod -Uri $url -Method Post -Body $bytes `
 「草船/雾江/山水」这类**中国传统影像**在 119 位导演语料里完全没有对应 facet。
 系统只能退而求其次命中蔡明亮(slow water) / 塔可夫斯基(water, ruins)。
 -> 需要补一包「东方影像」facet（山水画 / 侯孝贤雾江 / 沟口雾中景）
+
+---
+
+## 十九、东方影像 facet 包（完成）—— 又验证一次「语料 > 模型」
+
+背景：草船那条 query 只命中蔡明亮(slow water)/塔可夫斯基(water, ruins)，
+      因为 119 位导演语料里完全没有中国传统影像语言。
+
+### 补了什么
+10 个中国传统影像范式 + 1 个侯孝贤雾江面，每个 3 doc，共 +33 doc：
+| facet | 中文 | 关键签名 |
+|---|---|---|
+| ink_wash | 文人水墨 | monochrome ink wash, vast empty paper |
+| qinglv | 青绿山水 | mineral blue-green pigment, gold outline |
+| song_academy | 宋代院体 | meticulous observation, muted silk tones |
+| gongbi | 工笔重彩 | fine outline, saturated mineral pigments |
+| liubai | 留白构图 | overwhelming empty space, tiny subject |
+| wu_jiang | 雾江孤舟 | layered mist, low horizon, one small boat |
+| handscroll | 手卷长卷 | extreme horizontal format |
+| one_corner | 马一角夏半边 | subject confined to one corner |
+| nianhua | 木版年画 | flat woodblock colour, bold outline |
+| piying | 皮影 | translucent silhouettes, backlit screen |
+| misty_river | 侯孝贤雾江 | very long static shot, misty river |
+
+corpus_v3 (492) -> corpus_v4 (525)；加 22 条手工用户口吻中文 query。
+
+### 结果（22 条东方 query）
+| 设置 | 前3命中 |
+|---|---|
+| v3 模型 @ corpus_v3（无东方语料） | **1/22**（其中 20 条目标"缺席"，系统只能命中蔡明亮/塔可夫斯基/张艺谋等最接近的西方导演）|
+| v4 模型 @ corpus_v4（含东方 query 训练 - 有泄漏） | 22/22 |
+| **v4-noleak @ corpus_v4（东方 query 完全不参与训练）** | **20/22** ← 可信数字 |
+
+泄漏只值 2 条，效果是真实的。
+
+### 关键个案
+「远远的镜头，一条草船在江上，有个老渔夫在划」
+- v3: 目标缺席，命中 蔡明亮 / 王家卫
+- v4-noleak: **第 2 名，top1=侯孝贤(misty_river) top2=雾江孤舟** ← 正确
+用户随口说的一句话，现在能被自己检索出来。
+
+### 仍然失败的两条（诚实记录）
+- 「半边虚半边实那种」-> 第 5 名。因为"虚实相生"是画论术语，我的 doc 只写了
+  "subject confined to one corner"，没抓住"虚"与"实"的互生关系。
+- 「打着灯的影子戏」-> 第 13 名。而「皮影戏那种透光的剪影」是第 1 名。
+  同一概念的两种措辞，一种命中一种失败 -> 说明覆盖面仍靠措辞运气。
+
+### 服务已切换到 v4-noleak + corpus_v4

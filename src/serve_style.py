@@ -25,8 +25,9 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = r"F:\llm"
-DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v3.jsonl")
-DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-v3")
+DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v4.jsonl")
+# v4-noleak：在 corpus_v4 上训练，但东方 query 完全不参与训练（无泄漏）
+DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-v4-noleak")
 CACHE_DIR = os.path.join(ROOT, "cache")
 MAXLEN = 128
 
