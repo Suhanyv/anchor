@@ -610,3 +610,34 @@ corpus_v3 (492) -> corpus_v4 (525)；加 22 条手工用户口吻中文 query。
 1. 不要重装 torch（ComfyUI 自带匹配版本，我们的模型只推理）
 2. 需 pip 装 transformers / tokenizers / safetensors
 3. 便携版路径：ComfyUI_windows_portable\python_embeded\python.exe
+
+---
+
+## 二十一、ComfyUI 节点安装踩坑（已修复）
+
+### 现象
+节点放进 custom_nodes\prompt_style_local\ 后，ComfyUI 里搜不到，且界面不报错。
+
+### 根因
+**ComfyUI 的自定义节点目录必须有 __init__.py**，否则按包导入时抛
+FileNotFoundError，被记为 IMPORT FAILED 后静默跳过。
+日志里能看到：
+    FileNotFoundError: ...\prompt_style_local\__init__.py
+    [INFO] 0.1 seconds (IMPORT FAILED): ...\prompt_style_local
+
+### 修复
+新增 comfyui/__init__.py，内容是标准入口：
+    import os, sys
+    _dir = os.path.dirname(os.path.abspath(__file__))
+    if _dir not in sys.path: sys.path.insert(0, _dir)
+    from local_style_hint import NODE_CLASS_MAPPINGS, NODE_DISPLAY_NAME_MAPPINGS
+
+已补到 15 个目录（Comfy-Desktop 的 14 个 install + E:\comfyui）。
+
+### 教训
+自定义节点的最小可加载单元是「目录 + __init__.py」，
+只有 .py 文件不够。以后写 ComfyUI 节点第一件事就是建 __init__.py。
+
+### 实际在用的 install
+运行时从进程命令行确认：`F:\Comfy-Desktop\ComfyUI-Installs\hp\ComfyUI`
+（命令行是 `python.exe -s ComfyUI\main.py`，相对路径，CWD 在 hp\ 下）
