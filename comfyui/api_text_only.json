@@ -1,0 +1,21 @@
+{
+  "prompt": {
+    "1": {
+      "class_type": "LocalStyleHint",
+      "inputs": {
+        "中文描述": "远远的镜头，一条草船在江上，有个老渔夫在划",
+        "模型目录": "F:\\llm\\models\\e5-director-v4-noleak",
+        "语料文件": "F:\\llm\\data\\raw\\corpus_v4.jsonl",
+        "设备": "cpu",
+        "匹配方式": "导演/风格聚合",
+        "候选数": 1,
+        "追加到": ""
+      }
+    },
+    "2": {
+      "class_type": "ShowText|pysssss",
+      "inputs": { "text": ["1", 0] }
+    }
+  },
+  "client_id": "dsh-test"
+}

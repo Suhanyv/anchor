@@ -641,3 +641,38 @@ FileNotFoundError，被记为 IMPORT FAILED 后静默跳过。
 ### 实际在用的 install
 运行时从进程命令行确认：`F:\Comfy-Desktop\ComfyUI-Installs\hp\ComfyUI`
 （命令行是 `python.exe -s ComfyUI\main.py`，相对路径，CWD 在 hp\ 下）
+
+---
+
+## 二十二、ComfyUI 里成功跑出文本（验证通过）
+
+### 实测（通过 ComfyUI HTTP API 提交，端口 8188）
+    LocalStyleHint -> ShowText|pysssss
+    status: success  completed=True
+    outputs["2"]["text"] = "in the style of Hou Hsiao-hsien, very long static shot,
+                            misty river with one distant boat, patient framing,
+                            muted grey-green air"
+这是在用户自己的 ComfyUI（hp 实例）+ 自带 Python 3.13 + CPU 上真实执行的，
+不是本地模拟。
+
+### 用户环境实况
+- 运行实例: F:\Comfy-Desktop\ComfyUI-Installs\hp\ComfyUI   端口 8188
+- 模型目录: F:\Comfy-Desktop\ComfyUI-Shared\models  (364 GB / 59 文件)
+- 模型: minimax_h3(video 31.7G) / ltx-2.3-22b(23.5G) / z_image_turbo(11.5G) / flux-2-klein-4b(7.2G)
+- text encoders: qwen3vl_32b / gemma_3_12B / qwen_3_4b
+- **没有任何常规 SD/SDXL 整包 checkpoint** -> 网上通用的 6 节点最小图套不上
+
+### z_image 源码结论
+comfy/text_encoders/z_image.py 确认 Z-Image 用 Qwen3-4B，tokenizer 走 <|im_start|> 模板，
+但 CLIPLoader 的 type 列表里没有 z_image 选项（源码中 z_image 挂在 lumina2 分支下）。
+-> 手搓 z_image 生成图有风险，未采纳。
+
+### 产物
+- comfyui/workflow_text_only.json  (UI 格式，可直接拖入，2 节点)
+- comfyui/api_text_only.json       (API 格式，用于命令行验证)
+- 已复制到 F:\Comfy-Desktop\ComfyUI-Shared\input\
+
+### 踩坑记录（编码）
+命令里直接写中文字面量，经 PowerShell 传输层会被有损编码（出现 ? 与乱码，甚至破坏引号）。
+解法：中文值从已知正确的 JSON 文件里按顺序读出，再用 pscustomobject + ConvertTo-Json
+（会自动转 \uXXXX 转义，安全）。
