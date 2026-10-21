@@ -676,3 +676,37 @@ comfy/text_encoders/z_image.py 确认 Z-Image 用 Qwen3-4B，tokenizer 走 <|im_
 命令里直接写中文字面量，经 PowerShell 传输层会被有损编码（出现 ? 与乱码，甚至破坏引号）。
 解法：中文值从已知正确的 JSON 文件里按顺序读出，再用 pscustomobject + ConvertTo-Json
 （会自动转 \uXXXX 转义，安全）。
+
+---
+
+## 二十三、明天的三件事（用户定的议程）
+
+### 1. 把模型优化得更好
+- style 类现在：严格模板留出 CV +48.72pp（0.25 -> 0.74）；真实 query 5/5 进前 2
+- 待做：
+  - 把 HB 验证过的「雾江/草船」最终描述写进 misty_river facet 当基准 doc
+  - 每个 facet 补「同一概念的多种措辞 doc」（现状：一种说法命中、换个说法就掉到 13 名）
+  - 补失败案例：半边虚半边实（虚实相生，现排 5）
+  - 可选：bge-reranker 蒸馏 / 更多语言
+
+### 2. 让提示词可以互通
+含义待确认，可能指：
+  - (a) 图像提示词 <-> 视频提示词 互相迁移（corpus 里已有 prompt_image / prompt_video 两类）
+  - (b) 跨语法互通：MJ 的 --ar/--v 与 ComfyUI/Sora 的自然语言互转
+  - (c) 跨语言互通：中/英/日/德/韩 同一风格词的互相映射
+  -> 明天先问清楚是哪一个，再动手
+
+### 3. 让他拥有自己的兴趣
+即最早的「主动学习」想法，此前只做了设计未实现：
+  - 三信号：margin（模型犹豫）/ novelty（中等距离）/ 教师置信（bge-m3）
+  - 铁律不变：数据可以自选，评测绝对不能自选
+  - 待写：src/mine_interesting.py、src/active_loop.py
+  - 注意 high loss != informative（高 loss 多是噪声/错标，要用 margin 不用 raw loss）
+
+### 当前系统状态（明天从这里起）
+- 服务：src/serve_style.py（CPU，0 显存，端口 8848 可改）
+- ComfyUI 节点：已装 14 个 install + E:\comfyui，实测执行成功
+- 模型：models/e5-director-v4-noleak（无泄漏版）
+- 语料：data/raw/corpus_v4.jsonl (525 doc) + queries_v4.jsonl (509 query)
+- 工作流：comfyui/workflow_text_only.json（拖进 ComfyUI 即用）
+- 待办：把 HB 最终描述入库
