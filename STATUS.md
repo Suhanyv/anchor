@@ -580,3 +580,33 @@ corpus_v3 (492) -> corpus_v4 (525)；加 22 条手工用户口吻中文 query。
   同一概念的两种措辞，一种命中一种失败 -> 说明覆盖面仍靠措辞运气。
 
 ### 服务已切换到 v4-noleak + corpus_v4
+
+---
+
+## 二十、ComfyUI 本地节点（完成）
+
+新增 `comfyui/local_style_hint.py` —— 自包含节点，不依赖外部服务。
+
+关键点：我们的模型是 118M 文本编码器，**不是扩散模型**，不能放 models/checkpoints/。
+它只能以「权重文件 + 自定义节点」的方式安装。
+
+两种形态：
+| 文件 | 需要服务 | 说明 |
+|---|---|---|
+| comfyui/comfyui_style_hint.py | ✅ 要起 serve_style.py | HTTP 解耦，ComfyUI 零依赖 |
+| comfyui/local_style_hint.py | ❌ 不要 | 进程内加载，装完即用 |
+
+### 实测（CPU）
+- 首次加载（编码 525 条 doc）：**20.0s**
+- 后续单次查询：**13–25 ms**
+- 显存占用：**0**
+
+### 已记录的真实行为
+「霓虹夜色」单独输入 -> 贾樟柯（其 doc 含 `neon night China`）
+「霓虹夜色，慢门，暧昧的感觉」 -> 王家卫
+-> **短 query 丢掉关键信号，会被字面词吸走。生产环境要提示用户多描述一点。**
+
+### 装进 ComfyUI 的注意
+1. 不要重装 torch（ComfyUI 自带匹配版本，我们的模型只推理）
+2. 需 pip 装 transformers / tokenizers / safetensors
+3. 便携版路径：ComfyUI_windows_portable\python_embeded\python.exe
