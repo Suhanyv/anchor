@@ -710,3 +710,30 @@ comfy/text_encoders/z_image.py 确认 Z-Image 用 Qwen3-4B，tokenizer 走 <|im_
 - 语料：data/raw/corpus_v4.jsonl (525 doc) + queries_v4.jsonl (509 query)
 - 工作流：comfyui/workflow_text_only.json（拖进 ComfyUI 即用）
 - 待办：把 HB 最终描述入库
+
+---
+
+## 二十四、追加议程：图像提示词与视频提示词必须真分开
+
+### 现状问题（已核查）
+corpus 里 prompt_image 与 prompt_video 的差别只有两处：
+    image: cinematic still, {相同签名}, --ar 2.35:1 --style raw
+    video: cinematic video, {相同签名}, --ar 21:9   --duration 5s
+-> 风格文本完全相同，只换了 still/video 和宽高比。
+-> 且为保持语义干净，参数已从 text_semantic 剔除，导致唯一能区分二者的信号
+   也进不了向量空间，检索完全分不出图/视频。
+
+### 与「互通」的关系（关键设计判断）
+先分开，才能互通。正确架构是：
+    共享语义空间（同一 embedding）      -> 于是能互通（同一句风格词两边都懂）
+  + 域标签（结构化过滤，参数不进向量）  -> 于是能分开（要视频还是静态图）
+
+### 要改的四处
+1. 视频词汇：镜头运动(slow push-in / tracking / handheld / crane / orbit)、时长、节奏、转场、loop
+2. 图像词汇：构图、材质、光照类型、景深、分辨率、渲染质感
+3. 参数转为筛选维度：--ar / --duration 不做语义，做结构化过滤
+4. 检索端域过滤：query 含「视频/sora/可灵/运镜/秒」-> 只搜 video；含「图/画面/海报」-> 只搜 image；ComfyUI 节点加开关
+
+### 评测要求
+必须分域看指标：video query 是否命中 video doc，image query 是否命中 image doc。
+不能只看总体平均（会像之前的 both 类一样被饱和掩盖）。
