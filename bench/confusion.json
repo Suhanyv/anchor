@@ -1,0 +1,387 @@
+{
+  "base": {
+    "n": 1428,
+    "fail": 257,
+    "flow": {
+      "one_corner": 9,
+      "base": 197,
+      "mech_window_frame": 2,
+      "expressionist": 2,
+      "color_1980s": 1,
+      "formal_period": 2,
+      "intimate_cold": 6,
+      "neorealist": 1,
+      "pastel_stylised": 6,
+      "bw_early": 2,
+      "liubai": 5,
+      "winter_monochrome": 1,
+      "dust_epic": 1,
+      "mech_object_threat": 1,
+      "cold_period": 1,
+      "cold_industrial": 1,
+      "sunbaked_epic": 1,
+      "ecstatic_face": 1,
+      "gongbi": 6,
+      "wuxia_color": 2,
+      "handscroll": 6,
+      "formal_symmetry": 1,
+      "warm_melodrama": 2
+    }
+  },
+  "bw_early": {
+    "n": 12,
+    "fail": 5,
+    "flow": {
+      "bw_ring": 3,
+      "neorealist": 1,
+      "ink_wash": 1
+    }
+  },
+  "expressionist": {
+    "n": 12,
+    "fail": 3,
+    "flow": {
+      "base": 3
+    }
+  },
+  "bw_ring": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "base": 2
+    }
+  },
+  "desaturated_war": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "sunlit_normal": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "golden_rural": 1
+    }
+  },
+  "digital_montage": {
+    "n": 12,
+    "fail": 3,
+    "flow": {
+      "late_collage": 2,
+      "base": 1
+    }
+  },
+  "bw_european": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "formal_period": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "base": 1,
+      "intimate_cold": 1
+    }
+  },
+  "dust_epic": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "base": 1
+    }
+  },
+  "intimate_cold": {
+    "n": 12,
+    "fail": 4,
+    "flow": {
+      "base": 4
+    }
+  },
+  "sunbaked_epic": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "tropical_daylight": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "base": 1
+    }
+  },
+  "muted_war": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "base": 2
+    }
+  },
+  "cold_period": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "cold_industrial": 2
+    }
+  },
+  "winter_monochrome": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "stark_bw": {
+    "n": 12,
+    "fail": 3,
+    "flow": {
+      "formal_period": 2,
+      "bw_early": 1
+    }
+  },
+  "pastel_stylised": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "color_crimson": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "base": 1
+    }
+  },
+  "neorealist": {
+    "n": 12,
+    "fail": 7,
+    "flow": {
+      "luminous_bw": 1,
+      "base": 4,
+      "stark_bw": 2
+    }
+  },
+  "psychedelic": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "vivid_myth": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "late_collage": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "ecstatic_face": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "luminous_bw": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "ink_wash": 1
+    }
+  },
+  "warm_melodrama": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "warm_documentary": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "formal_symmetry": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "sculpted_monochrome": {
+    "n": 12,
+    "fail": 4,
+    "flow": {
+      "ecstatic_face": 4
+    }
+  },
+  "cold_industrial": {
+    "n": 24,
+    "fail": 5,
+    "flow": {
+      "base": 2,
+      "winter_monochrome": 3
+    }
+  },
+  "golden_rural": {
+    "n": 12,
+    "fail": 3,
+    "flow": {
+      "base": 2,
+      "handscroll": 1
+    }
+  },
+  "color_1980s": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "formal_period": 2
+    }
+  },
+  "industrial_dystopia": {
+    "n": 12,
+    "fail": 4,
+    "flow": {
+      "base": 4
+    }
+  },
+  "period_elegance": {
+    "n": 12,
+    "fail": 4,
+    "flow": {
+      "base": 4
+    }
+  },
+  "sumptuous_period": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "base": 1
+    }
+  },
+  "wuxia_color": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "song_academy": 2
+    }
+  },
+  "rural_realism": {
+    "n": 12,
+    "fail": 6,
+    "flow": {
+      "base": 6
+    }
+  },
+  "stark_rural": {
+    "n": 12,
+    "fail": 3,
+    "flow": {
+      "base": 2,
+      "rural_realism": 1
+    }
+  },
+  "digital_spectacle": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "romantic_period": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "sumptuous_period": 1
+    }
+  },
+  "mech_object_threat": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "mech_window_frame": {
+    "n": 12,
+    "fail": 3,
+    "flow": {
+      "handscroll": 2,
+      "base": 1
+    }
+  },
+  "mech_domestic_horror": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "mech_vertical_dread": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "mech_wrong_man": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "ink_wash": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "qinglv": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "song_academy": {
+    "n": 12,
+    "fail": 11,
+    "flow": {
+      "cold_industrial": 1,
+      "gongbi": 4,
+      "warm_documentary": 3,
+      "base": 3
+    }
+  },
+  "gongbi": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "one_corner": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "liubai": {
+    "n": 12,
+    "fail": 9,
+    "flow": {
+      "one_corner": 9
+    }
+  },
+  "wu_jiang": {
+    "n": 12,
+    "fail": 7,
+    "flow": {
+      "handscroll": 3,
+      "base": 3,
+      "misty_river": 1
+    }
+  },
+  "handscroll": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "nianhua": {
+    "n": 12,
+    "fail": 0,
+    "flow": {}
+  },
+  "piying": {
+    "n": 12,
+    "fail": 1,
+    "flow": {
+      "base": 1
+    }
+  },
+  "misty_river": {
+    "n": 12,
+    "fail": 2,
+    "flow": {
+      "base": 1,
+      "handscroll": 1
+    }
+  }
+}

@@ -1072,3 +1072,59 @@ queries_v9.jsonl = 旧中文 509 + 新中文 1050 + 日文 1050 = 2609 条。
 每次要判断「模型好没好」，就引入一层新判断代码，而那层代码没被验证过。
 -> 现在的习惯：任何异常结果，**先验证输入，再怀疑模型**。
 这五次全靠「拿真实输出对账」抓出来，而不是相信报告里的数字。
+
+---
+
+## 三十三、实体边界修复（v8c，总命中 83.0% 新高）
+
+### 先做消融，推翻自己的归因
+上一轮把 song_academy 41.7%->100% 归因于「视频文档重复稀释」。**没测过就归因，是错的。**
+消融：corpus_v7(906,350视频) 81.2%  vs  corpus_v7_img(556,无视频) 82.7%
+-> 视频文档代价只有 1.5pp，远不能解释 58pp 的跳变。归因错误。
+
+### 真正的诊断（src/diag_confusion.py）
+liubai 失败 9/12，**全部 9 次都流向 one_corner**（100% 单向碾压），one_corner 失败 0/12。
+原因：one_corner 签名含 "almost blank pale field"，字面就是「空旷」；
+     liubai 只靠 "centred" 一个词区分，太弱。
+wu_jiang 失败 7/12 -> handscroll:3（远山撞长卷）、base/Herzog:3（雾撞丛林雾）、misty_river:1
+     （原以为和侯孝贤互抢，实际是「远山」「雾」被别的实体抢走）
+song_academy 失败 11/12 -> gongbi:4（同为中国传统绘画，边界不清）
+
+### 修法：签名改成正交（src/build_corpus_v8.py）
+| facet | 新签名（只占一个概念） |
+|---|---|
+| liubai | emptiness on all four sides, one small subject at dead centre |
+| one_corner | subject entering from one corner only, everything else left bare |
+| wu_jiang | distant mountains half dissolved in mist, one lone boat on a wide still river |
+| song_academy | imperial academy scroll, precise study of a bird or plant on silk |
+| gongbi | hairline outline filled with flat mineral colour, decorative symmetry |
+另：视频文档 350 -> 175（每组 1 条），拿回 1.5pp。
+9 个重建 facet 两两签名共享词检查：仅 liubai/one_corner 共享 "subject"（可接受）。
+
+### 附带修的坑
+corpus_v8 删了 32 条旧文档并换新 doc_id，queries_v4 里 10 条手工东方 query
+的 relevant 指向已删 id -> train_embed 报 KeyError: 'd0514'
+-> 新增 src/repair_queries.py，逐级回退（原 id -> 同 director+facet -> 同 director -> 丢弃）
+
+### 结果
+| facet | v4 | v5 | v7 | **v8c** |
+|---|---|---|---|---|
+| song_academy | 100% | 41.7% | 100% | 41.7% |
+| liubai | 75% | 75% | 75% | **33.3%** |
+| wu_jiang | 25% | 33.3% | 58.3% | **0%** |
+| neorealist | 58.3% | 41.7% | 58.3% | 16.7% |
+| handscroll | 83.3% | 16.7% | 16.7% | 8.3% |
+| 总命中@1 | 82.5% | 82.9% | 81.2% | **83.0%** |
+混淆确认消失：liubai->one_corner 9/9 -> 0/4；wu_jiang 7/12 失败 -> 0/12。
+liubai 剩余失败流向 ink_wash（文人水墨）——不是 bug，留白本就是文人画核心理念。
+
+### 新发现的问题
+1. **rural_realism 12/12 全错**，实测流向 Satyajit Ray(0.5277) / Clint Eastwood / Rossellini，
+   张艺谋只排 2~4 名。
+   -> 不是模型错，是**我给的 facet 错了**：「乡土写实+朴素+尘土地光」全球最贴切的是
+      雷伊（阿普三部曲）。张艺谋的辨识度在饱和红金，不在朴素。
+   -> 修法待定：给该 facet 加红金特征（红轿子+高粱地+尘土金光），或直接删掉这个面。
+
+2. **diag_confusion.py 系统性漏报**（只报 6 个 facet，mining 报十几个），
+   与 mine_interesting 结论矛盾，已实测确认 mining 正确。
+   -> 第 6 个脚手架 bug，暂停使用该脚本，勿据其结论改语料。
