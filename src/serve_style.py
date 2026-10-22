@@ -25,8 +25,8 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = r"F:\llm"
-DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v4.jsonl")
-# v4-noleak：在 corpus_v4 上训练，但东方 query 完全不参与训练（无泄漏）
+DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v6.jsonl")
+# v4-noleak：东方 query 与训练无泄漏；v6 语料加了 350 条真运镜视频文档
 DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-v4-noleak")
 CACHE_DIR = os.path.join(ROOT, "cache")
 MAXLEN = 128
@@ -35,6 +35,39 @@ Q_PREFIX = "query: "
 P_PREFIX = "passage: "
 
 STATE = {"corpus": None, "doc_emb": None, "model": None, "tok": None, "enc": None}
+
+
+def _load_router():
+    try:
+        from domain_router import detect
+        return detect
+    except Exception:  # noqa: BLE001
+        return lambda _t: "any"
+
+
+detect_domain = _load_router()
+
+
+def _resolve_domain(q, mode):
+    """mode: auto | image | video | any -> prompt_image | prompt_video | any"""
+    m = (mode or "auto").lower()
+    if m == "image":
+        return "prompt_image"
+    if m == "video":
+        return "prompt_video"
+    if m == "any":
+        return "any"
+    d = detect_domain(q)
+    return d if d in ("prompt_image", "prompt_video") else "any"
+
+
+def _allowed(pred):
+    """允许的文档下标；any 则全允许"""
+    corpus = STATE["corpus"]
+    if pred == "any":
+        return list(range(len(corpus)))
+    idx = [i for i, d in enumerate(corpus) if d.get("domain") == pred]
+    return idx or list(range(len(corpus)))
 
 
 def load_corpus(path):
@@ -102,15 +135,18 @@ def query_embed(q):
     return encode([q], Q_PREFIX, STATE["tok"], STATE["enc"])[0]
 
 
-def style_hint(q, topk):
+def style_hint(q, topk, domain_mode="auto"):
     import numpy as np
     corpus, doc_emb = STATE["corpus"], STATE["doc_emb"]
+    pred = _resolve_domain(q, domain_mode)
+    allowed = _allowed(pred)
     qe = query_embed(q)
     sims = doc_emb @ qe
 
-    # 按导演聚合（取该导演最高分文档）
+    # 按导演聚合（只在允许的域内取最高分文档）
     best = {}
-    for i, d in enumerate(corpus):
+    for i in allowed:
+        d = corpus[i]
         s = float(sims[i])
         cur = best.get(d["director"])
         if cur is None or s > cur["score"]:
@@ -119,6 +155,9 @@ def style_hint(q, topk):
                 "director": d["director"],
                 "director_zh": d.get("director_zh", ""),
                 "facet": d.get("facet", "base"),
+                "domain": d.get("domain", ""),
+                "motion": d.get("motion", ""),
+                "params": d.get("params", {}),
                 "style_tags": d.get("style_tags", []),
                 "sample_prompt": d.get("prompt", ""),
             }
@@ -128,14 +167,16 @@ def style_hint(q, topk):
         tags = ", ".join(r["style_tags"][:4])
         r["style_string"] = f"in the style of {r['director']}" + (f", {tags}" if tags else "")
         r["score"] = round(r["score"], 4)
-    return {"query": q, "results": ranked}
+    return {"query": q, "domain_used": pred, "results": ranked}
 
 
-def search(q, topk):
+def search(q, topk, domain_mode="auto"):
     corpus, doc_emb = STATE["corpus"], STATE["doc_emb"]
+    pred = _resolve_domain(q, domain_mode)
+    allowed = _allowed(pred)
     qe = query_embed(q)
     sims = doc_emb @ qe
-    order = sims.argsort()[::-1][:topk]
+    order = sorted(allowed, key=lambda j: -sims[j])[:topk]
     out = []
     for i in order:
         d = corpus[int(i)]
@@ -144,6 +185,9 @@ def search(q, topk):
             "director": d["director"],
             "director_zh": d.get("director_zh", ""),
             "facet": d.get("facet", "base"),
+            "domain": d.get("domain", ""),
+            "motion": d.get("motion", ""),
+            "params": d.get("params", {}),
             "score": round(float(sims[int(i)]), 4),
             "prompt": d.get("prompt", ""),
             "text_semantic": d.get("text_semantic", ""),
@@ -183,12 +227,13 @@ class Handler(BaseHTTPRequestHandler):
             self._send({"error": "missing 'query'"}, 400)
             return
         topk = int(payload.get("topk") or 3)
+        domain = (payload.get("domain") or "auto").lower()
 
         try:
             if self.path.startswith("/style-hint"):
-                self._send(style_hint(q, topk))
+                self._send(style_hint(q, topk, domain))
             elif self.path.startswith("/search"):
-                self._send(search(q, topk))
+                self._send(search(q, topk, domain))
             else:
                 self._send({"error": "unknown endpoint"}, 404)
         except Exception as e:  # noqa: BLE001

@@ -1,0 +1,35 @@
+[
+  {
+    "label": "A  v5 语料 + 不过滤",
+    "domain_acc": 0.4828571428571429,
+    "director_acc": 0.8085714285714286,
+    "routed": {
+      "prompt_image": 0,
+      "prompt_video": 0,
+      "any": 350
+    },
+    "n": 350
+  },
+  {
+    "label": "B  v6 语料 + 不过滤",
+    "domain_acc": 0.6971428571428572,
+    "director_acc": 0.8142857142857143,
+    "routed": {
+      "prompt_image": 0,
+      "prompt_video": 0,
+      "any": 350
+    },
+    "n": 350
+  },
+  {
+    "label": "C  v6 语料 + 自动判域过滤",
+    "domain_acc": 0.9371428571428572,
+    "director_acc": 0.8,
+    "routed": {
+      "prompt_image": 69,
+      "prompt_video": 174,
+      "any": 107
+    },
+    "n": 350
+  }
+]

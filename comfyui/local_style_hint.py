@@ -19,6 +19,39 @@ import os
 # ------------------------------------------------------------------ 全局缓存
 _CACHE = {}
 
+# ------------------------------------------------------------------ 域路由
+# 内联在这里，保证节点自包含（不依赖 F:\llm\src\domain_router.py）
+# 原则：宁可判成 any（不过滤），也不要判错（会误杀正确答案）
+_VIDEO_HINTS = [
+    "视频", "运镜", "镜头运动", "动起来", "时长", "几秒", "秒钟", "秒的",
+    "推镜", "拉镜", "摇镜", "移镜", "跟拍", "环绕", "升镜", "降镜", "甩镜",
+    "sora", "可灵", "即梦", "runway", "veo", "kling", "pika", "海螺", "hailuo",
+    "一镜到底", "转场", "慢动作", "升格", "逐帧", "镜头缓缓", "镜头推",
+]
+_IMAGE_HINTS = [
+    "图片", "照片", "静帧", "海报", "壁纸", "插画", "原画", "出图", "一张图",
+    "封面", "截图", "构图", "分辨率", "4k", "8k画质", "竖版图", "横版图",
+    "midjourney", "mj", "stable diffusion", "sd", "flux", "即梦图片",
+]
+
+
+def _detect_domain(text):
+    t = (text or "").lower()
+    v = sum(1 for w in _VIDEO_HINTS if w.lower() in t)
+    i = sum(1 for w in _IMAGE_HINTS if w.lower() in t)
+    if v and not i:
+        return "prompt_video"
+    if i and not v:
+        return "prompt_image"
+    return "any"
+
+
+def _allowed_idx(corpus, domain):
+    if domain not in ("prompt_image", "prompt_video"):
+        return list(range(len(corpus)))
+    idx = [i for i, d in enumerate(corpus) if d.get("domain") == domain]
+    return idx or list(range(len(corpus)))
+
 
 def _load(model_dir, corpus_path, device):
     key = (model_dir, corpus_path, device)
@@ -77,15 +110,27 @@ def _encode_query(st, q):
         return F.normalize(v, dim=-1).cpu()[0]
 
 
-def _rank(q, model_dir, corpus_path, device, topk, by):
+def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto"):
     st = _load(model_dir, corpus_path, device)
     qe = _encode_query(st, q)
     sims = (st["doc_emb"] @ qe).numpy()
     corpus = st["corpus"]
 
+    # 域解析：auto/自动 都按 query 自动判断；判不准就 any（不过滤）
+    if domain in ("auto", "自动", "", None):
+        domain = _detect_domain(q)
+    # 统一成 corpus 里的 domain 值（image/video/图片/视频 都映射过来）
+    domain = {
+        "image": "prompt_image", "video": "prompt_video",
+        "图片": "prompt_image", "视频": "prompt_video",
+        "prompt_image": "prompt_image", "prompt_video": "prompt_video",
+    }.get(domain, "any")
+    allowed = _allowed_idx(corpus, domain)
+
     if by == "导演/风格聚合":
         best = {}
-        for i, d in enumerate(corpus):
+        for i in allowed:
+            d = corpus[i]
             s = float(sims[i])
             cur = best.get(d["director"])
             if cur is None or s > cur["score"]:
@@ -94,13 +139,16 @@ def _rank(q, model_dir, corpus_path, device, topk, by):
                     "score": s, "director": d["director"],
                     "director_zh": d.get("director_zh", ""),
                     "facet": d.get("facet", "base"),
+                    "doc_id": d.get("doc_id", ""),
+                    "domain": d.get("domain", ""),
+                    "motion": d.get("motion", ""),
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
                 }
         return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director"
 
     out = []
-    for i in sims.argsort()[::-1][:topk]:
+    for i in sorted(allowed, key=lambda j: -sims[j])[:topk]:
         d = corpus[int(i)]
         out.append({"score": float(sims[int(i)]), "director": d["director"],
                     "director_zh": d.get("director_zh", ""),
@@ -119,8 +167,9 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-v4-noleak"}),
-                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v4.jsonl"}),
+                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v6.jsonl"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
+                "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
                 "候选数": ("INT", {"default": 1, "min": 1, "max": 5, "step": 1}),
                 "追加到": ("STRING", {"multiline": True, "default": ""}),
@@ -136,15 +185,17 @@ class LocalStyleHint:
     def IS_CHANGED(cls, **kw):
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
-    def run(self, 中文描述, 模型目录, 语料文件, 设备, 匹配方式, 候选数, 追加到):
-        items, mode = _rank(中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式)
+    def run(self, 中文描述, 模型目录, 语料文件, 设备, 域, 匹配方式, 候选数, 追加到):
+        items, mode = _rank(中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
+                            {"自动": "auto", "图片": "image", "视频": "video", "不限": "any"}.get(域, "auto"))
         if not items:
             return ("", "无结果")
 
         if mode == "director":
             text = ", ".join(it["style_string"] for it in items) if 候选数 > 1 else items[0]["style_string"]
             dbg = "\n".join(f"{i+1}. {it['director']} / {it['director_zh']} "
-                            f"[{it['facet']}] {it['score']:.4f}"
+                            f"[{it['facet']}] {it.get('domain','')} "
+                            f"{it.get('motion','')} {it['score']:.4f}"
                             for i, it in enumerate(items))
         else:
             text = items[0]["prompt"] if 候选数 == 1 else \

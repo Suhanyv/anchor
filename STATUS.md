@@ -819,3 +819,54 @@ corpus 里 prompt_image 与 prompt_video 的差别只有两处：
 ### 附带发现
 PCA 前 10 主成分只解释 5.1% 方差 -> embedding 高维各向同性，
 但降维几乎无损 -> 冗余极大。
+
+---
+
+## 二十七、图像/视频真分开（④ 完成）
+
+### 语料 v6（src/build_corpus_v6.py）
+- 现有 181 条错标成 prompt_video 的文档改回 prompt_image
+- 每组 (director,facet) 追加 2 条视频 doc，加**真正的运镜语言**：
+    STATIC  locked-off camera, no cut, one extremely long take, patient stillness
+    KINETIC whip pan, rapid cutting, tracking follow, restless handheld movement
+    SLOW    slow push-in, gentle handheld drift, focus pulling slowly
+  按风格签名自动选（含 static/long take 的给 STATIC，含 kinetic/cutting 的给 KINETIC，其余 SLOW）
+- 547 -> 897 doc（image 547 / video 350），运镜分配 STATIC 45 / KINETIC 11 / SLOW 294
+
+### 域路由（src/domain_router.py）
+单向信号才判域：只有视频词->video，只有图片词->image，两者都有或都没有->any。
+**宁判 any 不过滤，也不判错**——判错会把正确答案整个滤掉，比不过滤更糟。
+
+### 评测（src/eval_domain.py，350 条 query：图 175 / 视频 175）
+| 方案 | 域准确率 | 导演准确率 |
+|---|---|---|
+| A v5 语料 + 不过滤 | 48.29% | 80.86% |
+| B v6 语料 + 不过滤 | 69.71% | 81.43% |
+| C v6 语料 + 自动判域过滤 | **93.71%** | 80.00% |
+- 加视频文档（纯语料）：+21.4pp
+- 加自动过滤（纯逻辑）：+24.0pp
+- 过滤的代价：导演准确率 -1.43pp（很小）
+
+### 节点级实测（40 组 query）
+| 模式 | 视频query->视频doc | 图片query->图片doc |
+|---|---|---|
+| 不限 | 45% | 88% |
+| 视频（强制） | 100% | 0（预期） |
+| 图片（强制） | 0（预期） | 100% |
+| **自动** | **95%** | **100%** |
+
+### 我自己写的两个 bug（都已修）
+1. 节点里 `_allowed_idx` 只认 prompt_image/prompt_video，而调用方传的是 image/video
+   -> 不匹配就退化成「全允许」，过滤等于没生效。**症状：三种模式输出完全一样。**
+2. `_rank` 只把 "auto" 当自动识别，'自动' 落进字典查不到 -> 退化成 any。
+   -> 加固为 ("auto","自动","",None) 都触发自动识别。
+
+### 部署
+- 15 个 ComfyUI 目录的节点已更新
+- 新工作流 comfyui/workflow_style_hint.json（8 个参数，含「域」）
+- 已复制到 ComfyUI-Shared/input，旧 workflow_text_only.json 删除
+
+### 待改进
+1. 正式评测里 107 条判成 any 的全是图片 query（模板里有「画面」「静态画面」但不在 IMAGE_HINTS 里）
+   -> 补图片提示词，域准确率还能再上一层
+2. 运镜分配启发式太粗：294/350 落到 SLOW，应当按 facet 知识分配而不是正则
