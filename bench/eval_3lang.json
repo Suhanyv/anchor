@@ -2,11 +2,11 @@
   "items": 175,
   "results": {
     "zh": {
-      "hit1": 0.8571428571428571,
+      "hit1": 0.8971428571428571,
       "n": 175
     },
     "ja": {
-      "hit1": 0.9314285714285714,
+      "hit1": 0.8971428571428571,
       "n": 175
     },
     "en": {
@@ -16,64 +16,79 @@
   },
   "ja_misses": [
     [
-      "印象的な光、断片的な編集 ってどう表現する",
+      "サスペンス、高コントラスト がほしい、キーワードを",
+      "Alfred Hitchcock",
+      "Takashi Miike"
+    ],
+    [
+      "印象的な光、断片的な編集、もっと具体的に",
       "Terrence Malick",
       "Jean-Luc Godard"
     ],
     [
-      "曇天、抑制の効いた のスタイルは何て言う",
+      "巨大なもの、ミニマル に対応する英語のタグ",
+      "Denis Villeneuve",
+      "Paolo Sorrentino"
+    ],
+    [
+      "曇天、抑制の効いた がほしい、キーワードを",
       "Clint Eastwood",
-      "Ang Lee"
+      "Ridley Scott"
     ],
     [
-      "対称、模型 っぽい雰囲気",
+      "パステル、絵本的な がほしい、キーワードを",
+      "Wes Anderson",
+      "George Miller"
+    ],
+    [
+      "灰色調の対称、無表情 に対応する英語のタグ",
+      "Wes Anderson",
+      "Lars von Trier"
+    ],
+    [
+      "対称、模型 に対応する英語のタグ",
       "Ari Aster",
-      "Paul Thomas Anderson"
+      "Lars von Trier"
     ],
     [
-      "炎天下、蒼涼 のスタイルは何て言う",
+      "炎天下、蒼涼 がほしい、キーワードを",
       "Pier Paolo Pasolini",
-      "Clint Eastwood"
+      "Christopher Nolan"
     ],
     [
-      "モノクロ、イコン的な顔 のスタイルは何て言う",
+      "静修、ミニマル がほしい、キーワードを",
+      "Robert Bresson",
+      "Liubai Negative Space"
+    ],
+    [
+      "モノクロ、イコン的な顔 がほしい、キーワードを",
       "Robert Bresson",
       "Ingmar Bergman"
     ],
     [
-      "ディープフォーカス、群像 っぽい雰囲気",
+      "ディープフォーカス、群像 に対応する英語のタグ",
       "Jean Renoir",
       "Akira Kurosawa"
     ],
     [
-      "手持ちカメラ、日光 のスタイルは何て言う",
-      "Thomas Vinterberg",
-      "Matteo Garrone"
+      "平凡、自然光 に対応する英語のタグ",
+      "Ken Loach",
+      "Jean Renoir"
     ],
     [
-      "細やかな、自然光 のスタイルは何て言う",
+      "細やかな、自然光 がほしい、キーワードを",
       "Hirokazu Kore-eda",
-      "Eric Rohmer"
+      "Alfonso Cuaron"
     ],
     [
-      "軽やか、竹林 のスタイルは何て言う",
-      "Ang Lee",
-      "Song Academy Realism"
+      "武侠、たなびく に対応する英語のタグ",
+      "Tsui Hark",
+      "Ang Lee"
     ],
     [
-      "青灰、雪の冷たさ ってどう表現する",
+      "青灰、雪の冷たさ、もっと具体的に",
       "Bong Joon-ho",
       "Wes Anderson"
-    ],
-    [
-      "写実的、緑灰 ってどう表現する",
-      "Lee Chang-dong",
-      "David Fincher"
-    ],
-    [
-      "明るい日光、写実的 ってどう表現する",
-      "Ousmane Sembene",
-      "Matteo Garrone"
     ]
   ]
 }

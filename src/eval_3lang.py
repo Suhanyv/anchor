@@ -88,9 +88,8 @@ from ja_lexicon import JA as _JA_FULL  # noqa: E402
 
 JA.update(_JA_FULL)
 
-T_ZH = ["{kw}，要那种感觉", "{kw} 这种怎么描述", "想找{kw}那种", "{kw} 相关的风格叫什么"]
-T_JA = ["{kw} な感じがほしい", "{kw} ってどう表現する", "{kw} っぽい雰囲気",
-        "{kw} のスタイルは何て言う"]
+# 评测句式与训练句式严格隔离（见 lang_templates.py 的 _check_no_overlap）
+from lang_templates import EVAL_ZH as T_ZH, EVAL_JA as T_JA, EVAL_EN as T_EN  # noqa: E402
 
 
 def load(p):
@@ -146,7 +145,7 @@ def build(corpus, seed=31):
             "director": director, "facet": facet,
             "zh": rnd.choice(T_ZH).format(kw="、".join(zh_sel)),
             "ja": rnd.choice(T_JA).format(kw="、".join(ja_sel)),
-            "en": rnd.choice(T_ZH).format(kw=", ".join(tags)) if tags else None,
+            "en": rnd.choice(T_EN).format(kw=", ".join(tags)) if tags else None,
         })
     return out
 

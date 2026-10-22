@@ -25,9 +25,11 @@ import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 ROOT = r"F:\llm"
-DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v6.jsonl")
-# v4-noleak：东方 query 与训练无泄漏；v6 语料加了 350 条真运镜视频文档
-DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-v4-noleak")
+DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v7.jsonl")
+# 部署用 v10：corpus_v7 + 中日双语训练（2609 条 query）。
+# 注意：v10 是全量训练，**不能用于对外声称泛化能力**；
+#       泛化数字只能用 e5-director-v4-noleak / v5 / v7 的留出实验。
+DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-v10")
 CACHE_DIR = os.path.join(ROOT, "cache")
 MAXLEN = 128
 

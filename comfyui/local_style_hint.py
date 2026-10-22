@@ -176,7 +176,7 @@ class LocalStyleHint:
             "required": {
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
-                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-v4-noleak"}),
+                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-v10"}),
                 "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v6.jsonl"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
