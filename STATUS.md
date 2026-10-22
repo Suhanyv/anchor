@@ -1260,3 +1260,35 @@ knight / horse / wheat / medieval 全部不在里面。
 1. 赛博朋克那条没认出来（题材分 0.2469，题材库里的 Cyberpunk Street 没赢）
    -> 题材库需要更多同义表达，或补中文关键词参与匹配
 2. 题材库的 ja 对照未补（三语评测暂不涉及题材通道）
+
+---
+
+## 三十七、图像 / 视频输出形态分开
+
+### 之前只做了「检索哪一批」，没做「输出长什么样」
+域路由只决定搜 image doc 还是 video doc，两种输出文字结构完全一样：
+    subject + in the style of <director>, <tags>
+视频没有运镜和时长，图像没有静帧和清晰度。
+
+### 现在按域分开收尾语言
+| 域 | 追加的收尾 | 调试信息里报出 |
+|---|---|---|
+| 视频 | MOTION_EN[motion]：STATIC=locked-off camera, one unbroken take / KINETIC=fast handheld tracking, quick cuts / SLOW=slow push-in, steady drift | 运镜类型 / 建议时长 / 建议宽高比 21:9 |
+| 图像 | still frame, sharp focus, fine detail | 建议宽高比 2.35:1 |
+| 判不准(any) | 按图像形态输出，并提示「想生成视频请在『域』里选视频」 | 明确说明 |
+
+### 实测对比（同一条描述）
+域=视频：
+    ..., warm amber haze, slow push-in, steady drift
+    【视频形态】运镜=SLOW  建议时长=5s  建议宽高比=21:9
+域=图片：
+    ..., warm amber haze, still frame, sharp focus, fine detail
+    【图像形态】建议宽高比=2.35:1
+自动：「狂奔+镜头」-> 视频；「画面+海报」-> 图像；「年画那种大红大绿」-> 图像+未判定提示
+
+### 设计决定：宽高比/时长不塞进提示词
+用户实际用豆包/可灵这类，尺寸和时长是**独立参数**，不是 prompt 里的 --ar。
+所以只在调试信息里给出建议值，保持提示词干净可复制。
+
+### 部署
+15 个 ComfyUI 目录已更新，参数数仍为 10（未新增开关）。

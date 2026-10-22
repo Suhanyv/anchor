@@ -153,6 +153,15 @@ def _encode_query(st, q):
 #     跑偏那条    0.2042 < 0.3077  不拼
 SUBJECT_RATIO = 0.95
 
+# ---- 输出形态：图像和视频要用不同的收尾语言 ----
+# 图像要"停在那一格"，视频要"怎么动、动多久"
+MOTION_EN = {
+    "STATIC": "locked-off camera, one unbroken take",
+    "KINETIC": "fast handheld tracking, quick cuts",
+    "SLOW": "slow push-in, steady drift",
+}
+IMG_TAIL = "still frame, sharp focus, fine detail"
+
 
 def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_path=None):
     st = _load(model_dir, corpus_path, device, subject_path)
@@ -198,7 +207,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_pa
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
                 }
-        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj
+        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain
 
     out = []
     for i in sorted(allowed, key=lambda j: -sims[j])[:topk]:
@@ -208,7 +217,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_pa
                     "facet": d.get("facet", "base"),
                     "style_string": d.get("prompt", ""),
                     "prompt": d.get("prompt", "")})
-    return out, "prompt", subj
+    return out, "prompt", subj, domain
 
 
 # ------------------------------------------------------------------ 节点
@@ -244,9 +253,10 @@ class LocalStyleHint:
 
     def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 设备, 域, 匹配方式, 候选数,
             追加到, 包含原文=False):
-        items, mode, subj = _rank(中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
-                                  {"自动": "auto", "图片": "image", "视频": "video",
-                                   "不限": "any"}.get(域, "auto"), 题材文件)
+        items, mode, subj, domain_used = _rank(
+            中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
+            {"自动": "auto", "图片": "image", "视频": "video",
+             "不限": "any"}.get(域, "auto"), 题材文件)
         if not items:
             return ("", "无结果")
 
@@ -281,6 +291,24 @@ class LocalStyleHint:
         if 包含原文 and 中文描述 and 中文描述.strip():
             text = 中文描述.strip() + ", " + text
         text = subj_prefix + text
+
+        # ---- 输出形态：图像 / 视频 收尾语言不同 ----
+        params = items[0].get("params") or {}
+        if domain_used == "prompt_video":
+            mo = items[0].get("motion") or "SLOW"
+            arr = params.get("ar") or "21:9"
+            dur = params.get("duration") or "5s"
+            text = text + ", " + MOTION_EN.get(mo, MOTION_EN["SLOW"])
+            fmt = (f"【视频形态】运镜={mo}  建议时长={dur}  建议宽高比={arr}\n")
+        else:
+            text = text + ", " + IMG_TAIL
+            if domain_used == "prompt_image":
+                arr = params.get("ar") or "2.35:1"
+                fmt = f"【图像形态】建议宽高比={arr}\n"
+            else:
+                fmt = ("【图像形态】域未能判定，按静态图处理；"
+                       "想生成视频请在「域」里选「视频」\n")
+        dbg = fmt + dbg
         return (text, dbg)
 
 
