@@ -1,0 +1,260 @@
+{
+  "label": "e5-director-c10 + corpus_v10.jsonl",
+  "n": 15,
+  "top1": 0.6,
+  "top3": 0.6666666666666666,
+  "top5": 0.6666666666666666,
+  "rows": [
+    {
+      "query": "女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头",
+      "accept": [
+        "Denis Villeneuve",
+        "Christopher Nolan",
+        "Ridley Scott"
+      ],
+      "rank": 15,
+      "top1": "Handscroll Panorama",
+      "top5": [
+        "Handscroll Panorama",
+        "Akira Kurosawa",
+        "Abbas Kiarostami",
+        "Misty River Lone Boat",
+        "George Miller"
+      ],
+      "src": "prompt_02"
+    },
+    {
+      "query": "广阔荒原上只有一个孤独骑士，低地平线，人很小，史诗感",
+      "accept": [
+        "Denis Villeneuve",
+        "Christopher Nolan",
+        "Terrence Malick"
+      ],
+      "rank": 8,
+      "top1": "Misty River Lone Boat",
+      "top5": [
+        "Misty River Lone Boat",
+        "Liubai Negative Space",
+        "Handscroll Panorama",
+        "Coen Brothers",
+        "Michelangelo Antonioni"
+      ],
+      "src": "prompt_02"
+    },
+    {
+      "query": "钢铁盔甲的反光，侧光，深影，冷硬质感",
+      "accept": [
+        "Denis Villeneuve",
+        "Michael Haneke",
+        "David Fincher"
+      ],
+      "rank": 26,
+      "top1": "Andrei Tarkovsky",
+      "top5": [
+        "Andrei Tarkovsky",
+        "Guillermo del Toro",
+        "Clint Eastwood",
+        "David Cronenberg",
+        "Federico Fellini"
+      ],
+      "src": "prompt_02"
+    },
+    {
+      "query": "沙尘弥漫的苍茫大地，巨大的东西压着地平线",
+      "accept": [
+        "Denis Villeneuve",
+        "Christopher Nolan"
+      ],
+      "rank": 1,
+      "top1": "Christopher Nolan",
+      "top5": [
+        "Christopher Nolan",
+        "Liubai Negative Space",
+        "Handscroll Panorama",
+        "Roberto Rossellini",
+        "Misty River Lone Boat"
+      ],
+      "src": "prompt_02"
+    },
+    {
+      "query": "女骑士骑马慢慢走向镜头，有人蹲在草丛里偷看她，她突然发现了",
+      "accept": [
+        "Alfred Hitchcock"
+      ],
+      "rank": 1,
+      "top1": "Alfred Hitchcock",
+      "top5": [
+        "Alfred Hitchcock",
+        "George Miller",
+        "Brian De Palma",
+        "Nicolas Roeg",
+        "Krzysztof Kieslowski"
+      ],
+      "src": "prompt_01"
+    },
+    {
+      "query": "从树枝后面看过去，前景有草叶挡住画面，像有人藏着",
+      "accept": [
+        "Alfred Hitchcock"
+      ],
+      "rank": 1,
+      "top1": "Alfred Hitchcock",
+      "top5": [
+        "Alfred Hitchcock",
+        "Song Academy Realism",
+        "Handscroll Panorama",
+        "Andrei Tarkovsky",
+        "Derek Jarman"
+      ],
+      "src": "prompt_01"
+    },
+    {
+      "query": "一个人突然转头直视镜头，好像发现有人在看",
+      "accept": [
+        "Alfred Hitchcock"
+      ],
+      "rank": 1,
+      "top1": "Alfred Hitchcock",
+      "top5": [
+        "Alfred Hitchcock",
+        "Brian De Palma",
+        "Shadow Puppetry",
+        "Steven Spielberg",
+        "One-Corner Composition"
+      ],
+      "src": "prompt_01"
+    },
+    {
+      "query": "云雾里的江面，一条小船，远山一层层没入雾中",
+      "accept": [
+        "Misty River Lone Boat"
+      ],
+      "rank": 1,
+      "top1": "Misty River Lone Boat",
+      "top5": [
+        "Misty River Lone Boat",
+        "Hou Hsiao-hsien",
+        "One-Corner Composition",
+        "Liubai Negative Space",
+        "Tsai Ming-liang"
+      ],
+      "src": "东方-应命中"
+    },
+    {
+      "query": "大片空白，中间只有一个很小的东西，四周什么都没有",
+      "accept": [
+        "Liubai Negative Space"
+      ],
+      "rank": 1,
+      "top1": "Liubai Negative Space",
+      "top5": [
+        "Liubai Negative Space",
+        "One-Corner Composition",
+        "Michelangelo Antonioni",
+        "Misty River Lone Boat",
+        "Alfred Hitchcock"
+      ],
+      "src": "东方-应命中"
+    },
+    {
+      "query": "一根树枝从画面右下角伸进来，其余都是空的",
+      "accept": [
+        "One-Corner Composition"
+      ],
+      "rank": 2,
+      "top1": "Liubai Negative Space",
+      "top5": [
+        "Liubai Negative Space",
+        "One-Corner Composition",
+        "Handscroll Panorama",
+        "Michelangelo Antonioni",
+        "Folk Woodblock New Year Print"
+      ],
+      "src": "东方-应命中"
+    },
+    {
+      "query": "绢本上画的花鸟，笔很细，颜色很淡",
+      "accept": [
+        "Song Academy Realism"
+      ],
+      "rank": 1,
+      "top1": "Song Academy Realism",
+      "top5": [
+        "Song Academy Realism",
+        "Gongbi Fine-Line Painting",
+        "Chinese Literati Ink-Wash",
+        "Blue-Green Landscape",
+        "George Miller"
+      ],
+      "src": "东方-应命中"
+    },
+    {
+      "query": "红柱子、宫灯、讲究的唐代宫廷",
+      "accept": [
+        "Tang Court"
+      ],
+      "rank": 999,
+      "top1": "Zhang Yimou",
+      "top5": [
+        "Zhang Yimou",
+        "Park Chan-wook",
+        "Hou Hsiao-hsien",
+        "Song Academy Realism",
+        "Wong Kar-wai"
+      ],
+      "src": "题材-应命中"
+    },
+    {
+      "query": "雨夜的街道，霓虹倒映在积水里",
+      "accept": [
+        "Wong Kar-wai",
+        "Martin Scorsese",
+        "Ridley Scott"
+      ],
+      "rank": 1,
+      "top1": "Wong Kar-wai",
+      "top5": [
+        "Wong Kar-wai",
+        "Martin Scorsese",
+        "Alfred Hitchcock",
+        "Ridley Scott",
+        "Misty River Lone Boat"
+      ],
+      "src": "通用"
+    },
+    {
+      "query": "一个杯子放在桌上，光从下面打上来，让人紧张",
+      "accept": [
+        "Alfred Hitchcock"
+      ],
+      "rank": 1,
+      "top1": "Alfred Hitchcock",
+      "top5": [
+        "Alfred Hitchcock",
+        "Darren Aronofsky",
+        "Yorgos Lanthimos",
+        "Lars von Trier",
+        "Denis Villeneuve"
+      ],
+      "src": "通用-机制"
+    },
+    {
+      "query": "两个人隔着桌子面对面坐着，房间完全对称",
+      "accept": [
+        "Park Chan-wook",
+        "Stanley Kubrick",
+        "Wes Anderson"
+      ],
+      "rank": 8,
+      "top1": "Alfred Hitchcock",
+      "top5": [
+        "Alfred Hitchcock",
+        "One-Corner Composition",
+        "Yorgos Lanthimos",
+        "Yasujiro Ozu",
+        "Sidney Lumet"
+      ],
+      "src": "通用"
+    }
+  ]
+}
