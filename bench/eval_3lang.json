@@ -1,0 +1,39 @@
+{
+  "items": 53,
+  "results": {
+    "zh": {
+      "hit1": 0.8679245283018868,
+      "n": 53
+    },
+    "ja": {
+      "hit1": 0.9245283018867925,
+      "n": 53
+    },
+    "en": {
+      "hit1": 0.9622641509433962,
+      "n": 53
+    }
+  },
+  "ja_misses": [
+    [
+      "正確な構図、モノクロ な感じがほしい",
+      "Michael Haneke",
+      "Masaki Kobayashi"
+    ],
+    [
+      "写実的、日光 のスタイルは何て言う",
+      "Matteo Garrone",
+      "Jordan Peele"
+    ],
+    [
+      "手持ちカメラ、日光 っぽい雰囲気",
+      "Thomas Vinterberg",
+      "Matteo Garrone"
+    ],
+    [
+      "人工的な、対称 のスタイルは何て言う",
+      "Park Chan-wook",
+      "Lars von Trier"
+    ]
+  ]
+}

@@ -1,0 +1,1124 @@
+{
+  "n_queries": 2112,
+  "hit1": 0.2618371212121212,
+  "by_facet": [
+    {
+      "facet": "color_1980s",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 0.9256166666666666
+    },
+    {
+      "facet": "song_academy",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 0.9305333333333333
+    },
+    {
+      "facet": "formal_symmetry",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 0.9887416666666669
+    },
+    {
+      "facet": "stark_rural",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 0.9314416666666667
+    },
+    {
+      "facet": "wu_jiang",
+      "n": 12,
+      "fail_rate": 0.9166666666666666,
+      "mean_interesting": 0.9635833333333333
+    },
+    {
+      "facet": "bw_early",
+      "n": 12,
+      "fail_rate": 0.9166666666666666,
+      "mean_interesting": 0.8685916666666667
+    },
+    {
+      "facet": "gongbi",
+      "n": 12,
+      "fail_rate": 0.9166666666666666,
+      "mean_interesting": 0.8870416666666666
+    },
+    {
+      "facet": "neorealist",
+      "n": 12,
+      "fail_rate": 0.9166666666666666,
+      "mean_interesting": 0.9590916666666667
+    },
+    {
+      "facet": "luminous_bw",
+      "n": 12,
+      "fail_rate": 0.9166666666666666,
+      "mean_interesting": 0.8969333333333332
+    },
+    {
+      "facet": "stark_bw",
+      "n": 12,
+      "fail_rate": 0.9166666666666666,
+      "mean_interesting": 0.8795083333333333
+    },
+    {
+      "facet": "cold_industrial",
+      "n": 24,
+      "fail_rate": 0.875,
+      "mean_interesting": 0.922875
+    },
+    {
+      "facet": "romantic_period",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.9475916666666668
+    },
+    {
+      "facet": "expressionist",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 1.0022583333333335
+    },
+    {
+      "facet": "sculpted_monochrome",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.8775833333333334
+    },
+    {
+      "facet": "bw_ring",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.8934250000000001
+    },
+    {
+      "facet": "color_crimson",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.9287916666666667
+    },
+    {
+      "facet": "handscroll",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.8265666666666668
+    },
+    {
+      "facet": "intimate_cold",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.9065833333333333
+    },
+    {
+      "facet": "industrial_dystopia",
+      "n": 12,
+      "fail_rate": 0.8333333333333334,
+      "mean_interesting": 0.7856
+    },
+    {
+      "facet": "base",
+      "n": 1428,
+      "fail_rate": 0.7549019607843137,
+      "mean_interesting": 0.8882360644257703
+    },
+    {
+      "facet": "qinglv",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.9747333333333331
+    },
+    {
+      "facet": "muted_war",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.8338
+    },
+    {
+      "facet": "mech_window_frame",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.8020499999999999
+    },
+    {
+      "facet": "piying",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.9891999999999999
+    },
+    {
+      "facet": "misty_river",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.9588916666666667
+    },
+    {
+      "facet": "golden_rural",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.8932166666666665
+    },
+    {
+      "facet": "mech_wrong_man",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.7987833333333332
+    },
+    {
+      "facet": "psychedelic",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.8316916666666666
+    },
+    {
+      "facet": "sumptuous_period",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.876216666666667
+    },
+    {
+      "facet": "sunlit_normal",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.9031833333333333
+    },
+    {
+      "facet": "dust_epic",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.8559416666666667
+    },
+    {
+      "facet": "winter_monochrome",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.8824583333333332
+    },
+    {
+      "facet": "pastel_stylised",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.9009
+    },
+    {
+      "facet": "cold_period",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.8277333333333333
+    },
+    {
+      "facet": "digital_montage",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.7818333333333333
+    },
+    {
+      "facet": "ink_wash",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.7898916666666667
+    },
+    {
+      "facet": "rural_realism",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.855775
+    },
+    {
+      "facet": "wuxia_color",
+      "n": 12,
+      "fail_rate": 0.6666666666666666,
+      "mean_interesting": 0.813025
+    },
+    {
+      "facet": "digital_spectacle",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.8157666666666668
+    },
+    {
+      "facet": "period_elegance",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.7534833333333334
+    },
+    {
+      "facet": "nianhua",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.828525
+    },
+    {
+      "facet": "ecstatic_face",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.7742916666666667
+    },
+    {
+      "facet": "vivid_myth",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.8750083333333332
+    },
+    {
+      "facet": "bw_european",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.8052416666666667
+    },
+    {
+      "facet": "formal_period",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.9411583333333332
+    },
+    {
+      "facet": "mech_object_threat",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.78835
+    },
+    {
+      "facet": "late_collage",
+      "n": 12,
+      "fail_rate": 0.5,
+      "mean_interesting": 0.7089166666666665
+    },
+    {
+      "facet": "mech_domestic_horror",
+      "n": 12,
+      "fail_rate": 0.5,
+      "mean_interesting": 0.620025
+    },
+    {
+      "facet": "mech_vertical_dread",
+      "n": 12,
+      "fail_rate": 0.5,
+      "mean_interesting": 0.6276499999999999
+    },
+    {
+      "facet": "one_corner",
+      "n": 24,
+      "fail_rate": 0.5,
+      "mean_interesting": 0.540225
+    },
+    {
+      "facet": "warm_documentary",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.8276166666666667
+    },
+    {
+      "facet": "sunbaked_epic",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.6886333333333332
+    },
+    {
+      "facet": "desaturated_war",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.6694749999999999
+    },
+    {
+      "facet": "warm_melodrama",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.7951666666666667
+    },
+    {
+      "facet": "tropical_daylight",
+      "n": 12,
+      "fail_rate": 0.3333333333333333,
+      "mean_interesting": 0.6481166666666667
+    },
+    {
+      "facet": "liubai",
+      "n": 12,
+      "fail_rate": 0.3333333333333333,
+      "mean_interesting": 0.7938833333333332
+    }
+  ],
+  "top_interesting": [
+    {
+      "query": "对称、造作 类似的东西",
+      "target_director": "Park Chan-wook",
+      "facet": "base",
+      "interesting": 1.3457,
+      "ft_rank": 14,
+      "ft_hit1": false,
+      "ft_top1": "Lars von Trier",
+      "margin": 0.0046,
+      "novelty": 0.6939,
+      "base_rank": 1,
+      "disagree": 0.825
+    },
+    {
+      "query": "镜头运动、考究 关键词有哪些",
+      "target_director": "Park Chan-wook",
+      "facet": "romantic_period",
+      "interesting": 1.3101,
+      "ft_rank": 49,
+      "ft_hit1": false,
+      "ft_top1": "Orson Welles",
+      "margin": 0.0242,
+      "novelty": 0.61,
+      "base_rank": 1,
+      "disagree": 1.0
+    },
+    {
+      "query": "帮我找运镜、时代感的素材方向",
+      "target_director": "Jia Zhangke",
+      "facet": "digital_spectacle",
+      "interesting": 1.2877,
+      "ft_rank": 16,
+      "ft_hit1": false,
+      "ft_top1": "Vittorio De Sica",
+      "margin": 0.0306,
+      "novelty": 0.6586,
+      "base_rank": 1,
+      "disagree": 0.875
+    },
+    {
+      "query": "运镜、镜头运动，要那种感觉",
+      "target_director": "Alfred Hitchcock",
+      "facet": "base",
+      "interesting": 1.2475,
+      "ft_rank": 21,
+      "ft_hit1": false,
+      "ft_top1": "Steven Spielberg",
+      "margin": 0.0161,
+      "novelty": 0.5274,
+      "base_rank": 1,
+      "disagree": 1.0
+    },
+    {
+      "query": "想要镜头运动、运镜，不要别的",
+      "target_director": "Hou Hsiao-hsien",
+      "facet": "sumptuous_period",
+      "interesting": 1.2457,
+      "ft_rank": 52,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0202,
+      "novelty": 0.5335,
+      "base_rank": 1,
+      "disagree": 1.0
+    },
+    {
+      "query": "给我点视频、暧昧的参考",
+      "target_director": "Wong Kar-wai",
+      "facet": "base",
+      "interesting": 1.2323,
+      "ft_rank": 7,
+      "ft_hit1": false,
+      "ft_top1": "Thomas Vinterberg",
+      "margin": 0.0215,
+      "novelty": 0.7618,
+      "base_rank": 27,
+      "disagree": 0.5
+    },
+    {
+      "query": "有没有暧昧、视频的例子",
+      "target_director": "Wong Kar-wai",
+      "facet": "base",
+      "interesting": 1.2319,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Asghar Farhadi",
+      "margin": 0.0128,
+      "novelty": 0.7444,
+      "base_rank": 32,
+      "disagree": 0.5
+    },
+    {
+      "query": "时长、视频、童话，越具体越好",
+      "target_director": "Guillermo del Toro",
+      "facet": "base",
+      "interesting": 1.2315,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Alfonso Cuaron",
+      "margin": 0.0192,
+      "novelty": 0.7564,
+      "base_rank": 33,
+      "disagree": 0.5
+    },
+    {
+      "query": "时长、粉彩 这种感觉的表达",
+      "target_director": "Wes Anderson",
+      "facet": "base",
+      "interesting": 1.2296,
+      "ft_rank": 24,
+      "ft_hit1": false,
+      "ft_top1": "Alain Resnais",
+      "margin": 0.005,
+      "novelty": 0.7268,
+      "base_rank": 94,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、雾江 这种感觉的表达",
+      "target_director": "Misty River Lone Boat",
+      "facet": "wu_jiang",
+      "interesting": 1.2275,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "Alfred Hitchcock",
+      "margin": 0.0265,
+      "novelty": 0.7664,
+      "base_rank": 123,
+      "disagree": 0.5
+    },
+    {
+      "query": "造作、对称 关键词有哪些",
+      "target_director": "Park Chan-wook",
+      "facet": "base",
+      "interesting": 1.2262,
+      "ft_rank": 13,
+      "ft_hit1": false,
+      "ft_top1": "Fritz Lang",
+      "margin": 0.0515,
+      "novelty": 0.6697,
+      "base_rank": 1,
+      "disagree": 0.8
+    },
+    {
+      "query": "时长、民国质感 这个方向的提示词",
+      "target_director": "Wong Kar-wai",
+      "facet": "period_elegance",
+      "interesting": 1.2243,
+      "ft_rank": 12,
+      "ft_hit1": false,
+      "ft_top1": "Alain Resnais",
+      "margin": 0.0109,
+      "novelty": 0.7326,
+      "base_rank": 41,
+      "disagree": 0.5
+    },
+    {
+      "query": "有个画面是中产、视频，怎么搜",
+      "target_director": "Claude Chabrol",
+      "facet": "base",
+      "interesting": 1.212,
+      "ft_rank": 11,
+      "ft_hit1": false,
+      "ft_top1": "Ken Loach",
+      "margin": 0.0168,
+      "novelty": 0.7309,
+      "base_rank": 41,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、镜头运动，用什么词能出这个效果",
+      "target_director": "Bong Joon-ho",
+      "facet": "cold_industrial",
+      "interesting": 1.2107,
+      "ft_rank": 25,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0318,
+      "novelty": 0.5188,
+      "base_rank": 1,
+      "disagree": 1.0
+    },
+    {
+      "query": "造作、对称 这种怎么描述",
+      "target_director": "Park Chan-wook",
+      "facet": "base",
+      "interesting": 1.208,
+      "ft_rank": 14,
+      "ft_hit1": false,
+      "ft_top1": "Fritz Lang",
+      "margin": 0.0554,
+      "novelty": 0.6457,
+      "base_rank": 1,
+      "disagree": 0.825
+    },
+    {
+      "query": "运镜、现代性 相关的风格叫什么",
+      "target_director": "Edward Yang",
+      "facet": "base",
+      "interesting": 1.2053,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Michelangelo Antonioni",
+      "margin": 0.0094,
+      "novelty": 0.7094,
+      "base_rank": 46,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、时长、民俗 那类风格",
+      "target_director": "Folk Woodblock New Year Print",
+      "facet": "nianhua",
+      "interesting": 1.2018,
+      "ft_rank": 64,
+      "ft_hit1": false,
+      "ft_top1": "Ousmane Sembene",
+      "margin": 0.0266,
+      "novelty": 0.7391,
+      "base_rank": 123,
+      "disagree": 0.5
+    },
+    {
+      "query": "给我点神话、镜头运动的参考",
+      "target_director": "Glauber Rocha",
+      "facet": "base",
+      "interesting": 1.2008,
+      "ft_rank": 15,
+      "ft_hit1": false,
+      "ft_top1": "Pier Paolo Pasolini",
+      "margin": 0.0641,
+      "novelty": 0.6431,
+      "base_rank": 1,
+      "disagree": 0.85
+    },
+    {
+      "query": "如果只要时长、马戏，怎么prompt",
+      "target_director": "Federico Fellini",
+      "facet": "base",
+      "interesting": 1.1938,
+      "ft_rank": 15,
+      "ft_hit1": false,
+      "ft_top1": "Alain Resnais",
+      "margin": 0.018,
+      "novelty": 0.714,
+      "base_rank": 67,
+      "disagree": 0.5
+    },
+    {
+      "query": "给我点暗涌、中产、视频的参考",
+      "target_director": "Claude Chabrol",
+      "facet": "base",
+      "interesting": 1.1935,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Jia Zhangke",
+      "margin": 0.0298,
+      "novelty": 0.7365,
+      "base_rank": 30,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、东方、克制 那种调子",
+      "target_director": "Ang Lee",
+      "facet": "base",
+      "interesting": 1.1918,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.0149,
+      "novelty": 0.7058,
+      "base_rank": 34,
+      "disagree": 0.5
+    },
+    {
+      "query": "空街、不安，要那种感觉",
+      "target_director": "John Carpenter",
+      "facet": "base",
+      "interesting": 1.1916,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Jafar Panahi",
+      "margin": 0.0234,
+      "novelty": 0.7221,
+      "base_rank": 31,
+      "disagree": 0.5
+    },
+    {
+      "query": "怎么用英文说金线、视频",
+      "target_director": "Blue-Green Landscape",
+      "facet": "qinglv",
+      "interesting": 1.1899,
+      "ft_rank": 35,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0192,
+      "novelty": 0.7121,
+      "base_rank": 100,
+      "disagree": 0.5
+    },
+    {
+      "query": "运镜、视频 类似的东西",
+      "target_director": "Jia Zhangke",
+      "facet": "digital_spectacle",
+      "interesting": 1.1854,
+      "ft_rank": 16,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0422,
+      "novelty": 0.5719,
+      "base_rank": 1,
+      "disagree": 0.875
+    },
+    {
+      "query": "运镜、质朴 那种调子",
+      "target_director": "Abbas Kiarostami",
+      "facet": "base",
+      "interesting": 1.1848,
+      "ft_rank": 49,
+      "ft_hit1": false,
+      "ft_top1": "Rainer Werner Fassbinder",
+      "margin": 0.0132,
+      "novelty": 0.695,
+      "base_rank": 114,
+      "disagree": 0.5
+    },
+    {
+      "query": "运镜、抒情 相关的风格叫什么",
+      "target_director": "Djibril Diop Mambety",
+      "facet": "base",
+      "interesting": 1.1824,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "F. W. Murnau",
+      "margin": 0.0168,
+      "novelty": 0.6994,
+      "base_rank": 38,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、雨夜，要那种感觉",
+      "target_director": "David Fincher",
+      "facet": "base",
+      "interesting": 1.1821,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Pierre Melville",
+      "margin": 0.0051,
+      "novelty": 0.6763,
+      "base_rank": 91,
+      "disagree": 0.5
+    },
+    {
+      "query": "烛光、时长，越具体越好",
+      "target_director": "Derek Jarman",
+      "facet": "base",
+      "interesting": 1.182,
+      "ft_rank": 27,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.0159,
+      "novelty": 0.6974,
+      "base_rank": 118,
+      "disagree": 0.5
+    },
+    {
+      "query": "有没有时长、粉彩的例子",
+      "target_director": "Wes Anderson",
+      "facet": "base",
+      "interesting": 1.1788,
+      "ft_rank": 19,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.029,
+      "novelty": 0.7193,
+      "base_rank": 92,
+      "disagree": 0.5
+    },
+    {
+      "query": "镜头运动、小镇日常、视频 的写法",
+      "target_director": "David Lynch",
+      "facet": "sunlit_normal",
+      "interesting": 1.1753,
+      "ft_rank": 23,
+      "ft_hit1": false,
+      "ft_top1": "Roberto Rossellini",
+      "margin": 0.0076,
+      "novelty": 0.6739,
+      "base_rank": 73,
+      "disagree": 0.5
+    },
+    {
+      "query": "克制、自然光，越具体越好",
+      "target_director": "Clint Eastwood",
+      "facet": "base",
+      "interesting": 1.1752,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Carlos Reygadas",
+      "margin": 0.0248,
+      "novelty": 0.7074,
+      "base_rank": 24,
+      "disagree": 0.5
+    },
+    {
+      "query": "想要视频、金线，不要别的",
+      "target_director": "Blue-Green Landscape",
+      "facet": "qinglv",
+      "interesting": 1.1743,
+      "ft_rank": 34,
+      "ft_hit1": false,
+      "ft_top1": "Quentin Tarantino",
+      "margin": 0.0207,
+      "novelty": 0.6982,
+      "base_rank": 116,
+      "disagree": 0.5
+    },
+    {
+      "query": "沙漠、视频 这种感觉的表达",
+      "target_director": "George Miller",
+      "facet": "base",
+      "interesting": 1.1738,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "Abbas Kiarostami",
+      "margin": 0.0099,
+      "novelty": 0.6768,
+      "base_rank": 78,
+      "disagree": 0.5
+    },
+    {
+      "query": "运镜、现代主义，简洁一点的说法",
+      "target_director": "Jacques Tati",
+      "facet": "base",
+      "interesting": 1.1738,
+      "ft_rank": 9,
+      "ft_hit1": false,
+      "ft_top1": "Vittorio De Sica",
+      "margin": 0.0242,
+      "novelty": 0.7047,
+      "base_rank": 75,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、烛光 对应的英文标签",
+      "target_director": "Robert Eggers",
+      "facet": "base",
+      "interesting": 1.1737,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Shadow Puppetry",
+      "margin": 0.0118,
+      "novelty": 0.6805,
+      "base_rank": 88,
+      "disagree": 0.5
+    },
+    {
+      "query": "运镜、孤独，简洁一点的说法",
+      "target_director": "Tsai Ming-liang",
+      "facet": "base",
+      "interesting": 1.1736,
+      "ft_rank": 27,
+      "ft_hit1": false,
+      "ft_top1": "Sidney Lumet",
+      "margin": 0.0104,
+      "novelty": 0.6776,
+      "base_rank": 2,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要运镜、变迁，怎么prompt",
+      "target_director": "Jia Zhangke",
+      "facet": "base",
+      "interesting": 1.1726,
+      "ft_rank": 25,
+      "ft_hit1": false,
+      "ft_top1": "Sidney Lumet",
+      "margin": 0.0409,
+      "novelty": 0.7358,
+      "base_rank": 2,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要视频、碎片、巴洛克，怎么prompt",
+      "target_director": "Alain Resnais",
+      "facet": "base",
+      "interesting": 1.1681,
+      "ft_rank": 18,
+      "ft_hit1": false,
+      "ft_top1": "Brian De Palma",
+      "margin": 0.014,
+      "novelty": 0.6787,
+      "base_rank": 81,
+      "disagree": 0.5
+    },
+    {
+      "query": "剪影、表现主义、视频 相关的风格叫什么",
+      "target_director": "F. W. Murnau",
+      "facet": "base",
+      "interesting": 1.1677,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0114,
+      "novelty": 0.6733,
+      "base_rank": 28,
+      "disagree": 0.5
+    },
+    {
+      "query": "默片、视频，要那种感觉",
+      "target_director": "F. W. Murnau",
+      "facet": "base",
+      "interesting": 1.1676,
+      "ft_rank": 8,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0162,
+      "novelty": 0.6824,
+      "base_rank": 39,
+      "disagree": 0.5
+    },
+    {
+      "query": "中产、视频，用什么词能出这个效果",
+      "target_director": "Claude Chabrol",
+      "facet": "base",
+      "interesting": 1.166,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Luis Bunuel",
+      "margin": 0.0304,
+      "novelty": 0.7084,
+      "base_rank": 37,
+      "disagree": 0.5
+    },
+    {
+      "query": "时长、生活质感 那类风格",
+      "target_director": "Wim Wenders",
+      "facet": "warm_documentary",
+      "interesting": 1.1647,
+      "ft_rank": 13,
+      "ft_hit1": false,
+      "ft_top1": "Alfonso Cuaron",
+      "margin": 0.031,
+      "novelty": 0.7081,
+      "base_rank": 46,
+      "disagree": 0.5
+    },
+    {
+      "query": "想搜人文、视频相关的东西",
+      "target_director": "Satyajit Ray",
+      "facet": "base",
+      "interesting": 1.164,
+      "ft_rank": 29,
+      "ft_hit1": false,
+      "ft_top1": "Alfred Hitchcock",
+      "margin": 0.0223,
+      "novelty": 0.6905,
+      "base_rank": 77,
+      "disagree": 0.5
+    },
+    {
+      "query": "沙漠、时长 关键词有哪些",
+      "target_director": "George Miller",
+      "facet": "base",
+      "interesting": 1.1639,
+      "ft_rank": 8,
+      "ft_hit1": false,
+      "ft_top1": "Coen Brothers",
+      "margin": 0.0297,
+      "novelty": 0.7047,
+      "base_rank": 43,
+      "disagree": 0.5
+    },
+    {
+      "query": "民国质感、视频，要那种感觉",
+      "target_director": "Wong Kar-wai",
+      "facet": "period_elegance",
+      "interesting": 1.1613,
+      "ft_rank": 26,
+      "ft_hit1": false,
+      "ft_top1": "Spike Lee",
+      "margin": 0.0184,
+      "novelty": 0.6799,
+      "base_rank": 48,
+      "disagree": 0.5
+    },
+    {
+      "query": "衰败、镜头运动 类似的东西",
+      "target_director": "Derek Jarman",
+      "facet": "base",
+      "interesting": 1.161,
+      "ft_rank": 27,
+      "ft_hit1": false,
+      "ft_top1": "Luchino Visconti",
+      "margin": 0.023,
+      "novelty": 0.6885,
+      "base_rank": 117,
+      "disagree": 0.5
+    },
+    {
+      "query": "有个画面是时长、暖金，怎么搜",
+      "target_director": "Youssef Chahine",
+      "facet": "base",
+      "interesting": 1.1599,
+      "ft_rank": 20,
+      "ft_hit1": false,
+      "ft_top1": "Park Chan-wook",
+      "margin": 0.0139,
+      "novelty": 0.6698,
+      "base_rank": 47,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、运镜、巨物，越具体越好",
+      "target_director": "Denis Villeneuve",
+      "facet": "base",
+      "interesting": 1.1597,
+      "ft_rank": 99,
+      "ft_hit1": false,
+      "ft_top1": "Sergei Eisenstein",
+      "margin": 0.0052,
+      "novelty": 0.6527,
+      "base_rank": 52,
+      "disagree": 0.5
+    },
+    {
+      "query": "热带日光、时长 对应的英文标签",
+      "target_director": "James Cameron",
+      "facet": "tropical_daylight",
+      "interesting": 1.1587,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Akira Kurosawa",
+      "margin": 0.0428,
+      "novelty": 0.6646,
+      "base_rank": 1,
+      "disagree": 0.625
+    },
+    {
+      "query": "尘土、寓言、运镜 的写法",
+      "target_director": "Mohsen Makhmalbaf",
+      "facet": "base",
+      "interesting": 1.1573,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Abbas Kiarostami",
+      "margin": 0.0245,
+      "novelty": 0.6877,
+      "base_rank": 56,
+      "disagree": 0.5
+    },
+    {
+      "query": "想搜时长、视频相关的东西",
+      "target_director": "Christopher Nolan",
+      "facet": "dust_epic",
+      "interesting": 1.157,
+      "ft_rank": 100,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.0117,
+      "novelty": 0.6624,
+      "base_rank": 122,
+      "disagree": 0.5
+    },
+    {
+      "query": "视频、大红 关键词有哪些",
+      "target_director": "Pedro Almodovar",
+      "facet": "base",
+      "interesting": 1.1567,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Jia Zhangke",
+      "margin": 0.0229,
+      "novelty": 0.6838,
+      "base_rank": 33,
+      "disagree": 0.5
+    },
+    {
+      "query": "高饱和、时长 关键词有哪些",
+      "target_director": "Jean-Luc Godard",
+      "facet": "base",
+      "interesting": 1.1554,
+      "ft_rank": 10,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.0221,
+      "novelty": 0.6809,
+      "base_rank": 41,
+      "disagree": 0.5
+    },
+    {
+      "query": "有没有灰调对称、冷面、运镜的例子",
+      "target_director": "Wes Anderson",
+      "facet": "winter_monochrome",
+      "interesting": 1.1553,
+      "ft_rank": 7,
+      "ft_hit1": false,
+      "ft_top1": "Lars von Trier",
+      "margin": 0.0157,
+      "novelty": 0.6804,
+      "base_rank": 26,
+      "disagree": 0.475
+    },
+    {
+      "query": "高饱和、极端，要那种感觉",
+      "target_director": "Takashi Miike",
+      "facet": "base",
+      "interesting": 1.1544,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "One-Corner Composition",
+      "margin": 0.0544,
+      "novelty": 0.7066,
+      "base_rank": 1,
+      "disagree": 0.575
+    },
+    {
+      "query": "如果只要时长、阶层、镜头运动，怎么prompt",
+      "target_director": "Bong Joon-ho",
+      "facet": "base",
+      "interesting": 1.1538,
+      "ft_rank": 20,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.1004,
+      "novelty": 0.6035,
+      "base_rank": 1,
+      "disagree": 0.975
+    },
+    {
+      "query": "想搜运镜、抒情相关的东西",
+      "target_director": "Mohsen Makhmalbaf",
+      "facet": "base",
+      "interesting": 1.1538,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Djibril Diop Mambety",
+      "margin": 0.0278,
+      "novelty": 0.6904,
+      "base_rank": 106,
+      "disagree": 0.5
+    },
+    {
+      "query": "运镜、命运、视频 类似的东西",
+      "target_director": "Krzysztof Kieslowski",
+      "facet": "base",
+      "interesting": 1.1533,
+      "ft_rank": 15,
+      "ft_hit1": false,
+      "ft_top1": "Steven Spielberg",
+      "margin": 0.0245,
+      "novelty": 0.6834,
+      "base_rank": 44,
+      "disagree": 0.5
+    },
+    {
+      "query": "碎片、巴洛克，简洁一点的说法",
+      "target_director": "Alain Resnais",
+      "facet": "base",
+      "interesting": 1.153,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Nicolas Roeg",
+      "margin": 0.0549,
+      "novelty": 0.7422,
+      "base_rank": 88,
+      "disagree": 0.5
+    },
+    {
+      "query": "宏大、实景 这个方向的提示词",
+      "target_director": "Christopher Nolan",
+      "facet": "base",
+      "interesting": 1.1526,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Jean Renoir",
+      "margin": 0.0257,
+      "novelty": 0.685,
+      "base_rank": 36,
+      "disagree": 0.5
+    }
+  ]
+}

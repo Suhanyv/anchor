@@ -104,13 +104,25 @@ class Enc:
 
 
 def build_pool(corpus, per_facet=12, seed=7):
-    """为每个 (director, facet) 生成若干条「没见过的说法」的 query。"""
+    """为每个 (director, facet) 生成若干条「没见过的说法」的 query。
+
+    注意两点（都是踩过坑修的）：
+      1. 只用 domain == prompt_image 的文档取关键词。
+         视频文档的 kw 曾经被追加过 运镜/视频 之类，混进来会生成
+         「视频、镜头运动 这种怎么描述」这种无意义 query，基准直接报废。
+      2. 取关键词时取**第一条**而不是最后一条，避免被后加的文档覆盖。
+    """
     rnd = random.Random(seed)
-    groups = defaultdict(lambda: {"kws": [], "ids": [], "zh": ""})
+    DOMAIN_WORDS = {"运镜", "镜头运动", "时长", "视频", "图片", "静态"}
+    groups = defaultdict(lambda: {"kws": None, "ids": [], "zh": ""})
     for d in corpus:
+        if d.get("domain") not in (None, "prompt_image"):
+            continue
         k = (d["director"], d.get("facet", "base"))
-        groups[k]["kws"] = d.get("kw_zh", [])
-        groups[k]["zh"] = d.get("director_zh", "")
+        if groups[k]["kws"] is None:            # 只取第一条的 kw
+            kws = [w for w in (d.get("kw_zh") or []) if w not in DOMAIN_WORDS]
+            groups[k]["kws"] = kws
+            groups[k]["zh"] = d.get("director_zh", "")
         groups[k]["ids"].append(d["doc_id"])
 
     pool = []
