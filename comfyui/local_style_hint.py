@@ -152,6 +152,11 @@ def _encode_query(st, q):
 #     无明确题材  0.3172 < 0.5057  不拼
 #     跑偏那条    0.2042 < 0.3077  不拼
 SUBJECT_RATIO = 0.95
+# 相对比值会误报：实测「从树枝后面看过去，前景有草叶遮挡」拼进了「沙漠商队」（比值 0.99）。
+# 所以再加一道**绝对下限**。0.36 是实测校准值（样本少，标注为经验值）：
+#   中世纪骑士 0.4945 ✓ / 唐代宫廷 0.5070 ✓ / 武侠竹林 0.4813 ✓ / 老人 0.4168 ✓
+#   沙漠商队误报 0.3378 ✗ / 跑偏那条 0.2042 ✗
+SUBJECT_FLOOR = 0.36
 
 # ---- 输出形态：图像和视频要用不同的收尾语言 ----
 # 图像要"停在那一格"，视频要"怎么动、动多久"
@@ -279,11 +284,13 @@ class LocalStyleHint:
         subj_prefix = ""
         if subj:
             top_style = items[0]["score"]
-            subj["hit"] = subj["score"] >= top_style * SUBJECT_RATIO
+            subj["hit"] = (subj["score"] >= top_style * SUBJECT_RATIO
+                           and subj["score"] >= SUBJECT_FLOOR)
             ratio = subj["score"] / top_style if top_style > 0 else 0.0
             mark = "✅拼入" if subj["hit"] else "⛔不拼入"
             dbg = (f"题材: {subj['zh']} / {subj['en']}  {subj['score']:.4f}"
-                   f"  (题材/风格={ratio:.2f}, 门槛 {SUBJECT_RATIO})  {mark}\n" + dbg)
+                   f"  (题材/风格={ratio:.2f} 门槛{SUBJECT_RATIO}"
+                   f", 绝对下限{SUBJECT_FLOOR})  {mark}\n" + dbg)
             if subj["hit"]:
                 subj_prefix = subj["phrase"] + ", "
 

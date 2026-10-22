@@ -1292,3 +1292,70 @@ knight / horse / wheat / medieval 全部不在里面。
 
 ### 部署
 15 个 ComfyUI 目录已更新，参数数仍为 10（未新增开关）。
+
+---
+
+## 三十八、第一条真实视频提示词：结构与缺口分析
+
+### 用户给的样本（253 词，已存 data/raw/prompt_real_01.txt）
+主题：女骑士骑战马穿过野草原走向镜头，镜头藏在草丛树枝后偷看，她突然发现并直视镜头。
+
+### 体量对比（实测）
+    用户这条        253 词
+    我们语料一条 doc  平均 27 词（中位 25，最长 48）
+    -> 9.3 倍
+
+### 结构对比：用户有 8 个功能槽，我们只有 1~2 个
+| 槽位 | 用户 | 我们 |
+|---|---|---|
+| 开场主体 | ✅ | ✅ |
+| 引用参考图 x2（护甲/发型/脸部表情）| ✅ | ❌ |
+| 姿态/道具细节（剑挂腰不拿手里）| ✅ | ❌ |
+| 排除约束（not held / hold reins naturally）| ✅ | ❌ |
+| 镜头视角+叙事逻辑（躲在草丛，像有人偷看）| ✅ | ❌ |
+| 叙事动作（突然发现，直视镜头）| ✅ | ❌ |
+| 画幅 16:9 | ✅ | 建议值 |
+| 光线（金色阳光透树、深影）| ✅ | 风格标签里 |
+| 质量尾串（ultra realistic, 8K, DOF）| ✅ | ❌ |
+
+### 重要认知：我们的系统不该假装能生成这种提示词
+用户那条是**自己导演好的一场戏**。叙事、调度、参考图、约束都是创作，不该由检索去猜。
+我们的真实价值是**其中一个槽**：氛围/影调/风格的准确命名。
+
+### 但确实扒出了语料缺口（这是最大收获）
+用该提示词的机制核心做中文 query 测试：
+    「偷看+被发现」-> Hitchcock 第 1 名 0.3695  ✅
+    「从树枝后面看过去，前景有草叶遮挡」-> 手卷长卷 0.3423  ❌ 完全跑偏
+查语料原因：我们所有窥视文档都是**隔窗偷看**
+    a grid of apartment windows at dusk with one lit window, telephoto compression
+而用户的机制是**躲在植被里偷看**
+    hidden behind wild grass and tree branches / leaves and blades of grass partially block the frame
+-> 两种不同机制，后者完全缺失。不是模型笨，是没这个知识。
+
+### 修复
+新增 facet mech_hidden_observer（藏在植被里的观察者）归 Hitchcock，
+用**用户自己的措辞**写 4 条图 + 1 条视频：
+    voyeuristic perspective, foreground foliage partially blocking the frame, caught watching
+    a figure watched from behind tall grass and leaves that blur the foreground
+    the subject suddenly notices and looks straight into the camera, caught watching
+
+### 结果（corpus_v10 / model c10）
+| query | 修前 | 修后 |
+|---|---|---|
+| 从树枝后面看过去，前景有草叶遮挡 | 手卷长卷 0.3423 | **Hitchcock [mech_hidden_observer] 0.3802** |
+| 偷看+被发现 | Hitchcock base 0.3695 | **Hitchcock [mech_hidden_observer] 0.4471** |
+
+### 同时修掉题材误报
+只靠「题材/风格 >= 0.95」会误报：该 query 拼进了「沙漠商队」（比值0.99）。
+新增绝对下限 SUBJECT_FLOOR=0.36（实测校准，样本少，标为经验值）：
+    中世纪骑士 0.4945 ✓ / 唐代宫廷 0.5070 ✓ / 武侠竹林 0.4813 ✓ / 老人 0.4168 ✓
+    沙漠商队误报 0.3378 ✗ / 跑偏那条 0.2042 ✗
+
+### 泄漏声明
+本条提示词的措辞已用于建语料，**不再是留出样本**，文件标注已改。
+以后不能用它测效果。下一条真实提示词才可当留出样本。
+
+### 从这条提示词学到的语言规律
+用户写提示词时用的是**机制词**而不是影评词：
+    voyeuristic perspective / caught watching / hidden observer / battle-worn weathered metal
+这与本项目反复验证的结论一致：**用具体机制描述，不用评论术语**。
