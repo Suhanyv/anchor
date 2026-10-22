@@ -1,39 +1,79 @@
 {
-  "items": 53,
+  "items": 175,
   "results": {
     "zh": {
-      "hit1": 0.8679245283018868,
-      "n": 53
+      "hit1": 0.8571428571428571,
+      "n": 175
     },
     "ja": {
-      "hit1": 0.9245283018867925,
-      "n": 53
+      "hit1": 0.9314285714285714,
+      "n": 175
     },
     "en": {
-      "hit1": 0.9622641509433962,
-      "n": 53
+      "hit1": 0.9714285714285714,
+      "n": 175
     }
   },
   "ja_misses": [
     [
-      "正確な構図、モノクロ な感じがほしい",
-      "Michael Haneke",
-      "Masaki Kobayashi"
+      "印象的な光、断片的な編集 ってどう表現する",
+      "Terrence Malick",
+      "Jean-Luc Godard"
     ],
     [
-      "写実的、日光 のスタイルは何て言う",
-      "Matteo Garrone",
-      "Jordan Peele"
+      "曇天、抑制の効いた のスタイルは何て言う",
+      "Clint Eastwood",
+      "Ang Lee"
     ],
     [
-      "手持ちカメラ、日光 っぽい雰囲気",
+      "対称、模型 っぽい雰囲気",
+      "Ari Aster",
+      "Paul Thomas Anderson"
+    ],
+    [
+      "炎天下、蒼涼 のスタイルは何て言う",
+      "Pier Paolo Pasolini",
+      "Clint Eastwood"
+    ],
+    [
+      "モノクロ、イコン的な顔 のスタイルは何て言う",
+      "Robert Bresson",
+      "Ingmar Bergman"
+    ],
+    [
+      "ディープフォーカス、群像 っぽい雰囲気",
+      "Jean Renoir",
+      "Akira Kurosawa"
+    ],
+    [
+      "手持ちカメラ、日光 のスタイルは何て言う",
       "Thomas Vinterberg",
       "Matteo Garrone"
     ],
     [
-      "人工的な、対称 のスタイルは何て言う",
-      "Park Chan-wook",
-      "Lars von Trier"
+      "細やかな、自然光 のスタイルは何て言う",
+      "Hirokazu Kore-eda",
+      "Eric Rohmer"
+    ],
+    [
+      "軽やか、竹林 のスタイルは何て言う",
+      "Ang Lee",
+      "Song Academy Realism"
+    ],
+    [
+      "青灰、雪の冷たさ ってどう表現する",
+      "Bong Joon-ho",
+      "Wes Anderson"
+    ],
+    [
+      "写実的、緑灰 ってどう表現する",
+      "Lee Chang-dong",
+      "David Fincher"
+    ],
+    [
+      "明るい日光、写実的 ってどう表現する",
+      "Ousmane Sembene",
+      "Matteo Garrone"
     ]
   ]
 }

@@ -29,7 +29,7 @@ OUT = os.path.join(ROOT, "data", "raw", "queries_v8.jsonl")
 # 复用 eval_3lang 里的中日对照表
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from eval_3lang import JA  # noqa: E402
+from ja_lexicon import JA  # noqa: E402  单一来源，不依赖评测脚本
 
 T_JA = [
     "{kw} な感じがほしい",
