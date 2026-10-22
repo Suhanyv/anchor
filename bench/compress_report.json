@@ -1,0 +1,43 @@
+{
+  "baseline_hit1": 0.8625,
+  "rows": [
+    {
+      "name": "A fp32",
+      "size_mb": 448.9,
+      "hit1": 0.8625,
+      "ms_per_query": 18.1,
+      "dim": 384
+    },
+    {
+      "name": "B int8动态",
+      "size_mb": 387.8,
+      "hit1": 0.7425,
+      "ms_per_query": 15.0,
+      "dim": 384
+    },
+    {
+      "name": "C/D/E PCA-256",
+      "size_mb": null,
+      "hit1": 0.865,
+      "ms_per_query": 18.11457395553589,
+      "dim": 256,
+      "index_kb": 547.0
+    },
+    {
+      "name": "C/D/E PCA-128",
+      "size_mb": null,
+      "hit1": 0.8575,
+      "ms_per_query": 18.11457395553589,
+      "dim": 128,
+      "index_kb": 274.0
+    },
+    {
+      "name": "C/D/E PCA-64",
+      "size_mb": null,
+      "hit1": 0.8325,
+      "ms_per_query": 18.11457395553589,
+      "dim": 64,
+      "index_kb": 137.0
+    }
+  ]
+}
