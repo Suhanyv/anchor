@@ -72,8 +72,24 @@ def _allowed_idx(corpus, domain):
     return idx or list(range(len(corpus)))
 
 
-def _load(model_dir, corpus_path, device):
-    key = (model_dir, corpus_path, device)
+def _encode_texts(tok, enc, device, texts, prefix):
+    """把一批文本编码成归一化向量（内部工具）"""
+    import torch
+    import torch.nn.functional as F
+    out = []
+    with torch.no_grad():
+        for i in range(0, len(texts), 32):
+            b = tok([prefix + t for t in texts[i:i + 32]], padding=True,
+                    truncation=True, max_length=128, return_tensors="pt")
+            b = {k: v.to(device) for k, v in b.items()}
+            h = enc(**b).last_hidden_state
+            m = b["attention_mask"].unsqueeze(-1).float()
+            out.append(F.normalize(((h * m).sum(1) / m.sum(1).clamp(min=1e-6)).float(), dim=-1))
+    return torch.cat(out).cpu()
+
+
+def _load(model_dir, corpus_path, device, subject_path=None):
+    key = (model_dir, corpus_path, device, subject_path)
     if key in _CACHE:
         return _CACHE[key]
 
@@ -83,7 +99,7 @@ def _load(model_dir, corpus_path, device):
     if not os.path.isdir(model_dir):
         raise RuntimeError(
             f"模型目录不存在：{model_dir}\n"
-            f"请把 F:\\llm\\models\\e5-director-v4-noleak 整个文件夹复制到这个路径，"
+            f"请把 F:\\llm\\models\\e5-director-c9 整个文件夹复制到这个路径，"
             f"或把本节点的「模型目录」改成实际位置。"
         )
     if not os.path.isfile(corpus_path):
@@ -92,26 +108,24 @@ def _load(model_dir, corpus_path, device):
     with open(corpus_path, encoding="utf-8") as f:
         corpus = [json.loads(l) for l in f if l.strip()]
 
+    # 题材库：独立通道，不混进风格索引（混在一起会互相抢）
+    subjects = []
+    if subject_path and os.path.isfile(subject_path):
+        with open(subject_path, encoding="utf-8") as f:
+            subjects = [json.loads(l) for l in f if l.strip()]
+
     tok = AutoTokenizer.from_pretrained(model_dir)
     enc = AutoModel.from_pretrained(model_dir).to(device).eval()
     for p in enc.parameters():
         p.requires_grad_(False)
 
-    # 预编码全部文档（只做一次）
-    import torch.nn.functional as F
-    texts = [d["text_semantic"] for d in corpus]
-    out = []
-    with torch.no_grad():
-        for i in range(0, len(texts), 32):
-            b = tok(["passage: " + t for t in texts[i:i + 32]], padding=True,
-                    truncation=True, max_length=128, return_tensors="pt")
-            b = {k: v.to(device) for k, v in b.items()}
-            h = enc(**b).last_hidden_state
-            m = b["attention_mask"].unsqueeze(-1).float()
-            out.append(F.normalize(((h * m).sum(1) / m.sum(1).clamp(min=1e-6)).float(), dim=-1))
-    doc_emb = torch.cat(out).cpu()
+    doc_emb = _encode_texts(tok, enc, device, [d["text_semantic"] for d in corpus], "passage: ")
+    subj_emb = (_encode_texts(tok, enc, device, [s["text_semantic"] for s in subjects], "passage: ")
+                if subjects else None)
 
-    _CACHE[key] = {"corpus": corpus, "doc_emb": doc_emb, "tok": tok, "enc": enc, "device": device}
+    _CACHE[key] = {"corpus": corpus, "doc_emb": doc_emb,
+                   "subjects": subjects, "subj_emb": subj_emb,
+                   "tok": tok, "enc": enc, "device": device}
     return _CACHE[key]
 
 
@@ -129,11 +143,31 @@ def _encode_query(st, q):
         return F.normalize(v, dim=-1).cpu()[0]
 
 
-def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto"):
-    st = _load(model_dir, corpus_path, device)
+# 题材是否拼入输出：用**相对判据**而不是绝对阈值。
+# 绝对阈值试过 0.42，会把正确答案（中世纪骑士 0.3620）挡掉——
+# 题材文档是短句，与 e5 的相似度天然低于长描述的风格文档。
+# 实测四条 query 证明：比"题材分 vs 风格分"能全对：
+#     中世纪骑士  0.3620 > 0.3238  拼
+#     老人客厅    0.4168 > 0.3615  拼
+#     无明确题材  0.3172 < 0.5057  不拼
+#     跑偏那条    0.2042 < 0.3077  不拼
+SUBJECT_RATIO = 0.95
+
+
+def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_path=None):
+    st = _load(model_dir, corpus_path, device, subject_path)
     qe = _encode_query(st, q)
     sims = (st["doc_emb"] @ qe).numpy()
     corpus = st["corpus"]
+
+    # ---- 题材通道（独立索引，与风格并行）----
+    subj = None
+    if st.get("subj_emb") is not None and len(st["subjects"]):
+        ssims = (st["subj_emb"] @ qe).numpy()
+        k = int(ssims.argmax())
+        s = st["subjects"][k]
+        subj = {"score": float(ssims[k]), "en": s["subject_en"],
+                "zh": s["subject_zh"], "phrase": s["phrase"], "hit": False}
 
     # 域解析：auto/自动 都按 query 自动判断；判不准就 any（不过滤）
     if domain in ("auto", "自动", "", None):
@@ -164,7 +198,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto"):
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
                 }
-        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director"
+        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj
 
     out = []
     for i in sorted(allowed, key=lambda j: -sims[j])[:topk]:
@@ -174,7 +208,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto"):
                     "facet": d.get("facet", "base"),
                     "style_string": d.get("prompt", ""),
                     "prompt": d.get("prompt", "")})
-    return out, "prompt"
+    return out, "prompt", subj
 
 
 # ------------------------------------------------------------------ 节点
@@ -185,16 +219,17 @@ class LocalStyleHint:
             "required": {
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
-                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-v10"}),
-                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v6.jsonl"}),
+                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c9"}),
+                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v9.jsonl"}),
+                "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v1.jsonl"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
                 "候选数": ("INT", {"default": 1, "min": 1, "max": 5, "step": 1}),
                 "追加到": ("STRING", {"multiline": True, "default": ""}),
-                # 默认「是」：直接接 CLIPTextEncode 时不会把主体丢掉。
-                # 之前只输出风格，粘进去会只画出风格、没有你要的东西。
-                "包含原文": ("BOOLEAN", {"default": True}),
+                # 默认「否」：题材通道已经给出英文主体，不必再塞中文原文。
+                # 想保留你自己的原话（中文）时再打开。
+                "包含原文": ("BOOLEAN", {"default": False}),
             }
         }
 
@@ -207,9 +242,11 @@ class LocalStyleHint:
     def IS_CHANGED(cls, **kw):
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
-    def run(self, 中文描述, 模型目录, 语料文件, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=True):
-        items, mode = _rank(中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
-                            {"自动": "auto", "图片": "image", "视频": "video", "不限": "any"}.get(域, "auto"))
+    def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 设备, 域, 匹配方式, 候选数,
+            追加到, 包含原文=False):
+        items, mode, subj = _rank(中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
+                                  {"自动": "auto", "图片": "image", "视频": "video",
+                                   "不限": "any"}.get(域, "auto"), 题材文件)
         if not items:
             return ("", "无结果")
 
@@ -227,9 +264,23 @@ class LocalStyleHint:
 
         if 追加到 and 追加到.strip():
             text = text + ", " + 追加到.strip()
-        # 把用户的主体拼回去：只给风格的话，粘进 CLIPTextEncode 会丢掉「骑士/马/麦田」
+
+        # 题材通道：相对判据 —— 只有题材比风格更贴合时才拼进去
+        subj_prefix = ""
+        if subj:
+            top_style = items[0]["score"]
+            subj["hit"] = subj["score"] >= top_style * SUBJECT_RATIO
+            ratio = subj["score"] / top_style if top_style > 0 else 0.0
+            mark = "✅拼入" if subj["hit"] else "⛔不拼入"
+            dbg = (f"题材: {subj['zh']} / {subj['en']}  {subj['score']:.4f}"
+                   f"  (题材/风格={ratio:.2f}, 门槛 {SUBJECT_RATIO})  {mark}\n" + dbg)
+            if subj["hit"]:
+                subj_prefix = subj["phrase"] + ", "
+
+        # 保留用户原话（中文）
         if 包含原文 and 中文描述 and 中文描述.strip():
             text = 中文描述.strip() + ", " + text
+        text = subj_prefix + text
         return (text, dbg)
 
 
