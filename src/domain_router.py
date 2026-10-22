@@ -17,10 +17,18 @@ VIDEO_HINTS = [
     "sora", "可灵", "即梦", "runway", "veo", "kling", "pika", "海螺", "hailuo",
     "一镜到底", "转场", "慢动作", "升格", "逐帧", "镜头缓缓", "镜头推",
 ]
+# 明确的静态/图片词（无歧义）
 IMAGE_HINTS = [
-    "图片", "照片", "静帧", "海报", "壁纸", "插画", "原画", "出图", "一张图",
-    "封面", "截图", "构图", "分辨率", "4k", "8k画质", "竖版图", "横版图",
-    "midjourney", "mj", "stable diffusion", "sd", "flux", "即梦图片",
+    "图片", "照片", "静帧", "静态", "海报", "壁纸", "插画", "原画", "立绘",
+    "出图", "一张图", "一张", "封面", "截图", "构图", "分辨率",
+    "4k", "8k画质", "竖版图", "横版图", "画一张", "渲染图", "图生图", "动漫",
+    "midjourney", "mj", "stable diffusion", "flux", "即梦图片", "niji",
+]
+# 「画面」有歧义：单独出现偏静态，但和运动词一起就是视频语境
+AMBIG_STILL = ["画面", "镜头", "构图感"]
+MOTION_WORDS = [
+    "慢", "动", "推", "摇", "移", "跟", "环绕", "升", "降", "甩", "转",
+    "秒", "帧", "切", "长镜", "手持", "漂", "运镜",
 ]
 
 
@@ -28,6 +36,14 @@ def detect(text):
     t = (text or "").lower()
     v = sum(1 for w in VIDEO_HINTS if w.lower() in t)
     i = sum(1 for w in IMAGE_HINTS if w.lower() in t)
+
+    # 歧义词单独处理：有「画面」类词、但没有任何运动词，才计为静态
+    if i == 0:
+        still_hits = sum(1 for w in AMBIG_STILL if w in t)
+        motion_hits = sum(1 for w in MOTION_WORDS if w in t)
+        if still_hits and motion_hits == 0:
+            i = 1
+
     if v and not i:
         return "prompt_video"
     if i and not v:
