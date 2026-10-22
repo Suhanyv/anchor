@@ -36,14 +36,23 @@ _IMAGE_HINTS = [
 ]
 # 「画面」有歧义：单独出现偏静态，和运动词一起就是视频语境
 _AMBIG_STILL = ["画面", "镜头", "构图感"]
+# 注意：不能用单字「骑」——它会匹配到「骑士」这个名词。
 _MOTION_WORDS = ["慢", "动", "推", "摇", "移", "跟", "环绕", "升", "降", "甩",
-                 "转", "秒", "帧", "切", "长镜", "手持", "漂", "运镜"]
+                 "转", "秒", "帧", "切", "长镜", "手持", "漂", "运镜",
+                 "狂奔", "奔跑", "奔驰", "疾驰", "冲", "骑马", "飞", "追",
+                 "打斗", "挥", "落", "坠", "翻滚", "穿过", "掠过", "走来", "走去"]
+# 强运动词 + 「镜头/画面」= 明确是视频（真实的「骑马在麦田狂奔的镜头」就是这种）
+_STRONG_MOTION = ["狂奔", "奔跑", "奔驰", "疾驰", "骑马", "跟拍", "推近", "摇镜",
+                  "环绕", "翻滚", "穿过", "掠过", "打斗", "追", "冲", "飞"]
 
 
 def _detect_domain(text):
     t = (text or "").lower()
     v = sum(1 for w in _VIDEO_HINTS if w.lower() in t)
     i = sum(1 for w in _IMAGE_HINTS if w.lower() in t)
+    # 「镜头/画面」+ 强运动词 -> 是在说一个**运动的镜头**，判视频
+    if any(w in t for w in _STRONG_MOTION) and any(w in t for w in _AMBIG_STILL):
+        v += 1
     if i == 0:
         still = sum(1 for w in _AMBIG_STILL if w in t)
         motion = sum(1 for w in _MOTION_WORDS if w in t)
@@ -183,6 +192,9 @@ class LocalStyleHint:
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
                 "候选数": ("INT", {"default": 1, "min": 1, "max": 5, "step": 1}),
                 "追加到": ("STRING", {"multiline": True, "default": ""}),
+                # 默认「是」：直接接 CLIPTextEncode 时不会把主体丢掉。
+                # 之前只输出风格，粘进去会只画出风格、没有你要的东西。
+                "包含原文": ("BOOLEAN", {"default": True}),
             }
         }
 
@@ -195,7 +207,7 @@ class LocalStyleHint:
     def IS_CHANGED(cls, **kw):
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
-    def run(self, 中文描述, 模型目录, 语料文件, 设备, 域, 匹配方式, 候选数, 追加到):
+    def run(self, 中文描述, 模型目录, 语料文件, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=True):
         items, mode = _rank(中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
                             {"自动": "auto", "图片": "image", "视频": "video", "不限": "any"}.get(域, "auto"))
         if not items:
@@ -215,6 +227,9 @@ class LocalStyleHint:
 
         if 追加到 and 追加到.strip():
             text = text + ", " + 追加到.strip()
+        # 把用户的主体拼回去：只给风格的话，粘进 CLIPTextEncode 会丢掉「骑士/马/麦田」
+        if 包含原文 and 中文描述 and 中文描述.strip():
+            text = 中文描述.strip() + ", " + text
         return (text, dbg)
 
 
