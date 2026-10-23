@@ -88,8 +88,8 @@ def _encode_texts(tok, enc, device, texts, prefix):
     return torch.cat(out).cpu()
 
 
-def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None):
-    key = (model_dir, corpus_path, device, subject_path, craft_path)
+def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None, material_path=None):
+    key = (model_dir, corpus_path, device, subject_path, craft_path, material_path)
     if key in _CACHE:
         return _CACHE[key]
 
@@ -121,6 +121,11 @@ def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None):
         with open(craft_path, encoding="utf-8") as f:
             crafts = [json.loads(l) for l in f if l.strip()]
 
+    materials = []
+    if material_path and os.path.isfile(material_path):
+        with open(material_path, encoding="utf-8") as f:
+            materials = [json.loads(l) for l in f if l.strip()]
+
     tok = AutoTokenizer.from_pretrained(model_dir)
     enc = AutoModel.from_pretrained(model_dir).to(device).eval()
     for p in enc.parameters():
@@ -131,10 +136,13 @@ def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None):
                 if subjects else None)
     craft_emb = (_encode_texts(tok, enc, device, [c["text_semantic"] for c in crafts], "passage: ")
                  if crafts else None)
+    mat_emb = (_encode_texts(tok, enc, device, [m["text_semantic"] for m in materials], "passage: ")
+               if materials else None)
 
     _CACHE[key] = {"corpus": corpus, "doc_emb": doc_emb,
                    "subjects": subjects, "subj_emb": subj_emb,
                    "crafts": crafts, "craft_emb": craft_emb,
+                   "materials": materials, "mat_emb": mat_emb,
                    "tok": tok, "enc": enc, "device": device}
     return _CACHE[key]
 
@@ -198,8 +206,8 @@ IMG_TAIL = "still frame, sharp focus, fine detail"
 
 
 def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
-          subject_path=None, craft_path=None):
-    st = _load(model_dir, corpus_path, device, subject_path, craft_path)
+          subject_path=None, craft_path=None, material_path=None, use_material=False):
+    st = _load(model_dir, corpus_path, device, subject_path, craft_path, material_path)
     qe = _encode_query(st, q)
     sims = (st["doc_emb"] @ qe).numpy()
     corpus = st["corpus"]
@@ -212,6 +220,15 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
         c = st["crafts"][k]
         craft = {"score": float(csims[k]), "en": c["craft_en"],
                  "zh": c["craft_zh"], "phrase": c["phrase"], "hit": False}
+
+    # ---- 材质/光通道（第四条，仅在「启用材质」打开时计算）----
+    mat = None
+    if use_material and st.get("mat_emb") is not None and len(st["materials"]):
+        msims = (st["mat_emb"] @ qe).numpy()
+        k = int(msims.argmax())
+        m = st["materials"][k]
+        mat = {"score": float(msims[k]), "en": m["mat_en"],
+               "zh": m["mat_zh"], "phrase": m["phrase"], "hit": False}
 
     # ---- 题材通道（独立索引，与风格并行）----
     subj = None
@@ -273,7 +290,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
                 }
-        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain, craft
+        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain, craft, mat
 
     out = []
     for i in sorted(allowed, key=lambda j: -sims[j])[:topk]:
@@ -283,7 +300,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     "facet": d.get("facet", "base"),
                     "style_string": d.get("prompt", ""),
                     "prompt": d.get("prompt", "")})
-    return out, "prompt", subj, domain, craft
+    return out, "prompt", subj, domain, craft, mat
 
 
 # ------------------------------------------------------------------ 节点
@@ -298,6 +315,10 @@ class LocalStyleHint:
                 "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v14.jsonl"}),
                 "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v2.jsonl"}),
                 "工艺文件": ("STRING", {"default": r"F:\llm\data\raw\crafts_v1.jsonl"}),
+                "材质文件": ("STRING", {"default": r"F:\llm\data\raw\materials_v1.jsonl"}),
+                # 材质通道默认关闭：实测材质识别只有 4/8（暗角/帆布/混凝土会认错），
+                # 不可靠的东西不能默认打开。等补齐材质库（方案 A）后再考虑默认开。
+                "启用材质": ("BOOLEAN", {"default": False}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
@@ -318,12 +339,12 @@ class LocalStyleHint:
     def IS_CHANGED(cls, **kw):
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
-    def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 设备, 域, 匹配方式, 候选数,
-            追加到, 包含原文=False):
-        items, mode, subj, domain_used, craft = _rank(
+    def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
+            设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
+        items, mode, subj, domain_used, craft, mat = _rank(
             中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
             {"自动": "auto", "图片": "image", "视频": "video",
-             "不限": "any"}.get(域, "auto"), 题材文件, 工艺文件)
+             "不限": "any"}.get(域, "auto"), 题材文件, 工艺文件, 材质文件, 启用材质)
         if not items:
             return ("", "无结果")
 
@@ -371,20 +392,44 @@ class LocalStyleHint:
             if craft["hit"]:
                 text = text + ", rendered as " + craft["phrase"]
 
-        # ---- 题材与工艺互斥：谁分高谁说话 ----
+        # ---- 材质/光通道（第四条）----
+        if mat:
+            _ts2 = items[0]["score"]
+            mat["hit"] = (mat["score"] >= _ts2 * 0.95 and mat["score"] >= 0.44)
+            mr = mat["score"] / _ts2 if _ts2 > 0 else 0.0
+            dbg = (f"材质: {mat['zh']} / {mat['en']}  {mat['score']:.4f}"
+                   f"  (材质/风格={mr:.2f} 门槛0.95, 绝对下限0.44)  "
+                   f"{'✅过门槛' if mat['hit'] else '⛔未过门槛'}\n" + dbg)
+
+        # ---- 题材 vs 媒介（工艺/材质）互斥：谁分高谁说话 ----
         # 理由：问「用什么做的」和问「画什么」，通常只有一个是真的。
         # 实测案例：「金缮的碎磁装饰」工艺 0.4750 但题材误判为「老式厨房」0.4202，
         #          两条都拼会得到 "a worn kitchen ..., rendered as kintsugi ceramic"。
-        if subj and craft and subj["hit"] and craft["hit"]:
-            if craft["score"] > subj["score"]:
-                subj["hit"] = False
-                dbg = ("最终: 工艺分更高 → 只拼工艺，题材不拼 "
-                       f"({craft['score']:.4f} > {subj['score']:.4f})\n" + dbg)
-            else:
-                craft["hit"] = False
-                text = text.replace(", rendered as " + craft["phrase"], "")
-                dbg = ("最终: 题材分更高 → 只拼题材，工艺不拼 "
-                       f"({subj['score']:.4f} > {craft['score']:.4f})\n" + dbg)
+        if mat and mat.get("hit"):
+            text = text + ", " + mat["phrase"]
+
+        # ---- 题材 vs 媒介（工艺/材质）互斥：谁分高谁说话 ----
+        # 理由：问「用什么做的」和问「画什么」，通常只有一个是真的。
+        # 实测案例：「金缮的碎磁装饰」工艺 0.4750 但题材误判为「老式厨房」0.4202，
+        #          两条都拼会得到 "a worn kitchen ..., rendered as kintsugi ceramic"。
+        # 媒介内部（工艺 vs 材质）**不互斥**：'蓝晒的丝绸照片' 是成立的。
+        if subj and subj["hit"]:
+            med = [x for x in (craft, mat) if x and x.get("hit")]
+            if med:
+                best_med = max(med, key=lambda x: x["score"])
+                if best_med["score"] > subj["score"]:
+                    subj["hit"] = False
+                    dbg = ("最终: 媒介分更高 → 只拼媒介，题材不拼 "
+                           f"({best_med['score']:.4f} > {subj['score']:.4f})\n" + dbg)
+                else:
+                    for x in med:
+                        x["hit"] = False
+                        if x is craft:
+                            text = text.replace(", rendered as " + x["phrase"], "")
+                        else:
+                            text = text.replace(", " + x["phrase"], "")
+                    dbg = ("最终: 题材分更高 → 只拼题材，媒介不拼 "
+                           f"({subj['score']:.4f} > {best_med['score']:.4f})\n" + dbg)
         if subj and subj.get("hit"):
             text = subj["phrase"] + ", " + text
 

@@ -10,8 +10,8 @@
         180
       ],
       "size": [
-        450,
-        460
+        470,
+        500
       ],
       "flags": {},
       "order": 0,
@@ -40,6 +40,8 @@
         "F:\\llm\\data\\raw\\corpus_v14.jsonl",
         "F:\\llm\\data\\raw\\subjects_v2.jsonl",
         "F:\\llm\\data\\raw\\crafts_v1.jsonl",
+        "F:\\llm\\data\\raw\\materials_v1.jsonl",
+        false,
         "cpu",
         "自动",
         "导演/风格聚合",
