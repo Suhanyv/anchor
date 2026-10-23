@@ -319,9 +319,9 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c14"}),
                 "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v14.jsonl"}),
-                "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v2.jsonl"}),
-                "工艺文件": ("STRING", {"default": r"F:\llm\data\raw\crafts_v1.jsonl"}),
-                "材质文件": ("STRING", {"default": r"F:\llm\data\raw\materials_v2.jsonl"}),
+                "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v3.jsonl"}),
+                "工艺文件": ("STRING", {"default": r"F:\llm\data\raw\crafts_v2.jsonl"}),
+                "材质文件": ("STRING", {"default": r"F:\llm\data\raw\materials_v3.jsonl"}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
