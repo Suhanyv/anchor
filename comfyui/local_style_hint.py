@@ -88,8 +88,8 @@ def _encode_texts(tok, enc, device, texts, prefix):
     return torch.cat(out).cpu()
 
 
-def _load(model_dir, corpus_path, device, subject_path=None):
-    key = (model_dir, corpus_path, device, subject_path)
+def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None):
+    key = (model_dir, corpus_path, device, subject_path, craft_path)
     if key in _CACHE:
         return _CACHE[key]
 
@@ -114,6 +114,13 @@ def _load(model_dir, corpus_path, device, subject_path=None):
         with open(subject_path, encoding="utf-8") as f:
             subjects = [json.loads(l) for l in f if l.strip()]
 
+    # 工艺/媒介库：第三条通道。实测把它混进风格索引会让场景 -5pp、材质 -7pp，
+    # 所以必须独立（见 STATUS 第五十节）。
+    crafts = []
+    if craft_path and os.path.isfile(craft_path):
+        with open(craft_path, encoding="utf-8") as f:
+            crafts = [json.loads(l) for l in f if l.strip()]
+
     tok = AutoTokenizer.from_pretrained(model_dir)
     enc = AutoModel.from_pretrained(model_dir).to(device).eval()
     for p in enc.parameters():
@@ -122,9 +129,12 @@ def _load(model_dir, corpus_path, device, subject_path=None):
     doc_emb = _encode_texts(tok, enc, device, [d["text_semantic"] for d in corpus], "passage: ")
     subj_emb = (_encode_texts(tok, enc, device, [s["text_semantic"] for s in subjects], "passage: ")
                 if subjects else None)
+    craft_emb = (_encode_texts(tok, enc, device, [c["text_semantic"] for c in crafts], "passage: ")
+                 if crafts else None)
 
     _CACHE[key] = {"corpus": corpus, "doc_emb": doc_emb,
                    "subjects": subjects, "subj_emb": subj_emb,
+                   "crafts": crafts, "craft_emb": craft_emb,
                    "tok": tok, "enc": enc, "device": device}
     return _CACHE[key]
 
@@ -158,6 +168,17 @@ SUBJECT_RATIO = 0.95
 #   沙漠商队误报 0.3378 ✗ / 跑偏那条 0.2042 ✗
 SUBJECT_FLOOR = 0.36
 
+# ---- 工艺/媒介通道的门槛（同一套相对判据）----
+# 实测：蓝晒 1.27 / 金缮 1.31 / 刺绣 1.05 命中；铜版画 0.92、无工艺 0.50~0.91 正确排除
+CRAFT_RATIO = 0.95
+# 绝对下限比题材高（0.44 而非 0.36）：工艺的假阳性更凶。
+# 实测分界：
+#   真阳性 蓝晒 0.4827 / 金缮 0.4750 / 刺绣 0.5032
+#   假阳性 拉弓->刺绣 0.4070 / 铜版->火柴盒 0.4215 / 骑士->糖画 0.2252
+# 假阳性来自"风格分很低时任何工艺都显得相对更强"，所以必须靠绝对下限挡。
+# 0.44 是 6 个样本上校准的，样本少，标注为经验值。
+CRAFT_FLOOR = 0.44
+
 # ---- 分级去偏：把「画什么」从 query 向量里减掉，只留「怎么拍」----
 # 实测（场景基准 20 题）：全局去偏净亏 10pp，因为它把地貌类的风格信号也减掉了。
 # 只对 character_object（人物/物件）去偏后：
@@ -176,11 +197,21 @@ MOTION_EN = {
 IMG_TAIL = "still frame, sharp focus, fine detail"
 
 
-def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_path=None):
-    st = _load(model_dir, corpus_path, device, subject_path)
+def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
+          subject_path=None, craft_path=None):
+    st = _load(model_dir, corpus_path, device, subject_path, craft_path)
     qe = _encode_query(st, q)
     sims = (st["doc_emb"] @ qe).numpy()
     corpus = st["corpus"]
+
+    # ---- 工艺/媒介通道（第三条，独立索引）----
+    craft = None
+    if st.get("craft_emb") is not None and len(st["crafts"]):
+        csims = (st["craft_emb"] @ qe).numpy()
+        k = int(csims.argmax())
+        c = st["crafts"][k]
+        craft = {"score": float(csims[k]), "en": c["craft_en"],
+                 "zh": c["craft_zh"], "phrase": c["phrase"], "hit": False}
 
     # ---- 题材通道（独立索引，与风格并行）----
     subj = None
@@ -242,7 +273,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_pa
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
                 }
-        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain
+        return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain, craft
 
     out = []
     for i in sorted(allowed, key=lambda j: -sims[j])[:topk]:
@@ -252,7 +283,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_pa
                     "facet": d.get("facet", "base"),
                     "style_string": d.get("prompt", ""),
                     "prompt": d.get("prompt", "")})
-    return out, "prompt", subj, domain
+    return out, "prompt", subj, domain, craft
 
 
 # ------------------------------------------------------------------ 节点
@@ -266,6 +297,7 @@ class LocalStyleHint:
                 "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c14"}),
                 "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v14.jsonl"}),
                 "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v2.jsonl"}),
+                "工艺文件": ("STRING", {"default": r"F:\llm\data\raw\crafts_v1.jsonl"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
@@ -286,12 +318,12 @@ class LocalStyleHint:
     def IS_CHANGED(cls, **kw):
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
-    def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 设备, 域, 匹配方式, 候选数,
+    def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 设备, 域, 匹配方式, 候选数,
             追加到, 包含原文=False):
-        items, mode, subj, domain_used = _rank(
+        items, mode, subj, domain_used, craft = _rank(
             中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
             {"自动": "auto", "图片": "image", "视频": "video",
-             "不限": "any"}.get(域, "auto"), 题材文件)
+             "不限": "any"}.get(域, "auto"), 题材文件, 工艺文件)
         if not items:
             return ("", "无结果")
 
@@ -328,6 +360,19 @@ class LocalStyleHint:
         if 包含原文 and 中文描述 and 中文描述.strip():
             text = 中文描述.strip() + ", " + text
         text = subj_prefix + text
+
+        # ---- 工艺/媒介通道：第三条，同一套相对判据 ----
+        if craft:
+            _ts = items[0]["score"]
+            craft["hit"] = (craft["score"] >= _ts * CRAFT_RATIO
+                            and craft["score"] >= CRAFT_FLOOR)
+            cr = craft["score"] / _ts if _ts > 0 else 0.0
+            dbg = (f"工艺: {craft['zh']} / {craft['en']}  {craft['score']:.4f}"
+                   f"  (工艺/风格={cr:.2f} 门槛{CRAFT_RATIO}"
+                   f", 绝对下限{CRAFT_FLOOR})  "
+                   f"{'✅拼入' if craft['hit'] else '⛔不拼入'}\n" + dbg)
+            if craft["hit"]:
+                text = text + ", rendered as " + craft["phrase"]
 
         # ---- 输出形态：图像 / 视频 收尾语言不同 ----
         params = items[0].get("params") or {}
