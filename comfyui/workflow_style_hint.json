@@ -41,13 +41,13 @@
         "F:\\llm\\data\\raw\\subjects_v2.jsonl",
         "F:\\llm\\data\\raw\\crafts_v1.jsonl",
         "F:\\llm\\data\\raw\\materials_v1.jsonl",
-        false,
+        true,
         "cpu",
         "自动",
         "导演/风格聚合",
         1,
         "",
-        false
+        true
       ]
     },
     {

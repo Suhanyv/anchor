@@ -176,6 +176,12 @@ SUBJECT_RATIO = 0.95
 #   沙漠商队误报 0.3378 ✗ / 跑偏那条 0.2042 ✗
 SUBJECT_FLOOR = 0.36
 
+# ---- 赢家通吃：风格 / 主体 / 工艺 / 材质 四个渠道比大小 ----
+# 实测（6 条 query 全渠道打分）：6 条里 5 条正确答案就是分最高的那个渠道。
+# 相对比值（渠道分 >= 风格分 x 0.95）在风格分低时会误开，已被推翻。
+# 现在只用「每渠道绝对下限 + 高于风格分」。
+MAT_FLOOR = 0.40
+
 # ---- 工艺/媒介通道的门槛（同一套相对判据）----
 # 实测：蓝晒 1.27 / 金缮 1.31 / 刺绣 1.05 命中；铜版画 0.92、无工艺 0.50~0.91 正确排除
 CRAFT_RATIO = 0.95
@@ -316,9 +322,11 @@ class LocalStyleHint:
                 "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v2.jsonl"}),
                 "工艺文件": ("STRING", {"default": r"F:\llm\data\raw\crafts_v1.jsonl"}),
                 "材质文件": ("STRING", {"default": r"F:\llm\data\raw\materials_v1.jsonl"}),
-                # 材质通道默认关闭：实测材质识别只有 4/8（暗角/帆布/混凝土会认错），
-                # 不可靠的东西不能默认打开。等补齐材质库（方案 A）后再考虑默认开。
-                "启用材质": ("BOOLEAN", {"default": False}),
+                # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
+                # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
+                # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
+                # 那是材质库内容不足（方案 A），不是通道机制问题。
+                "启用材质": ("BOOLEAN", {"default": True}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
@@ -363,75 +371,45 @@ class LocalStyleHint:
         if 追加到 and 追加到.strip():
             text = text + ", " + 追加到.strip()
 
-        # 题材通道：相对判据 —— 只有题材比风格更贴合时才拼进去
-        subj_prefix = ""
+        # ================= 赢家通吃：四渠道比大小 =================
+        # 实测（6 条 query 全渠道打分）：6 条里 5 条正确答案就是分最高的那个渠道。
+        # 相对比值（渠道分 >= 风格分 x 0.95）在风格分低时会误开，已被推翻。
+        # 现在只用「每渠道绝对下限 + 必须高于风格分」。
+        top_style = items[0]["score"]
+        floors = {"主体": SUBJECT_FLOOR, "工艺": CRAFT_FLOOR, "材质": MAT_FLOOR}
+
         if subj:
-            top_style = items[0]["score"]
-            subj["hit"] = (subj["score"] >= top_style * SUBJECT_RATIO
-                           and subj["score"] >= SUBJECT_FLOOR)
-            ratio = subj["score"] / top_style if top_style > 0 else 0.0
-            mark = "✅过门槛" if subj["hit"] else "⛔未过门槛"
-            dbg = (f"题材: {subj['zh']} / {subj['en']}  {subj['score']:.4f}"
-                   f"  (题材/风格={ratio:.2f} 门槛{SUBJECT_RATIO}"
-                   f", 绝对下限{SUBJECT_FLOOR})  {mark}\n" + dbg)
+            dbg = (f"主体: {subj['zh']} {subj['score']:.4f} (下限{SUBJECT_FLOOR}) "
+                   f"{'过' if subj['score'] >= SUBJECT_FLOOR else '未过'}\n" + dbg)
+        if craft:
+            dbg = (f"工艺: {craft['zh']} {craft['score']:.4f} (下限{CRAFT_FLOOR}) "
+                   f"{'过' if craft['score'] >= CRAFT_FLOOR else '未过'}\n" + dbg)
+        if mat:
+            dbg = (f"材质: {mat['zh']} {mat['score']:.4f} (下限{MAT_FLOOR}) "
+                   f"{'过' if mat['score'] >= MAT_FLOOR else '未过'}\n" + dbg)
+
+        eligible = []
+        for name, obj in (("主体", subj), ("工艺", craft), ("材质", mat)):
+            if obj and obj["score"] > top_style and obj["score"] >= floors[name]:
+                eligible.append((name, obj["score"], obj))
+
+        winner = max(eligible, key=lambda x: x[1]) if eligible else None
+        if winner is None:
+            dbg = (f"最终: 风格最高或无人过门槛 -> 不拼内容 (风格 {top_style:.4f})\n" + dbg)
+        else:
+            name, sc, obj = winner
+            dbg = (f"最终: {name}分最高且过门槛 -> 只拼{name} "
+                   f"({sc:.4f} > 风格 {top_style:.4f})\n" + dbg)
+            if name == "主体":
+                text = obj["phrase"] + ", " + text
+            elif name == "工艺":
+                text = text + ", rendered as " + obj["phrase"]
+            else:
+                text = text + ", " + obj["phrase"]
 
         # 保留用户原话（中文）
         if 包含原文 and 中文描述 and 中文描述.strip():
             text = 中文描述.strip() + ", " + text
-
-        # ---- 工艺/媒介通道：第三条，同一套相对判据 ----
-        if craft:
-            _ts = items[0]["score"]
-            craft["hit"] = (craft["score"] >= _ts * CRAFT_RATIO
-                            and craft["score"] >= CRAFT_FLOOR)
-            cr = craft["score"] / _ts if _ts > 0 else 0.0
-            dbg = (f"工艺: {craft['zh']} / {craft['en']}  {craft['score']:.4f}"
-                   f"  (工艺/风格={cr:.2f} 门槛{CRAFT_RATIO}"
-                   f", 绝对下限{CRAFT_FLOOR})  "
-                   f"{'✅过门槛' if craft['hit'] else '⛔未过门槛'}\n" + dbg)
-            if craft["hit"]:
-                text = text + ", rendered as " + craft["phrase"]
-
-        # ---- 材质/光通道（第四条）----
-        if mat:
-            _ts2 = items[0]["score"]
-            mat["hit"] = (mat["score"] >= _ts2 * 0.95 and mat["score"] >= 0.44)
-            mr = mat["score"] / _ts2 if _ts2 > 0 else 0.0
-            dbg = (f"材质: {mat['zh']} / {mat['en']}  {mat['score']:.4f}"
-                   f"  (材质/风格={mr:.2f} 门槛0.95, 绝对下限0.44)  "
-                   f"{'✅过门槛' if mat['hit'] else '⛔未过门槛'}\n" + dbg)
-
-        # ---- 题材 vs 媒介（工艺/材质）互斥：谁分高谁说话 ----
-        # 理由：问「用什么做的」和问「画什么」，通常只有一个是真的。
-        # 实测案例：「金缮的碎磁装饰」工艺 0.4750 但题材误判为「老式厨房」0.4202，
-        #          两条都拼会得到 "a worn kitchen ..., rendered as kintsugi ceramic"。
-        if mat and mat.get("hit"):
-            text = text + ", " + mat["phrase"]
-
-        # ---- 题材 vs 媒介（工艺/材质）互斥：谁分高谁说话 ----
-        # 理由：问「用什么做的」和问「画什么」，通常只有一个是真的。
-        # 实测案例：「金缮的碎磁装饰」工艺 0.4750 但题材误判为「老式厨房」0.4202，
-        #          两条都拼会得到 "a worn kitchen ..., rendered as kintsugi ceramic"。
-        # 媒介内部（工艺 vs 材质）**不互斥**：'蓝晒的丝绸照片' 是成立的。
-        if subj and subj["hit"]:
-            med = [x for x in (craft, mat) if x and x.get("hit")]
-            if med:
-                best_med = max(med, key=lambda x: x["score"])
-                if best_med["score"] > subj["score"]:
-                    subj["hit"] = False
-                    dbg = ("最终: 媒介分更高 → 只拼媒介，题材不拼 "
-                           f"({best_med['score']:.4f} > {subj['score']:.4f})\n" + dbg)
-                else:
-                    for x in med:
-                        x["hit"] = False
-                        if x is craft:
-                            text = text.replace(", rendered as " + x["phrase"], "")
-                        else:
-                            text = text.replace(", " + x["phrase"], "")
-                    dbg = ("最终: 题材分更高 → 只拼题材，媒介不拼 "
-                           f"({subj['score']:.4f} > {best_med['score']:.4f})\n" + dbg)
-        if subj and subj.get("hit"):
-            text = subj["phrase"] + ", " + text
 
         # ---- 输出形态：图像 / 视频 收尾语言不同 ----
         params = items[0].get("params") or {}
