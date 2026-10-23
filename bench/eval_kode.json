@@ -1,0 +1,104 @@
+{
+  "summary": {
+    "zh": {
+      "top1": 0.7,
+      "top3": 0.9,
+      "top5": 0.9,
+      "mean_top1_score": 0.44971300959587096
+    },
+    "ja": {
+      "top1": 0.4,
+      "top3": 0.7,
+      "top5": 0.8,
+      "mean_top1_score": 0.42764482498168943
+    },
+    "ko": {
+      "top1": 0.4,
+      "top3": 0.6,
+      "top5": 0.7,
+      "mean_top1_score": 0.39485863149166106
+    },
+    "de": {
+      "top1": 0.5,
+      "top3": 0.7,
+      "top5": 0.7,
+      "mean_top1_score": 0.38797424733638763
+    }
+  },
+  "detail": {
+    "zh": [
+      {
+        "concept": "对称对峙",
+        "want": "Park Chan-wook",
+        "got": "Yasujiro Ozu",
+        "rank": 15
+      }
+    ],
+    "ja": [
+      {
+        "concept": "霓虹夜色",
+        "want": "Wong Kar-wai",
+        "got": "Martin Scorsese",
+        "rank": 5
+      },
+      {
+        "concept": "枝叶遮挡",
+        "want": "Alfred Hitchcock",
+        "got": "Song Academy Realism",
+        "rank": 6
+      },
+      {
+        "concept": "对称对峙",
+        "want": "Park Chan-wook",
+        "got": "Yasujiro Ozu",
+        "rank": 20
+      }
+    ],
+    "ko": [
+      {
+        "concept": "霓虹夜色",
+        "want": "Wong Kar-wai",
+        "got": "Apichatpong Weerasethakul",
+        "rank": 25
+      },
+      {
+        "concept": "雨夜街道",
+        "want": "Wong Kar-wai",
+        "got": "Christopher Nolan",
+        "rank": 4
+      },
+      {
+        "concept": "枝叶遮挡",
+        "want": "Alfred Hitchcock",
+        "got": "Song Academy Realism",
+        "rank": 7
+      },
+      {
+        "concept": "对称对峙",
+        "want": "Park Chan-wook",
+        "got": "Alfred Hitchcock",
+        "rank": 33
+      }
+    ],
+    "de": [
+      {
+        "concept": "霓虹夜色",
+        "want": "Wong Kar-wai",
+        "got": "Apichatpong Weerasethakul",
+        "rank": 23
+      },
+      {
+        "concept": "枝叶遮挡",
+        "want": "Alfred Hitchcock",
+        "got": "Handscroll Panorama",
+        "rank": 14
+      },
+      {
+        "concept": "对称对峙",
+        "want": "Park Chan-wook",
+        "got": "One-Corner Composition",
+        "rank": 9
+      }
+    ]
+  }
+}
