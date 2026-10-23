@@ -233,8 +233,8 @@ class LocalStyleHint:
             "required": {
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
-                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c9"}),
-                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v9.jsonl"}),
+                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c14"}),
+                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v14.jsonl"}),
                 "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v1.jsonl"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),

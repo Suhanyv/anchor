@@ -1,0 +1,380 @@
+{
+  "c12": {
+    "top1": 0.4,
+    "top3": 0.4666666666666667,
+    "rows": [
+      {
+        "query": "钢铁盔甲的反光，侧光，深影，冷硬质感",
+        "concept": "钢/金属",
+        "top1": "d0740",
+        "top1_text": "a wet concrete corridor in cold teal, cold industrial grey, wet concrete, muted teal machinery, melancholy wet surfaces, slow push-in, gentle handheld drift, focus pulling slowly, in the style of Guillermo del Toro, shot as moving footage",
+        "hit1": false,
+        "hit3": true
+      },
+      {
+        "query": "白丝绸的垂坠，褶皱随之落下",
+        "concept": "丝绸",
+        "top1": "d0998",
+        "top1_text": "a lotus leaf on vellum, colour laid thin and pale, imperial academy scroll, precise study on silk, in the style of Song Academy Realism",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "雪粒在逆光里飞，细小亮点",
+        "concept": "雪粒",
+        "top1": "d0626",
+        "top1_text": "a symmetrical grey hotel interior in snow light, muted monochrome palette, precise symmetry in grey and black, deadpan formality, snow, slow push-in, gentle handheld drift, focus pulling slowly, in the style of Wes Anderson, shot as moving footage",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "体积光里的金箔和浮尘",
+        "concept": "金箔+体积光",
+        "top1": "d0948",
+        "top1_text": "a water stain spreading on a ceiling, one fluorescent tube flickering, extreme long take, static frame, water damage on the tile floor, in the style of Tsai Ming-liang",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "羊皮纸的质感，边缘泛黄",
+        "concept": "羊皮纸",
+        "top1": "d0493",
+        "top1_text": "a single withered tree against an empty paper horizon, monochrome ink wash, wet brush strokes, vast empty paper, single dark accent, calligraphic restraint, in the style of Chinese Literati Ink-Wash",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "拉丝金属表面，细密纹路",
+        "concept": "拉丝金属",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "薄纱半透明的袖子，能看见后面的光",
+        "concept": "薄纱",
+        "top1": "d1000",
+        "top1_text": "a figure in sheer tulle sleeves over silk, hairline outlines, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "暗角，画面边缘压暗",
+        "concept": "暗角",
+        "top1": "d0718",
+        "top1_text": "a symmetrical muted interior with a single figure, formal symmetrical staging, muted earth tones, slow stately framing, painterly stillness, locked-off camera, no cut, one extremely long take, patient stillness, in the style of Lars von Trier, shot as moving footage",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "浅景深，背景完全虚化",
+        "concept": "浅景深",
+        "top1": "d0164",
+        "top1_text": "a modernist building facade with one small figure, alienated wide compositions, empty architecture, muted colour, figure lost in space, in the style of Michelangelo Antonioni",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "胶片颗粒，粗颗粒质感",
+        "concept": "胶片颗粒",
+        "top1": "d0052",
+        "top1_text": "two figures facing off in a wide dusty landscape, 70mm wide framing, saturated primary colours, low-angle hero shots, grindhouse texture, in the style of Quentin Tarantino",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "抛光不锈钢上的高光划过",
+        "concept": "高光",
+        "top1": "d0056",
+        "top1_text": "a pool party at dusk in warm tungsten light, long unbroken tracking shots, warm tungsten, anamorphic flare, ensemble staging, in the style of Paul Thomas Anderson",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "湿混凝土地面的反光",
+        "concept": "湿混凝土",
+        "top1": "d0290",
+        "top1_text": "a grey industrial room with a single lamp, cold industrial grey, wet concrete, muted teal machinery, melancholy wet surfaces, in the style of Guillermo del Toro",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "陶瓷的釉面反光",
+        "concept": "陶瓷",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "帆布的粗织纹理",
+        "concept": "帆布",
+        "top1": "d0913",
+        "top1_text": "one sail touching the upper left corner, all else untouched, subject entering from one corner only, everything else left bare, in the style of One-Corner Composition",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "铅笔线条，石墨的手绘感",
+        "concept": "铅笔",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": false,
+        "hit3": false
+      }
+    ]
+  },
+  "c13": {
+    "top1": 0.4666666666666667,
+    "top3": 0.4666666666666667,
+    "rows": [
+      {
+        "query": "钢铁盔甲的反光，侧光，深影，冷硬质感",
+        "concept": "钢/金属",
+        "top1": "d0980",
+        "top1_text": "a wet concrete floor under one fluorescent tube, cold steel reflection, gothic hardware, cold industrial light, wet surfaces, slow push-in, steady drift, in the style of Guillermo del Toro, shot as moving footage",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "白丝绸的垂坠，褶皱随之落下",
+        "concept": "丝绸",
+        "top1": "d0998",
+        "top1_text": "a lotus leaf on vellum, colour laid thin and pale, imperial academy scroll, precise study on silk, in the style of Song Academy Realism",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "雪粒在逆光里飞，细小亮点",
+        "concept": "雪粒",
+        "top1": "d0626",
+        "top1_text": "a symmetrical grey hotel interior in snow light, muted monochrome palette, precise symmetry in grey and black, deadpan formality, snow, slow push-in, gentle handheld drift, focus pulling slowly, in the style of Wes Anderson, shot as moving footage",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "体积光里的金箔和浮尘",
+        "concept": "金箔+体积光",
+        "top1": "d0948",
+        "top1_text": "a water stain spreading on a ceiling, one fluorescent tube flickering, extreme long take, static frame, water damage on the tile floor, in the style of Tsai Ming-liang",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "羊皮纸的质感，边缘泛黄",
+        "concept": "羊皮纸",
+        "top1": "d0493",
+        "top1_text": "a single withered tree against an empty paper horizon, monochrome ink wash, wet brush strokes, vast empty paper, single dark accent, calligraphic restraint, in the style of Chinese Literati Ink-Wash",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "拉丝金属表面，细密纹路",
+        "concept": "拉丝金属",
+        "top1": "d0931",
+        "top1_text": "a peony in flat cinnabar red, gold outline, decorative and symmetrical, hairline outline filled with flat mineral colour, decorative symmetry, locked-off camera, one long unbroken take, in the style of Gongbi Fine-Line Painting, shot as moving footage",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "薄纱半透明的袖子，能看见后面的光",
+        "concept": "薄纱",
+        "top1": "d1000",
+        "top1_text": "a figure in sheer tulle sleeves over silk, hairline outlines, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "暗角，画面边缘压暗",
+        "concept": "暗角",
+        "top1": "d0718",
+        "top1_text": "a symmetrical muted interior with a single figure, formal symmetrical staging, muted earth tones, slow stately framing, painterly stillness, locked-off camera, no cut, one extremely long take, patient stillness, in the style of Lars von Trier, shot as moving footage",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "浅景深，背景完全虚化",
+        "concept": "浅景深",
+        "top1": "d0164",
+        "top1_text": "a modernist building facade with one small figure, alienated wide compositions, empty architecture, muted colour, figure lost in space, in the style of Michelangelo Antonioni",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "胶片颗粒，粗颗粒质感",
+        "concept": "胶片颗粒",
+        "top1": "d0052",
+        "top1_text": "two figures facing off in a wide dusty landscape, 70mm wide framing, saturated primary colours, low-angle hero shots, grindhouse texture, in the style of Quentin Tarantino",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "抛光不锈钢上的高光划过",
+        "concept": "高光",
+        "top1": "d0056",
+        "top1_text": "a pool party at dusk in warm tungsten light, long unbroken tracking shots, warm tungsten, anamorphic flare, ensemble staging, in the style of Paul Thomas Anderson",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "湿混凝土地面的反光",
+        "concept": "湿混凝土",
+        "top1": "d0290",
+        "top1_text": "a grey industrial room with a single lamp, cold industrial grey, wet concrete, muted teal machinery, melancholy wet surfaces, in the style of Guillermo del Toro",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "陶瓷的釉面反光",
+        "concept": "陶瓷",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "帆布的粗织纹理",
+        "concept": "帆布",
+        "top1": "d1012",
+        "top1_text": "a fisherman's boat on a misty river, far peaks reduced to pale ink silhouettes, one small boat on grey river water, mist banked on the surface, ink-wash far peaks, in the style of Misty River Lone Boat",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "铅笔线条，石墨的手绘感",
+        "concept": "铅笔",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": false,
+        "hit3": false
+      }
+    ]
+  },
+  "c14": {
+    "top1": 0.4666666666666667,
+    "top3": 0.4666666666666667,
+    "rows": [
+      {
+        "query": "钢铁盔甲的反光，侧光，深影，冷硬质感",
+        "concept": "钢/金属",
+        "top1": "d0980",
+        "top1_text": "a wet concrete floor under one fluorescent tube, cold steel reflection, gothic hardware, cold industrial light, wet surfaces, slow push-in, steady drift, in the style of Guillermo del Toro, shot as moving footage",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "白丝绸的垂坠，褶皱随之落下",
+        "concept": "丝绸",
+        "top1": "d0998",
+        "top1_text": "a lotus leaf on vellum, colour laid thin and pale, imperial academy scroll, precise study on silk, in the style of Song Academy Realism",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "雪粒在逆光里飞，细小亮点",
+        "concept": "雪粒",
+        "top1": "d0626",
+        "top1_text": "a symmetrical grey hotel interior in snow light, muted monochrome palette, precise symmetry in grey and black, deadpan formality, snow, slow push-in, gentle handheld drift, focus pulling slowly, in the style of Wes Anderson, shot as moving footage",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "体积光里的金箔和浮尘",
+        "concept": "金箔+体积光",
+        "top1": "d0948",
+        "top1_text": "a water stain spreading on a ceiling, one fluorescent tube flickering, extreme long take, static frame, water damage on the tile floor, in the style of Tsai Ming-liang",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "羊皮纸的质感，边缘泛黄",
+        "concept": "羊皮纸",
+        "top1": "d0493",
+        "top1_text": "a single withered tree against an empty paper horizon, monochrome ink wash, wet brush strokes, vast empty paper, single dark accent, calligraphic restraint, in the style of Chinese Literati Ink-Wash",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "拉丝金属表面，细密纹路",
+        "concept": "拉丝金属",
+        "top1": "d0931",
+        "top1_text": "a peony in flat cinnabar red, gold outline, decorative and symmetrical, hairline outline filled with flat mineral colour, decorative symmetry, locked-off camera, one long unbroken take, in the style of Gongbi Fine-Line Painting, shot as moving footage",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "薄纱半透明的袖子，能看见后面的光",
+        "concept": "薄纱",
+        "top1": "d1000",
+        "top1_text": "a figure in sheer tulle sleeves over silk, hairline outlines, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "暗角，画面边缘压暗",
+        "concept": "暗角",
+        "top1": "d0718",
+        "top1_text": "a symmetrical muted interior with a single figure, formal symmetrical staging, muted earth tones, slow stately framing, painterly stillness, locked-off camera, no cut, one extremely long take, patient stillness, in the style of Lars von Trier, shot as moving footage",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "浅景深，背景完全虚化",
+        "concept": "浅景深",
+        "top1": "d1025",
+        "top1_text": "a wide grey field under a collapsing sky, one figure walking away, dust plain, low horizon, a distant structure under a massing sky, in the style of Christopher Nolan",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "胶片颗粒，粗颗粒质感",
+        "concept": "胶片颗粒",
+        "top1": "d0052",
+        "top1_text": "two figures facing off in a wide dusty landscape, 70mm wide framing, saturated primary colours, low-angle hero shots, grindhouse texture, in the style of Quentin Tarantino",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "抛光不锈钢上的高光划过",
+        "concept": "高光",
+        "top1": "d0056",
+        "top1_text": "a pool party at dusk in warm tungsten light, long unbroken tracking shots, warm tungsten, anamorphic flare, ensemble staging, in the style of Paul Thomas Anderson",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "湿混凝土地面的反光",
+        "concept": "湿混凝土",
+        "top1": "d0290",
+        "top1_text": "a grey industrial room with a single lamp, cold industrial grey, wet concrete, muted teal machinery, melancholy wet surfaces, in the style of Guillermo del Toro",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "陶瓷的釉面反光",
+        "concept": "陶瓷",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": true,
+        "hit3": true
+      },
+      {
+        "query": "帆布的粗织纹理",
+        "concept": "帆布",
+        "top1": "d1012",
+        "top1_text": "a fisherman's boat on a misty river, far peaks reduced to pale ink silhouettes, one small boat on grey river water, mist banked on the surface, ink-wash far peaks, in the style of Misty River Lone Boat",
+        "hit1": false,
+        "hit3": false
+      },
+      {
+        "query": "铅笔线条，石墨的手绘感",
+        "concept": "铅笔",
+        "top1": "d0999",
+        "top1_text": "a peony in flat cinnabar on ceramic-white ground, gold outline, hairline outline filled with flat mineral colour, decorative, in the style of Gongbi Fine-Line Painting",
+        "hit1": false,
+        "hit3": false
+      }
+    ]
+  }
+}
