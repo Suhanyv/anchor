@@ -72,11 +72,16 @@ class PairDS(Dataset):
         return self.pairs[i]
 
 
-def build_pairs(train_qs, corpus, weight_style=2.0):
-    """风格类 query 权重更高（因为那是我们要优化的指标）。"""
+def build_pairs(train_qs, corpus, weight_style=2.0, zh_boost=1.0):
+    """风格类 query 权重更高（那是要优化的指标）。
+    zh_boost：中文样本额外倍数，用于「语言侧重」实验。
+    四语混训会让中文排序变软（top1 70%->50%），加中文权重是第一个试的杠杆。
+    """
     pairs = []
     for q in train_qs:
         w = int(weight_style) if q["query_kind"] == "style" else 1
+        if zh_boost > 1.0 and q.get("lang") == "zh":
+            w = int(round(w * zh_boost))
         for _ in range(w):
             for did in q["relevant"]:
                 pairs.append((q["query"], did))
@@ -172,6 +177,7 @@ def main():
     ap.add_argument("--fold", type=int, default=-1, help="交叉验证折号（-1 表示不用 CV）")
     ap.add_argument("--n-folds", type=int, default=1)
     ap.add_argument("--log-suffix", type=str, default="")
+    ap.add_argument("--zh-boost", type=float, default=1.0)
     ap.add_argument("--skip-save", action="store_true", help="CV 时不落盘模型（省 USB 写入）")
     ap.add_argument("--select-mode", choices=["best", "final"], default="best",
                     help="best=在 dev 上挑最优(有选择偏差)；final=固定 epoch，报告最后一轮(无偏)")
@@ -236,7 +242,7 @@ def main():
     r0, k0 = evaluate(model, corpus, dev)
     print(f"  overall={r0:.4f}  " + "  ".join(f"{k}={v:.4f}" for k, v in sorted(k0.items())))
 
-    pairs = build_pairs(train, corpus)
+    pairs = build_pairs(train, corpus, zh_boost=a.zh_boost)
     print(f"\n训练对: {len(pairs)} （style 类加权 x2）")
 
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=0.01)

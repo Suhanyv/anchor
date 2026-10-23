@@ -1,28 +1,28 @@
 {
   "summary": {
     "zh": {
-      "top1": 0.5,
-      "top3": 0.8,
-      "top5": 1.0,
-      "mean_top1_score": 0.5071875154972076
+      "top1": 0.6,
+      "top3": 0.7,
+      "top5": 0.8,
+      "mean_top1_score": 0.55145363509655
     },
     "ja": {
-      "top1": 0.6,
+      "top1": 0.7,
       "top3": 0.8,
       "top5": 0.8,
-      "mean_top1_score": 0.5179190337657928
+      "mean_top1_score": 0.527488312125206
     },
     "ko": {
       "top1": 0.3,
       "top3": 0.7,
       "top5": 0.7,
-      "mean_top1_score": 0.48434297144412997
+      "mean_top1_score": 0.5034837603569031
     },
     "de": {
-      "top1": 0.8,
-      "top3": 1.0,
-      "top5": 1.0,
-      "mean_top1_score": 0.5207233130931854
+      "top1": 0.9,
+      "top3": 0.9,
+      "top5": 0.9,
+      "mean_top1_score": 0.5280236572027206
     }
   },
   "detail": {
@@ -30,14 +30,20 @@
       {
         "concept": "偷看被发现",
         "want": "Alfred Hitchcock",
-        "got": "Handscroll Panorama",
+        "got": "Misty River Lone Boat",
         "rank": 4
+      },
+      {
+        "concept": "枝叶遮挡",
+        "want": "Alfred Hitchcock",
+        "got": "Song Academy Realism",
+        "rank": 7
       },
       {
         "concept": "对称对峙",
         "want": "Park Chan-wook",
-        "got": "Yasujiro Ozu",
-        "rank": 5
+        "got": "Alfred Hitchcock",
+        "rank": 7
       }
     ],
     "ja": [
@@ -50,7 +56,7 @@
       {
         "concept": "对称对峙",
         "want": "Park Chan-wook",
-        "got": "Yasujiro Ozu",
+        "got": "One-Corner Composition",
         "rank": 6
       }
     ],
@@ -59,7 +65,7 @@
         "concept": "霓虹夜色",
         "want": "Wong Kar-wai",
         "got": "Jean-Pierre Melville",
-        "rank": 8
+        "rank": 7
       },
       {
         "concept": "枝叶遮挡",
@@ -70,10 +76,17 @@
       {
         "concept": "对称对峙",
         "want": "Park Chan-wook",
-        "got": "One-Corner Composition",
-        "rank": 7
+        "got": "Alfred Hitchcock",
+        "rank": 8
       }
     ],
-    "de": []
+    "de": [
+      {
+        "concept": "霓虹夜色",
+        "want": "Wong Kar-wai",
+        "got": "Hou Hsiao-hsien",
+        "rank": 14
+      }
+    ]
   }
 }
