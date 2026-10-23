@@ -67,7 +67,7 @@ def repair(corpus_path, queries_path, out_path):
 
 
 if __name__ == "__main__":
-    repair(os.path.join(ROOT, "data", "raw", "corpus_v10.jsonl"),
+    repair(os.path.join(ROOT, "data", "raw", "corpus_v12.jsonl"),
            os.path.join(ROOT, "data", "raw", "queries_v4.jsonl"),
-           os.path.join(ROOT, "data", "raw", "queries_v4_fixed10.jsonl"))
+           os.path.join(ROOT, "data", "raw", "queries_v4_fixed12.jsonl"))
     print("\n### REPAIR_DONE")

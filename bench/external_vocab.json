@@ -1,0 +1,564 @@
+{
+  "source": "shuixian-prompts part1",
+  "license": "署名使用协议，须保留出处",
+  "report": {
+    "光": [
+      {
+        "word": "侧光",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "逆光",
+        "ext": 1,
+        "our": 8,
+        "status": "有"
+      },
+      {
+        "word": "柔光",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "漫射",
+        "ext": 5,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "高光",
+        "ext": 15,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "暗角",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "轮廓光",
+        "ext": 7,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "光斑",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "阴影",
+        "ext": 40,
+        "our": 8,
+        "status": "有"
+      },
+      {
+        "word": "反光",
+        "ext": 3,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "反射",
+        "ext": 13,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "自然光",
+        "ext": 9,
+        "our": 36,
+        "status": "有"
+      },
+      {
+        "word": "日光",
+        "ext": 4,
+        "our": 28,
+        "status": "有"
+      },
+      {
+        "word": "月光",
+        "ext": 7,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "烛光",
+        "ext": 2,
+        "our": 12,
+        "status": "有"
+      },
+      {
+        "word": "暖光",
+        "ext": 1,
+        "our": 16,
+        "status": "有"
+      },
+      {
+        "word": "背光",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "低调照明",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "布光",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "光线",
+        "ext": 9,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "光源",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      }
+    ],
+    "材质": [
+      {
+        "word": "漆皮",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "羊皮纸",
+        "ext": 6,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "金箔",
+        "ext": 5,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "丝绸",
+        "ext": 5,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "丝绒",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "混凝土",
+        "ext": 3,
+        "our": 4,
+        "status": "有"
+      },
+      {
+        "word": "抛光",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "拉丝",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "哑光",
+        "ext": 10,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "亮面",
+        "ext": 8,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "陶",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "陶瓷",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "玻璃",
+        "ext": 10,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "金属",
+        "ext": 18,
+        "our": 4,
+        "status": "有"
+      },
+      {
+        "word": "不锈钢",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "帆布",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "蕾丝",
+        "ext": 6,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "薄纱",
+        "ext": 4,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "半透明",
+        "ext": 20,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "透明",
+        "ext": 35,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "纸艺",
+        "ext": 5,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "手绘",
+        "ext": 12,
+        "our": 4,
+        "status": "有"
+      },
+      {
+        "word": "水彩",
+        "ext": 8,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "铅笔",
+        "ext": 7,
+        "our": 0,
+        "status": "缺"
+      }
+    ],
+    "摄影": [
+      {
+        "word": "浅景深",
+        "ext": 11,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "广角",
+        "ext": 4,
+        "our": 4,
+        "status": "有"
+      },
+      {
+        "word": "微距",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "胶片颗粒",
+        "ext": 4,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "高对比",
+        "ext": 10,
+        "our": 8,
+        "status": "有"
+      },
+      {
+        "word": "低对比",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "低饱和",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "去饱和",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "高饱和",
+        "ext": 1,
+        "our": 12,
+        "status": "有"
+      },
+      {
+        "word": "过曝",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "传感器噪点",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "镜头光晕",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "色差",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "景深",
+        "ext": 17,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "焦点",
+        "ext": 4,
+        "our": 4,
+        "status": "有"
+      }
+    ],
+    "构图": [
+      {
+        "word": "居中构图",
+        "ext": 4,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "对角线",
+        "ext": 6,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "对称构图",
+        "ext": 3,
+        "our": 4,
+        "status": "有"
+      },
+      {
+        "word": "俯视",
+        "ext": 5,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "仰视",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "平视",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "等轴",
+        "ext": 3,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "留白",
+        "ext": 9,
+        "our": 9,
+        "status": "有"
+      },
+      {
+        "word": "特写",
+        "ext": 26,
+        "our": 12,
+        "status": "有"
+      },
+      {
+        "word": "半身",
+        "ext": 13,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "全身",
+        "ext": 25,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "远景",
+        "ext": 1,
+        "our": 16,
+        "status": "有"
+      },
+      {
+        "word": "近景",
+        "ext": 2,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "中景",
+        "ext": 3,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "竖版",
+        "ext": 24,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "网格",
+        "ext": 8,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "九宫格",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      }
+    ],
+    "质感": [
+      {
+        "word": "真实感",
+        "ext": 7,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "写实",
+        "ext": 43,
+        "our": 27,
+        "status": "有"
+      },
+      {
+        "word": "照片级",
+        "ext": 6,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "电影感",
+        "ext": 10,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "质感",
+        "ext": 60,
+        "our": 12,
+        "status": "有"
+      },
+      {
+        "word": "颗粒感",
+        "ext": 4,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "细节丰富",
+        "ext": 6,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "高清",
+        "ext": 1,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "超精细",
+        "ext": 7,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "锐利",
+        "ext": 8,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "柔和",
+        "ext": 99,
+        "our": 4,
+        "status": "少"
+      },
+      {
+        "word": "虚化",
+        "ext": 5,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "模糊",
+        "ext": 37,
+        "our": 0,
+        "status": "缺"
+      },
+      {
+        "word": "清晰",
+        "ext": 56,
+        "our": 0,
+        "status": "缺"
+      }
+    ]
+  },
+  "missing": 71,
+  "thin": 1
+}

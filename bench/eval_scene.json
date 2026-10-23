@@ -1,9 +1,9 @@
 {
-  "label": "e5-director-c10 + corpus_v10.jsonl",
-  "n": 15,
-  "top1": 0.6,
-  "top3": 0.6666666666666666,
-  "top5": 0.6666666666666666,
+  "label": "e5-director-c12 + corpus_v12.jsonl",
+  "n": 20,
+  "top1": 0.55,
+  "top3": 0.65,
+  "top5": 0.7,
   "rows": [
     {
       "query": "女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头",
@@ -12,14 +12,14 @@
         "Christopher Nolan",
         "Ridley Scott"
       ],
-      "rank": 15,
-      "top1": "Handscroll Panorama",
+      "rank": 8,
+      "top1": "Akira Kurosawa",
       "top5": [
-        "Handscroll Panorama",
         "Akira Kurosawa",
-        "Abbas Kiarostami",
+        "George Miller",
         "Misty River Lone Boat",
-        "George Miller"
+        "Handscroll Panorama",
+        "Abbas Kiarostami"
       ],
       "src": "prompt_02"
     },
@@ -30,14 +30,14 @@
         "Christopher Nolan",
         "Terrence Malick"
       ],
-      "rank": 8,
+      "rank": 5,
       "top1": "Misty River Lone Boat",
       "top5": [
         "Misty River Lone Boat",
         "Liubai Negative Space",
+        "Michelangelo Antonioni",
         "Handscroll Panorama",
-        "Coen Brothers",
-        "Michelangelo Antonioni"
+        "Christopher Nolan"
       ],
       "src": "prompt_02"
     },
@@ -48,14 +48,14 @@
         "Michael Haneke",
         "David Fincher"
       ],
-      "rank": 26,
-      "top1": "Andrei Tarkovsky",
+      "rank": 8,
+      "top1": "Guillermo del Toro",
       "top5": [
-        "Andrei Tarkovsky",
         "Guillermo del Toro",
+        "Andrei Tarkovsky",
         "Clint Eastwood",
         "David Cronenberg",
-        "Federico Fellini"
+        "Christopher Nolan"
       ],
       "src": "prompt_02"
     },
@@ -69,10 +69,10 @@
       "top1": "Christopher Nolan",
       "top5": [
         "Christopher Nolan",
+        "Misty River Lone Boat",
         "Liubai Negative Space",
-        "Handscroll Panorama",
         "Roberto Rossellini",
-        "Misty River Lone Boat"
+        "Handscroll Panorama"
       ],
       "src": "prompt_02"
     },
@@ -85,10 +85,10 @@
       "top1": "Alfred Hitchcock",
       "top5": [
         "Alfred Hitchcock",
+        "Nicolas Roeg",
         "George Miller",
         "Brian De Palma",
-        "Nicolas Roeg",
-        "Krzysztof Kieslowski"
+        "Misty River Lone Boat"
       ],
       "src": "prompt_01"
     },
@@ -102,9 +102,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Song Academy Realism",
-        "Handscroll Panorama",
         "Andrei Tarkovsky",
-        "Derek Jarman"
+        "Blue-Green Landscape",
+        "Ken Loach"
       ],
       "src": "prompt_01"
     },
@@ -134,8 +134,8 @@
       "top5": [
         "Misty River Lone Boat",
         "Hou Hsiao-hsien",
+        "Tsui Hark",
         "One-Corner Composition",
-        "Liubai Negative Space",
         "Tsai Ming-liang"
       ],
       "src": "东方-应命中"
@@ -150,9 +150,9 @@
       "top5": [
         "Liubai Negative Space",
         "One-Corner Composition",
+        "Tsai Ming-liang",
         "Michelangelo Antonioni",
-        "Misty River Lone Boat",
-        "Alfred Hitchcock"
+        "Misty River Lone Boat"
       ],
       "src": "东方-应命中"
     },
@@ -166,9 +166,9 @@
       "top5": [
         "Liubai Negative Space",
         "One-Corner Composition",
-        "Handscroll Panorama",
-        "Michelangelo Antonioni",
-        "Folk Woodblock New Year Print"
+        "Song Academy Realism",
+        "Folk Woodblock New Year Print",
+        "Chinese Literati Ink-Wash"
       ],
       "src": "东方-应命中"
     },
@@ -215,10 +215,10 @@
       "top1": "Wong Kar-wai",
       "top5": [
         "Wong Kar-wai",
-        "Martin Scorsese",
-        "Alfred Hitchcock",
+        "Tsai Ming-liang",
         "Ridley Scott",
-        "Misty River Lone Boat"
+        "Martin Scorsese",
+        "Alfred Hitchcock"
       ],
       "src": "通用"
     },
@@ -232,9 +232,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Darren Aronofsky",
-        "Yorgos Lanthimos",
         "Lars von Trier",
-        "Denis Villeneuve"
+        "Yorgos Lanthimos",
+        "David Cronenberg"
       ],
       "src": "通用-机制"
     },
@@ -245,16 +245,105 @@
         "Stanley Kubrick",
         "Wes Anderson"
       ],
-      "rank": 8,
+      "rank": 9,
       "top1": "Alfred Hitchcock",
       "top5": [
         "Alfred Hitchcock",
-        "One-Corner Composition",
-        "Yorgos Lanthimos",
         "Yasujiro Ozu",
-        "Sidney Lumet"
+        "Yorgos Lanthimos",
+        "Sidney Lumet",
+        "Denis Villeneuve"
       ],
       "src": "通用"
+    },
+    {
+      "query": "放假后空无一人的学校，黑色铁门敞开，地面斑驳阳光",
+      "accept": [
+        "Yasujiro Ozu",
+        "Hirokazu Kore-eda",
+        "Hou Hsiao-hsien",
+        "Edward Yang"
+      ],
+      "rank": 1,
+      "top1": "Yasujiro Ozu",
+      "top5": [
+        "Yasujiro Ozu",
+        "Hirokazu Kore-eda",
+        "Claude Chabrol",
+        "One-Corner Composition",
+        "Liubai Negative Space"
+      ],
+      "src": "prompt_06"
+    },
+    {
+      "query": "杂货铺门口的老式CRT电视机，屏幕上是纯黑白雪花点",
+      "accept": [
+        "Tsai Ming-liang",
+        "Jia Zhangke",
+        "Hirokazu Kore-eda"
+      ],
+      "rank": 12,
+      "top1": "Wes Anderson",
+      "top5": [
+        "Wes Anderson",
+        "Michael Haneke",
+        "Bong Joon-ho",
+        "David Fincher",
+        "Federico Fellini"
+      ],
+      "src": "prompt_06"
+    },
+    {
+      "query": "女生坐在窗边拉小提琴，柔和偏白的光，空气里有尘埃光束",
+      "accept": [
+        "Yasujiro Ozu",
+        "Hirokazu Kore-eda",
+        "Hou Hsiao-hsien"
+      ],
+      "rank": 20,
+      "top1": "Greta Gerwig",
+      "top5": [
+        "Greta Gerwig",
+        "Lucrecia Martel",
+        "Carl Theodor Dreyer",
+        "Francois Truffaut",
+        "Sofia Coppola"
+      ],
+      "src": "prompt_06"
+    },
+    {
+      "query": "走廊里的荧光灯管，地砖上有一摊水渍",
+      "accept": [
+        "Tsai Ming-liang",
+        "Hirokazu Kore-eda"
+      ],
+      "rank": 1,
+      "top1": "Tsai Ming-liang",
+      "top5": [
+        "Tsai Ming-liang",
+        "Guillermo del Toro",
+        "Chinese Literati Ink-Wash",
+        "Alfred Hitchcock",
+        "David Fincher"
+      ],
+      "src": "prompt_06"
+    },
+    {
+      "query": "玻璃幕墙反射城市天际线，外墙挂满空调外机",
+      "accept": [
+        "Edward Yang",
+        "Denis Villeneuve"
+      ],
+      "rank": 2,
+      "top1": "Alfred Hitchcock",
+      "top5": [
+        "Alfred Hitchcock",
+        "Edward Yang",
+        "David Fincher",
+        "Yasujiro Ozu",
+        "Ridley Scott"
+      ],
+      "src": "prompt_06"
     }
   ]
 }

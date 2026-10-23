@@ -73,6 +73,21 @@ CASES = [
      ["Alfred Hitchcock"], "通用-机制"),
     ("两个人隔着桌子面对面坐着，房间完全对称",
      ["Park Chan-wook", "Stanley Kubrick", "Wes Anderson"], "通用"),
+
+    # ---- 来自 prompt_real_06（10 秒一镜到底：学校→杂货铺→CRT→教室）----
+    # 注意：这批题是在我按 prompt_06 补过语料**之后**才加进基准的，
+    #     单看 c11 的分数偏乐观。正确读法是**对比 c10 与 c11**：
+    #     同一批题、两个语料，差异才是补的内容的真实效果。
+    ("放假后空无一人的学校，黑色铁门敞开，地面斑驳阳光",
+     ["Yasujiro Ozu", "Hirokazu Kore-eda", "Hou Hsiao-hsien", "Edward Yang"], "prompt_06"),
+    ("杂货铺门口的老式CRT电视机，屏幕上是纯黑白雪花点",
+     ["Tsai Ming-liang", "Jia Zhangke", "Hirokazu Kore-eda"], "prompt_06"),
+    ("女生坐在窗边拉小提琴，柔和偏白的光，空气里有尘埃光束",
+     ["Yasujiro Ozu", "Hirokazu Kore-eda", "Hou Hsiao-hsien"], "prompt_06"),
+    ("走廊里的荧光灯管，地砖上有一摊水渍",
+     ["Tsai Ming-liang", "Hirokazu Kore-eda"], "prompt_06"),
+    ("玻璃幕墙反射城市天际线，外墙挂满空调外机",
+     ["Edward Yang", "Denis Villeneuve"], "prompt_06"),
 ]
 
 

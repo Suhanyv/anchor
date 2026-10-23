@@ -1,0 +1,791 @@
+{
+  "source": "shuixian-prompts part1",
+  "license": "署名使用协议，须保留出处",
+  "rows": [
+    {
+      "zh": "侧光",
+      "en": [
+        "side light",
+        "side-lit",
+        "rim light",
+        "hard rim"
+      ],
+      "ext": 1,
+      "our": 22,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "柔光",
+      "en": [
+        "soft light",
+        "soft light source"
+      ],
+      "ext": 2,
+      "our": 2,
+      "expect": 6.09,
+      "status": "有"
+    },
+    {
+      "zh": "漫射",
+      "en": [
+        "diffuse",
+        "diffused",
+        "scattered light"
+      ],
+      "ext": 5,
+      "our": 12,
+      "expect": 15.22,
+      "status": "有"
+    },
+    {
+      "zh": "高光",
+      "en": [
+        "highlight",
+        "highlights",
+        "specular"
+      ],
+      "ext": 15,
+      "our": 0,
+      "expect": 45.65,
+      "status": "缺"
+    },
+    {
+      "zh": "暗角",
+      "en": [
+        "vignette",
+        "corner falloff"
+      ],
+      "ext": 2,
+      "our": 0,
+      "expect": 6.09,
+      "status": "缺"
+    },
+    {
+      "zh": "轮廓光",
+      "en": [
+        "rim light",
+        "backlight",
+        "edge light",
+        "backlit"
+      ],
+      "ext": 7,
+      "our": 38,
+      "expect": 21.3,
+      "status": "有"
+    },
+    {
+      "zh": "光斑",
+      "en": [
+        "bokeh",
+        "light spots",
+        "flare"
+      ],
+      "ext": 2,
+      "our": 38,
+      "expect": 6.09,
+      "status": "有"
+    },
+    {
+      "zh": "反射",
+      "en": [
+        "reflection",
+        "reflecting",
+        "reflected"
+      ],
+      "ext": 13,
+      "our": 36,
+      "expect": 39.56,
+      "status": "有"
+    },
+    {
+      "zh": "反光",
+      "en": [
+        "reflection",
+        "glint",
+        "sheen"
+      ],
+      "ext": 3,
+      "our": 28,
+      "expect": 9.13,
+      "status": "有"
+    },
+    {
+      "zh": "背光",
+      "en": [
+        "backlight",
+        "backlit"
+      ],
+      "ext": 2,
+      "our": 32,
+      "expect": 6.09,
+      "status": "有"
+    },
+    {
+      "zh": "光线",
+      "en": [
+        "light",
+        "shaft of light",
+        "beam"
+      ],
+      "ext": 9,
+      "our": 1248,
+      "expect": 27.39,
+      "status": "有"
+    },
+    {
+      "zh": "漆皮",
+      "en": [
+        "patent leather",
+        "lacquered",
+        "glossy leather"
+      ],
+      "ext": 1,
+      "our": 4,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "羊皮纸",
+      "en": [
+        "parchment",
+        "vellum"
+      ],
+      "ext": 6,
+      "our": 0,
+      "expect": 18.26,
+      "status": "缺"
+    },
+    {
+      "zh": "金箔",
+      "en": [
+        "gold leaf",
+        "gilt",
+        "gold foil"
+      ],
+      "ext": 5,
+      "our": 2,
+      "expect": 15.22,
+      "status": "少"
+    },
+    {
+      "zh": "丝绸",
+      "en": [
+        "silk",
+        "silken"
+      ],
+      "ext": 5,
+      "our": 52,
+      "expect": 15.22,
+      "status": "有"
+    },
+    {
+      "zh": "丝绒",
+      "en": [
+        "velvet"
+      ],
+      "ext": 1,
+      "our": 28,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "抛光",
+      "en": [
+        "polished",
+        "burnished"
+      ],
+      "ext": 2,
+      "our": 0,
+      "expect": 6.09,
+      "status": "缺"
+    },
+    {
+      "zh": "拉丝",
+      "en": [
+        "brushed metal",
+        "brushed steel"
+      ],
+      "ext": 1,
+      "our": 0,
+      "expect": 3.04,
+      "status": "缺"
+    },
+    {
+      "zh": "哑光",
+      "en": [
+        "matte",
+        "matt"
+      ],
+      "ext": 10,
+      "our": 8,
+      "expect": 30.43,
+      "status": "有"
+    },
+    {
+      "zh": "亮面",
+      "en": [
+        "glossy",
+        "polished",
+        "shiny"
+      ],
+      "ext": 8,
+      "our": 12,
+      "expect": 24.35,
+      "status": "有"
+    },
+    {
+      "zh": "陶瓷",
+      "en": [
+        "ceramic",
+        "porcelain"
+      ],
+      "ext": 2,
+      "our": 0,
+      "expect": 6.09,
+      "status": "缺"
+    },
+    {
+      "zh": "玻璃",
+      "en": [
+        "glass",
+        "glazing"
+      ],
+      "ext": 10,
+      "our": 38,
+      "expect": 30.43,
+      "status": "有"
+    },
+    {
+      "zh": "不锈钢",
+      "en": [
+        "stainless steel",
+        "steel"
+      ],
+      "ext": 1,
+      "our": 33,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "帆布",
+      "en": [
+        "canvas",
+        "duck cloth"
+      ],
+      "ext": 1,
+      "our": 0,
+      "expect": 3.04,
+      "status": "缺"
+    },
+    {
+      "zh": "蕾丝",
+      "en": [
+        "lace"
+      ],
+      "ext": 6,
+      "our": 6,
+      "expect": 18.26,
+      "status": "有"
+    },
+    {
+      "zh": "薄纱",
+      "en": [
+        "gauze",
+        "tulle",
+        "sheer fabric"
+      ],
+      "ext": 4,
+      "our": 0,
+      "expect": 12.17,
+      "status": "缺"
+    },
+    {
+      "zh": "半透明",
+      "en": [
+        "translucent",
+        "semi-transparent"
+      ],
+      "ext": 20,
+      "our": 14,
+      "expect": 60.86,
+      "status": "少"
+    },
+    {
+      "zh": "透明",
+      "en": [
+        "transparent",
+        "clear"
+      ],
+      "ext": 35,
+      "our": 26,
+      "expect": 106.51,
+      "status": "少"
+    },
+    {
+      "zh": "纸艺",
+      "en": [
+        "paper craft",
+        "paper sculpture",
+        "cut paper"
+      ],
+      "ext": 5,
+      "our": 0,
+      "expect": 15.22,
+      "status": "缺"
+    },
+    {
+      "zh": "水彩",
+      "en": [
+        "watercolour",
+        "watercolor",
+        "wash"
+      ],
+      "ext": 8,
+      "our": 16,
+      "expect": 24.35,
+      "status": "有"
+    },
+    {
+      "zh": "铅笔",
+      "en": [
+        "pencil",
+        "graphite"
+      ],
+      "ext": 7,
+      "our": 0,
+      "expect": 21.3,
+      "status": "缺"
+    },
+    {
+      "zh": "金属",
+      "en": [
+        "metal",
+        "metallic",
+        "steel"
+      ],
+      "ext": 18,
+      "our": 59,
+      "expect": 54.78,
+      "status": "有"
+    },
+    {
+      "zh": "混凝土",
+      "en": [
+        "concrete",
+        "brutalist"
+      ],
+      "ext": 3,
+      "our": 53,
+      "expect": 9.13,
+      "status": "有"
+    },
+    {
+      "zh": "锈",
+      "en": [
+        "rust",
+        "rusted"
+      ],
+      "ext": 1,
+      "our": 28,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "划痕",
+      "en": [
+        "scratched",
+        "scratches",
+        "scuff"
+      ],
+      "ext": 5,
+      "our": 13,
+      "expect": 15.22,
+      "status": "有"
+    },
+    {
+      "zh": "浅景深",
+      "en": [
+        "shallow depth of field",
+        "shallow focus",
+        "shallow dof"
+      ],
+      "ext": 11,
+      "our": 0,
+      "expect": 33.48,
+      "status": "缺"
+    },
+    {
+      "zh": "景深",
+      "en": [
+        "depth of field",
+        "dof",
+        "focus"
+      ],
+      "ext": 17,
+      "our": 342,
+      "expect": 51.74,
+      "status": "有"
+    },
+    {
+      "zh": "微距",
+      "en": [
+        "macro",
+        "close focus"
+      ],
+      "ext": 1,
+      "our": 0,
+      "expect": 3.04,
+      "status": "缺"
+    },
+    {
+      "zh": "胶片颗粒",
+      "en": [
+        "film grain",
+        "grain"
+      ],
+      "ext": 4,
+      "our": 32,
+      "expect": 12.17,
+      "status": "有"
+    },
+    {
+      "zh": "颗粒感",
+      "en": [
+        "grain",
+        "granular"
+      ],
+      "ext": 4,
+      "our": 32,
+      "expect": 12.17,
+      "status": "有"
+    },
+    {
+      "zh": "低对比",
+      "en": [
+        "low contrast",
+        "flat light"
+      ],
+      "ext": 1,
+      "our": 26,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "高对比",
+      "en": [
+        "high contrast",
+        "hard contrast"
+      ],
+      "ext": 10,
+      "our": 26,
+      "expect": 30.43,
+      "status": "有"
+    },
+    {
+      "zh": "低饱和",
+      "en": [
+        "desaturated",
+        "muted",
+        "low saturation"
+      ],
+      "ext": 2,
+      "our": 247,
+      "expect": 6.09,
+      "status": "有"
+    },
+    {
+      "zh": "去饱和",
+      "en": [
+        "desaturated",
+        "muted colour"
+      ],
+      "ext": 2,
+      "our": 64,
+      "expect": 6.09,
+      "status": "有"
+    },
+    {
+      "zh": "过曝",
+      "en": [
+        "overexposed",
+        "blown highlights"
+      ],
+      "ext": 2,
+      "our": 0,
+      "expect": 6.09,
+      "status": "缺"
+    },
+    {
+      "zh": "镜头光晕",
+      "en": [
+        "lens flare",
+        "flare"
+      ],
+      "ext": 1,
+      "our": 64,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "传感器噪点",
+      "en": [
+        "sensor noise",
+        "noise"
+      ],
+      "ext": 1,
+      "our": 0,
+      "expect": 3.04,
+      "status": "缺"
+    },
+    {
+      "zh": "色差",
+      "en": [
+        "chromatic aberration"
+      ],
+      "ext": 1,
+      "our": 0,
+      "expect": 3.04,
+      "status": "缺"
+    },
+    {
+      "zh": "居中构图",
+      "en": [
+        "centred",
+        "centered",
+        "symmetrical composition",
+        "dead centre"
+      ],
+      "ext": 4,
+      "our": 55,
+      "expect": 12.17,
+      "status": "有"
+    },
+    {
+      "zh": "对角线",
+      "en": [
+        "diagonal"
+      ],
+      "ext": 6,
+      "our": 12,
+      "expect": 18.26,
+      "status": "有"
+    },
+    {
+      "zh": "对称构图",
+      "en": [
+        "symmetrical",
+        "symmetry"
+      ],
+      "ext": 3,
+      "our": 255,
+      "expect": 9.13,
+      "status": "有"
+    },
+    {
+      "zh": "俯视",
+      "en": [
+        "overhead",
+        "top-down",
+        "seen from above",
+        "bird's eye"
+      ],
+      "ext": 5,
+      "our": 14,
+      "expect": 15.22,
+      "status": "有"
+    },
+    {
+      "zh": "仰视",
+      "en": [
+        "from below",
+        "low angle",
+        "worm's eye"
+      ],
+      "ext": 1,
+      "our": 18,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "平视",
+      "en": [
+        "eye level",
+        "at eye level"
+      ],
+      "ext": 1,
+      "our": 24,
+      "expect": 3.04,
+      "status": "有"
+    },
+    {
+      "zh": "等轴",
+      "en": [
+        "isometric"
+      ],
+      "ext": 3,
+      "our": 0,
+      "expect": 9.13,
+      "status": "缺"
+    },
+    {
+      "zh": "半身",
+      "en": [
+        "half body",
+        "waist up",
+        "from the waist"
+      ],
+      "ext": 13,
+      "our": 0,
+      "expect": 39.56,
+      "status": "缺"
+    },
+    {
+      "zh": "全身",
+      "en": [
+        "full body",
+        "head to toe"
+      ],
+      "ext": 25,
+      "our": 0,
+      "expect": 76.08,
+      "status": "缺"
+    },
+    {
+      "zh": "近景",
+      "en": [
+        "close shot",
+        "close-up",
+        "medium close"
+      ],
+      "ext": 2,
+      "our": 144,
+      "expect": 6.09,
+      "status": "有"
+    },
+    {
+      "zh": "中景",
+      "en": [
+        "medium shot",
+        "mid shot"
+      ],
+      "ext": 3,
+      "our": 0,
+      "expect": 9.13,
+      "status": "缺"
+    },
+    {
+      "zh": "竖版",
+      "en": [
+        "vertical",
+        "portrait format"
+      ],
+      "ext": 24,
+      "our": 26,
+      "expect": 73.04,
+      "status": "有"
+    },
+    {
+      "zh": "网格",
+      "en": [
+        "grid"
+      ],
+      "ext": 8,
+      "our": 16,
+      "expect": 24.35,
+      "status": "有"
+    },
+    {
+      "zh": "真实感",
+      "en": [
+        "photoreal",
+        "photorealistic",
+        "lifelike"
+      ],
+      "ext": 7,
+      "our": 0,
+      "expect": 21.3,
+      "status": "缺"
+    },
+    {
+      "zh": "照片级",
+      "en": [
+        "photorealistic",
+        "photo-real"
+      ],
+      "ext": 6,
+      "our": 0,
+      "expect": 18.26,
+      "status": "缺"
+    },
+    {
+      "zh": "电影感",
+      "en": [
+        "cinematic"
+      ],
+      "ext": 10,
+      "our": 0,
+      "expect": 30.43,
+      "status": "缺"
+    },
+    {
+      "zh": "质感",
+      "en": [
+        "texture",
+        "material quality",
+        "tactile"
+      ],
+      "ext": 60,
+      "our": 119,
+      "expect": 182.59,
+      "status": "有"
+    },
+    {
+      "zh": "细节丰富",
+      "en": [
+        "fine detail",
+        "detailed"
+      ],
+      "ext": 6,
+      "our": 0,
+      "expect": 18.26,
+      "status": "缺"
+    },
+    {
+      "zh": "虚化",
+      "en": [
+        "blurred",
+        "out of focus",
+        "defocused"
+      ],
+      "ext": 5,
+      "our": 0,
+      "expect": 15.22,
+      "status": "缺"
+    },
+    {
+      "zh": "柔和",
+      "en": [
+        "soft",
+        "gentle"
+      ],
+      "ext": 99,
+      "our": 378,
+      "expect": 301.28,
+      "status": "有"
+    },
+    {
+      "zh": "锐利",
+      "en": [
+        "sharp",
+        "crisp"
+      ],
+      "ext": 8,
+      "our": 0,
+      "expect": 24.35,
+      "status": "缺"
+    }
+  ],
+  "missing": 25,
+  "thin": 3
+}
