@@ -158,6 +158,14 @@ SUBJECT_RATIO = 0.95
 #   沙漠商队误报 0.3378 ✗ / 跑偏那条 0.2042 ✗
 SUBJECT_FLOOR = 0.36
 
+# ---- 分级去偏：把「画什么」从 query 向量里减掉，只留「怎么拍」----
+# 实测（场景基准 20 题）：全局去偏净亏 10pp，因为它把地貌类的风格信号也减掉了。
+# 只对 character_object（人物/物件）去偏后：
+#   top1 55%->60%  top3 70%->75%  top5 70%->85%
+# 判据：地貌/街道与"辽阔/空旷/自然光"共享语义，物件的语义与风格分离。
+DEBIAS_ALPHA = 1.0
+DEBIAS_TYPES = {"character_object"}
+
 # ---- 输出形态：图像和视频要用不同的收尾语言 ----
 # 图像要"停在那一格"，视频要"怎么动、动多久"
 MOTION_EN = {
@@ -176,12 +184,34 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto", subject_pa
 
     # ---- 题材通道（独立索引，与风格并行）----
     subj = None
+    subj_idx = None
     if st.get("subj_emb") is not None and len(st["subjects"]):
         ssims = (st["subj_emb"] @ qe).numpy()
         k = int(ssims.argmax())
         s = st["subjects"][k]
+        subj_idx = k
         subj = {"score": float(ssims[k]), "en": s["subject_en"],
-                "zh": s["subject_zh"], "phrase": s["phrase"], "hit": False}
+                "zh": s["subject_zh"], "phrase": s["phrase"],
+                "type": s.get("type", ""), "hit": False}
+
+    # ---- 分级去偏（必须在算风格分之前：需要先知道风格 top1 才能判题材是否命中）----
+    # 先用原向量算一遍拿到 style_top，再决定减不减，最后重算风格分。
+    _sims_raw = sims
+    _top_style_raw = float(sims[:].max()) if len(sims) else 0.0
+    if (subj is not None and DEBIAS_ALPHA > 0
+            and subj["type"] in DEBIAS_TYPES
+            and subj["score"] >= _top_style_raw * SUBJECT_RATIO
+            and subj["score"] >= SUBJECT_FLOOR):
+        import numpy as _np
+        sv = st["subj_emb"][subj_idx].numpy()
+        v = qe.numpy() - DEBIAS_ALPHA * sv
+        n = float(_np.linalg.norm(v))
+        if n > 1e-9:
+            import torch as _torch
+            sims = (st["doc_emb"] @ _torch.from_numpy(v / n)).numpy()
+            subj["debiased"] = True
+    if subj is not None and "debiased" not in subj:
+        subj["debiased"] = False
 
     # 域解析：auto/自动 都按 query 自动判断；判不准就 any（不过滤）
     if domain in ("auto", "自动", "", None):
@@ -235,7 +265,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c14"}),
                 "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v14.jsonl"}),
-                "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v1.jsonl"}),
+                "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v2.jsonl"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),

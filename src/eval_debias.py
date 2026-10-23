@@ -33,11 +33,14 @@ import eval_scene as ES  # noqa: E402
 
 ROOT = r"F:\llm"
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
-SUBJ = os.path.join(ROOT, "data", "raw", "subjects_v1.jsonl")
+SUBJ = os.path.join(ROOT, "data", "raw", "subjects_v2.jsonl")
 MODEL = os.path.join(ROOT, "models", "e5-director-c14")
 OUT = os.path.join(ROOT, "bench", "eval_debias.json")
 SUBJECT_RATIO = 0.95
 SUBJECT_FLOOR = 0.36
+# 只对「具体的物/人/室内器物件」去偏；
+# 「地貌/街道/场地」与"辽阔/空旷/自然光"等风格词共享语义，减了会伤自己。
+DEBIAS_TYPES = {"character_object"}
 
 
 class Enc:
@@ -104,7 +107,7 @@ def main():
             style_top = rk_raw[0][1]
             hit = (subj_score >= style_top * SUBJECT_RATIO
                    and subj_score >= SUBJECT_FLOOR)
-            if alpha > 0 and hit:
+            if alpha > 0 and hit and subjects[k].get("type") in DEBIAS_TYPES:
                 v = qv - alpha * se[k]
                 n = np.linalg.norm(v)
                 v = v / n if n > 1e-9 else qv
