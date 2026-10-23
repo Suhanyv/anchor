@@ -349,17 +349,14 @@ class LocalStyleHint:
             subj["hit"] = (subj["score"] >= top_style * SUBJECT_RATIO
                            and subj["score"] >= SUBJECT_FLOOR)
             ratio = subj["score"] / top_style if top_style > 0 else 0.0
-            mark = "✅拼入" if subj["hit"] else "⛔不拼入"
+            mark = "✅过门槛" if subj["hit"] else "⛔未过门槛"
             dbg = (f"题材: {subj['zh']} / {subj['en']}  {subj['score']:.4f}"
                    f"  (题材/风格={ratio:.2f} 门槛{SUBJECT_RATIO}"
                    f", 绝对下限{SUBJECT_FLOOR})  {mark}\n" + dbg)
-            if subj["hit"]:
-                subj_prefix = subj["phrase"] + ", "
 
         # 保留用户原话（中文）
         if 包含原文 and 中文描述 and 中文描述.strip():
             text = 中文描述.strip() + ", " + text
-        text = subj_prefix + text
 
         # ---- 工艺/媒介通道：第三条，同一套相对判据 ----
         if craft:
@@ -370,9 +367,26 @@ class LocalStyleHint:
             dbg = (f"工艺: {craft['zh']} / {craft['en']}  {craft['score']:.4f}"
                    f"  (工艺/风格={cr:.2f} 门槛{CRAFT_RATIO}"
                    f", 绝对下限{CRAFT_FLOOR})  "
-                   f"{'✅拼入' if craft['hit'] else '⛔不拼入'}\n" + dbg)
+                   f"{'✅过门槛' if craft['hit'] else '⛔未过门槛'}\n" + dbg)
             if craft["hit"]:
                 text = text + ", rendered as " + craft["phrase"]
+
+        # ---- 题材与工艺互斥：谁分高谁说话 ----
+        # 理由：问「用什么做的」和问「画什么」，通常只有一个是真的。
+        # 实测案例：「金缮的碎磁装饰」工艺 0.4750 但题材误判为「老式厨房」0.4202，
+        #          两条都拼会得到 "a worn kitchen ..., rendered as kintsugi ceramic"。
+        if subj and craft and subj["hit"] and craft["hit"]:
+            if craft["score"] > subj["score"]:
+                subj["hit"] = False
+                dbg = ("最终: 工艺分更高 → 只拼工艺，题材不拼 "
+                       f"({craft['score']:.4f} > {subj['score']:.4f})\n" + dbg)
+            else:
+                craft["hit"] = False
+                text = text.replace(", rendered as " + craft["phrase"], "")
+                dbg = ("最终: 题材分更高 → 只拼题材，工艺不拼 "
+                       f"({subj['score']:.4f} > {craft['score']:.4f})\n" + dbg)
+        if subj and subj.get("hit"):
+            text = subj["phrase"] + ", " + text
 
         # ---- 输出形态：图像 / 视频 收尾语言不同 ----
         params = items[0].get("params") or {}
