@@ -1702,3 +1702,45 @@ Villeneuve 语料写的是「巨物 / 雾霭 / 极简 / 冷蓝室内」，
     a tiny figure dwarfed by a colossal structure pressing the horizon
     a wide empty field under a heavy sky, dust suspended in the air
 目标实体：Villeneuve / Nolan / Malick（场景基准里这三者是可接受答案）
+
+---
+
+## 四十六、强自己 vs 削对手：实测定性（c14）
+
+### 三方对照
+| | top1 | top3 | top5 | 动作 |
+|---|---|---|---|---|
+| c12 | 55% | 65% | 70% | 基线 |
+| c13 | 50% | 65% | 65% | 削对手（把磁铁签名改媒介锚定）|
+| **c14** | **55%** | **70%** | 70% | 强自己（补「史诗辽阔」面）|
+
+结论：**削对手倒亏 5pp；强自己回本且 top3 +5pp。**
+削对手时删掉的"横向大景"文档还带走了一部分泛化能力。
+
+### 那条卡住的题通了
+「广阔荒原上只有一个孤独骑士，低地平线，人很小，史诗感」
+    c12 雾江第1 / Villeneuve 第5
+    c13 留白第1 / Villeneuve 第6   （磁铁只是搬了个家）
+    c14 **Christopher Nolan 第1**  ✅
+-> 按住雾江和留白都没用；给诺兰/Villeneuve 补上具体画面后它自己就赢了。
+
+### v14 新增（全部取自 prompt_02 原文表述，零通用质量词）
+Villeneuve `epic_scale`（新 facet）4 图 + 2 视频：
+    a lone rider crossing a vast open plain, the body small against an enormous sky
+    a full body figure on horseback seen from a distant perspective, grass to the horizon
+    a tiny figure dwarfed by a colossal structure pressing down on the horizon
+    a wide empty field under a heavy grey sky, dust suspended in the air
+    [视频] a rider at full gallop across an open plain, camera tracking alongside（KINETIC）
+    [视频] a thin line of riders crossing a vast grey plain, camera drifting with them（SLOW）
+Nolan `dust_epic` 2 图 / Malick `base` 2 图
+
+### 仍失败的两条（如实记录）
+1. #1「女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头」
+   Villeneuve 第 8，top1 黑泽明。补了 gal lop + tracking 仍不够，**原因未查明**。
+   怀疑「女骑士 / 披甲战马」这类主体词把它拉走，但未证实。
+2. #3「钢铁盔甲的反光，侧光，深影，冷硬质感」
+   top1 德尔·托罗，Villeneuve 第 7。
+   **判断：这条的可接受答案我原先定窄了**（写成 Villeneuve/Haneke/Fincher 是随手定的），
+   德尔·托罗的冷工业金属其实贴切。
+   **但不改宽它**（那是移动球门）。改为**单独新增一组"材质/光"题**，
+   在该组明确写清"任何以该材质处理著称的实体都算对"。

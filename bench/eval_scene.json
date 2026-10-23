@@ -1,9 +1,9 @@
 {
-  "label": "e5-director-c13 + corpus_v13.jsonl",
+  "label": "e5-director-c14 + corpus_v14.jsonl",
   "n": 20,
-  "top1": 0.5,
-  "top3": 0.65,
-  "top5": 0.65,
+  "top1": 0.55,
+  "top3": 0.7,
+  "top5": 0.7,
   "rows": [
     {
       "query": "女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头",
@@ -12,7 +12,7 @@
         "Christopher Nolan",
         "Ridley Scott"
       ],
-      "rank": 21,
+      "rank": 8,
       "top1": "Akira Kurosawa",
       "top5": [
         "Akira Kurosawa",
@@ -30,14 +30,14 @@
         "Christopher Nolan",
         "Terrence Malick"
       ],
-      "rank": 6,
-      "top1": "Liubai Negative Space",
+      "rank": 1,
+      "top1": "Christopher Nolan",
       "top5": [
+        "Christopher Nolan",
         "Liubai Negative Space",
         "One-Corner Composition",
         "Michelangelo Antonioni",
-        "Handscroll Panorama",
-        "Coen Brothers"
+        "Handscroll Panorama"
       ],
       "src": "prompt_02"
     },
@@ -70,9 +70,9 @@
       "top5": [
         "Christopher Nolan",
         "Handscroll Panorama",
+        "Denis Villeneuve",
         "Roberto Rossellini",
-        "George Miller",
-        "Abbas Kiarostami"
+        "George Miller"
       ],
       "src": "prompt_02"
     },
@@ -135,8 +135,8 @@
         "Misty River Lone Boat",
         "Hou Hsiao-hsien",
         "Tsui Hark",
-        "Liubai Negative Space",
-        "One-Corner Composition"
+        "Christopher Nolan",
+        "Liubai Negative Space"
       ],
       "src": "东方-应命中"
     },

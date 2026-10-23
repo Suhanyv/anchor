@@ -1,0 +1,82 @@
+{
+  "config": {
+    "epochs": 6,
+    "batch_size": 32,
+    "lr": 2e-05,
+    "n_hard": 4,
+    "regmine_every": 5,
+    "dev_ratio": 0.01,
+    "seed": 42,
+    "fold": -1,
+    "n_folds": 1,
+    "log_suffix": "_c14",
+    "skip_save": false,
+    "select_mode": "final",
+    "split_by": "query",
+    "out_dir": "F:\\llm\\models\\e5-director-c14",
+    "corpus": "F:\\llm\\data\\raw\\corpus_v14.jsonl",
+    "queries": "F:\\llm\\data\\raw\\queries_v4_fixed14.jsonl"
+  },
+  "baseline": {
+    "overall": 0.2222222222222222,
+    "both": 0.3333333333333333,
+    "style": 0.0,
+    "name": 0.3333333333333333
+  },
+  "best": {
+    "style": 0.0,
+    "epoch": 6,
+    "overall": 0.6666666666666666
+  },
+  "log": [
+    {
+      "epoch": 1,
+      "loss": 2.1435637510184087,
+      "dev_overall": 0.6666666666666666,
+      "both": 1.0,
+      "style": 0.0,
+      "name": 1.0
+    },
+    {
+      "epoch": 2,
+      "loss": 0.3947940089485862,
+      "dev_overall": 0.6666666666666666,
+      "both": 1.0,
+      "style": 0.0,
+      "name": 1.0
+    },
+    {
+      "epoch": 3,
+      "loss": 0.2354930659586733,
+      "dev_overall": 0.6666666666666666,
+      "both": 1.0,
+      "style": 0.0,
+      "name": 1.0
+    },
+    {
+      "epoch": 4,
+      "loss": 0.1941866906303348,
+      "dev_overall": 0.6666666666666666,
+      "both": 1.0,
+      "style": 0.0,
+      "name": 1.0
+    },
+    {
+      "epoch": 5,
+      "loss": 0.18718093227256427,
+      "dev_overall": 0.6666666666666666,
+      "both": 1.0,
+      "style": 0.0,
+      "name": 1.0
+    },
+    {
+      "epoch": 6,
+      "loss": 0.17602181287877489,
+      "dev_overall": 0.6666666666666666,
+      "both": 1.0,
+      "style": 0.0,
+      "name": 1.0
+    }
+  ],
+  "minutes": 1.3121177474657695
+}
