@@ -1656,3 +1656,49 @@ prompt_real_01 ~ 05 **全部是用户在网上找到的提示词**，不是用�
 外部提示词库还有 part2/part3 及其他仓库（ai-prompt-supermarket 32 万 Danbooru 标签、
 awesome-ai-prompts 等）。做法固定为：
     抓取 -> 只提词表 -> 中文词映射英文 -> 反查我们语料 -> 筛掉通用词 -> 补具体词 -> 训练 -> 双基准测
+
+---
+
+## 四十五、修三个磁铁：概念对，但净亏 5pp（负结果，如实记录）
+
+### 做法（src/build_corpus_v13.py）
+把三个磁铁的签名从「属性词」换成「媒介词」：
+| 实体 | 旧签名（属性） | 新签名（媒介） |
+|---|---|---|
+| 手卷长卷 | continuous unfolding landscape | ink and mineral colour on paper, unrolling scroll read in sections, colophon and seals |
+| 雾江孤舟 | lone + distant + misty | one small boat on grey river water, mist banked on the surface, ink-wash far peaks |
+| 留白构图 | emptiness on all four sides | unpainted paper left blank, one small brush-painted subject, no painted background |
+删除旧文档 18 条，新增 12 图 + 3 视频。kw_zh 保持不变（否则 query 池变化，跨版本不可比）。
+
+### 结果：净亏
+| | top1 | top3 | top5 |
+|---|---|---|---|
+| c12 | **55%** | 65% | **70%** |
+| c13 | 50% | 65% | 65% |
+
+逐题：
+| 题 | c12 | c13 | 解读 |
+|---|---|---|---|
+| 女骑士草原疾驰 | Villeneuve 第8 | Villeneuve 第21 | 手卷不再 top1（磁铁减弱），但正确答案更远 |
+| 荒原孤独骑士 | 雾江第1 / Villeneuve 5 | 留白第1 / Villeneuve 6 | 磁铁从雾江**搬到**留白 |
+| 钢铁盔甲 | 第8 | 第7 | 略好 |
+| 云雾江面小船 | 第1 | 第1 | 修完仍准确 |
+
+### 根因：不是对手太强，是我方太弱
+Villeneuve 语料写的是「巨物 / 雾霭 / 极简 / 冷蓝室内」，
+**没有任何一条 doc 描述「骑手穿越辽阔草原、低地平线、跟随镜头」**。
+把对手按住没用，因为我方本来就够不着。
+另外删掉手卷那 5 条"横向大景"文档，让模型丢了部分"宽阔景"泛化能力，
+反而把 Villeneuve 推得更远。
+
+### 教训（第三次同类）
+前两次：liubai 写成纯"空旷"变磁铁 / mech_hidden_observer 变"遮挡"磁铁。
+这次是反过来：**削对手不等于强自己。**
+-> 下一步应改为「补我方的正确答案」，而不是继续拆对手。
+
+### 下一步（已定）
+从用户真实提示词 prompt_02（明确点名 Denis Villeneuve）里取语言，补"史诗辽阔"面：
+    a lone rider crossing a vast open plain, low horizon, monumental sky
+    a tiny figure dwarfed by a colossal structure pressing the horizon
+    a wide empty field under a heavy sky, dust suspended in the air
+目标实体：Villeneuve / Nolan / Malick（场景基准里这三者是可接受答案）
