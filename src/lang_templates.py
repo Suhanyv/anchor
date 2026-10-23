@@ -58,11 +58,45 @@ EVAL_EN = [
     "I want {kw}, give me keywords",
 ]
 
+# ============================ 韩语 ============================
+TRAIN_KO = [
+    "{kw} 느낌으로",
+    "{kw} 어떻게 표현해?",
+    "{kw} 분위기",
+    "{kw} 스타일 뭐라고 해?",
+    "{kw} 로 만들고 싶어",
+    "{kw} 영어로 어떻게 말해?",
+]
+
+EVAL_KO = [
+    "{kw} 참고 자료 있어?",
+    "{kw} 더 구체적으로",
+    "{kw} 에 해당하는 영어 태그",
+    "{kw} 주세요, 키워드로",
+]
+
+# ============================ 德语 ============================
+TRAIN_DE = [
+    "{kw}, so eine Stimmung",
+    "wie beschreibt man {kw}",
+    "ich will {kw} als Stimmung",
+    "wie heisst {kw} auf Englisch",
+    "gib mir {kw} als Gefuehl",
+    "{kw} im Bild",
+]
+
+EVAL_DE = [
+    "gibt es Referenzen fuer {kw}",
+    "{kw}, konkreter bitte",
+    "welcher englische Tag steht fuer {kw}",
+    "ich will {kw}, gib mir Stichwoerter",
+]
+
 
 def _check_no_overlap():
     """训练句式与评测句式不得有任何一条相同"""
-    a = set(TRAIN_ZH) | set(TRAIN_JA)
-    b = set(EVAL_ZH) | set(EVAL_JA)
+    a = set(TRAIN_ZH) | set(TRAIN_JA) | set(TRAIN_KO) | set(TRAIN_DE)
+    b = set(EVAL_ZH) | set(EVAL_JA) | set(EVAL_KO) | set(EVAL_DE)
     same = a & b
     assert not same, f"训练与评测句式重叠: {same}"
     # 还要检查「实质相同」：去掉 kw 占位符与标点后比较

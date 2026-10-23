@@ -21,11 +21,12 @@ ROOT = r"F:\llm"
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from ja_lexicon import JA                     # noqa: E402
-from lang_templates import TRAIN_ZH, TRAIN_JA, _check_no_overlap  # noqa: E402
+from kode_lexicon import KO, DE               # noqa: E402
+from lang_templates import TRAIN_ZH, TRAIN_JA, TRAIN_KO, TRAIN_DE, _check_no_overlap  # noqa: E402
 
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v7.jsonl")
-SRC_Q = os.path.join(ROOT, "data", "raw", "queries_v4.jsonl")
-OUT = os.path.join(ROOT, "data", "raw", "queries_v9.jsonl")
+SRC_Q = os.path.join(ROOT, "data", "raw", "queries_v4_fixed14b.jsonl")
+OUT = os.path.join(ROOT, "data", "raw", "queries_v10.jsonl")
 
 
 def load(p):
@@ -82,13 +83,35 @@ def main():
                         "template_id": f"ja:{ti}", "template": tpl,
                     })
 
-    out = src + zh_q + ja_q
+    # 韩语 / 德语（同一批组，只在有对照词时生成）
+    ko_q, de_q = [], []
+    for (director, facet), g in groups.items():
+        zh_kw = g["zh"] or []
+        if len(zh_kw) < 2:
+            continue
+        pick = rnd.sample(zh_kw, min(3, len(zh_kw)))
+        for lang, Lex, Tpls, bucket, tag in (
+                ("ko", KO, TRAIN_KO, ko_q, "ko"), ("de", DE, TRAIN_DE, de_q, "de")):
+            mapped = [Lex[w] for w in pick if w in Lex]
+            if len(mapped) < 2:
+                continue
+            for ti, tpl in enumerate(Tpls):
+                bucket.append({
+                    "query_id": f"q{tag}_{len(bucket):04d}",
+                    "query": tpl.format(kw=", ".join(mapped)),
+                    "lang": lang, "domain": "prompt_image",
+                    "relevant": g["ids"], "target_director": director,
+                    "facet": facet, "query_kind": "style",
+                    "template_id": f"{tag}:{ti}", "template": tpl,
+                })
+
+    out = src + zh_q + ja_q + ko_q + de_q
     with open(OUT, "w", encoding="utf-8") as f:
         for q in out:
             f.write(json.dumps(q, ensure_ascii=False) + "\n")
 
     print(f"语料 {len(corpus)} doc，覆盖组 {covered}/{len(groups)}")
-    print(f"旧中文 {len(src)} + 新中文 {len(zh_q)} + 日文 {len(ja_q)} = {len(out)}")
+    print(f"旧中文 {len(src)} + 新中文 {len(zh_q)} + 日文 {len(ja_q)} + 韩语 {len(ko_q)} + 德语 {len(de_q)} = {len(out)}")
     print(f"  -> {OUT}")
     print("\n中文样例:")
     for q in zh_q[:4]:

@@ -1,104 +1,79 @@
 {
   "summary": {
     "zh": {
-      "top1": 0.7,
-      "top3": 0.9,
-      "top5": 0.9,
-      "mean_top1_score": 0.44971300959587096
+      "top1": 0.5,
+      "top3": 0.8,
+      "top5": 1.0,
+      "mean_top1_score": 0.5071875154972076
     },
     "ja": {
-      "top1": 0.4,
-      "top3": 0.7,
+      "top1": 0.6,
+      "top3": 0.8,
       "top5": 0.8,
-      "mean_top1_score": 0.42764482498168943
+      "mean_top1_score": 0.5179190337657928
     },
     "ko": {
-      "top1": 0.4,
-      "top3": 0.6,
-      "top5": 0.7,
-      "mean_top1_score": 0.39485863149166106
-    },
-    "de": {
-      "top1": 0.5,
+      "top1": 0.3,
       "top3": 0.7,
       "top5": 0.7,
-      "mean_top1_score": 0.38797424733638763
+      "mean_top1_score": 0.48434297144412997
+    },
+    "de": {
+      "top1": 0.8,
+      "top3": 1.0,
+      "top5": 1.0,
+      "mean_top1_score": 0.5207233130931854
     }
   },
   "detail": {
     "zh": [
       {
+        "concept": "偷看被发现",
+        "want": "Alfred Hitchcock",
+        "got": "Handscroll Panorama",
+        "rank": 4
+      },
+      {
         "concept": "对称对峙",
         "want": "Park Chan-wook",
         "got": "Yasujiro Ozu",
-        "rank": 15
+        "rank": 5
       }
     ],
     "ja": [
       {
-        "concept": "霓虹夜色",
-        "want": "Wong Kar-wai",
-        "got": "Martin Scorsese",
-        "rank": 5
-      },
-      {
         "concept": "枝叶遮挡",
         "want": "Alfred Hitchcock",
         "got": "Song Academy Realism",
-        "rank": 6
+        "rank": 11
       },
       {
         "concept": "对称对峙",
         "want": "Park Chan-wook",
         "got": "Yasujiro Ozu",
-        "rank": 20
+        "rank": 6
       }
     ],
     "ko": [
       {
         "concept": "霓虹夜色",
         "want": "Wong Kar-wai",
-        "got": "Apichatpong Weerasethakul",
-        "rank": 25
-      },
-      {
-        "concept": "雨夜街道",
-        "want": "Wong Kar-wai",
-        "got": "Christopher Nolan",
-        "rank": 4
+        "got": "Jean-Pierre Melville",
+        "rank": 8
       },
       {
         "concept": "枝叶遮挡",
         "want": "Alfred Hitchcock",
         "got": "Song Academy Realism",
-        "rank": 7
-      },
-      {
-        "concept": "对称对峙",
-        "want": "Park Chan-wook",
-        "got": "Alfred Hitchcock",
-        "rank": 33
-      }
-    ],
-    "de": [
-      {
-        "concept": "霓虹夜色",
-        "want": "Wong Kar-wai",
-        "got": "Apichatpong Weerasethakul",
-        "rank": 23
-      },
-      {
-        "concept": "枝叶遮挡",
-        "want": "Alfred Hitchcock",
-        "got": "Handscroll Panorama",
-        "rank": 14
+        "rank": 13
       },
       {
         "concept": "对称对峙",
         "want": "Park Chan-wook",
         "got": "One-Corner Composition",
-        "rank": 9
+        "rank": 7
       }
-    ]
+    ],
+    "de": []
   }
 }
