@@ -1,9 +1,0 @@
-# 真实用户提示词样本 01（视频）
-
-来源：用户本人。用途标注：**已用于建语料（mech_hidden_observer 面），不再是留出样本**。
-
-原文（保留原始拼写，含 OCR 类拼写误差，不做修改）：
-
----
-A cinematic photorealistic medieval fantasy scene of a female knight riding a powerful war horse slowly toward the camerathrough a wild grassland. Use the armor design, clothing style, hairstyle and hair color from the reference image: 2battle-worn medieval steel armor set, dark weathered metal plates, flowing warm brown-golden long hair, and a wom cloakmoving naturally in the wind. Use the facial features and expression from the second reference image: a realistic youngfemale warrior face,intense eyes looking directly toward the camera,calm but intimidating expression, slightly exhaustedafter battle, natural messy hair falling around her face, strong and determined gaze. The knight rides toward the viewer.siting upright on the armored horse. The horse wears detailed medieval barding with scratched metal armor and movesslowly through tall grass. The knight's sword is attached to her waist in a leather scabbard, not held in her hands. Herands hold the reins naturally. The camera viewpoint is hidden behind wild arass and tree branches. as if someone isecretly watching the knight from the forest Some leaves and blades of grass partially block the frame in the foreground,creating a realistic voyeuristic perspective. The knight suddenly notices the hidden observer and looks directty into thecamera, creating a tense "caught watching" moment. Wide cinematic composition, 16:9 aspect ratio. Warm goldensunliaht fiters through the trees. creatina subtle hiahlights on her armor. hair. and horse. Deep shadows. atmosphericdepth. realistic textures, dramatic medieval fantasy movie scene. Lonely warior atmosphere, mysterious tension, epiccinematic storytelling, utra realistic, photorealistic, shallow depth of field, natural motion, 8K detail.
----

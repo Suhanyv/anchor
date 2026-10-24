@@ -1,15 +1,27 @@
-# torch 不写在这里 —— 它必须从 pytorch 官方索引安装 CUDA 版，
-# Windows 上 PyPI 的 torch 是 CPU-only，装错了 GPU 用不了。
-# 安装方式见 README.md 的「环境」一节。
+# 版本按 2026-10 实测可用的组合，下界放宽、上界不锁死
 #
-# 已有：F:\llm\.venv   （Python 3.12.10）
+# ⚠️ torch 不写在这里：Windows 上 PyPI 的 torch 是 CPU-only 版。
+#    CUDA 版必须从 pytorch 官方索引装，例如：
+#      pip install torch --index-url https://download.pytorch.org/whl/cu130
+#    本项目实测：torch 2.9.1+cu130 / Python 3.12
+#
+# 实测通过的组合（2026-10）
+#   torch                2.9.1+cu130
+#   transformers         5.20.1
+#   sentence-transformers 6.1.0
+#   datasets             5.1.0
+#   accelerate           1.15.0
+#   numpy                2.5.4
+#   scikit-learn         1.9.1
 
-transformers>=4.40,<5
-sentence-transformers>=3.0
-datasets>=2.19
-accelerate>=0.30
-huggingface-hub>=0.23
-tokenizers>=0.19
-scikit-learn>=1.4
-tqdm
-numpy>=1.26
+transformers>=5.14,<6
+tokenizers>=0.21
+sentence-transformers>=6.0,<7
+datasets>=5.0,<6
+accelerate>=1.10
+numpy>=2.0
+scikit-learn>=1.5
+safetensors>=0.6
+Pillow>=10.0
+
+# ComfyUI 节点只需 torch + transformers（见 comfyui/README.md）

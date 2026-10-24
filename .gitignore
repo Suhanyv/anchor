@@ -31,3 +31,5 @@ _wtest.txt
 # 外部提示词库的原始抓取内容：不入库（版权归原作者，且体积大）
 # 只保留由它派生出的统计结果 data/raw/external/*.json 与 README
 data/raw/external/*.txt
+# 网络上找到的提示词原文：只作分析材料，不入库（版权归原作者）
+data/raw/prompt_real_*.txt
