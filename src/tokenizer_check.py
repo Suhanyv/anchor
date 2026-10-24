@@ -8,6 +8,7 @@ Tokenizer 切分质量检查 —— 决定「提示词参数是否该拆出语�
 
 用法: python tokenizer_check.py [--model NAME ...]
 """
+import os
 import argparse
 import json
 
@@ -87,7 +88,7 @@ def analyze(tok_name):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", nargs="*", default=MODELS)
-    ap.add_argument("--out", default=r"F:\llm\bench\tokenizer_report.json")
+    ap.add_argument("--out", default=os.path.join(ROOT, "bench/tokenizer_report.json"))
     a = ap.parse_args()
 
     report = []

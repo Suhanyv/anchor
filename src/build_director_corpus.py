@@ -16,7 +16,7 @@ import json
 import os
 import statistics
 
-OUT_DIR = r"F:\llm\data\raw"
+OUT_DIR = os.path.join(ROOT, "data/raw")
 
 # (en, zh, country, era, signature, [scene_en], [kw_zh])
 D = [

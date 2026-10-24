@@ -21,7 +21,7 @@ import os
 import re
 from collections import Counter
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW = os.path.join(ROOT, "data", "raw", "external", "shuixian_part1_README.txt")
 OUT = os.path.join(ROOT, "bench", "external_vocab_v2.json")
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v11.jsonl")

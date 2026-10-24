@@ -14,7 +14,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "prompt_director.jsonl")
 BASE = "intfloat/multilingual-e5-small"
 PROD = os.path.join(ROOT, "models", "e5-director-prod")

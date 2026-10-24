@@ -21,7 +21,7 @@ import json
 import os
 import random
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v7.jsonl")
 SRC_Q = os.path.join(ROOT, "data", "raw", "queries_v4.jsonl")
 OUT = os.path.join(ROOT, "data", "raw", "queries_v8.jsonl")

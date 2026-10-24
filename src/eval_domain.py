@@ -21,7 +21,7 @@ from transformers import AutoModel, AutoTokenizer
 
 import domain_router as DR
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 C5 = os.path.join(ROOT, "data", "raw", "corpus_v5.jsonl")
 C6 = os.path.join(ROOT, "data", "raw", "corpus_v6.jsonl")
 MODEL = os.path.join(ROOT, "models", "e5-director-v5")

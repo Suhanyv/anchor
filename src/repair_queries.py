@@ -18,9 +18,7 @@ import json
 import os
 from collections import defaultdict
 
-ROOT = r"F:\llm"
-
-
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def repair(corpus_path, queries_path, out_path):
     corpus = [json.loads(l) for l in open(corpus_path, encoding="utf-8")]
     queries = [json.loads(l) for l in open(queries_path, encoding="utf-8")]

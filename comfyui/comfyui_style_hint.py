@@ -6,7 +6,7 @@ ComfyUI 自定义节点：中文描述 -> 英文风格串
 1. 把本文件复制到  ComfyUI/custom_nodes/
    （或建子目录  ComfyUI/custom_nodes/prompt_style_hint/ 并把本文件放进去）
 2. 先启动服务（另开一个终端）：
-      F:\\llm\\.venv\\Scripts\\python.exe F:\\llm\\src\\serve_style.py --port 8848
+      <项目根>/... <项目根>/... --port 8848
 3. 重启 ComfyUI，在节点菜单里搜索 "中文 风格" 或 "Style Hint"
 
 节点
@@ -39,7 +39,7 @@ def _post(path, payload, timeout=10):
     except urllib.error.URLError as e:
         raise RuntimeError(
             f"连不上风格服务 {SERVICE}：{e}\n"
-            f"请先启动： F:\\llm\\.venv\\Scripts\\python.exe F:\\llm\\src\\serve_style.py --port 8848"
+            f"请先启动： <项目根>/... <项目根>/... --port 8848"
         )
     except Exception as e:  # noqa: BLE001
         raise RuntimeError(f"风格服务出错：{e}")

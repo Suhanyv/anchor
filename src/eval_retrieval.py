@@ -23,7 +23,7 @@ from collections import defaultdict
 
 import numpy as np
 
-DATA = r"F:\llm\data\sample"
+DATA = os.path.join(ROOT, "data/sample")
 SAMPLE_TOPICS = [
     # (id, {lang: text})
     ("t01", {"en": "cyberpunk city at night, neon signs, heavy rain, cinematic lighting",
@@ -184,7 +184,7 @@ if __name__ == "__main__":
     ap.add_argument("--query-prefix", default="query: ")
     ap.add_argument("--passage-prefix", default="passage: ")
     ap.add_argument("--make-sample", action="store_true")
-    ap.add_argument("--out", default=r"F:\llm\bench\eval_scores.json")
+    ap.add_argument("--out", default=os.path.join(ROOT, "bench/eval_scores.json"))
     a = ap.parse_args()
 
     if a.make_sample:

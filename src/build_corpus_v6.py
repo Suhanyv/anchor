@@ -23,7 +23,7 @@ import json
 import os
 import re
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "data", "raw", "corpus_v5.jsonl")
 OUT = os.path.join(ROOT, "data", "raw", "corpus_v6.jsonl")
 

@@ -1,12 +1,13 @@
 """测：这条神话史诗分镜的「整体风格块」，我们的系统能不能命名对。"""
+import os
 import sys
 
-sys.path.insert(0, r"F:\llm\comfyui")
+sys.path.insert(0, os.path.join(ROOT, "comfyui"))
 import local_style_hint as N  # noqa: E402
 
-M = r"F:\llm\models\e5-director-c10"
-C = r"F:\llm\data\raw\corpus_v10.jsonl"
-S = r"F:\llm\data\raw\subjects_v1.jsonl"
+M = os.path.join(ROOT, "models/e5-director-c10")
+C = os.path.join(ROOT, "data/raw/corpus_v10.jsonl")
+S = os.path.join(ROOT, "data/raw/subjects_v1.jsonl")
 
 node = N.LocalStyleHint()
 

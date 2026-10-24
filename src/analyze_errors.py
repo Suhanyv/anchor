@@ -12,7 +12,7 @@ from collections import Counter, defaultdict
 
 import numpy as np
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "prompt_director.jsonl")
 QUERIES = os.path.join(ROOT, "data", "raw", "query_director.jsonl")
 MODEL = "intfloat/multilingual-e5-small"

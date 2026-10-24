@@ -17,7 +17,7 @@ import os
 import random
 import sys
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from ja_lexicon import JA                     # noqa: E402

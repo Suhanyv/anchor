@@ -14,7 +14,7 @@ import json
 import os
 import random
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "prompt_director.jsonl")
 OUT = os.path.join(ROOT, "data", "raw", "query_director.jsonl")
 

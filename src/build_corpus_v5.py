@@ -16,7 +16,7 @@ corpus_v4 (525) -> corpus_v5 (+22 = 547)
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "data", "raw", "corpus_v4.jsonl")
 OUT = os.path.join(ROOT, "data", "raw", "corpus_v5.jsonl")
 

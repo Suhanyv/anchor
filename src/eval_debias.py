@@ -31,7 +31,7 @@ from transformers import AutoModel, AutoTokenizer
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eval_scene as ES  # noqa: E402
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
 SUBJ = os.path.join(ROOT, "data", "raw", "subjects_v2.jsonl")
 MODEL = os.path.join(ROOT, "models", "e5-director-c14")

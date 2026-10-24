@@ -16,11 +16,37 @@ ComfyUI 自定义节点（本地版）—— 不依赖任何外部服务
 import json
 import os
 
+
+def _find_root():
+    """找项目根：从本文件与 CWD 分别向上找含 data/raw 的目录。
+
+    ComfyUI 节点会被复制到 <ComfyUI>/custom_nodes/ 下，此时 __file__ 的祖先里
+    没有项目根，必须靠 CWD 或由用户显式设置路径。
+    """
+    seen = set()
+    for start in (os.path.dirname(os.path.abspath(__file__)), os.getcwd()):
+        p = start
+        for _ in range(8):
+            if p in seen:
+                break
+            seen.add(p)
+            if os.path.isdir(os.path.join(p, "data", "raw")):
+                return p
+            nxt = os.path.dirname(p)
+            if nxt == p:
+                break
+            p = nxt
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+ROOT = _find_root()
+
+
 # ------------------------------------------------------------------ 全局缓存
 _CACHE = {}
 
 # ------------------------------------------------------------------ 域路由
-# 内联在这里，保证节点自包含（不依赖 F:\llm\src\domain_router.py）
+# 内联在这里，保证节点自包含（不依赖 <项目根>/...）
 # 原则：宁可判成 any（不过滤），也不要判错（会误杀正确答案）
 _VIDEO_HINTS = [
     "视频", "运镜", "镜头运动", "动起来", "时长", "几秒", "秒钟", "秒的",
@@ -99,11 +125,15 @@ def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None, ma
     if not os.path.isdir(model_dir):
         raise RuntimeError(
             f"模型目录不存在：{model_dir}\n"
-            f"请把 F:\\llm\\models\\e5-director-c9 整个文件夹复制到这个路径，"
+            f"请把 <项目根>/models/e5-director-c18 整个文件夹复制到这个路径，"
             f"或把本节点的「模型目录」改成实际位置。"
         )
     if not os.path.isfile(corpus_path):
-        raise RuntimeError(f"语料文件不存在：{corpus_path}")
+        raise RuntimeError(
+            f"语料文件不存在：{corpus_path}\n"
+            f"本项目根推断为：{ROOT}（期望在其下找到 data/raw/）\n"
+            f"若本节点是从 custom_nodes 加载的，请把「语料文件」改成 clone 仓库里的实际路径。"
+        )
 
     with open(corpus_path, encoding="utf-8") as f:
         corpus = [json.loads(l) for l in f if l.strip()]
@@ -317,11 +347,11 @@ class LocalStyleHint:
             "required": {
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
-                "模型目录": ("STRING", {"default": r"F:\llm\models\e5-director-c18"}),
-                "语料文件": ("STRING", {"default": r"F:\llm\data\raw\corpus_v16.jsonl"}),
-                "题材文件": ("STRING", {"default": r"F:\llm\data\raw\subjects_v4.jsonl"}),
-                "工艺文件": ("STRING", {"default": r"F:\llm\data\raw\crafts_v3.jsonl"}),
-                "材质文件": ("STRING", {"default": r"F:\llm\data\raw\materials_v4.jsonl"}),
+                "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c18")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v16.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v4.jsonl")}),
+                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v3.jsonl")}),
+                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v4.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
@@ -448,8 +478,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {"LocalStyleHint": "中文风格提示-本地 (Loca
 2) 模型和语料
    两种做法，任选：
    a. 直接引用（不占额外空间）—— 保持默认路径不动：
-        F:\\llm\\models\\e5-director-v4-noleak
-        F:\\llm\\data\\raw\\corpus_v4.jsonl
+        <项目根>/...
+        <项目根>/...
    b. 搬进 ComfyUI（约 470MB）：
         ComfyUI\\models\\prompt_retrieval\\e5-director-v4-noleak\\
         ComfyUI\\models\\prompt_retrieval\\corpus_v4.jsonl

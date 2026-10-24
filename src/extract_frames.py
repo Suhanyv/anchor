@@ -8,7 +8,7 @@ def main():
     from PIL import Image
 
     src = sys.argv[1] if len(sys.argv) > 1 else r"D:\下载\生成侯孝贤风格视频.mp4"
-    out = sys.argv[2] if len(sys.argv) > 2 else r"F:\llm\bench\frames"
+    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "bench/frames")
     if not os.path.exists(src):
         print(f"NOT FOUND: {src}")
         sys.exit(1)

@@ -27,7 +27,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, Dataset
 from transformers import AutoModel, AutoTokenizer
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v2.jsonl")
 QUERIES = os.path.join(ROOT, "data", "raw", "queries_v2b.jsonl")
 BASE = "intfloat/multilingual-e5-small"

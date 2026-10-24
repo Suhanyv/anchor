@@ -23,7 +23,7 @@ import os
 import re
 from collections import Counter
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SPILL = r"C:\Users\15758\AppData\Local\Temp\dsh-spill-I9prYm\session-aa279cebe1b5\4212129d7139-web_fetch.txt"
 OUT_DIR = os.path.join(ROOT, "data", "raw", "external")
 OUT_RAW = os.path.join(OUT_DIR, "shuixian_part3_README.txt")

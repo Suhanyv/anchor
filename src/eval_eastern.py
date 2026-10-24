@@ -4,6 +4,7 @@
 注意：v3 语料里不存在这些条目，所以 v3 的排名是"缺席"，不是"排得靠后"。
       这个区别很重要 —— 缺席意味着系统连候选都给不出来。
 """
+import os
 import argparse
 import json
 
@@ -11,7 +12,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 C3 = ROOT + r"\data\raw\corpus_v3.jsonl"
 C4 = ROOT + r"\data\raw\corpus_v4.jsonl"
 Q4 = ROOT + r"\data\raw\queries_v4.jsonl"

@@ -15,7 +15,7 @@ import json
 import os
 import re
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "prompt_director.jsonl")
 QUERIES = os.path.join(ROOT, "data", "raw", "query_director.jsonl")
 TABLE = os.path.join(ROOT, "data", "raw", "alias_table.json")

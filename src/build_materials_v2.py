@@ -22,7 +22,7 @@ materials_v1 (46) -> materials_v2 (~160)
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "raw", "materials_v2.jsonl")
 
 # 材质英文名, 中文名, 输出短语, 中文关键词, [6~7 条英文实现]

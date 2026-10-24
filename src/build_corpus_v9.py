@@ -35,7 +35,7 @@ facet 由 rural_realism 改为 **red_sorghum（红高粱）**：
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "data", "raw", "corpus_v8.jsonl")
 OUT = os.path.join(ROOT, "data", "raw", "corpus_v9.jsonl")
 

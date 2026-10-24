@@ -1,14 +1,15 @@
 """分析真实提示词 06（10 秒一镜到底），并跑一次兴趣评估。"""
+import os
 import re
 import sys
 
-sys.path.insert(0, r"F:\llm\comfyui")
+sys.path.insert(0, os.path.join(ROOT, "comfyui"))
 import local_style_hint as N  # noqa: E402
 
-P = r"F:\llm\data\raw\prompt_real_06.txt"
-M = r"F:\llm\models\e5-director-c10"
-C = r"F:\llm\data\raw\corpus_v10.jsonl"
-S = r"F:\llm\data\raw\subjects_v1.jsonl"
+P = os.path.join(ROOT, "data/raw/prompt_real_06.txt")
+M = os.path.join(ROOT, "models/e5-director-c10")
+C = os.path.join(ROOT, "data/raw/corpus_v10.jsonl")
+S = os.path.join(ROOT, "data/raw/subjects_v1.jsonl")
 
 body = open(P, encoding="utf-8").read().split("---")[1].strip()
 

@@ -15,7 +15,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 C2 = os.path.join(ROOT, "data", "raw", "corpus_v2.jsonl")
 C3 = os.path.join(ROOT, "data", "raw", "corpus_v3.jsonl")
 Q3 = os.path.join(ROOT, "data", "raw", "queries_v3.jsonl")

@@ -23,7 +23,7 @@ phrases 写成可直接拼进提示词的描述，锚定具体表象（不写"�
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "raw", "materials_v1.jsonl")
 
 # (英文名, 中文名, 输出短语, [英文变体], [中文关键词])

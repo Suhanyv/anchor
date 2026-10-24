@@ -12,7 +12,7 @@
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v3.jsonl")
 SRC_QUERIES = os.path.join(ROOT, "data", "raw", "queries_v3.jsonl")
 OUT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v4.jsonl")

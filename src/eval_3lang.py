@@ -30,7 +30,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v7.jsonl")
 MODEL = os.path.join(ROOT, "models", "e5-director-v7")
 OUT = os.path.join(ROOT, "bench", "eval_3lang.json")

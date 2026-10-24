@@ -13,7 +13,7 @@ import os
 
 import numpy as np
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL = "intfloat/multilingual-e5-small"
 
 

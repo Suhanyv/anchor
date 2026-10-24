@@ -20,7 +20,7 @@ v15 把 16 个工艺实体（48 条文档）直接加进风格语料，实测**�
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "raw", "crafts_v1.jsonl")
 
 # (英文名, 中文名, 输出短语, [英文变体], [中文关键词])

@@ -14,7 +14,7 @@ from collections import defaultdict
 
 import numpy as np
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CORPUS = os.path.join(ROOT, "data", "raw", "prompt_director.jsonl")
 Q_ORIG = os.path.join(ROOT, "data", "raw", "query_director.jsonl")
 Q_NORM = os.path.join(ROOT, "data", "raw", "query_director_norm.jsonl")

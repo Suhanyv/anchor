@@ -1,8 +1,9 @@
 """把节点里的门控逻辑换成「赢家通吃」（一次性改文件，避免手写巨型字面量）"""
+import os
 import ast
 import re
 
-P = r"F:\llm\comfyui\local_style_hint.py"
+P = os.path.join(ROOT, "comfyui/local_style_hint.py")
 s = open(P, encoding="utf-8").read()
 
 START = "        # 题材通道：相对判据 —— 只有题材比风格更贴合时才拼进去"

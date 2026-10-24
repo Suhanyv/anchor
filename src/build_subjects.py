@@ -19,7 +19,7 @@
 import json
 import os
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "raw", "subjects_v1.jsonl")
 
 # (英文名, 中文名, 输出短语, [英文变体描述], [中文关键词])

@@ -15,7 +15,7 @@
          -> 返回最匹配的提示词原文
 
 启动：
-    F:\\llm\\.venv\\Scripts\\python.exe F:\\llm\\src\\serve_style.py --port 8848
+    <项目根>/... <项目根>/... --port 8848
 """
 import argparse
 import json
@@ -24,7 +24,29 @@ import sys
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-ROOT = r"F:\llm"
+def _find_root():
+    """找项目根：从本文件与 CWD 分别向上找含 data/raw 的目录。
+
+    ComfyUI 节点会被复制到 <ComfyUI>/custom_nodes/ 下，此时 __file__ 的祖先里
+    没有项目根，必须靠 CWD 或由用户显式设置路径。
+    """
+    seen = set()
+    for start in (os.path.dirname(os.path.abspath(__file__)), os.getcwd()):
+        p = start
+        for _ in range(8):
+            if p in seen:
+                break
+            seen.add(p)
+            if os.path.isdir(os.path.join(p, "data", "raw")):
+                return p
+            nxt = os.path.dirname(p)
+            if nxt == p:
+                break
+            p = nxt
+    return os.path.dirname(os.path.abspath(__file__))
+
+
+ROOT = _find_root()
 DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
 # 部署用 c14（corpus_v14 + e5-director-c14），场景锚定 top1 55% / top3 70%。
 # 注意：c14 是全量训练，**不能用于对外声称泛化能力**；

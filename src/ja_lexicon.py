@@ -1,3 +1,4 @@
+import os
 """
 中 → 日 风格词对照表（完整版，覆盖 corpus_v7 全部 401 个关键词）
 
@@ -191,7 +192,7 @@ if __name__ == "__main__":
     import json
     from collections import Counter
     corpus = [json.loads(l) for l in
-              open(r"F:\llm\data\raw\corpus_v7.jsonl", encoding="utf-8")]
+              open(os.path.join(ROOT, "data/raw/corpus_v7.jsonl"), encoding="utf-8")]
     cnt = Counter()
     for d in corpus:
         if d.get("domain") not in (None, "prompt_image"):

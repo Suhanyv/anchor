@@ -24,7 +24,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-ROOT = r"F:\llm"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "bench", "eval_material.json")
 MAXLEN = 128
 
@@ -127,9 +127,9 @@ def run(corpus_path, model_path, label, verbose=False):
 
 def main():
     runs = [
-        (r"F:\llm\data\raw\corpus_v12.jsonl", r"F:\llm\models\e5-director-c12", "c12"),
-        (r"F:\llm\data\raw\corpus_v13.jsonl", r"F:\llm\models\e5-director-c13", "c13"),
-        (r"F:\llm\data\raw\corpus_v14.jsonl", r"F:\llm\models\e5-director-c14", "c14"),
+        (os.path.join(ROOT, "data/raw/corpus_v12.jsonl"), os.path.join(ROOT, "models/e5-director-c12"), "c12"),
+        (os.path.join(ROOT, "data/raw/corpus_v13.jsonl"), os.path.join(ROOT, "models/e5-director-c13"), "c13"),
+        (os.path.join(ROOT, "data/raw/corpus_v14.jsonl"), os.path.join(ROOT, "models/e5-director-c14"), "c14"),
     ]
     print("=== 材质/光 · 文档级判分 ===")
     results = []

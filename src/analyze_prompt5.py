@@ -1,7 +1,8 @@
 """分析真实提示词 05（七镜分镜）的结构，并计算我们系统能贡献的比例。"""
+import os
 import re
 
-P = r"F:\llm\data\raw\prompt_real_05.txt"
+P = os.path.join(ROOT, "data/raw/prompt_real_05.txt")
 
 t = open(P, encoding="utf-8").read()
 body = t.split("---")[1].strip()
