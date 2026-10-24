@@ -1,4 +1,4 @@
-{
+﻿{
   "n_queries": 2100,
   "hit1": 0.8247619047619048,
   "by_facet": [
@@ -240,7 +240,7 @@
       "facet": "vivid_myth",
       "n": 12,
       "fail_rate": 0.0,
-      "mean_interesting": 0.6<user>3333333334
+      "mean_interesting": 0.6157583333333334
     },
     {
       "facet": "sunbaked_epic",
