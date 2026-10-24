@@ -1,8 +1,8 @@
 {
-  "label": "e5-director-c22 + _fair_subset.jsonl",
+  "label": "e5-director-c24 + _fair_subset.jsonl",
   "n": 20,
-  "top1": 0.6,
-  "top3": 0.8,
+  "top1": 0.55,
+  "top3": 0.75,
   "top5": 0.8,
   "rows": [
     {
@@ -12,14 +12,14 @@
         "Christopher Nolan",
         "Ridley Scott"
       ],
-      "rank": 3,
+      "rank": 4,
       "top1": "Wuershan",
       "top5": [
         "Wuershan",
+        "Persian Miniature",
         "Akira Kurosawa",
         "Denis Villeneuve",
-        "Frant Gwo",
-        "Handscroll Panorama"
+        "Ukiyo-e"
       ],
       "src": "prompt_02"
     },
@@ -35,9 +35,9 @@
       "top5": [
         "Christopher Nolan",
         "Wuershan",
+        "Persian Miniature",
         "Pier Paolo Pasolini",
-        "Michelangelo Antonioni",
-        "Liubai Negative Space"
+        "Michelangelo Antonioni"
       ],
       "src": "prompt_02"
     },
@@ -48,14 +48,14 @@
         "Michael Haneke",
         "David Fincher"
       ],
-      "rank": 19,
+      "rank": 21,
       "top1": "Guillermo del Toro",
       "top5": [
         "Guillermo del Toro",
         "Frant Gwo",
         "Andrei Tarkovsky",
         "Sergei Eisenstein",
-        "Ridley Scott"
+        "Steven Spielberg"
       ],
       "src": "prompt_02"
     },
@@ -118,9 +118,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Wong Kar-wai",
+        "William Friedkin",
         "Stanley Kubrick",
-        "Martin Scorsese",
-        "Steven Spielberg"
+        "Martin Scorsese"
       ],
       "src": "prompt_01"
     },
@@ -150,9 +150,9 @@
       "top5": [
         "Liubai Negative Space",
         "One-Corner Composition",
-        "Michelangelo Antonioni",
-        "Chinese Literati Ink-Wash",
-        "Handscroll Panorama"
+        "Minhwa",
+        "Persian Miniature",
+        "Michelangelo Antonioni"
       ],
       "src": "东方-应命中"
     },
@@ -166,9 +166,9 @@
       "top5": [
         "Liubai Negative Space",
         "One-Corner Composition",
+        "Art Nouveau",
         "Song Academy Realism",
-        "Chinese Literati Ink-Wash",
-        "Ching Siu-tung"
+        "Minhwa"
       ],
       "src": "东方-应命中"
     },
@@ -181,10 +181,10 @@
       "top1": "Song Academy Realism",
       "top5": [
         "Song Academy Realism",
+        "Minhwa",
         "Liubai Negative Space",
         "Gongbi Fine-Line Painting",
-        "Chinese Literati Ink-Wash",
-        "Blue-Green Landscape"
+        "Persian Miniature"
       ],
       "src": "东方-应命中"
     },
@@ -198,9 +198,9 @@
       "top5": [
         "Zhang Yimou",
         "King Hu",
+        "Dunhuang Murals",
         "Hou Hsiao-hsien",
-        "Park Chan-wook",
-        "Ching Siu-tung"
+        "Park Chan-wook"
       ],
       "src": "题材-应命中"
     },
@@ -215,10 +215,10 @@
       "top1": "Wong Kar-wai",
       "top5": [
         "Wong Kar-wai",
+        "Mamoru Oshii",
         "Tsai Ming-liang",
         "Martin Scorsese",
-        "Ridley Scott",
-        "Guillermo del Toro"
+        "Ridley Scott"
       ],
       "src": "通用"
     },
@@ -232,9 +232,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Wong Kar-wai",
-        "Francis Ford Coppola",
-        "Handscroll Panorama",
-        "Guillermo del Toro"
+        "William Friedkin",
+        "Satoshi Kon",
+        "Chantal Akerman"
       ],
       "src": "通用-机制"
     },
@@ -245,14 +245,14 @@
         "Stanley Kubrick",
         "Wes Anderson"
       ],
-      "rank": 1,
-      "top1": "Wes Anderson",
+      "rank": 2,
+      "top1": "Chantal Akerman",
       "top5": [
+        "Chantal Akerman",
         "Wes Anderson",
         "One-Corner Composition",
         "Stanley Kubrick",
-        "Yasujiro Ozu",
-        "Alfred Hitchcock"
+        "Yasujiro Ozu"
       ],
       "src": "通用"
     },
@@ -269,9 +269,9 @@
       "top5": [
         "Yasujiro Ozu",
         "Liubai Negative Space",
+        "Kiyoshi Kurosawa",
         "Hirokazu Kore-eda",
-        "One-Corner Composition",
-        "King Hu"
+        "One-Corner Composition"
       ],
       "src": "prompt_06"
     },
@@ -282,7 +282,7 @@
         "Jia Zhangke",
         "Hirokazu Kore-eda"
       ],
-      "rank": 9,
+      "rank": 10,
       "top1": "Frant Gwo",
       "top5": [
         "Frant Gwo",
@@ -300,14 +300,14 @@
         "Hirokazu Kore-eda",
         "Hou Hsiao-hsien"
       ],
-      "rank": 8,
+      "rank": 12,
       "top1": "Sofia Coppola",
       "top5": [
         "Sofia Coppola",
+        "Chantal Akerman",
         "Greta Gerwig",
         "Francois Truffaut",
-        "Agnes Varda",
-        "Shadow Puppetry"
+        "Agnes Varda"
       ],
       "src": "prompt_06"
     },
@@ -321,10 +321,10 @@
       "top1": "Tsai Ming-liang",
       "top5": [
         "Tsai Ming-liang",
+        "Chantal Akerman",
+        "William Friedkin",
         "Chinese Literati Ink-Wash",
-        "King Hu",
-        "Handscroll Panorama",
-        "Frant Gwo"
+        "King Hu"
       ],
       "src": "prompt_06"
     },
