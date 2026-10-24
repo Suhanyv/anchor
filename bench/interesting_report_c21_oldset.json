@@ -1,0 +1,1166 @@
+{
+  "n_queries": 2256,
+  "hit1": 0.8794326241134752,
+  "by_facet": [
+    {
+      "facet": "lotus_fire",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 0.9484750000000001
+    },
+    {
+      "facet": "inn_standoff",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 1.00315
+    },
+    {
+      "facet": "mega_structure",
+      "n": 12,
+      "fail_rate": 1.0,
+      "mean_interesting": 0.8604833333333332
+    },
+    {
+      "facet": "bw_early",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.890225
+    },
+    {
+      "facet": "epic_scale",
+      "n": 12,
+      "fail_rate": 0.75,
+      "mean_interesting": 0.9019750000000001
+    },
+    {
+      "facet": "neorealist",
+      "n": 12,
+      "fail_rate": 0.5833333333333334,
+      "mean_interesting": 0.9437250000000003
+    },
+    {
+      "facet": "mech_window_frame",
+      "n": 12,
+      "fail_rate": 0.5,
+      "mean_interesting": 0.739875
+    },
+    {
+      "facet": "ritual_dance",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.82085
+    },
+    {
+      "facet": "mech_hidden_observer",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.79815
+    },
+    {
+      "facet": "wire_flight",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.739475
+    },
+    {
+      "facet": "intimate_cold",
+      "n": 12,
+      "fail_rate": 0.4166666666666667,
+      "mean_interesting": 0.7679833333333334
+    },
+    {
+      "facet": "formal_period",
+      "n": 12,
+      "fail_rate": 0.25,
+      "mean_interesting": 0.8219583333333332
+    },
+    {
+      "facet": "winter_monochrome",
+      "n": 12,
+      "fail_rate": 0.25,
+      "mean_interesting": 0.7068666666666666
+    },
+    {
+      "facet": "sculpted_monochrome",
+      "n": 12,
+      "fail_rate": 0.25,
+      "mean_interesting": 0.50435
+    },
+    {
+      "facet": "desaturated_war",
+      "n": 12,
+      "fail_rate": 0.16666666666666666,
+      "mean_interesting": 0.40214999999999995
+    },
+    {
+      "facet": "sumptuous_period",
+      "n": 12,
+      "fail_rate": 0.16666666666666666,
+      "mean_interesting": 0.5590916666666668
+    },
+    {
+      "facet": "sunbaked_epic",
+      "n": 12,
+      "fail_rate": 0.16666666666666666,
+      "mean_interesting": 0.652825
+    },
+    {
+      "facet": "formal_symmetry",
+      "n": 12,
+      "fail_rate": 0.16666666666666666,
+      "mean_interesting": 0.7312333333333334
+    },
+    {
+      "facet": "ecstatic_face",
+      "n": 12,
+      "fail_rate": 0.16666666666666666,
+      "mean_interesting": 0.4823666666666666
+    },
+    {
+      "facet": "base",
+      "n": 1488,
+      "fail_rate": 0.10887096774193548,
+      "mean_interesting": 0.5918383736559141
+    },
+    {
+      "facet": "muted_war",
+      "n": 12,
+      "fail_rate": 0.08333333333333333,
+      "mean_interesting": 0.6675
+    },
+    {
+      "facet": "misty_river",
+      "n": 12,
+      "fail_rate": 0.08333333333333333,
+      "mean_interesting": 0.5367166666666666
+    },
+    {
+      "facet": "liubai",
+      "n": 12,
+      "fail_rate": 0.08333333333333333,
+      "mean_interesting": 0.6049749999999999
+    },
+    {
+      "facet": "pastel_stylised",
+      "n": 24,
+      "fail_rate": 0.041666666666666664,
+      "mean_interesting": 0.6880666666666667
+    },
+    {
+      "facet": "color_crimson",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6603333333333333
+    },
+    {
+      "facet": "digital_montage",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.4694
+    },
+    {
+      "facet": "luminous_bw",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.5065333333333334
+    },
+    {
+      "facet": "color_1980s",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6355833333333334
+    },
+    {
+      "facet": "warm_documentary",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.5204916666666668
+    },
+    {
+      "facet": "period_elegance",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.5538500000000001
+    },
+    {
+      "facet": "bw_ring",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6672583333333333
+    },
+    {
+      "facet": "expressionist",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6825
+    },
+    {
+      "facet": "cold_industrial",
+      "n": 24,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.44502083333333337
+    },
+    {
+      "facet": "wu_jiang",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6411749999999999
+    },
+    {
+      "facet": "cold_period",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.49422499999999997
+    },
+    {
+      "facet": "mech_wrong_man",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.45426666666666665
+    },
+    {
+      "facet": "dust_epic",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.5206749999999999
+    },
+    {
+      "facet": "warm_melodrama",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.299075
+    },
+    {
+      "facet": "vivid_myth",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6275749999999999
+    },
+    {
+      "facet": "song_academy",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.45436666666666664
+    },
+    {
+      "facet": "handscroll",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.5335666666666666
+    },
+    {
+      "facet": "psychedelic",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.45515
+    },
+    {
+      "facet": "piying",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.5460416666666666
+    },
+    {
+      "facet": "gongbi",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.6314333333333333
+    },
+    {
+      "facet": "tropical_daylight",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.37354166666666666
+    },
+    {
+      "facet": "stark_bw",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.34084166666666665
+    },
+    {
+      "facet": "wuxia_color",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.33784166666666665
+    },
+    {
+      "facet": "sunlit_normal",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.46943333333333337
+    },
+    {
+      "facet": "late_collage",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.312425
+    },
+    {
+      "facet": "stark_rural",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.4017416666666666
+    },
+    {
+      "facet": "qinglv",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.40454999999999997
+    },
+    {
+      "facet": "romantic_period",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.41465833333333335
+    },
+    {
+      "facet": "mech_object_threat",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.4813
+    },
+    {
+      "facet": "red_sorghum",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.4094583333333333
+    },
+    {
+      "facet": "industrial_dystopia",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.39117500000000005
+    },
+    {
+      "facet": "mech_domestic_horror",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.3989333333333333
+    },
+    {
+      "facet": "golden_rural",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.40474999999999994
+    },
+    {
+      "facet": "nianhua",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.4307166666666667
+    },
+    {
+      "facet": "one_corner",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.26975
+    },
+    {
+      "facet": "bw_european",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.2836083333333333
+    },
+    {
+      "facet": "mech_vertical_dread",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.3239166666666667
+    },
+    {
+      "facet": "ink_wash",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.16058333333333336
+    },
+    {
+      "facet": "digital_spectacle",
+      "n": 12,
+      "fail_rate": 0.0,
+      "mean_interesting": 0.19720000000000001
+    }
+  ],
+  "top_interesting": [
+    {
+      "query": "威亚、衣袖 这种怎么描述",
+      "target_director": "Ching Siu-tung",
+      "facet": "base",
+      "interesting": 1.4245,
+      "ft_rank": 23,
+      "ft_hit1": false,
+      "ft_top1": "Agnes Varda",
+      "margin": 0.0101,
+      "novelty": 0.636,
+      "base_rank": 1,
+      "disagree": 1.0
+    },
+    {
+      "query": "热浪、三维动画，简洁一点的说法",
+      "target_director": "Jiaozi",
+      "facet": "base",
+      "interesting": 1.251,
+      "ft_rank": 8,
+      "ft_hit1": false,
+      "ft_top1": "Akira Kurosawa",
+      "margin": 0.0306,
+      "novelty": 0.6459,
+      "base_rank": 1,
+      "disagree": 0.675
+    },
+    {
+      "query": "质子、火把 那种调子",
+      "target_director": "Wuershan",
+      "facet": "ritual_dance",
+      "interesting": 1.212,
+      "ft_rank": 10,
+      "ft_hit1": false,
+      "ft_top1": "Ching Siu-tung",
+      "margin": 0.0136,
+      "novelty": 0.6549,
+      "base_rank": 58,
+      "disagree": 0.5
+    },
+    {
+      "query": "宏大、实景，越具体越好",
+      "target_director": "Christopher Nolan",
+      "facet": "base",
+      "interesting": 1.2,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Zhang Yimou",
+      "margin": 0.0274,
+      "novelty": 0.6676,
+      "base_rank": 47,
+      "disagree": 0.5
+    },
+    {
+      "query": "想要战后废墟、朴素，不要别的",
+      "target_director": "Federico Fellini",
+      "facet": "neorealist",
+      "interesting": 1.1908,
+      "ft_rank": 10,
+      "ft_hit1": false,
+      "ft_top1": "Andrei Tarkovsky",
+      "margin": 0.0028,
+      "novelty": 0.6144,
+      "base_rank": 64,
+      "disagree": 0.5
+    },
+    {
+      "query": "火焰、暗地 相关的风格叫什么",
+      "target_director": "Jiaozi",
+      "facet": "lotus_fire",
+      "interesting": 1.185,
+      "ft_rank": 11,
+      "ft_hit1": false,
+      "ft_top1": "Robert Eggers",
+      "margin": 0.0501,
+      "novelty": 0.5816,
+      "base_rank": 1,
+      "disagree": 0.75
+    },
+    {
+      "query": "木楼梯、光柱，简洁一点的说法",
+      "target_director": "King Hu",
+      "facet": "base",
+      "interesting": 1.1833,
+      "ft_rank": 14,
+      "ft_hit1": false,
+      "ft_top1": "Woody Allen",
+      "margin": 0.0032,
+      "novelty": 0.6075,
+      "base_rank": 61,
+      "disagree": 0.5
+    },
+    {
+      "query": "想搜悬空、威亚、衣袖相关的东西",
+      "target_director": "Ching Siu-tung",
+      "facet": "base",
+      "interesting": 1.1781,
+      "ft_rank": 22,
+      "ft_hit1": false,
+      "ft_top1": "Denis Villeneuve",
+      "margin": 0.0189,
+      "novelty": 0.6753,
+      "base_rank": 6,
+      "disagree": 0.4
+    },
+    {
+      "query": "朴素、战后废墟 对应的英文标签",
+      "target_director": "Federico Fellini",
+      "facet": "neorealist",
+      "interesting": 1.1696,
+      "ft_rank": 17,
+      "ft_hit1": false,
+      "ft_top1": "Sam Peckinpah",
+      "margin": 0.0025,
+      "novelty": 0.5927,
+      "base_rank": 45,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要阴天、克制，怎么prompt",
+      "target_director": "Clint Eastwood",
+      "facet": "muted_war",
+      "interesting": 1.1654,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Glauber Rocha",
+      "margin": 0.0158,
+      "novelty": 0.6124,
+      "base_rank": 73,
+      "disagree": 0.5
+    },
+    {
+      "query": "暖光、身体，越具体越好",
+      "target_director": "Claire Denis",
+      "facet": "base",
+      "interesting": 1.1645,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Robert Bresson",
+      "margin": 0.02,
+      "novelty": 0.6191,
+      "base_rank": 73,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要群像、动态构图，怎么prompt",
+      "target_director": "Akira Kurosawa",
+      "facet": "base",
+      "interesting": 1.1636,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Paul Thomas Anderson",
+      "margin": 0.0147,
+      "novelty": 0.5974,
+      "base_rank": 1,
+      "disagree": 0.525
+    },
+    {
+      "query": "碎片、烈日，要那种感觉",
+      "target_director": "Nicolas Roeg",
+      "facet": "base",
+      "interesting": 1.1558,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Alejandro Gonzalez Inarritu",
+      "margin": 0.0172,
+      "novelty": 0.6054,
+      "base_rank": 36,
+      "disagree": 0.5
+    },
+    {
+      "query": "灯笼、桌、客栈 相关的风格叫什么",
+      "target_director": "King Hu",
+      "facet": "inn_standoff",
+      "interesting": 1.1551,
+      "ft_rank": 7,
+      "ft_hit1": false,
+      "ft_top1": "Park Chan-wook",
+      "margin": 0.0014,
+      "novelty": 0.5762,
+      "base_rank": 27,
+      "disagree": 0.5
+    },
+    {
+      "query": "怎么用英文说质子、橙光",
+      "target_director": "Wuershan",
+      "facet": "ritual_dance",
+      "interesting": 1.1499,
+      "ft_rank": 87,
+      "ft_hit1": false,
+      "ft_top1": "Fernando Meirelles",
+      "margin": 0.0234,
+      "novelty": 0.6106,
+      "base_rank": 131,
+      "disagree": 0.5
+    },
+    {
+      "query": "有个画面是薄雾、威亚，怎么搜",
+      "target_director": "Ching Siu-tung",
+      "facet": "base",
+      "interesting": 1.1479,
+      "ft_rank": 82,
+      "ft_hit1": false,
+      "ft_top1": "Denis Villeneuve",
+      "margin": 0.0307,
+      "novelty": 0.6217,
+      "base_rank": 5,
+      "disagree": 0.5
+    },
+    {
+      "query": "对称、造作 这种感觉的表达",
+      "target_director": "Park Chan-wook",
+      "facet": "base",
+      "interesting": 1.139,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Wes Anderson",
+      "margin": 0.0189,
+      "novelty": 0.5358,
+      "base_rank": 1,
+      "disagree": 0.625
+    },
+    {
+      "query": "巨构、小人影 那种调子",
+      "target_director": "Frant Gwo",
+      "facet": "mega_structure",
+      "interesting": 1.1386,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Akira Kurosawa",
+      "margin": 0.0115,
+      "novelty": 0.578,
+      "base_rank": 40,
+      "disagree": 0.5
+    },
+    {
+      "query": "有没有战后废墟、朴素的例子",
+      "target_director": "Federico Fellini",
+      "facet": "neorealist",
+      "interesting": 1.1312,
+      "ft_rank": 10,
+      "ft_hit1": false,
+      "ft_top1": "Andrei Tarkovsky",
+      "margin": 0.0197,
+      "novelty": 0.5854,
+      "base_rank": 44,
+      "disagree": 0.5
+    },
+    {
+      "query": "给我点火焰、火星的参考",
+      "target_director": "Jiaozi",
+      "facet": "lotus_fire",
+      "interesting": 1.1287,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "Akira Kurosawa",
+      "margin": 0.0437,
+      "novelty": 0.5812,
+      "base_rank": 1,
+      "disagree": 0.6
+    },
+    {
+      "query": "实景、宏大 关键词有哪些",
+      "target_director": "Christopher Nolan",
+      "facet": "base",
+      "interesting": 1.125,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Chen Kaige",
+      "margin": 0.0225,
+      "novelty": 0.5843,
+      "base_rank": 36,
+      "disagree": 0.5
+    },
+    {
+      "query": "给我点密度、手持的参考",
+      "target_director": "Fernando Meirelles",
+      "facet": "base",
+      "interesting": 1.1189,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Jean-Luc Godard",
+      "margin": 0.0211,
+      "novelty": 0.5756,
+      "base_rank": 42,
+      "disagree": 0.5
+    },
+    {
+      "query": "巴洛克、绘画，简洁一点的说法",
+      "target_director": "Peter Greenaway",
+      "facet": "base",
+      "interesting": 1.1178,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Federico Fellini",
+      "margin": 0.0137,
+      "novelty": 0.5613,
+      "base_rank": 41,
+      "disagree": 0.5
+    },
+    {
+      "query": "硬闪光、黑白粗粝 那种调子",
+      "target_director": "Stanley Kubrick",
+      "facet": "bw_early",
+      "interesting": 1.1129,
+      "ft_rank": 11,
+      "ft_hit1": false,
+      "ft_top1": "Alejandro Gonzalez Inarritu",
+      "margin": 0.0293,
+      "novelty": 0.5844,
+      "base_rank": 33,
+      "disagree": 0.5
+    },
+    {
+      "query": "怎么用英文说质子、铠甲、橙光",
+      "target_director": "Wuershan",
+      "facet": "ritual_dance",
+      "interesting": 1.1109,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Song Academy Realism",
+      "margin": 0.021,
+      "novelty": 0.5675,
+      "base_rank": 93,
+      "disagree": 0.5
+    },
+    {
+      "query": "碎片、巴洛克 关键词有哪些",
+      "target_director": "Alain Resnais",
+      "facet": "base",
+      "interesting": 1.1097,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Peter Greenaway",
+      "margin": 0.0233,
+      "novelty": 0.5705,
+      "base_rank": 91,
+      "disagree": 0.5
+    },
+    {
+      "query": "有个画面是冷光、威亚、薄雾，怎么搜",
+      "target_director": "Ching Siu-tung",
+      "facet": "base",
+      "interesting": 1.1095,
+      "ft_rank": 43,
+      "ft_hit1": false,
+      "ft_top1": "Denis Villeneuve",
+      "margin": 0.0154,
+      "novelty": 0.5561,
+      "base_rank": 9,
+      "disagree": 0.5
+    },
+    {
+      "query": "给我点战后废墟、朴素的参考",
+      "target_director": "Federico Fellini",
+      "facet": "neorealist",
+      "interesting": 1.108,
+      "ft_rank": 21,
+      "ft_hit1": false,
+      "ft_top1": "Andrei Tarkovsky",
+      "margin": 0.023,
+      "novelty": 0.5683,
+      "base_rank": 52,
+      "disagree": 0.5
+    },
+    {
+      "query": "有个画面是薄雾、衣袖，怎么搜",
+      "target_director": "Ching Siu-tung",
+      "facet": "base",
+      "interesting": 1.1064,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "King Hu",
+      "margin": 0.0394,
+      "novelty": 0.5737,
+      "base_rank": 1,
+      "disagree": 0.55
+    },
+    {
+      "query": "想要木楼梯、客栈，不要别的",
+      "target_director": "King Hu",
+      "facet": "base",
+      "interesting": 1.1039,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "Wim Wenders",
+      "margin": 0.0423,
+      "novelty": 0.5989,
+      "base_rank": 63,
+      "disagree": 0.5
+    },
+    {
+      "query": "火星、暗地 相关的风格叫什么",
+      "target_director": "Jiaozi",
+      "facet": "lotus_fire",
+      "interesting": 1.1032,
+      "ft_rank": 26,
+      "ft_hit1": false,
+      "ft_top1": "Makoto Shinkai",
+      "margin": 0.0411,
+      "novelty": 0.596,
+      "base_rank": 2,
+      "disagree": 0.5
+    },
+    {
+      "query": "画框嵌套、远摄窥视 那种调子",
+      "target_director": "Alfred Hitchcock",
+      "facet": "mech_window_frame",
+      "interesting": 1.1005,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "Shadow Puppetry",
+      "margin": 0.0583,
+      "novelty": 0.5794,
+      "base_rank": 1,
+      "disagree": 0.6
+    },
+    {
+      "query": "画框嵌套、一格格窗户 的英文说法",
+      "target_director": "Alfred Hitchcock",
+      "facet": "mech_window_frame",
+      "interesting": 1.0991,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Peter Greenaway",
+      "margin": 0.0474,
+      "novelty": 0.5919,
+      "base_rank": 1,
+      "disagree": 0.525
+    },
+    {
+      "query": "沉思、仪式，简洁一点的说法",
+      "target_director": "Carlos Reygadas",
+      "facet": "base",
+      "interesting": 1.0972,
+      "ft_rank": 7,
+      "ft_hit1": false,
+      "ft_top1": "Mohsen Makhmalbaf",
+      "margin": 0.0141,
+      "novelty": 0.5415,
+      "base_rank": 45,
+      "disagree": 0.5
+    },
+    {
+      "query": "被发现、树枝遮挡、草丛遮挡 相关的风格叫什么",
+      "target_director": "Alfred Hitchcock",
+      "facet": "mech_hidden_observer",
+      "interesting": 1.0962,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Song Academy Realism",
+      "margin": 0.0391,
+      "novelty": 0.5855,
+      "base_rank": 58,
+      "disagree": 0.5
+    },
+    {
+      "query": "碎片、巴洛克 这种怎么描述",
+      "target_director": "Alain Resnais",
+      "facet": "base",
+      "interesting": 1.0936,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Peter Greenaway",
+      "margin": 0.0326,
+      "novelty": 0.5711,
+      "base_rank": 75,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要黑白粗粝、硬闪光，怎么prompt",
+      "target_director": "Stanley Kubrick",
+      "facet": "bw_early",
+      "interesting": 1.0927,
+      "ft_rank": 5,
+      "ft_hit1": false,
+      "ft_top1": "Alejandro Gonzalez Inarritu",
+      "margin": 0.0335,
+      "novelty": 0.5718,
+      "base_rank": 29,
+      "disagree": 0.5
+    },
+    {
+      "query": "帮我找灯笼、桌的素材方向",
+      "target_director": "King Hu",
+      "facet": "inn_standoff",
+      "interesting": 1.0927,
+      "ft_rank": 8,
+      "ft_hit1": false,
+      "ft_top1": "Handscroll Panorama",
+      "margin": 0.0297,
+      "novelty": 0.565,
+      "base_rank": 38,
+      "disagree": 0.5
+    },
+    {
+      "query": "和风、雾 类似的东西",
+      "target_director": "Kenji Mizoguchi",
+      "facet": "base",
+      "interesting": 1.0925,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Denis Villeneuve",
+      "margin": 0.0167,
+      "novelty": 0.5415,
+      "base_rank": 71,
+      "disagree": 0.5
+    },
+    {
+      "query": "我要朴素、黑白新写实，给我关键词",
+      "target_director": "Federico Fellini",
+      "facet": "neorealist",
+      "interesting": 1.0917,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Chen Kaige",
+      "margin": 0.0284,
+      "novelty": 0.5618,
+      "base_rank": 44,
+      "disagree": 0.5
+    },
+    {
+      "query": "朴素、黑白新写实 的英文说法",
+      "target_director": "Federico Fellini",
+      "facet": "neorealist",
+      "interesting": 1.0799,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Chen Kaige",
+      "margin": 0.0355,
+      "novelty": 0.5627,
+      "base_rank": 62,
+      "disagree": 0.5
+    },
+    {
+      "query": "夸张表情、热浪、三维动画，越具体越好",
+      "target_director": "Jiaozi",
+      "facet": "base",
+      "interesting": 1.0797,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Stephen Chow",
+      "margin": 0.0675,
+      "novelty": 0.5864,
+      "base_rank": 1,
+      "disagree": 0.575
+    },
+    {
+      "query": "饱和红、跟拍，简洁一点的说法",
+      "target_director": "Martin Scorsese",
+      "facet": "base",
+      "interesting": 1.0784,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Park Chan-wook",
+      "margin": 0.0374,
+      "novelty": 0.5646,
+      "base_rank": 53,
+      "disagree": 0.5
+    },
+    {
+      "query": "和风、雾 这个方向的提示词",
+      "target_director": "Kenji Mizoguchi",
+      "facet": "base",
+      "interesting": 1.0784,
+      "ft_rank": 3,
+      "ft_hit1": false,
+      "ft_top1": "Robert Eggers",
+      "margin": 0.0116,
+      "novelty": 0.5182,
+      "base_rank": 35,
+      "disagree": 0.5
+    },
+    {
+      "query": "极长镜头、灰绿，要那种感觉",
+      "target_director": "Hou Hsiao-hsien",
+      "facet": "misty_river",
+      "interesting": 1.0757,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Lee Chang-dong",
+      "margin": 0.0875,
+      "novelty": 0.6408,
+      "base_rank": 1,
+      "disagree": 0.525
+    },
+    {
+      "query": "灰绿写实、纪实颗粒，越具体越好",
+      "target_director": "Steven Spielberg",
+      "facet": "desaturated_war",
+      "interesting": 1.0756,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Lee Chang-dong",
+      "margin": 0.0445,
+      "novelty": 0.5634,
+      "base_rank": 1,
+      "disagree": 0.525
+    },
+    {
+      "query": "剑、桌、客栈 那种调子",
+      "target_director": "King Hu",
+      "facet": "inn_standoff",
+      "interesting": 1.0743,
+      "ft_rank": 7,
+      "ft_hit1": false,
+      "ft_top1": "Tsui Hark",
+      "margin": 0.0141,
+      "novelty": 0.5747,
+      "base_rank": 22,
+      "disagree": 0.375
+    },
+    {
+      "query": "烈日、碎片 这种感觉的表达",
+      "target_director": "Nicolas Roeg",
+      "facet": "base",
+      "interesting": 1.0739,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Glauber Rocha",
+      "margin": 0.018,
+      "novelty": 0.5254,
+      "base_rank": 27,
+      "disagree": 0.5
+    },
+    {
+      "query": "怎么用英文说公路、辽阔",
+      "target_director": "Wim Wenders",
+      "facet": "base",
+      "interesting": 1.0732,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Walter Salles",
+      "margin": 0.0371,
+      "novelty": 0.5589,
+      "base_rank": 23,
+      "disagree": 0.5
+    },
+    {
+      "query": "描述光柱、木楼梯的提示词",
+      "target_director": "King Hu",
+      "facet": "base",
+      "interesting": 1.0719,
+      "ft_rank": 6,
+      "ft_hit1": false,
+      "ft_top1": "Steven Spielberg",
+      "margin": 0.0476,
+      "novelty": 0.5765,
+      "base_rank": 67,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要社会写实、平凡，怎么prompt",
+      "target_director": "Ken Loach",
+      "facet": "base",
+      "interesting": 1.0696,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Satyajit Ray",
+      "margin": 0.0094,
+      "novelty": 0.5169,
+      "base_rank": 23,
+      "disagree": 0.475
+    },
+    {
+      "query": "长镜头、钨丝灯，简洁一点的说法",
+      "target_director": "Paul Thomas Anderson",
+      "facet": "base",
+      "interesting": 1.0695,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Wong Kar-wai",
+      "margin": 0.0711,
+      "novelty": 0.6164,
+      "base_rank": 38,
+      "disagree": 0.5
+    },
+    {
+      "query": "跟拍、饱和红，用什么词能出这个效果",
+      "target_director": "Martin Scorsese",
+      "facet": "base",
+      "interesting": 1.0681,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Brian De Palma",
+      "margin": 0.0295,
+      "novelty": 0.5402,
+      "base_rank": 37,
+      "disagree": 0.5
+    },
+    {
+      "query": "给我点静默、冷峻的参考",
+      "target_director": "Ingmar Bergman",
+      "facet": "base",
+      "interesting": 1.0676,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Kim Ki-duk",
+      "margin": 0.0283,
+      "novelty": 0.5375,
+      "base_rank": 29,
+      "disagree": 0.5
+    },
+    {
+      "query": "低地平线、辽阔 的写法",
+      "target_director": "Denis Villeneuve",
+      "facet": "epic_scale",
+      "interesting": 1.0654,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Christopher Nolan",
+      "margin": 0.0581,
+      "novelty": 0.589,
+      "base_rank": 60,
+      "disagree": 0.5
+    },
+    {
+      "query": "铠甲、质子、橙光 相关的风格叫什么",
+      "target_director": "Wuershan",
+      "facet": "ritual_dance",
+      "interesting": 1.0635,
+      "ft_rank": 11,
+      "ft_hit1": false,
+      "ft_top1": "Zhang Yimou",
+      "margin": 0.0305,
+      "novelty": 0.5374,
+      "base_rank": 102,
+      "disagree": 0.5
+    },
+    {
+      "query": "对称室内、克制，简洁一点的说法",
+      "target_director": "Paul Thomas Anderson",
+      "facet": "formal_period",
+      "interesting": 1.0615,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Yorgos Lanthimos",
+      "margin": 0.023,
+      "novelty": 0.522,
+      "base_rank": 32,
+      "disagree": 0.5
+    },
+    {
+      "query": "如果只要平凡、社会写实，怎么prompt",
+      "target_director": "Ken Loach",
+      "facet": "base",
+      "interesting": 1.0607,
+      "ft_rank": 4,
+      "ft_hit1": false,
+      "ft_top1": "Satyajit Ray",
+      "margin": 0.0076,
+      "novelty": 0.5159,
+      "base_rank": 22,
+      "disagree": 0.45
+    },
+    {
+      "query": "想搜冷面、灰调对称相关的东西",
+      "target_director": "Wes Anderson",
+      "facet": "winter_monochrome",
+      "interesting": 1.0592,
+      "ft_rank": 2,
+      "ft_hit1": false,
+      "ft_top1": "Coen Brothers",
+      "margin": 0.0293,
+      "novelty": 0.5311,
+      "base_rank": 45,
+      "disagree": 0.5
+    },
+    {
+      "query": "薄雾、威亚、衣袖 关键词有哪些",
+      "target_director": "Ching Siu-tung",
+      "facet": "base",
+      "interesting": 1.0509,
+      "ft_rank": 25,
+      "ft_hit1": false,
+      "ft_top1": "Sofia Coppola",
+      "margin": 0.0632,
+      "novelty": 0.5837,
+      "base_rank": 3,
+      "disagree": 0.5
+    }
+  ]
+}

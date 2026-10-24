@@ -14,70 +14,70 @@
     "skip_save": false,
     "select_mode": "final",
     "split_by": "query",
-    "out_dir": "models\\e5-director-c19",
-    "corpus": "data\\raw\\corpus_v17.jsonl",
-    "queries": "data\\raw\\queries_v4_fixed17.jsonl"
+    "out_dir": "models\\e5-director-c23",
+    "corpus": "data\\raw\\corpus_v19.jsonl",
+    "queries": "data\\raw\\queries_v4_fixed19m.jsonl"
   },
   "baseline": {
-    "overall": 0.2222222222222222,
+    "overall": 0.07638888888888888,
     "both": 0.3333333333333333,
-    "style": 0.0,
-    "name": 0.3333333333333333
+    "style": 0.03125,
+    "name": 0.0
   },
   "best": {
-    "style": 0.0,
+    "style": 0.5625,
     "epoch": 6,
-    "overall": 0.6666666666666666
+    "overall": 0.7083333333333334
   },
   "log": [
     {
       "epoch": 1,
-      "loss": 2.143564341646252,
-      "dev_overall": 0.6666666666666666,
+      "loss": 2.2333097119303145,
+      "dev_overall": 0.75,
       "both": 1.0,
-      "style": 0.0,
+      "style": 0.625,
       "name": 1.0
     },
     {
       "epoch": 2,
-      "loss": 0.39475356223005237,
-      "dev_overall": 0.6666666666666666,
+      "loss": 0.6176664561209594,
+      "dev_overall": 0.5694444444444444,
       "both": 1.0,
-      "style": 0.0,
-      "name": 1.0
+      "style": 0.4375,
+      "name": 0.6666666666666666
     },
     {
       "epoch": 3,
-      "loss": 0.23550276503418432,
-      "dev_overall": 0.6666666666666666,
+      "loss": 0.3390706382559601,
+      "dev_overall": 0.7083333333333334,
       "both": 1.0,
-      "style": 0.0,
+      "style": 0.5625,
       "name": 1.0
     },
     {
       "epoch": 4,
-      "loss": 0.1939195143905553,
-      "dev_overall": 0.6666666666666666,
+      "loss": 0.28412311546195895,
+      "dev_overall": 0.7083333333333334,
       "both": 1.0,
-      "style": 0.0,
+      "style": 0.5625,
       "name": 1.0
     },
     {
       "epoch": 5,
-      "loss": 0.18691532155781082,
-      "dev_overall": 0.6666666666666666,
+      "loss": 0.25209698107468304,
+      "dev_overall": 0.7083333333333334,
       "both": 1.0,
-      "style": 0.0,
+      "style": 0.5625,
       "name": 1.0
     },
     {
       "epoch": 6,
-      "loss": 0.17622602302016635,
-      "dev_overall": 0.6666666666666666,
+      "loss": 0.2417487048891169,
+      "dev_overall": 0.7083333333333334,
       "both": 1.0,
-      "style": 0.0,
+      "style": 0.5625,
       "name": 1.0
     }
   ],
-  "minutes": 1.7412030220031738
+  "minutes": 3.987457072734833
 }
