@@ -91,20 +91,66 @@ curl -X POST http://127.0.0.1:8848/style-hint \
 import sys; sys.path.insert(0, "comfyui")
 import local_style_hint as N
 
-out, debug = N.LocalStyleHint().run(
-    "雪林里女子拉弓搭箭，冷白风雪",
-    model_dir   = "models/e5-director-c18",
-    corpus_path = "data/raw/corpus_v16.jsonl",
-    subject_path= "data/raw/subjects_v4.jsonl",
-    craft_path  = "data/raw/crafts_v3.jsonl",
-    material_path="data/raw/materials_v4.jsonl",
-    use_material=True,
-    device="cpu", domain="自动", mode="导演/风格聚合",
-    topk=1, append="", include_original=False,
+node = N.LocalStyleHint()
+
+# 位置参数，顺序见下方「参数表」
+out, debug = node.run(
+    "雪林里女子拉弓搭箭，冷白风雪",      # 中文描述
+    "models/e5-director-c22",              # 模型目录
+    "data/raw/corpus_v19.jsonl",           # 语料
+    "data/raw/subjects_v4.jsonl",          # 题材索引
+    "data/raw/crafts_v3.jsonl",            # 工艺索引
+    "data/raw/materials_v4.jsonl",         # 材质索引
+    True,                                  # 启用材质
+    "结构化",                               # 输出结构：片段 / 结构化
+    "cpu",                                 # 设备
+    "自动",                                 # 域：自动 / 图片 / 视频 / 不限
+    "导演/风格聚合",                        # 匹配方式
+    1,                                     # 候选数
+    "",                                    # 追加到
+    False,                                 # 包含原文
 )
-print(out)     # 提示词片段
+print(out)     # 提示词（片段 或 结构化文本）
 print(debug)   # 各通道打分与最终裁决
 ```
+
+结构化输出的样子（图像）：
+
+```
+Subject:  a knight in plate armour on a horse, castle walls behind
+Style:    Robert Eggers, candle-lit darkness, historical authenticity, hard-key monochrome
+Aspect:   2.35:1
+Negative: text, watermark, signature, deformed hands, extra fingers, oversharpened
+```
+
+视频是另一套（必须说清镜头怎么动、多长、画幅）：
+
+```
+Shot:     slow push-in, 5s, 21:9
+Action:   two figures crossing in mid-air above a forest canopy, robes tangling
+Style:    Ching Siu-tung, wire-work flight, sleeves and ribbons, drifting mist
+Negative: scene change, camera shake, zoom pumping, fast cutting, jump cuts
+```
+
+### 参数表（14 个）
+
+| # | 参数 | 取值 |
+|---|---|---|
+| 1 | 中文描述 | 你的中文描述 |
+| 2 | 模型目录 | `models/e5-director-c22` |
+| 3 | 语料文件 | `data/raw/corpus_v19.jsonl` |
+| 4 | 题材文件 | `data/raw/subjects_v4.jsonl` |
+| 5 | 工艺文件 | `data/raw/crafts_v3.jsonl` |
+| 6 | 材质文件 | `data/raw/materials_v4.jsonl` |
+| 7 | 启用材质 | True / False |
+| 8 | **输出结构** | **片段**（一行逗号串）/ **结构化**（分栏文本）|
+| 9 | 设备 | cpu / cuda |
+| 10 | 域 | 自动 / 图片 / 视频 / 不限 |
+| 11 | 匹配方式 | 导演/风格聚合 / 原样提示词 |
+| 12 | 候选数 | 1–5 |
+| 13 | 追加到 | 附加在末尾的固定文本 |
+| 14 | 包含原文 | 把中文原话拼在最前 |
+
 
 ---
 
