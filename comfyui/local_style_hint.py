@@ -370,23 +370,68 @@ def _beats_zh(c, dur):
 
 
 def _fmt_seedance(item, subj, craft, mat, domain, query=""):
-    """Seedance 2.5 五段式（中文）。主体用用户原话，英文只出现在「风格锚定」。"""
+    """即梦 Seedance 2.5：官方四段式（中文）。
+
+    依据：即梦 Seedance 2.5 官方提示词指南（用户提供，上下两篇）。官方结构是
+        素材绑定 + 一句话概述 + 时间轴或镜头顺序 + 全局约束
+    并且是**连续整数秒时间段**（0–3 秒 / 3–8 秒），不留空档；
+    官方示例不是分栏而是流水句，所以这里也按流水写。
+    官方还强调：动作概括主线、只把少数记忆点写细；
+    表情用可观察的面部变化，不要抽象情绪词。
+    """
     c = _core(item, subj, craft, mat, domain, query)
     dur = int(str(c["dur"]).rstrip("s") or 6)
-    who = c["subject_zh"] or c["head"]
+    half = max(2, dur // 2)
+    who = c["subject_zh"] or "<主体：外观、服装、位置>"
+    light = c["zh_light"] or "自然光"
+    move = _MOVE_ZH.get(c["motion"], "缓慢推近")
+    act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
+    lines = []
+
+    # 素材绑定：只有真的用了素材才写（我们不产出素材，所以作为可选首行）
+    lines.append("（素材绑定：图片 1 负责<人物/场景/风格>，视频 1 只参考<动作/运镜>，"
+                 "音频 1 负责<音色/节奏>；没有素材就删掉这一行）")
+    lines.append("")
+
+    # 一句话概述：主体 + 地点 + 事件 + 题材或风格
+    lines.append(f"{light}。{who}。<地点与事件补一句：在哪里、发生什么>。")
+    lines.append("")
+
+    # 时间轴：连续整数秒，两段（时长短时够用；要更细就自己往下拆）
+    lines.append(f"0–{half} 秒：<景别>。{who}，{light}，{move}。")
+    lines.append(f"{half}–{dur} 秒：镜头{ ('轻微跟随' if c['motion'] != 'STATIC' else '保持不动') }；"
+                 f"{act}；画面在这里发生一次变化，其余保持不变。")
+    lines.append("")
+
+    # 全局约束（官方：机位、光线、色彩、环境声、画幅，以及"无字幕、无配乐"）
+    lines.append(f"全程保持主体清晰、背景自然虚化；{c['ar']}；"
+                 f"{'轻微手持呼吸感' if c['motion'] != 'STATIC' else '机位完全固定'}；"
+                 f"只使用<环境声>，不要配乐，不要字幕。")
+    return "\n".join(lines)
+
+
+def _fmt_seedance_kf(item, subj, craft, mat, domain, query=""):
+    """即梦 Seedance 2.5 · 关键帧：第一句必须声明帧顺序。
+
+    官方要求：把每张关键画面作为独立图片按顺序上传，
+    并在提示词第一句写「以图片 1 至图片 N 的顺序作为关键帧」；
+    然后用连续时间段把每个关键帧挂上去，事件顺序与帧顺序一致。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    who = c["subject_zh"] or "<主体>"
+    light = c["zh_light"] or "自然光"
     return "\n".join([
-        f"【主体】{who}。<补一句：谁、在做什么、和什么互动>",
+        f"以图片 1 至图片 N 的顺序作为关键帧，制作 {dur} 秒 {c['ar']} 的短片。",
         "",
-        f"【风格】{dur}秒，{c['ar']}，高清。{c['zh_light'] or '光线与质感按参考描述'}。",
-        f"风格锚定：{c['style']}",
+        f"全片保持{light}；主体外观、服装与身份一致，不换人、不变形。",
         "",
-        "【时间线】",
-    ] + _beats_zh(c, dur) + [
+        f"0–{max(2, dur // 3)} 秒对应图片 1；"
+        f"{max(2, dur // 3)}–{max(4, dur * 2 // 3)} 秒对应图片 2；"
+        f"{max(4, dur * 2 // 3)}–{dur} 秒对应图片 3。",
+        "严格保持关键帧的画面顺序与构图，不新增镜头，角色外观随对应关键帧保持一致。",
         "",
-        "【BGM】按画面情绪铺底，不要从头就满；<在这里写你要的音乐或环境声>",
-        "",
-        "【限制】不要出现文字、字幕、水印；一次只让一个东西动；"
-        "角色不要变形、多手多指、面部漂移",
+        "无文字、无字幕、无闪烁、无元素变形。",
     ])
 
 
@@ -754,7 +799,8 @@ class LocalStyleHint:
                     "片段（英文）",
                     "结构化（英文）",
                     "通用五面（英文，模型无关）",
-                    "Seedance 2.5（中文）",
+                    "即梦 Seedance 2.5（中文）",
+                    "即梦 Seedance · 关键帧（中文）",
                     "MiniMax H3（中文）",
                     "混元 HunyuanVideo（中文八段）",
                     "Runway Gen-4（英文，≤60 词）",
@@ -871,12 +917,16 @@ class LocalStyleHint:
         # 不要硬套（时间轴套在静态图上毫无意义）。
         is_video = (domain_used == "prompt_video")
         want = 输出格式
-        if want == "Seedance 2.5（中文）":
-            if is_video:
-                return (_fmt_seedance(items[0], subj, craft, mat, domain_used, 中文描述),
-                        "【格式】Seedance 2.5 五段式（中文，含时间轴）\n" + dbg)
-            return (_structured(items[0], subj, craft, mat, domain_used),
-                    "【格式】Seedance 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+        if want.startswith("即梦"):
+            if not is_video:
+                return (_structured(items[0], subj, craft, mat, domain_used),
+                        "【格式】即梦 Seedance 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+            if "关键帧" in want:
+                return (_fmt_seedance_kf(items[0], subj, craft, mat, domain_used, 中文描述),
+                        "【格式】即梦 Seedance 2.5 · 关键帧（依据：官方提示词指南）\n" + dbg)
+            return (_fmt_seedance(items[0], subj, craft, mat, domain_used, 中文描述),
+                    "【格式】即梦 Seedance 2.5 四段式（素材绑定/概述/时间轴/全局约束，"
+                    "依据：官方提示词指南）\n" + dbg)
         if want == "MiniMax H3（中文）":
             if is_video:
                 return (_fmt_minimax(items[0], subj, craft, mat, domain_used, 中文描述),
