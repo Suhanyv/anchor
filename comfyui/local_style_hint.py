@@ -474,6 +474,81 @@ def _fmt_hunyuan(item, subj, craft, mat, domain, query=""):
     ])
 
 
+# ---- 可灵 4.0 ----
+# 依据：可灵官方提示词指南（用户提供）。官方顺序是
+#   主体 + 动作 + 场景 + 镜头 + 光线 + 节奏 + 声音
+# 并强调「用直白的语言说清楚，少用魔幻/震撼这类抽象词」，
+# 以及「一段只写一种运镜」「写明面部与服装保持不变」。
+_KL_MOVE = {"STATIC": "固定机位，镜头不动",
+            "SLOW": "固定机位，镜头轻微推近",
+            "KINETIC": "手持跟拍，镜头随主体移动"}
+_KL_PACE = {"STATIC": "节奏舒缓，单一连续镜头",
+            "SLOW": "节奏舒缓，单一连续镜头",
+            "KINETIC": "节奏偏快，单一连续镜头"}
+_KL_ACT = {"STATIC": "几乎不动，只有呼吸和发丝有极小的变化",
+           "SLOW": "缓慢地转头或移动，动作幅度很小",
+           "KINETIC": "快速穿过画面，动作幅度大"}
+
+
+def _fmt_kling(item, subj, craft, mat, domain, query=""):
+    """可灵 4.0 单镜：七要素写成一段散文（官方示例就是这个形态）。"""
+    c = _core(item, subj, craft, mat, domain, query)
+    who = c["subject_zh"] or "<写清主体：外观、服装、位置>"
+    move = _KL_MOVE.get(c["motion"], _KL_MOVE["SLOW"])
+    act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
+    pace = _KL_PACE.get(c["motion"], _KL_PACE["SLOW"])
+    # 场景我们确实不知道（检索只给风格与光），老实留占位符，
+    # 否则「场景」和「光线」两栏会重复同一句风格词。
+    scene = "<写清地点与关键物件>"
+    light = c["zh_light"] or "自然光"
+    return (
+        f"{who}，面部特征与服装保持不变。"
+        f"{act}。"
+        f"{scene}。"
+        f"{move}，{light}，{pace}。"
+        f"环境音：<写环境音或留空>"
+    )
+
+
+def _fmt_kling_multi(item, subj, craft, mat, domain, query=""):
+    """可灵多镜头：先交代场景/人物/风格，再按顺序列镜头，每个镜头不同作用。
+
+    官方要点：3–15 秒内最多 6 个镜头；每个镜头要承担不同任务
+    （建立环境 / 交代动作 / 给出反应），不要换角度重复同一信息。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    who = c["subject_zh"] or "<主体>"
+    style = c["zh_style"]
+    move = _KL_MOVE.get(c["motion"], _KL_MOVE["SLOW"])
+    return "\n".join([
+        f"{who}，{style}。",
+        f"镜头 1：中景，{who}的动作与环境，{move}。",
+        f"镜头 2：<换一种信息：给反应或给细节，不要重复镜头 1>",
+        f"镜头 3：<收尾镜头，停在能当封面的构图上>",
+        f"环境音：<写环境音或留空>",
+    ])
+
+
+def _fmt_kling_keyframe(item, subj, craft, mat, domain, query=""):
+    """可灵 4.0 关键帧：提示词写的是关键帧之间「发生了什么」。
+
+    官方要点：3–30 秒、最多 10 个关键帧；按时间段写，事件顺序与关键帧顺序一致；
+    只在画面状态必须变化的地方加关键帧。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    half = max(2, dur // 2)
+    who = c["subject_zh"] or "<主体>"
+    act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
+    move = _KL_MOVE.get(c["motion"], _KL_MOVE["SLOW"])
+    return "\n".join([
+        f"0–{half} 秒：{who}，{c['zh_light'] or '按参考描述的光'}，{move}。",
+        f"{half}–{dur} 秒：{act}；画面状态在这里发生一次变化，其余保持不变。",
+        f"（总长 {dur} 秒，画幅 {c['ar']}；每加一个关键帧只改一件事，"
+        f"不要同时改人物、环境、商品、镜头、光线和风格）",
+    ])
+
+
 def _fmt_sd(item, subj, craft, mat, domain):
     """图像用：英文正向逗号串 + 独立负向，无时间轴。"""
     c = _core(item, subj, craft, mat, domain)
@@ -683,6 +758,9 @@ class LocalStyleHint:
                     "MiniMax H3（中文）",
                     "混元 HunyuanVideo（中文八段）",
                     "Runway Gen-4（英文，≤60 词）",
+                    "可灵 4.0（中文，七要素）",
+                    "可灵·多镜头（中文）",
+                    "可灵 4.0·关键帧（中文）",
                     "SD 正负向（英文）"],
                     {"default": "片段（英文）"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
@@ -814,6 +892,15 @@ class LocalStyleHint:
         if want == "Runway Gen-4（英文，≤60 词）":
             return (_fmt_runway(items[0], subj, craft, mat, domain_used, 中文描述),
                     "【格式】Runway Gen-4（只写运动，≤60 词）\n" + dbg)
+        if want.startswith("可灵"):
+            if not is_video:
+                return (_structured(items[0], subj, craft, mat, domain_used),
+                        "【格式】可灵是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+            fn = {"可灵 4.0（中文，七要素）": _fmt_kling,
+                  "可灵·多镜头（中文）": _fmt_kling_multi,
+                  "可灵 4.0·关键帧（中文）": _fmt_kling_keyframe}.get(want, _fmt_kling)
+            return (fn(items[0], subj, craft, mat, domain_used, 中文描述),
+                    "【格式】" + want + "（依据：可灵官方提示词指南）\n" + dbg)
         if want == "SD 正负向（英文）":
             return (_fmt_sd(items[0], subj, craft, mat, domain_used),
                     "【格式】SD 正向/负向逗号串（无时间轴）\n" + dbg)
