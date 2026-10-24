@@ -31,6 +31,19 @@ slow push-in, steady drift
 
 ## 快速开始
 
+**模型不需要下载。** 权重不进 git，但可以在干净克隆里用 **1.5 分钟从数据重建**（已实测）：
+
+```bash
+git clone <repo> && cd anchor
+pip install torch --index-url https://download.pytorch.org/whl/cu130   # Windows 必须这样装
+pip install -r requirements.txt
+bash src/reproduce.sh                      # 重建模型 + 冒烟测试
+bash src/reproduce.sh --bench              # 顺带跑全部基准
+```
+
+> 为什么这么做：465 MB 的权重两分钟就能复现，别人自己训一遍也比下载我们的更能验证结果。
+> 详见 [models/MODEL_CARD.md](models/MODEL_CARD.md)。
+
 ### 方式一：ComfyUI 节点（推荐）
 
 ```bash
