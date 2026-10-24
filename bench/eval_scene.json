@@ -1,5 +1,5 @@
 {
-  "label": "e5-director-c18 + corpus_v16.jsonl",
+  "label": "e5-director-c19 + corpus_v17.jsonl",
   "n": 20,
   "top1": 0.55,
   "top3": 0.7,
@@ -12,14 +12,14 @@
         "Christopher Nolan",
         "Ridley Scott"
       ],
-      "rank": 8,
+      "rank": 9,
       "top1": "Akira Kurosawa",
       "top5": [
         "Akira Kurosawa",
+        "Wuershan",
         "George Miller",
         "Handscroll Panorama",
-        "Abbas Kiarostami",
-        "Tsui Hark"
+        "Abbas Kiarostami"
       ],
       "src": "prompt_02"
     },
@@ -36,8 +36,8 @@
         "Christopher Nolan",
         "Liubai Negative Space",
         "One-Corner Composition",
-        "Michelangelo Antonioni",
-        "Handscroll Panorama"
+        "Wuershan",
+        "Michelangelo Antonioni"
       ],
       "src": "prompt_02"
     },
@@ -48,14 +48,14 @@
         "Michael Haneke",
         "David Fincher"
       ],
-      "rank": 7,
+      "rank": 8,
       "top1": "Guillermo del Toro",
       "top5": [
         "Guillermo del Toro",
+        "Frant Gwo",
         "Clint Eastwood",
         "Andrei Tarkovsky",
-        "David Cronenberg",
-        "Bong Joon-ho"
+        "David Cronenberg"
       ],
       "src": "prompt_02"
     },
@@ -69,10 +69,10 @@
       "top1": "Christopher Nolan",
       "top5": [
         "Christopher Nolan",
+        "Jiaozi",
+        "Wuershan",
         "Handscroll Panorama",
-        "Denis Villeneuve",
-        "Roberto Rossellini",
-        "George Miller"
+        "Denis Villeneuve"
       ],
       "src": "prompt_02"
     },
@@ -102,9 +102,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Song Academy Realism",
+        "Ching Siu-tung",
         "Handscroll Panorama",
-        "Blue-Green Landscape",
-        "Andrei Tarkovsky"
+        "Blue-Green Landscape"
       ],
       "src": "prompt_01"
     },
@@ -120,7 +120,7 @@
         "Brian De Palma",
         "Shadow Puppetry",
         "Paul Thomas Anderson",
-        "Andrei Tarkovsky"
+        "Sidney Lumet"
       ],
       "src": "prompt_01"
     },
@@ -135,8 +135,8 @@
         "Misty River Lone Boat",
         "Hou Hsiao-hsien",
         "Tsui Hark",
-        "Christopher Nolan",
-        "Liubai Negative Space"
+        "Wuershan",
+        "Christopher Nolan"
       ],
       "src": "东方-应命中"
     },
@@ -197,10 +197,10 @@
       "top1": "Zhang Yimou",
       "top5": [
         "Zhang Yimou",
+        "King Hu",
+        "Ching Siu-tung",
         "Park Chan-wook",
-        "Song Academy Realism",
-        "Hou Hsiao-hsien",
-        "Wong Kar-wai"
+        "Song Academy Realism"
       ],
       "src": "题材-应命中"
     },
@@ -245,7 +245,7 @@
         "Stanley Kubrick",
         "Wes Anderson"
       ],
-      "rank": 15,
+      "rank": 16,
       "top1": "Yasujiro Ozu",
       "top5": [
         "Yasujiro Ozu",
@@ -271,7 +271,7 @@
         "Liubai Negative Space",
         "Yasujiro Ozu",
         "Hirokazu Kore-eda",
-        "Federico Fellini"
+        "Frant Gwo"
       ],
       "src": "prompt_06"
     },
@@ -282,14 +282,14 @@
         "Jia Zhangke",
         "Hirokazu Kore-eda"
       ],
-      "rank": 12,
-      "top1": "Wes Anderson",
+      "rank": 13,
+      "top1": "Frant Gwo",
       "top5": [
+        "Frant Gwo",
         "Wes Anderson",
         "Bong Joon-ho",
         "Folk Woodblock New Year Print",
-        "Michael Haneke",
-        "Chinese Literati Ink-Wash"
+        "Michael Haneke"
       ],
       "src": "prompt_06"
     },
@@ -323,8 +323,8 @@
         "Tsai Ming-liang",
         "Chinese Literati Ink-Wash",
         "Misty River Lone Boat",
-        "Liubai Negative Space",
-        "Guillermo del Toro"
+        "Guillermo del Toro",
+        "Liubai Negative Space"
       ],
       "src": "prompt_06"
     },
@@ -339,9 +339,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Edward Yang",
+        "Frant Gwo",
         "Yasujiro Ozu",
-        "David Fincher",
-        "Tsai Ming-liang"
+        "David Fincher"
       ],
       "src": "prompt_06"
     }
