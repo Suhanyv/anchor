@@ -70,7 +70,7 @@ git push -u origin main --tags
    不影响 clone 和使用，只是 `git log` 里看起来像手滑。清历史需 rebase，我会先备份。
 
 3. **README 里的占位链接**
-   `https://github.com/<your-account>/anchor` 出现在 README / NOTICE / LICENSE-DATA 里。
+   `https://github.com/Suhanyv/anchor` 出现在 README / NOTICE / LICENSE-DATA 里。
    你给我实际的账号名，我一次替换掉。
 
 ---

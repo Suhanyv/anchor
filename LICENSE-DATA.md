@@ -29,8 +29,8 @@ bench/*.json                     评测结果与统计
 ## 建议的署名格式
 
     Anchor (锚) dataset — vertical cross-lingual retrieval for cinematic style prompts
-    by <原作者>, licensed CC-BY-4.0
-    https://github.com/<repo>  ·  https://creativecommons.org/licenses/by/4.0/
+    by Suhanyv, licensed CC-BY-4.0
+    https://github.com/Suhanyv/anchor  ·  https://creativecommons.org/licenses/by/4.0/
 
 若作出修改，请补充一句：
 

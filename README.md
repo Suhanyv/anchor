@@ -193,6 +193,6 @@ NOTICE          第三方来源与许可
   year   = {2026},
   note   = {Chinese query to English style-prompt fragments; 796-doc corpus,
             four-index architecture, scene-anchored top1 55\%},
-  url    = {https://github.com/<your-account>/anchor}
+  url    = {https://github.com/Suhanyv/anchor}
 }
 ```
