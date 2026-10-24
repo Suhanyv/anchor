@@ -1,9 +1,9 @@
 {
-  "label": "e5-director-c26 + corpus_v20.jsonl",
+  "label": "e5-director-c22 + _fair_subset.jsonl",
   "n": 20,
-  "top1": 0.5,
-  "top3": 0.7,
-  "top5": 0.7,
+  "top1": 0.6,
+  "top3": 0.8,
+  "top5": 0.8,
   "rows": [
     {
       "query": "女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头",
@@ -12,14 +12,14 @@
         "Christopher Nolan",
         "Ridley Scott"
       ],
-      "rank": 14,
+      "rank": 3,
       "top1": "Wuershan",
       "top5": [
         "Wuershan",
-        "Persian Miniature",
         "Akira Kurosawa",
-        "Handscroll Panorama",
-        "Ukiyo-e"
+        "Denis Villeneuve",
+        "Frant Gwo",
+        "Handscroll Panorama"
       ],
       "src": "prompt_02"
     },
@@ -34,10 +34,10 @@
       "top1": "Christopher Nolan",
       "top5": [
         "Christopher Nolan",
-        "Coen Brothers",
-        "Pier Paolo Pasolini",
         "Wuershan",
-        "Werner Herzog"
+        "Pier Paolo Pasolini",
+        "Michelangelo Antonioni",
+        "Liubai Negative Space"
       ],
       "src": "prompt_02"
     },
@@ -48,14 +48,14 @@
         "Michael Haneke",
         "David Fincher"
       ],
-      "rank": 17,
-      "top1": "Frant Gwo",
+      "rank": 19,
+      "top1": "Guillermo del Toro",
       "top5": [
-        "Frant Gwo",
         "Guillermo del Toro",
+        "Frant Gwo",
         "Andrei Tarkovsky",
         "Sergei Eisenstein",
-        "Orson Welles"
+        "Ridley Scott"
       ],
       "src": "prompt_02"
     },
@@ -65,14 +65,14 @@
         "Denis Villeneuve",
         "Christopher Nolan"
       ],
-      "rank": 1,
-      "top1": "Christopher Nolan",
+      "rank": 3,
+      "top1": "Jiaozi",
       "top5": [
-        "Christopher Nolan",
-        "Wuershan",
         "Jiaozi",
+        "Wuershan",
+        "Christopher Nolan",
         "Akira Kurosawa",
-        "Masaki Kobayashi"
+        "Ching Siu-tung"
       ],
       "src": "prompt_02"
     },
@@ -81,14 +81,14 @@
       "accept": [
         "Alfred Hitchcock"
       ],
-      "rank": 2,
-      "top1": "Wuershan",
+      "rank": 1,
+      "top1": "Alfred Hitchcock",
       "top5": [
-        "Wuershan",
         "Alfred Hitchcock",
-        "Persian Miniature",
-        "Song Academy Realism",
-        "Handscroll Panorama"
+        "Wuershan",
+        "Terrence Malick",
+        "Guillermo del Toro",
+        "Steven Spielberg"
       ],
       "src": "prompt_01"
     },
@@ -102,9 +102,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Ching Siu-tung",
-        "Song Academy Realism",
+        "Terrence Malick",
         "Handscroll Panorama",
-        "King Hu"
+        "Song Academy Realism"
       ],
       "src": "prompt_01"
     },
@@ -118,9 +118,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Wong Kar-wai",
-        "Brian De Palma",
+        "Stanley Kubrick",
         "Martin Scorsese",
-        "William Friedkin"
+        "Steven Spielberg"
       ],
       "src": "prompt_01"
     },
@@ -133,10 +133,10 @@
       "top1": "Misty River Lone Boat",
       "top5": [
         "Misty River Lone Boat",
-        "King Hu",
         "Wuershan",
-        "Tsui Hark",
-        "Hou Hsiao-hsien"
+        "King Hu",
+        "Hou Hsiao-hsien",
+        "Ching Siu-tung"
       ],
       "src": "东方-应命中"
     },
@@ -151,8 +151,8 @@
         "Liubai Negative Space",
         "One-Corner Composition",
         "Michelangelo Antonioni",
-        "Tibetan Thangka",
-        "Kiyoshi Kurosawa"
+        "Chinese Literati Ink-Wash",
+        "Handscroll Panorama"
       ],
       "src": "东方-应命中"
     },
@@ -167,8 +167,8 @@
         "Liubai Negative Space",
         "One-Corner Composition",
         "Song Academy Realism",
-        "Folk Woodblock New Year Print",
-        "Art Nouveau"
+        "Chinese Literati Ink-Wash",
+        "Ching Siu-tung"
       ],
       "src": "东方-应命中"
     },
@@ -181,10 +181,10 @@
       "top1": "Song Academy Realism",
       "top5": [
         "Song Academy Realism",
+        "Liubai Negative Space",
         "Gongbi Fine-Line Painting",
         "Chinese Literati Ink-Wash",
-        "George Miller",
-        "Minhwa"
+        "Blue-Green Landscape"
       ],
       "src": "东方-应命中"
     },
@@ -197,10 +197,10 @@
       "top1": "Zhang Yimou",
       "top5": [
         "Zhang Yimou",
-        "Hou Hsiao-hsien",
         "King Hu",
+        "Hou Hsiao-hsien",
         "Park Chan-wook",
-        "Song Academy Realism"
+        "Ching Siu-tung"
       ],
       "src": "题材-应命中"
     },
@@ -211,14 +211,14 @@
         "Martin Scorsese",
         "Ridley Scott"
       ],
-      "rank": 2,
-      "top1": "Mamoru Oshii",
+      "rank": 1,
+      "top1": "Wong Kar-wai",
       "top5": [
-        "Mamoru Oshii",
         "Wong Kar-wai",
+        "Tsai Ming-liang",
         "Martin Scorsese",
-        "David Fincher",
-        "Ridley Scott"
+        "Ridley Scott",
+        "Guillermo del Toro"
       ],
       "src": "通用"
     },
@@ -231,10 +231,10 @@
       "top1": "Alfred Hitchcock",
       "top5": [
         "Alfred Hitchcock",
-        "Chantal Akerman",
-        "Satoshi Kon",
         "Wong Kar-wai",
-        "Tsai Ming-liang"
+        "Francis Ford Coppola",
+        "Handscroll Panorama",
+        "Guillermo del Toro"
       ],
       "src": "通用-机制"
     },
@@ -245,14 +245,14 @@
         "Stanley Kubrick",
         "Wes Anderson"
       ],
-      "rank": 8,
-      "top1": "Yasujiro Ozu",
+      "rank": 1,
+      "top1": "Wes Anderson",
       "top5": [
+        "Wes Anderson",
+        "One-Corner Composition",
+        "Stanley Kubrick",
         "Yasujiro Ozu",
-        "Chantal Akerman",
-        "Satoshi Kon",
-        "Alfred Hitchcock",
-        "One-Corner Composition"
+        "Alfred Hitchcock"
       ],
       "src": "通用"
     },
@@ -269,9 +269,9 @@
       "top5": [
         "Yasujiro Ozu",
         "Liubai Negative Space",
-        "Wim Wenders",
-        "Chantal Akerman",
-        "Frant Gwo"
+        "Hirokazu Kore-eda",
+        "One-Corner Composition",
+        "King Hu"
       ],
       "src": "prompt_06"
     },
@@ -282,14 +282,14 @@
         "Jia Zhangke",
         "Hirokazu Kore-eda"
       ],
-      "rank": 7,
+      "rank": 9,
       "top1": "Frant Gwo",
       "top5": [
         "Frant Gwo",
-        "John Carpenter",
+        "Bong Joon-ho",
+        "Folk Woodblock New Year Print",
         "Wes Anderson",
-        "Martin Scorsese",
-        "Folk Woodblock New Year Print"
+        "Michael Haneke"
       ],
       "src": "prompt_06"
     },
@@ -305,9 +305,9 @@
       "top5": [
         "Sofia Coppola",
         "Greta Gerwig",
-        "Carl Theodor Dreyer",
         "Francois Truffaut",
-        "Agnes Varda"
+        "Agnes Varda",
+        "Shadow Puppetry"
       ],
       "src": "prompt_06"
     },
@@ -321,10 +321,10 @@
       "top1": "Tsai Ming-liang",
       "top5": [
         "Tsai Ming-liang",
-        "Chantal Akerman",
-        "William Friedkin",
-        "Frant Gwo",
-        "Alfred Hitchcock"
+        "Chinese Literati Ink-Wash",
+        "King Hu",
+        "Handscroll Panorama",
+        "Frant Gwo"
       ],
       "src": "prompt_06"
     },
@@ -334,14 +334,14 @@
         "Edward Yang",
         "Denis Villeneuve"
       ],
-      "rank": 3,
+      "rank": 2,
       "top1": "Alfred Hitchcock",
       "top5": [
         "Alfred Hitchcock",
-        "Frant Gwo",
         "Edward Yang",
-        "Satoshi Kon",
-        "Chantal Akerman"
+        "Frant Gwo",
+        "Ridley Scott",
+        "Jia Zhangke"
       ],
       "src": "prompt_06"
     }

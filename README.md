@@ -174,6 +174,10 @@ Negative: scene change, camera shake, zoom pumping, fast cutting, jump cuts
 
 ---
 
+> **读这些数字前先看 CORRECTIONS.md。**
+> 语料增长会让候选池变大，top-1 自然下降——那不是模型退步。
+> 任何语料变了的对比都必须用 src/bench_fair.py 同时报**绝对**与**受控**两组数。
+
 ## 实测数字
 
 | 基准 | 结果 | 说明 |
