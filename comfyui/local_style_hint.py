@@ -125,8 +125,11 @@ def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None, ma
     if not os.path.isdir(model_dir):
         raise RuntimeError(
             f"模型目录不存在：{model_dir}\n"
-            f"请把 <项目根>/models/e5-director-c18 整个文件夹复制到这个路径，"
-            f"或把本节点的「模型目录」改成实际位置。"
+            f"本项目根推断为：{ROOT}
+"
+            f"若本节点是从 custom_nodes 加载的，请把「模型目录」直接写成你 clone 的仓库里
+"
+            f"models/e5-director-c18 的完整路径（例如 D:/anchor/models/e5-director-c18）。"
         )
     if not os.path.isfile(corpus_path):
         raise RuntimeError(
