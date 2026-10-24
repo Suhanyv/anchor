@@ -80,7 +80,11 @@ def main():
         ok += good
         why = "" if good else ("（未命中）" if not hit else "（输出不像英文片段）")
         print(f"  [{'OK' if good else 'FAIL'}] {desc}{why}")
-        print(f"         {out[:100]}")
+        head = out[:100]
+        if hit and want.lower() not in head.lower():
+            i = out.lower().find(want.lower())
+            head = out[:70] + " … " + out[max(0, i - 12):i + len(want) + 45]
+        print(f"         {head}")
 
     if a.url:
         print("\n=== 4. HTTP 服务 ===")
