@@ -939,7 +939,7 @@ class LocalStyleHint:
                     "可灵·多镜头（中文）",
                     "可灵 4.0·关键帧（中文）",
                     "Veo 3（英文，8 秒单镜）",
-                    "Sora 2（中文，八模块·社区总结）",
+                    "Sora 2（已停服 · 仅存档）",
                     "SD 正负向（英文）"],
                     {"default": "片段（英文）"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
@@ -1055,8 +1055,9 @@ class LocalStyleHint:
                 return (_structured(items[0], subj, craft, mat, domain_used),
                         "【格式】Sora 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
             return (_fmt_sora(items[0], subj, craft, mat, domain_used, 中文描述),
-                    "【格式】Sora 2 八模块（注意：这个结构来自 CSDN 博客的社区总结，"
-                    "不是 OpenAI 官方；官方 cookbook 我们访问不到 403）\n" + dbg)
+                    "【格式】Sora 2 八模块 · 该平台已停止服务，本格式仅作存档。"
+                    "结构来自 CSDN 博客的社区总结（CC BY-SA 4.0），非官方；"
+                    "官方 cookbook 亦不可达（403）。\n" + dbg)
         if want.startswith("Veo"):
             if not is_video:
                 return (_structured(items[0], subj, craft, mat, domain_used),
