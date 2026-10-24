@@ -1,0 +1,604 @@
+{
+  "运镜 25 题": {
+    "n": 25,
+    "before": 7,
+    "after": 6,
+    "rows": [
+      {
+        "query": "镜头一动不动，两个人从画面左边走进来，站了一会儿，又从右边走出去",
+        "accept": [
+          "Hou Hsiao-hsien",
+          "Jia Zhangke"
+        ],
+        "before": "One-Corner Composition",
+        "after": "One-Corner Composition",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "摄影机极慢地向前推，推了十几秒才靠近那个站着的人",
+        "accept": [
+          "Denis Villeneuve",
+          "Hou Hsiao-hsien"
+        ],
+        "before": "Denis Villeneuve",
+        "after": "Ching Siu-tung",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "镜头从下面往上摇，最后停在高处俯视整个房间",
+        "accept": [
+          "Alfred Hitchcock",
+          "Stanley Kubrick"
+        ],
+        "before": "Post-Impressionism",
+        "after": "Ching Siu-tung",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "摄影机贴着人物侧面一路跟拍，脚步不停，最后急刹",
+        "accept": [
+          "Kathryn Bigelow",
+          "Paul Greengrass"
+        ],
+        "before": "Street Photography",
+        "after": "Ching Siu-tung",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "一个镜头跟着人从街上进门，穿过前厅上楼，全程不切",
+        "accept": [
+          "Alfonso Cuarón",
+          "Hou Hsiao-hsien"
+        ],
+        "before": "Street Photography",
+        "after": "Martin Scorsese",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "缓慢横移，前景的草一根根掠过镜头",
+        "accept": [
+          "Hou Hsiao-hsien",
+          "Terrence Malick"
+        ],
+        "before": "Terrence Malick",
+        "after": "Ching Siu-tung",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "镜头围着两个人转了大半圈，他们一直面对面站着",
+        "accept": [
+          "Alfonso Cuarón",
+          "Park Chan-wook"
+        ],
+        "before": "Street Photography",
+        "after": "Wong Kar-wai",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "手持镜头跟着一个快步走的人穿过霓虹街道，画面有点拖影",
+        "accept": [
+          "Martin Scorsese",
+          "Wong Kar-wai"
+        ],
+        "before": "Jia Zhangke",
+        "after": "Martin Scorsese",
+        "ok_before": false,
+        "ok_after": true
+      },
+      {
+        "query": "镜头匀速向前推，走廊两边完全对称，一直推到尽头",
+        "accept": [
+          "Stanley Kubrick",
+          "Wes Anderson"
+        ],
+        "before": "Constructivism",
+        "after": "One-Corner Composition",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "极远景停住很久，然后才慢慢推到一双眼睛",
+        "accept": [
+          "Denis Villeneuve",
+          "Sergio Leone"
+        ],
+        "before": "Hou Hsiao-hsien",
+        "after": "Ingmar Bergman",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "镜头对着墙上的东西慢慢变焦，突然切到另一个角度的墙",
+        "accept": [
+          "David Lynch",
+          "Nicolas Roeg"
+        ],
+        "before": "William Friedkin",
+        "after": "King Hu",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "一整个长镜头里，摄影机缓慢漂过水面和散落的杂物",
+        "accept": [
+          "Andrei Tarkovsky",
+          "Michelangelo Antonioni"
+        ],
+        "before": "Wasteland",
+        "after": "Misty River Lone Boat",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "机位完全不动，只有手在画面里动",
+        "accept": [
+          "Robert Bresson"
+        ],
+        "before": "Y2K",
+        "after": "Michelangelo Antonioni",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "镜头保持静止特写，脸几乎不动，很久都没有剪",
+        "accept": [
+          "Ingmar Bergman",
+          "Robert Bresson"
+        ],
+        "before": "Surrealism",
+        "after": "Ingmar Bergman",
+        "ok_before": false,
+        "ok_after": true
+      },
+      {
+        "query": "静止的远景里突然刮起风，尘土横着扫过画面，然后人开始动",
+        "accept": [
+          "Akira Kurosawa"
+        ],
+        "before": "Wuershan",
+        "after": "Jiaozi",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "镜头低低地贴着地面移动，然后一口气升起来变成俯视",
+        "accept": [
+          "Kathryn Bigelow",
+          "Steven Spielberg"
+        ],
+        "before": "Steven Spielberg",
+        "after": "Ching Siu-tung",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "摄影机藏在草丛的高度，缓慢向前挪，前面的人没察觉",
+        "accept": [
+          "Alfred Hitchcock",
+          "Terrence Malick"
+        ],
+        "before": "Ching Siu-tung",
+        "after": "Ching Siu-tung",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "镜头快速推近一张脸，然后猛地甩到旁边的人",
+        "accept": [
+          "Martin Scorsese",
+          "Wong Kar-wai"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "Alfred Hitchcock",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "缓慢横移掠过一排排青铜铠甲，火把一根根经过镜头",
+        "accept": [
+          "Wuershan"
+        ],
+        "before": "Wuershan",
+        "after": "Wuershan",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "镜头仰起来，一直仰到看不见巨型结构的顶",
+        "accept": [
+          "Denis Villeneuve",
+          "Frant Gwo"
+        ],
+        "before": "Guillermo del Toro",
+        "after": "Michelangelo Antonioni",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "固定机位拍客栈大堂，一个人突然从楼上跃下来落在桌上",
+        "accept": [
+          "King Hu"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "King Hu",
+        "ok_before": false,
+        "ok_after": true
+      },
+      {
+        "query": "镜头跟着白衣人往上升，袖子一直在飘，雾从镜头前掠过",
+        "accept": [
+          "Ching Siu-tung"
+        ],
+        "before": "Ching Siu-tung",
+        "after": "Ching Siu-tung",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "一个镜头绕着燃烧的火圈转，火苗跟着镜头方向倒",
+        "accept": [
+          "Jiaozi",
+          "Park Chan-wook"
+        ],
+        "before": "Jiaozi",
+        "after": "Jiaozi",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "从室内慢慢推向窗口，窗外从暗变亮，最后一镜停在窗框上",
+        "accept": [
+          "Denis Villeneuve",
+          "Ingmar Bergman"
+        ],
+        "before": "Film Noir",
+        "after": "Alfred Hitchcock",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "一个不剪的长镜头里，镜头缓慢后退，人越走越远，最后变成远景",
+        "accept": [
+          "Hou Hsiao-hsien",
+          "Michelangelo Antonioni"
+        ],
+        "before": "Hou Hsiao-hsien",
+        "after": "Ching Siu-tung",
+        "ok_before": true,
+        "ok_after": false
+      }
+    ]
+  },
+  "场景 20 题": {
+    "n": 20,
+    "before": 9,
+    "after": 6,
+    "rows": [
+      {
+        "query": "女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头",
+        "accept": [
+          "Christopher Nolan",
+          "Denis Villeneuve",
+          "Ridley Scott"
+        ],
+        "before": "Wuershan",
+        "after": "Wuershan",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "广阔荒原上只有一个孤独骑士，低地平线，人很小，史诗感",
+        "accept": [
+          "Christopher Nolan",
+          "Denis Villeneuve",
+          "Terrence Malick"
+        ],
+        "before": "Christopher Nolan",
+        "after": "Wuershan",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "钢铁盔甲的反光，侧光，深影，冷硬质感",
+        "accept": [
+          "David Fincher",
+          "Denis Villeneuve",
+          "Michael Haneke"
+        ],
+        "before": "Guillermo del Toro",
+        "after": "Guillermo del Toro",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "沙尘弥漫的苍茫大地，巨大的东西压着地平线",
+        "accept": [
+          "Christopher Nolan",
+          "Denis Villeneuve"
+        ],
+        "before": "Wasteland",
+        "after": "Wuershan",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "女骑士骑马慢慢走向镜头，有人蹲在草丛里偷看她，她突然发现了",
+        "accept": [
+          "Alfred Hitchcock"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "Wuershan",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "从树枝后面看过去，前景有草叶挡住画面，像有人藏着",
+        "accept": [
+          "Alfred Hitchcock"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "Ching Siu-tung",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "一个人突然转头直视镜头，好像发现有人在看",
+        "accept": [
+          "Alfred Hitchcock"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "Wong Kar-wai",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "云雾里的江面，一条小船，远山一层层没入雾中",
+        "accept": [
+          "Misty River Lone Boat"
+        ],
+        "before": "Misty River Lone Boat",
+        "after": "Hou Hsiao-hsien",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "大片空白，中间只有一个很小的东西，四周什么都没有",
+        "accept": [
+          "Liubai Negative Space"
+        ],
+        "before": "Liubai Negative Space",
+        "after": "Liubai Negative Space",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "一根树枝从画面右下角伸进来，其余都是空的",
+        "accept": [
+          "One-Corner Composition"
+        ],
+        "before": "Liubai Negative Space",
+        "after": "One-Corner Composition",
+        "ok_before": false,
+        "ok_after": true
+      },
+      {
+        "query": "绢本上画的花鸟，笔很细，颜色很淡",
+        "accept": [
+          "Song Academy Realism"
+        ],
+        "before": "Song Academy Realism",
+        "after": "Gongbi Fine-Line Painting",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "红柱子、宫灯、讲究的唐代宫廷",
+        "accept": [
+          "Tang Court"
+        ],
+        "before": "Zhang Yimou",
+        "after": "Zhang Yimou",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "雨夜的街道，霓虹倒映在积水里",
+        "accept": [
+          "Martin Scorsese",
+          "Ridley Scott",
+          "Wong Kar-wai"
+        ],
+        "before": "Cyberpunk",
+        "after": "Wong Kar-wai",
+        "ok_before": false,
+        "ok_after": true
+      },
+      {
+        "query": "一个杯子放在桌上，光从下面打上来，让人紧张",
+        "accept": [
+          "Alfred Hitchcock"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "Alfred Hitchcock",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "两个人隔着桌子面对面坐着，房间完全对称",
+        "accept": [
+          "Park Chan-wook",
+          "Stanley Kubrick",
+          "Wes Anderson"
+        ],
+        "before": "Chantal Akerman",
+        "after": "Wes Anderson",
+        "ok_before": false,
+        "ok_after": true
+      },
+      {
+        "query": "放假后空无一人的学校，黑色铁门敞开，地面斑驳阳光",
+        "accept": [
+          "Edward Yang",
+          "Hirokazu Kore-eda",
+          "Hou Hsiao-hsien",
+          "Yasujiro Ozu"
+        ],
+        "before": "Dark Academia",
+        "after": "Dark Academia",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "杂货铺门口的老式CRT电视机，屏幕上是纯黑白雪花点",
+        "accept": [
+          "Hirokazu Kore-eda",
+          "Jia Zhangke",
+          "Tsai Ming-liang"
+        ],
+        "before": "Frant Gwo",
+        "after": "Folk Woodblock New Year Print",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "女生坐在窗边拉小提琴，柔和偏白的光，空气里有尘埃光束",
+        "accept": [
+          "Hirokazu Kore-eda",
+          "Hou Hsiao-hsien",
+          "Yasujiro Ozu"
+        ],
+        "before": "Sofia Coppola",
+        "after": "Sofia Coppola",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "走廊里的荧光灯管，地砖上有一摊水渍",
+        "accept": [
+          "Hirokazu Kore-eda",
+          "Tsai Ming-liang"
+        ],
+        "before": "Tsai Ming-liang",
+        "after": "Chinese Literati Ink-Wash",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "玻璃幕墙反射城市天际线，外墙挂满空调外机",
+        "accept": [
+          "Denis Villeneuve",
+          "Edward Yang"
+        ],
+        "before": "Alfred Hitchcock",
+        "after": "Edward Yang",
+        "ok_before": false,
+        "ok_after": true
+      }
+    ]
+  },
+  "中国类型片 9 题": {
+    "n": 9,
+    "before": 6,
+    "after": 4,
+    "rows": [
+      {
+        "query": "巨大的行星发动机立在冰原上，底下有一列车队开过去，天是灰的",
+        "accept": [
+          "Frant Gwo"
+        ],
+        "before": "Frant Gwo",
+        "after": "Frant Gwo",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "质子战舞，一群年轻武士穿着青铜纹重甲在校场上齐舞，火把照明",
+        "accept": [
+          "Wuershan"
+        ],
+        "before": "Wuershan",
+        "after": "Wuershan",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "老客栈里两拨人隔着一张桌子对峙，木楼梯上一层灰，谁也不动",
+        "accept": [
+          "King Hu"
+        ],
+        "before": "King Hu",
+        "after": "King Hu",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "白衣女子乘着薄雾从树梢上飘下来，袖子很长，枫叶在飞",
+        "accept": [
+          "Ching Siu-tung"
+        ],
+        "before": "Ching Siu-tung",
+        "after": "Jiaozi",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "红莲一样的火焰从脚下炸开，把少年整个人包住，水墨那一类特效",
+        "accept": [
+          "Jiaozi"
+        ],
+        "before": "Jiaozi",
+        "after": "Alfred Hitchcock",
+        "ok_before": true,
+        "ok_after": false
+      },
+      {
+        "query": "一只青铜纹样的巨兽从城墙后面立起来，黄昏，脚下全是烟",
+        "accept": [
+          "Wuershan"
+        ],
+        "before": "King Hu",
+        "after": "Alfred Hitchcock",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "霓虹夜色，慢门，暧昧的感觉",
+        "accept": [
+          "Wong Kar-wai"
+        ],
+        "before": "Wong Kar-wai",
+        "after": "Wong Kar-wai",
+        "ok_before": true,
+        "ok_after": true
+      },
+      {
+        "query": "两个人面对面坐着，房间完全对称，一个点在正中",
+        "accept": [
+          "Stanley Kubrick"
+        ],
+        "before": "One-Corner Composition",
+        "after": "One-Corner Composition",
+        "ok_before": false,
+        "ok_after": false
+      },
+      {
+        "query": "广阔的荒原上只有一个孤独骑士，地平线很低",
+        "accept": [
+          "Denis Villeneuve",
+          "Terrence Malick"
+        ],
+        "before": "Christopher Nolan",
+        "after": "Christopher Nolan",
+        "ok_before": false,
+        "ok_after": false
+      }
+    ]
+  }
+}
