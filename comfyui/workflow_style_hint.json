@@ -42,7 +42,7 @@
         "F:\\llm\\data\\raw\\crafts_v3.jsonl",
         "F:\\llm\\data\\raw\\materials_v4.jsonl",
         true,
-        "片段",
+        "片段（英文）",
         "cpu",
         "自动",
         "导演/风格聚合",

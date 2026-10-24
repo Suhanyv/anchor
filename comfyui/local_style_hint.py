@@ -267,6 +267,171 @@ def _pick(tags, hints, n=2):
     return [t for t in tags if any(h in t.lower() for h in hints)][:n]
 
 
+# ================= 面向平台的输出格式 =================
+# 提示词不是一个字符串，是「面向某个平台的表达」。同一个镜头：
+#   Seedance 2.5  要中文五段式，含【时间线】
+#   MiniMax H3    要中文整段自然语言，不编号
+#   图像/SD       要英文逗号串 + 独立负向，没有时间轴
+# 格式错了，内容再对也是白给。
+#
+# ⚠️ 各平台的字段名与偏好来自公开资料与实测观察，**换平台前请自己核对一次**：
+#   Seedance 2.5 的五段式（主体/风格/时间线/BGM/限制）来自 art-aesthetic-vault 的卡片
+#   （MIT），该库作者实测过；MiniMax H3 接受中文自然语言整段。
+#   其它平台没有核实过，宁可不支持，也不要瞎猜一个格式。
+
+_MOVE_ZH = {"STATIC": "固定机位，不移动", "SLOW": "缓慢推近",
+            "KINETIC": "快速手持跟移"}
+
+
+def _beats(item, domain, dur_s=6):
+    """把「镜头的起承转合」拆成三段中文。视频才有。"""
+    body = (item.get("description") or "").split(", in the style of")[0].strip()
+    parts = [x.strip() for x in body.split(", ") if x.strip()]
+    head = parts[0] if parts else "画面主体"
+    tail = parts[1] if len(parts) > 1 else ""
+    mo = (item.get("motion") or "SLOW").upper()
+    move = _MOVE_ZH.get(mo, "缓慢推近")
+    a = max(1, int(dur_s / 3))
+    b = max(a + 1, int(dur_s * 2 / 3))
+    b1 = f"【0—{a}秒】起手就给画面最强的视觉信息：{head}。机位{move}，第一帧就要立住。"
+    b2 = f"【{a}—{b}秒】{tail + '；' if tail else ''}动作与光在画面里推进，镜头保持同一运动，不切。"
+    b3 = f"【{b}—{dur_s}秒】动作收束，画面停下来；最后一帧停在能当封面的构图上。"
+    return [b1, b2, b3]
+
+
+def _zh_light_style(item, mat, craft):
+    """中文的光/色彩/质感描述，给中文平台用。"""
+    tags = list(item.get("style_tags") or [])
+    out = []
+    if mat and mat.get("hit"):
+        out.append(mat["phrase"])
+    if craft and craft.get("hit"):
+        out.append(craft["phrase"])
+    light = _pick(tags, _LIGHT_HINTS)
+    if light:
+        out.append("、".join(light))
+    return "；".join(out)
+
+
+def _core(item, subj, craft, mat, domain, query=""):
+    """抽取公共字段，供各平台模板复用。
+
+    query 是用户的中文原话 —— 中文平台的主体必须用它，
+    不能用检索到的英文描述（那是风格样例，不是你要的画面）。
+    """
+    tags = list(item.get("style_tags") or [])
+    kw = list(item.get("kw_zh") or [])
+    params = item.get("params") or {}
+    style = (item.get("style_string") or "").strip()
+    if style.startswith("in the style of "):
+        style = style[len("in the style of "):]
+    body = (item.get("description") or "").split(", in the style of")[0].strip()
+    parts = [x.strip() for x in body.split(", ") if x.strip()]
+    mo = (item.get("motion") or "SLOW").upper()
+
+    who_zh = item.get("director_zh") or item.get("director") or ""
+    zh_style = who_zh + ("：" + "、".join(kw[:4]) if kw else "")
+
+    # 光/质感优先用材质与工艺通道；两者都没命中时才回落到风格关键词，
+    # 否则中文模板里会把同一组词说两遍（「整体走 X」和「光线与质感是 X」）。
+    zh_light = []
+    if mat and mat.get("hit"):
+        zh_light.append(mat.get("zh") or "")
+    if craft and craft.get("hit"):
+        zh_light.append(craft.get("zh") or "")
+    if not zh_light and kw:
+        zh_light.append("、".join(kw[:3]))
+    zh_light = "；".join([x for x in zh_light if x])
+
+    return {
+        "style": style, "zh_style": zh_style, "zh_light": zh_light,
+        "tags": tags, "kw": kw, "params": params, "motion": mo,
+        "head": parts[0] if parts else "",
+        "tail": parts[1] if len(parts) > 1 else "",
+        "subject_zh": (query or "").strip(),
+        "subject": subj["phrase"] if (subj and subj.get("hit")) else "",
+        "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
+        "dur": params.get("duration") or "6s",
+    }
+
+
+def _beats_zh(c, dur):
+    """时间轴三段：主体用用户原话，运动用中文运镜词。"""
+    who = c["subject_zh"] or c["head"]
+    move = _MOVE_ZH.get(c["motion"], "缓慢推近")
+    light = c["zh_light"] or "按参考描述的光"
+    a = max(1, int(dur / 3))
+    b = max(a + 1, int(dur * 2 / 3))
+    return [
+        f"【0—{a}秒】起手就给最强的视觉信息：{who}。机位{move}，第一帧就立住。",
+        f"【{a}—{b}秒】{light}；动作在画面里推进，镜头保持同一运动，不切。",
+        f"【{b}—{dur}秒】动作收束，画面停下来，最后一帧停在能当封面的构图上。",
+    ]
+
+
+def _fmt_seedance(item, subj, craft, mat, domain, query=""):
+    """Seedance 2.5 五段式（中文）。主体用用户原话，英文只出现在「风格锚定」。"""
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    who = c["subject_zh"] or c["head"]
+    return "\n".join([
+        f"【主体】{who}。<补一句：谁、在做什么、和什么互动>",
+        "",
+        f"【风格】{dur}秒，{c['ar']}，高清。{c['zh_light'] or '光线与质感按参考描述'}。",
+        f"风格锚定：{c['style']}",
+        "",
+        "【时间线】",
+    ] + _beats_zh(c, dur) + [
+        "",
+        "【BGM】按画面情绪铺底，不要从头就满；<在这里写你要的音乐或环境声>",
+        "",
+        "【限制】不要出现文字、字幕、水印；一次只让一个东西动；"
+        "角色不要变形、多手多指、面部漂移",
+    ])
+
+
+def _fmt_minimax(item, subj, craft, mat, domain, query=""):
+    """MiniMax H3：中文自然语言一整段，不编号。"""
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    who = c["subject_zh"] or c["head"]
+    move = _MOVE_ZH.get(c["motion"], "缓慢推近")
+    return (
+        f"一段 {dur} 秒、{c['ar']} 的画面：{who}。"
+        f"光线与质感是{c['zh_light'] or '按参考描述'}，"
+        f"整体走{c['zh_style']}这个路子。"
+        f"摄影机{move}，全程一个镜头不切换；"
+        f"开头两秒就要给出最强的视觉信息，不要用缓慢推进开场。"
+        f"画面里不要出现任何文字、字幕或水印；角色不要变形、多手多指。"
+    )
+
+
+def _fmt_sd(item, subj, craft, mat, domain):
+    """图像用：英文正向逗号串 + 独立负向，无时间轴。"""
+    d = {}
+    c = _core(item, subj, craft, mat, domain)
+    pos = []
+    if c["subject"]:
+        pos.append(c["subject"])
+    pos.append(c["head"])
+    pos.append(c["style"])
+    comp = _pick(c["tags"], _COMP_HINTS)
+    pos += comp
+    if mat and mat.get("hit"):
+        pos.append(mat["phrase"])
+    if craft and craft.get("hit"):
+        pos.append(craft["phrase"])
+    sl = " ".join(pos).lower()
+    pos += [t for t in _pick(c["tags"], _LIGHT_HINTS) if t.lower() not in sl]
+    pos.append(f"{c['ar']}")
+    neg = _NEG_IMAGE[:]
+    w = 9
+    return "\n".join([
+        f"{'Positive:':<{w}} {', '.join(dict.fromkeys(pos))}",
+        f"{'Negative:':<{w}} {', '.join(dict.fromkeys(neg))}",
+    ])
+
+
 def _structured(item, subj, craft, mat, domain):
     """把检索结果拼成 结构化完整提示词。只输出真的知道的字段。"""
     tags = list(item.get("style_tags") or [])
@@ -408,6 +573,7 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
                     "style_tags": list(d.get("style_tags") or []),
+                    "kw_zh": list(d.get("kw_zh") or []),
                     "description": d.get("description", ""),
                     "params": dict(d.get("params") or {}),
                 }
@@ -442,7 +608,9 @@ class LocalStyleHint:
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
                 # 那是材质库内容不足（方案 A），不是通道机制问题。
                 "启用材质": ("BOOLEAN", {"default": True}),
-                "输出结构": (["片段", "结构化"], {"default": "片段"}),
+                "输出格式": (["片段（英文）", "结构化（英文）", "Seedance 2.5（中文）",
+                            "MiniMax H3（中文）", "SD 正负向（英文）"],
+                            {"default": "片段（英文）"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
@@ -464,7 +632,7 @@ class LocalStyleHint:
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
     def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
-            输出结构, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
+            输出格式, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
         items, mode, subj, domain_used, craft, mat = _rank(
             中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
             {"自动": "auto", "图片": "image", "视频": "video",
@@ -546,10 +714,28 @@ class LocalStyleHint:
                        "想生成视频请在「域」里选「视频」\n")
         dbg = fmt + dbg
 
-        # 结构化输出：用它替换掉逗号串（dbg 照旧返回，便于排查）
-        if 输出结构 == "结构化":
-            block = _structured(items[0], subj, craft, mat, domain_used)
-            return (block, dbg)
+        # ---- 按目标格式分发 ----
+        # 视频专用格式遇到图片域、图片格式遇到视频域，都要回落到通用格式并说明，
+        # 不要硬套（时间轴套在静态图上毫无意义）。
+        is_video = (domain_used == "prompt_video")
+        want = 输出格式
+        if want == "Seedance 2.5（中文）":
+            if is_video:
+                return (_fmt_seedance(items[0], subj, craft, mat, domain_used, 中文描述),
+                        "【格式】Seedance 2.5 五段式（中文，含时间轴）\n" + dbg)
+            return (_structured(items[0], subj, craft, mat, domain_used),
+                    "【格式】Seedance 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+        if want == "MiniMax H3（中文）":
+            if is_video:
+                return (_fmt_minimax(items[0], subj, craft, mat, domain_used, 中文描述),
+                        "【格式】MiniMax H3 中文整段（无编号）\n" + dbg)
+            return (_structured(items[0], subj, craft, mat, domain_used),
+                    "【格式】MiniMax H3 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+        if want == "SD 正负向（英文）":
+            return (_fmt_sd(items[0], subj, craft, mat, domain_used),
+                    "【格式】SD 正向/负向逗号串（无时间轴）\n" + dbg)
+        if want == "结构化（英文）":
+            return (_structured(items[0], subj, craft, mat, domain_used), dbg)
 
         return (text, dbg)
 
