@@ -435,6 +435,75 @@ def _fmt_seedance_kf(item, subj, craft, mat, domain, query=""):
     ])
 
 
+# ---- Veo3 / Gemini Omni ----
+# 依据：Veo3 / Gemini Omni 官方提示词指南（用户提供）。
+# 关键约束：**固定 8 秒一段**，一个提示词只写一个镜头；
+# 结构是五行英文：8-second video. / [Subject] in [scene]. / [action]. /
+# [Lighting, mood, style]. / [Camera].
+# 官方明确：塞多个场景、多个人物、多次剪辑会更容易失败或前后不一致。
+
+# 会触发安全审核的方向（官方列的 13 类，这里取能靠关键词判断的几类）
+_RISK = [
+    (("血", "血腥", "尸体", "残肢", "blood", "gore", "corpse"), "暴力/血腥"),
+    (("刀", "枪", "武器", "爆炸", "attack", "knife", "gun", "weapon", "explosion"), "武器/暴力行为"),
+    (("裸", "性暗示", "色情", "nude", "naked", "sexual"), "成人内容"),
+    (("儿童", "未成年", "小孩", "child", "minor", "kid"), "涉及未成年人（需格外谨慎）"),
+    (("名人", "明星", "网红", "celebrity", "famous person"), "真实人物/名人肖像"),
+    (("钢铁侠", "蜘蛛侠", "哈利波特", "动漫角色", "游戏角色",
+      "iron man", "spider-man", "harry potter", "anime character"), "受版权保护的角色/IP"),
+]
+
+
+def _safety_note(text):
+    """粗筛可能触发 Veo 审核的内容。只做提示，不做拦截。"""
+    t = (text or "").lower()
+    hits = [why for words, why in _RISK
+            if any(w.lower() in t for w in words)]
+    if not hits:
+        return ""
+    return ("⚠️ 这条可能触发 Veo 审核：" + "、".join(dict.fromkeys(hits)) +
+            "。官方建议改写为中性描述（例如把「持刀攻击」改成「在暗巷里激烈争吵，"
+            "戏剧性光线，无肢体暴力」）。")
+
+
+def _fmt_veo(item, subj, craft, mat, domain, query=""):
+    """Veo3 / Gemini Omni：官方五行结构（英文），固定 8 秒。
+
+    官方结构：
+        8-second video.
+        [Subject] in [scene].
+        [What the subject is doing].
+        [Lighting, mood, and visual style].
+        [Camera movement or shot type].
+
+    要点：**一个主体、一个动作、一个场景、一条镜头指令、一种风格**。
+    官方说塞多了会失败或前后不一致，所以这里刻意不做时间轴。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    who = c["subject"] or "<your subject>"
+    scene = "<your scene>"
+    act = {"STATIC": "the subject stays almost still, only breathing and a slight shift",
+           "SLOW": "the subject turns slowly toward the camera",
+           "KINETIC": "the subject moves quickly across the frame"}.get(
+        c["motion"], "the subject turns slowly toward the camera")
+    cam = {"STATIC": "Static camera, no movement.",
+           "SLOW": "Slow push-in, close-up.",
+           "KINETIC": "Handheld tracking shot, medium shot."}.get(
+        c["motion"], "Slow push-in, close-up.")
+    light = "; ".join(_pick(c["tags"], _LIGHT_HINTS)) or "soft natural light"
+    return "\n".join([
+        "8-second video.",
+        "",
+        f"{who} in {scene}.",
+        "",
+        f"{act}.",
+        "",
+        f"{light}. {c['style']}.",
+        "",
+        f"{cam}",
+    ])
+
+
 def _fmt_minimax(item, subj, craft, mat, domain, query=""):
     """MiniMax H3：官方七行模板（中文）。
 
@@ -826,6 +895,7 @@ class LocalStyleHint:
                     "可灵 4.0（中文，七要素）",
                     "可灵·多镜头（中文）",
                     "可灵 4.0·关键帧（中文）",
+                    "Veo 3（英文，8 秒单镜）",
                     "SD 正负向（英文）"],
                     {"default": "片段（英文）"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
@@ -936,6 +1006,16 @@ class LocalStyleHint:
         # 不要硬套（时间轴套在静态图上毫无意义）。
         is_video = (domain_used == "prompt_video")
         want = 输出格式
+        if want.startswith("Veo"):
+            if not is_video:
+                return (_structured(items[0], subj, craft, mat, domain_used),
+                        "【格式】Veo 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+            warn = _safety_note(中文描述 + " " + (items[0].get("description") or ""))
+            head = "【格式】Veo3 五行结构（英文，固定 8 秒单镜；依据：官方指南）\n"
+            if warn:
+                head += warn + "\n"
+            return (_fmt_veo(items[0], subj, craft, mat, domain_used, 中文描述),
+                    head + dbg)
         if want.startswith("即梦"):
             if not is_video:
                 return (_structured(items[0], subj, craft, mat, domain_used),
