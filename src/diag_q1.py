@@ -20,8 +20,8 @@ import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
-MODEL = os.path.join(ROOT, "models", "e5-director-c14")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
+MODEL = os.path.join(ROOT, "models", "e5-director-c18")
 TARGET = "Denis Villeneuve"
 MAXLEN = 128
 

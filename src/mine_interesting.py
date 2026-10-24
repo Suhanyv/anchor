@@ -40,7 +40,7 @@ import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v4.jsonl")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
 BASE = "intfloat/multilingual-e5-small"
 FT = os.path.join(ROOT, "models", "e5-director-v4-noleak")
 OUT_JSON = os.path.join(ROOT, "bench", "interesting_report.json")

@@ -31,8 +31,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eval_material as EM  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
-MODEL = os.path.join(ROOT, "models", "e5-director-c14")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
+MODEL = os.path.join(ROOT, "models", "e5-director-c18")
 
 
 class Enc:

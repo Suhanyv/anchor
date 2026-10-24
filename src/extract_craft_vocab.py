@@ -28,7 +28,7 @@ SPILL = r"C:\Users\15758\AppData\Local\Temp\dsh-spill-I9prYm\session-aa279cebe1b
 OUT_DIR = os.path.join(ROOT, "data", "raw", "external")
 OUT_RAW = os.path.join(OUT_DIR, "shuixian_part3_README.txt")
 OUT = os.path.join(ROOT, "bench", "external_craft_vocab.json")
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
 
 # 已知工艺/材质词表（用于在 style 槽里识别）
 CRAFT = [

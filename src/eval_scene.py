@@ -115,6 +115,19 @@ def load(p):
         return [json.loads(l) for l in f if l.strip()]
 
 
+def _check_model(m_path):
+    """模型目录不存在时给出可执行的提示，别让 HF 抛「Repo id must use alphanumeric chars」。"""
+    if not os.path.isdir(m_path):
+        raise SystemExit(
+            f"模型目录不存在：{m_path}\n"
+            f"先重建：python src/train_embed.py --epochs 6 --dev-ratio 0.01 "
+            f"--select-mode final --corpus data/raw/corpus_v16.jsonl "
+            f"--queries data/raw/queries_v4_fixed16.jsonl "
+            f"--out-dir models/e5-director-c18"
+        )
+    return m_path
+
+
 def run(corpus_path, model_path, label):
     corpus = load(corpus_path)
     enc = Enc(model_path)
@@ -157,8 +170,9 @@ def run(corpus_path, model_path, label):
 
 
 def main():
-    m_path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "models", "e5-director-c10")
-    c_path = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "data", "raw", "corpus_v10.jsonl")
+    m_path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "models", "e5-director-c18")
+    c_path = sys.argv[2] if len(sys.argv) > 2 else os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
+    _check_model(m_path)
     res = run(c_path, m_path, f"{os.path.basename(m_path)} + {os.path.basename(c_path)}")
 
     print("\n=== 落空的题（rank > 5）===")

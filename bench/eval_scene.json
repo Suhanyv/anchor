@@ -1,5 +1,5 @@
 {
-  "label": "e5-director-c14 + corpus_v14.jsonl",
+  "label": "e5-director-c18 + corpus_v16.jsonl",
   "n": 20,
   "top1": 0.55,
   "top3": 0.7,
@@ -323,8 +323,8 @@
         "Tsai Ming-liang",
         "Chinese Literati Ink-Wash",
         "Misty River Lone Boat",
-        "Guillermo del Toro",
-        "Liubai Negative Space"
+        "Liubai Negative Space",
+        "Guillermo del Toro"
       ],
       "src": "prompt_06"
     },

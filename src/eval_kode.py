@@ -15,7 +15,7 @@
 本脚本
 ------
 用同一批概念（10 个，取自场景基准），写成 中 / 日 / 韩 / 德 四种语言，
-对 corpus_v14 + e5-director-c14 检索，看各自命中率。
+对 corpus_v14 + e5-director-c18 检索，看各自命中率。
 不训练、不改数据，只观察。
 """
 import json
@@ -28,8 +28,8 @@ import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
-MODEL = os.path.join(ROOT, "models", "e5-director-c14")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
+MODEL = os.path.join(ROOT, "models", "e5-director-c18")
 OUT = os.path.join(ROOT, "bench", "eval_kode.json")
 
 # (概念, 中文, 日文, 韩文, 德文, [可接受答案])

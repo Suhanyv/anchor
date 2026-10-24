@@ -24,7 +24,7 @@ from ja_lexicon import JA                     # noqa: E402
 from kode_lexicon import KO, DE               # noqa: E402
 from lang_templates import TRAIN_ZH, TRAIN_JA, TRAIN_KO, TRAIN_DE, _check_no_overlap  # noqa: E402
 
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v7.jsonl")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
 SRC_Q = os.path.join(ROOT, "data", "raw", "queries_v4_fixed14b.jsonl")
 OUT = os.path.join(ROOT, "data", "raw", "queries_v10.jsonl")
 

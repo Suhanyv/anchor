@@ -32,9 +32,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import eval_scene as ES  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v14.jsonl")
+CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
 SUBJ = os.path.join(ROOT, "data", "raw", "subjects_v2.jsonl")
-MODEL = os.path.join(ROOT, "models", "e5-director-c14")
+MODEL = os.path.join(ROOT, "models", "e5-director-c18")
 OUT = os.path.join(ROOT, "bench", "eval_debias.json")
 SUBJECT_RATIO = 0.95
 SUBJECT_FLOOR = 0.36

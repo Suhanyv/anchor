@@ -129,7 +129,7 @@ def main():
     runs = [
         (os.path.join(ROOT, "data/raw/corpus_v12.jsonl"), os.path.join(ROOT, "models/e5-director-c12"), "c12"),
         (os.path.join(ROOT, "data/raw/corpus_v13.jsonl"), os.path.join(ROOT, "models/e5-director-c13"), "c13"),
-        (os.path.join(ROOT, "data/raw/corpus_v14.jsonl"), os.path.join(ROOT, "models/e5-director-c14"), "c14"),
+        (os.path.join(ROOT, "data/raw/corpus_v16.jsonl"), os.path.join(ROOT, "models/e5-director-c18"), "c14"),
     ]
     print("=== 材质/光 · 文档级判分 ===")
     results = []
