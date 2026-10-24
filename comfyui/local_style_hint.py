@@ -406,9 +406,76 @@ def _fmt_minimax(item, subj, craft, mat, domain, query=""):
     )
 
 
+def _fmt_5aspect(item, subj, craft, mat, domain, query=""):
+    """通用五面骨架（英文）：Subject / Motion / Scene / Spatial / Camera。
+
+    出处：OpenMontage 的 video-gen-prompting 指南，引用的论文
+    （CMU/Harvard "Building a Precise Video Language"）验证过：
+    模型能描述主体与场景，但**系统性漏掉运动、空间、运镜**，
+    所以强制填满这五个槽是提升最大的一步。模型无关，谁都能用。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    move = {"STATIC": "camera completely static (no movement, no zoom, no focus change)",
+            "SLOW": "slow dolly forward", "KINETIC": "handheld tracking"}.get(
+        c["motion"], "slow dolly forward")
+    who = c["subject"] or "<your subject>"
+    scene = c["tail"] or "<your scene>"
+    # 英文块里不能混中文：光也用英文标签，不用 zh_light
+    light = "; ".join(_pick(c["tags"], _LIGHT_HINTS))
+    w = 9
+    return "\n".join([
+        f"{'Subject:':<{w}} {who}",
+        f"{'Motion:':<{w}} the subject moves through the frame; nothing else moves",
+        f"{'Scene:':<{w}} {scene}" + (f"; light: {light}" if light else ""),
+        f"{'Spatial:':<{w}} eye-level, mid shot, subject in the near plane, background readable",
+        f"{'Camera:':<{w}} {move}, {dur}s, {c['ar']}, one continuous take, no cuts",
+        f"{'Style:':<{w}} {c['style']}",
+    ])
+
+
+def _fmt_runway(item, subj, craft, mat, domain, query=""):
+    """Runway Gen-4：只写运动，不写外观，≤60 词。
+
+    出处：Runway 官方 Gen-4 提示词指南的要点是「focus on motion, not appearance;
+    one scene per clip; simplicity wins」，词数甜点 ≤60。
+    所以这里刻意**不写风格标签**——写多了反而降质。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    move = {"STATIC": "Static camera, no movement at all.",
+            "SLOW": "Camera dollies in slowly.",
+            "KINETIC": "Handheld camera follows close."}.get(c["motion"], "Camera dollies in slowly.")
+    who = c["subject"] or "<your subject>"
+    return (f"{who}. {move} One continuous scene, no cuts. "
+            f"Subject motion is the focus; keep the frame simple.")
+
+
+def _fmt_hunyuan(item, subj, craft, mat, domain, query=""):
+    """腾讯混元 1.5 八段公式（中文）：
+    主体 + 运动 + 场景 + 景别 + 运镜 + 光照 + 风格 + 氛围。
+
+    出处：Tencent-Hunyuan/HunyuanVideo-1.5 的 Prompt Handbook。
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    who = c["subject_zh"] or c["head"]
+    move = _MOVE_ZH.get(c["motion"], "缓慢推近")
+    return "\n".join([
+        f"主体：{who}",
+        f"运动：主体在画面中自然地动作，全程一个镜头不切换",
+        f"场景：<写清在哪里、什么时候>",
+        f"景别：中景",
+        f"运镜：{move}，{dur} 秒",
+        f"光照：{c['zh_light'] or '按参考描述'}",
+        f"风格：{c['zh_style']}",
+        f"氛围：安静、克制，情绪落在最后一帧",
+        f"（英文锚定：{c['style']}）",
+        f"（画幅 {c['ar']}）",
+    ])
+
+
 def _fmt_sd(item, subj, craft, mat, domain):
     """图像用：英文正向逗号串 + 独立负向，无时间轴。"""
-    d = {}
     c = _core(item, subj, craft, mat, domain)
     pos = []
     if c["subject"]:
@@ -608,9 +675,16 @@ class LocalStyleHint:
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
                 # 那是材质库内容不足（方案 A），不是通道机制问题。
                 "启用材质": ("BOOLEAN", {"default": True}),
-                "输出格式": (["片段（英文）", "结构化（英文）", "Seedance 2.5（中文）",
-                            "MiniMax H3（中文）", "SD 正负向（英文）"],
-                            {"default": "片段（英文）"}),
+                "输出格式": ([
+                    "片段（英文）",
+                    "结构化（英文）",
+                    "通用五面（英文，模型无关）",
+                    "Seedance 2.5（中文）",
+                    "MiniMax H3（中文）",
+                    "混元 HunyuanVideo（中文八段）",
+                    "Runway Gen-4（英文，≤60 词）",
+                    "SD 正负向（英文）"],
+                    {"default": "片段（英文）"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
@@ -731,6 +805,15 @@ class LocalStyleHint:
                         "【格式】MiniMax H3 中文整段（无编号）\n" + dbg)
             return (_structured(items[0], subj, craft, mat, domain_used),
                     "【格式】MiniMax H3 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+        if want == "通用五面（英文，模型无关）":
+            return (_fmt_5aspect(items[0], subj, craft, mat, domain_used, 中文描述),
+                    "【格式】通用五面（Subject/Motion/Scene/Spatial/Camera）\n" + dbg)
+        if want == "混元 HunyuanVideo（中文八段）":
+            return (_fmt_hunyuan(items[0], subj, craft, mat, domain_used, 中文描述),
+                    "【格式】混元 1.5 八段公式（中文）\n" + dbg)
+        if want == "Runway Gen-4（英文，≤60 词）":
+            return (_fmt_runway(items[0], subj, craft, mat, domain_used, 中文描述),
+                    "【格式】Runway Gen-4（只写运动，≤60 词）\n" + dbg)
         if want == "SD 正负向（英文）":
             return (_fmt_sd(items[0], subj, craft, mat, domain_used),
                     "【格式】SD 正向/负向逗号串（无时间轴）\n" + dbg)
