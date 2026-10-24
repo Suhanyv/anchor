@@ -127,7 +127,7 @@ def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None, ma
             f"模型目录不存在：{model_dir}\n"
             f"本项目根推断为：{ROOT}\n"
             f"若本节点是从 custom_nodes 加载的，请把「模型目录」直接写成你 clone 的仓库里\n"
-            f"models/e5-director-c22 的完整路径（例如 D:/anchor/models/e5-director-c22）。"
+            f"models/e5-director-c24 的完整路径（例如 D:/anchor/models/e5-director-c24）。"
         )
     if not os.path.isfile(corpus_path):
         raise RuntimeError(
@@ -432,8 +432,8 @@ class LocalStyleHint:
             "required": {
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
-                "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c22")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v19.jsonl")}),
+                "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c24")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v20.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v4.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v3.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v4.jsonl")}),
