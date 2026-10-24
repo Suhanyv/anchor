@@ -1,0 +1,91 @@
+# NOTICE
+
+本项目（下称「锚」/ Anchor）在构建过程中使用了以下第三方成果，特此声明。
+
+---
+
+## 1. 基座模型
+
+**intfloat/multilingual-e5-small**
+
+- 用途：作为检索模型的基座，在本项目语料上继续训练
+- 许可：MIT License
+- 来源：https://huggingface.co/intfloat/multilingual-e5-small
+- 我们的改动：在自建语料上做对比学习微调（InfoNCE + 难负例），产出
+  `models/e5-director-c18` 等衍生权重
+- 声明：衍生权重同样以 MIT 发布；MIT 原文见 https://opensource.org/license/mit
+
+**transformers / torch / sentence-transformers / numpy / scikit-learn**
+
+- 用途：训练与推理框架
+- 许可：Apache-2.0 / BSD 类，均与本项目兼容
+- 未修改其源码
+
+---
+
+## 2. 外部提示词库（仅用于词表统计，未复制原文）
+
+**水仙的AI提示词** — https://github.com/BaYue-SYJ/shuixian-prompts
+
+- 用途：提取**工艺/材质词汇表**，对照本项目语料的覆盖缺口
+- 许可：**署名使用协议** —— 可自由学习、fork、非商业转载，
+  但须保留出处并链接回本仓库；提示词原文版权归各自原作者
+- 我们**没有**把该库的任何提示词原文存入本项目语料
+- 其原始抓取内容（`data/raw/external/*.txt`）**未纳入版本管理**，
+  见 `.gitignore`；派生统计结果见 `bench/external_vocab_v2.json`、
+  `bench/external_craft_vocab.json`
+- 详细说明：`data/raw/external/README.md`
+
+---
+
+## 3. 关于「藏在植被里的观察者」这一机制
+
+本项目 `mech_hidden_observer` 面（5 条图像 + 1 条视频描述）的**机制来源**是
+一条在网络上流传的 AIGC 提示词（作者不明，无法署名）：
+
+> 观察者藏在植被中，前景枝叶遮挡画面，主体发现并看向镜头
+
+依据「事实与机制不受版权保护、表达受保护」的通例，我们**只取机制，不取表达**：
+
+- 该提示词中出现过的措辞（`voyeuristic perspective`、`foreground foliage`、
+  `caught watching`、`hidden observer`、`tall grass and leaves`）
+  在最终语料中**出现次数为 0**（有自动检查脚本）
+- 所有描述文本由本项目自行撰写，见 `src/build_corpus_v16.py` 的改写记录
+- 归属：该机制在电影语言中属公共知识（希区柯克式的窥视调度），
+  故内容归入 `Alfred Hitchcock` 实体
+
+原始网络提示词仅作为**分析材料**存于 `data/raw/prompt_real_*.txt`，
+**不入版本管理**（见 `.gitignore`），也不作为训练数据。
+
+---
+
+## 4. 版权判例与素材
+
+- 本项目语料描述的是**电影视觉风格**，均为对公开影像作品的风格描述，
+  不包含任何影片截图、帧、音频或字幕
+- 未分发任何 AI 生成视频成片（此前用于验证的成片带第三方平台水印，
+  不属于本项目资产）
+- 导演姓名与作品名仅作**事实性指称**
+
+---
+
+## 5. 本项目自身
+
+| 资产 | 许可 |
+|---|---|
+| 代码（`src/` `comfyui/`）| Apache-2.0，见 `LICENSE` |
+| 语料与索引（`data/raw/*.jsonl`）| CC-BY-4.0，见 `LICENSE-DATA.md` |
+| 模型权重（`models/`）| MIT（继承基座） |
+| 文档（`STATUS.md` `README.md` `LIMITATIONS.md`）| CC-BY-4.0 |
+
+引用本项目请注明：
+
+    Anchor (锚) — vertical cross-lingual retrieval for cinematic style prompts
+    https://github.com/<your-account>/anchor
+
+---
+
+## 6. 免责
+
+本项目**只做风格检索**，不生成内容。使用本项目产出的提示词去生成图像/视频时，
+请自行确认所模仿风格的合法边界，以及目标平台的使用条款。
