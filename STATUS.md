@@ -2334,3 +2334,49 @@ train_embed.py 加 --zh-boost（中文 style 样本额外倍数），默认 1.0�
 ### 又一次「指标之间打架」
 今天第 N 次发现：**一个基准涨、另一个基准跌**。
 我的取舍标准已固定：**场景锚定 > 关键词锚定**（前者贴近真实使用，后者与我自造的训练分布同源）。
+
+---
+
+## 六十二、开源 A 档完成：干净克隆端到端验证通过
+
+### 干净克隆实测（E:\anchor_final，只有 git 跟踪的文件）
+    克隆        239 文件 / 19.7 MB
+    [1] 重建模型  1.2 分钟（CPU），从 corpus_v16 + queries_v4_fixed16
+    [2] 冒烟      3/3 通过（王家卫 / 希区柯克窥视 / 蓝晒）
+    [3] 场景基准  55% / top3 70%（与本机一致）
+-> **"别人 clone 下来照 README 做"这件事现在是真的。**
+
+### 这一轮挖出并修好的真问题（都是"只有换台机器才会暴露"的）
+1. **80 处硬编码 `F:\llm`，涉及 62 个文件**
+   -> codemod 改成从 __file__ 推断 ROOT。此前这个仓库只在作者机器上能跑。
+2. **ComfyUI 节点的 ROOT 不能用 dirname(dirname(__file__))**
+   节点被复制到 custom_nodes 后，往上两级是 custom_nodes 不是项目根。
+   -> 改成 _find_root()：从 __file__ 与 CWD 分别向上找含 data/raw 的目录。
+3. **节点里根本没有 ROOT 变量**（codemod 换了引用却没定义）-> 已插入
+4. **eval_scene 默认模型是 c10，克隆里不存在**
+   -> HF 把路径当仓库名，报"Repo id must use alphanumeric chars"
+   -> 默认改 c18/v16，并加 _check_model() 给可执行的重建命令
+5. **requirements.txt 写 transformers>=4.40,<5，实际用 5.20.1** -> 照它装会崩
+6. **prompt_real_*.txt 与 external/*.txt 还在 git 里**
+   -> 与 NOTICE 声明矛盾，已 untrack（本地保留作分析材料）
+7. **训练日志写到 F:\llm\bench**（绝对路径）-> 现在写进克隆自己的 bench
+
+### 新增的开源资产
+    README.md          含"模型不用下载，2 分钟重建"
+    LIMITATIONS.md     9 类缺陷 + 8 个失败实验（负结果）
+    NOTICE             e5(MIT) / 水仙(署名) / 那条提示词只取机制不取表达
+    LICENSE            Apache-2.0 全文（下载自 apache.org）
+    LICENSE-DATA.md    CC-BY-4.0
+    models/MODEL_CARD  为什么不发权重 + 重建命令 + 各版本对照
+    src/reproduce.sh   一键复现（bash）
+    src/smoke_test.py  跨平台端到端检查（3 通道各一条 + 可选 HTTP）
+
+### 一个反复犯的错（今天第 3 次）
+在 PowerShell here-string 里用 `python -c "...f\"...\n...\""` 写文件，
+`\n` 被吞成真换行，f-string 断裂，两个文件被写坏。
+**规矩：任何含转义的代码，用 write/edit 工具写，不要经过 shell 拼字符串。**
+
+### 现在离开源的距离
+A 档（最小可发布）**已完成**，可以发。
+B 档（站得住）：缺真实 query 从 2 条扩到 20-50 条 —— **只有用户能提供**。
+C 档（够得上"检索基准"）：需要再做 1-2 个域 + 技术报告，约 2-3 周。
