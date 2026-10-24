@@ -466,6 +466,49 @@ def _safety_note(text):
             "戏剧性光线，无肢体暴力」）。")
 
 
+def _fmt_sora(item, subj, craft, mat, domain, query=""):
+    """Sora 2：八模块结构（中文）。
+
+    出处要说明白：**这份不是 OpenAI 官方指南**，是一篇 CSDN 博客的社区总结
+    （作者「好好学习，天天向上～」，CC BY-SA 4.0，原文链接见 PLATFORM_MATRIX）。
+    官方 cookbook 我们访问不到（403），所以**没有经过官方核对**。
+
+    博主的八个模块：主体 / 场景 / 动作 / 镜头 / 光线 / 风格 / 技术参数 / 限制项。
+    几条实用约束（同样来自该文）：
+        · 8 秒内只做 1~2 个主动作，动作链清晰
+        · 镜头只写一种运动，不要"推进+旋转+拉远"同时出现
+        · 风格词控制 3~5 个，多了会互相冲突
+        · 限制项长期固定成"防翻车清单"
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    if dur > 8:
+        dur = 8   # 该文实测：新手先做 5~8 秒更稳
+    who = c["subject_zh"] or "<主体：年龄/外观/服装/道具>"
+    light = c["zh_light"] or "自然光，色温与方向写清"
+    move = _MOVE_ZH.get(c["motion"], "缓慢推近")
+    act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
+    return "\n".join([
+        f"[主体] {who}。<补：年龄段、外观、服装、道具，具体到可识别>",
+        "",
+        "[场景] <写清：时间、天气、地面材质、前景/中景/远景各有什么>",
+        "",
+        f"[动作] {act}。8 秒内只做 1~2 个主动作，动作链清晰，不要瞬移。",
+        "",
+        f"[镜头] 中景、平视机位开场，{move}，镜头运动平滑，不做突兀跳切；"
+        "只写一种运动。",
+        "",
+        f"[光线] {light}。写清冷暖、强弱、方向。",
+        "",
+        f"[风格] {c['zh_style']}。风格词控制在 3~5 个，不要堆冲突风格。",
+        "",
+        f"[技术参数] 时长 {dur} 秒，24fps，{c['ar']}，4K，画面稳定。",
+        "",
+        "[限制项] 避免手部畸形、面部扭曲、物体穿模、文字乱码、画面闪烁与跳帧；"
+        "禁止字幕、水印、logo。",
+    ])
+
+
 def _fmt_veo(item, subj, craft, mat, domain, query=""):
     """Veo3 / Gemini Omni：官方五行结构（英文），固定 8 秒。
 
@@ -896,6 +939,7 @@ class LocalStyleHint:
                     "可灵·多镜头（中文）",
                     "可灵 4.0·关键帧（中文）",
                     "Veo 3（英文，8 秒单镜）",
+                    "Sora 2（中文，八模块·社区总结）",
                     "SD 正负向（英文）"],
                     {"default": "片段（英文）"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
@@ -1006,6 +1050,13 @@ class LocalStyleHint:
         # 不要硬套（时间轴套在静态图上毫无意义）。
         is_video = (domain_used == "prompt_video")
         want = 输出格式
+        if want.startswith("Sora"):
+            if not is_video:
+                return (_structured(items[0], subj, craft, mat, domain_used),
+                        "【格式】Sora 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+            return (_fmt_sora(items[0], subj, craft, mat, domain_used, 中文描述),
+                    "【格式】Sora 2 八模块（注意：这个结构来自 CSDN 博客的社区总结，"
+                    "不是 OpenAI 官方；官方 cookbook 我们访问不到 403）\n" + dbg)
         if want.startswith("Veo"):
             if not is_video:
                 return (_structured(items[0], subj, craft, mat, domain_used),
