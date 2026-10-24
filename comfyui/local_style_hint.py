@@ -436,19 +436,38 @@ def _fmt_seedance_kf(item, subj, craft, mat, domain, query=""):
 
 
 def _fmt_minimax(item, subj, craft, mat, domain, query=""):
-    """MiniMax H3：中文自然语言一整段，不编号。"""
+    """MiniMax H3：官方七行模板（中文）。
+
+    依据：MiniMax H3 官方提示词指南（用户提供）。官方模板是结构化的七行：
+
+        参考素材：[@N 负责什么]
+        场景顺序：[开场状态] → [主要动作与变化] → [结束状态]
+        主体动作：[谁][具体做什么]，动作速度与反应是 [说明]
+        相机：[初始景别和角度]，[主要相机运动]，最后停在 [结束构图]
+        声音：[对白]；[环境声]；[音效]；[背景音乐]
+        保持不变：[人物身份、服装、场景结构等]
+        不要出现：[真正影响交付的错误]
+
+    ⚠️ 注意这与「一整段自然语言」不同——我原先按第三方卡片写成一整段，是错的。
+    官方示例里素材用 @1/@2 引用，时间戳用小数秒（0.0–1.2s）。
+    """
     c = _core(item, subj, craft, mat, domain, query)
     dur = int(str(c["dur"]).rstrip("s") or 6)
-    who = c["subject_zh"] or c["head"]
-    move = _MOVE_ZH.get(c["motion"], "缓慢推近")
-    return (
-        f"一段 {dur} 秒、{c['ar']} 的画面：{who}。"
-        f"光线与质感是{c['zh_light'] or '按参考描述'}，"
-        f"整体走{c['zh_style']}这个路子。"
-        f"摄影机{move}，全程一个镜头不切换；"
-        f"开头两秒就要给出最强的视觉信息，不要用缓慢推进开场。"
-        f"画面里不要出现任何文字、字幕或水印；角色不要变形、多手多指。"
-    )
+    who = c["subject_zh"] or "<主体：谁>"
+    light = c["zh_light"] or "自然光"
+    move = _KL_MOVE.get(c["motion"], _KL_MOVE["SLOW"])
+    act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
+    end_shot = "主体特写" if c["motion"] != "STATIC" else "原构图"
+    return "\n".join([
+        "参考素材：@1 负责<人物/商品外观>；@2 负责<相机路径/节奏/声音>。"
+        "（没有素材就删掉这一行）",
+        f"场景顺序：{who}，{light} → {act} → 停在{end_shot}。",
+        f"主体动作：{who}，动作速度与反应是{act}。",
+        f"相机：中景、平视机位开场，{move}，最后停在{end_shot}。",
+        "声音：<对白>；<环境声>；<同步音效>；<背景音乐>。",
+        f"保持不变：主体身份、服装、场景结构与「{light}」不变。",
+        "不要出现：错字、元素变形、重复主体、水印、字幕。",
+    ])
 
 
 def _fmt_5aspect(item, subj, craft, mat, domain, query=""):
