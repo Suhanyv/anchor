@@ -82,6 +82,45 @@
 
 ---
 
+## 3.6 提示词格式的出处
+
+各平台的输出格式**不是我们设计的**，是照各平台资料实现的。分清两类：
+
+### 平台官方指南（按官方原文实现）
+
+| 平台 | 格式 | 依据 |
+|---|---|---|
+| 即梦 Seedance 2.5 | 四段式 / 关键帧 | 即梦官方提示词指南 |
+| 可灵 4.0 | 七要素 / 多镜头 / 关键帧 | 可灵官方提示词指南 |
+| MiniMax H3 | 七行模板 | MiniMax 官方提示词指南 |
+| Veo 3 / Gemini Omni | 五行结构（8 秒单镜） | Veo3 / Gemini Omni 官方指南 |
+| 混元 HunyuanVideo 1.5 | 八段公式 | 腾讯 HunyuanVideo Prompt Handbook |
+| Runway Gen-4 | ≤60 词短句 | Runway 官方 Gen-4 指南 |
+
+> 以上官方指南均由项目使用者取得并提供全文，我们在实现时按其原文结构处理。
+
+### 第三方总结（**不是官方**，节点里已标注）
+
+**CSDN 博客《Sora 2 提示词使用方式全解》**
+
+- 作者：「好好学习，天天向上～」
+- 许可：**CC BY-SA 4.0**
+- 链接：https://blog.csdn.net/weixin_55630985/article/details/158740059
+- 我们用了什么：该文的**八模块结构**（主体/场景/动作/镜头/光线/风格/技术参数/限制项），
+  以及它的五条实操约束（8 秒内 1~2 个动作、镜头只写一种运动、风格词 3~5 个、
+  限制项固定成防翻车清单、时长越短越稳）
+- **未使用该文原文段落**，只取结构与方法，描述文本由本项目生成
+- **未与 OpenAI 官方核对**：官方 cookbook 在本机访问返回 403
+- 节点里该格式名为 `Sora 2（中文，八模块·社区总结）`，调试信息中亦会提示非官方
+
+**OpenMontage 的 video-gen-prompting 指南**（通用五面骨架的来源）
+
+- 链接：https://github.com/calesthio/OpenMontage/blob/main/skills/creative/video-gen-prompting.md
+- 其 5-aspect 骨架引用论文（CMU/Harvard *Building a Precise Video Language*）
+- 我们只取槽位划分，不转载其正文
+
+---
+
 ## 4. 版权判例与素材
 
 - 本项目语料描述的是**电影视觉风格**，均为对公开影像作品的风格描述，
