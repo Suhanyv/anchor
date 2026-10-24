@@ -11,7 +11,7 @@
       ],
       "size": [
         470,
-        500
+        540
       ],
       "flags": {},
       "order": 0,
@@ -42,6 +42,7 @@
         "F:\\llm\\data\\raw\\crafts_v3.jsonl",
         "F:\\llm\\data\\raw\\materials_v4.jsonl",
         true,
+        "片段",
         "cpu",
         "自动",
         "导演/风格聚合",

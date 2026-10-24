@@ -242,6 +242,87 @@ MOTION_EN = {
 IMG_TAIL = "still frame, sharp focus, fine detail"
 
 
+# ================= 结构化输出（内嵌版，节点保持自包含）=================
+# 逻辑与 src/prompt_builder.py 一致，但不能 import src/ —— 节点会被单独复制到
+# <ComfyUI>/custom_nodes/ 下，那里没有 src/。
+_COMP_HINTS = ("symmetr", "one-point", "centred", "centered", "wide-angle",
+               "deep focus", "shallow depth", "close-up", "low-angle",
+               "overhead", "fisheye", "frame within", "negative space",
+               "handscroll", "horizontal")
+_LIGHT_HINTS = ("light", "lit", "candle", "neon", "backlit", "diffus",
+                "volumetric", "highlight", "shadow", "grain", "glow",
+                "flare", "haze", "mist")
+_NEG_IMAGE = ["text", "watermark", "signature", "deformed hands",
+              "extra fingers", "oversharpened", "hdr halo"]
+_NEG_VIDEO = ["scene change", "camera shake", "zoom pumping",
+              "flicker", "frame stutter", "morphing"]
+_NEG_MOTION = {
+    "STATIC": ["fast cutting", "whip pan", "handheld shake", "zooming"],
+    "SLOW": ["fast cutting", "whip pan", "handheld shake", "jump cuts"],
+    "KINETIC": ["locked-off camera", "static framing", "slow drift"],
+}
+
+
+def _pick(tags, hints, n=2):
+    return [t for t in tags if any(h in t.lower() for h in hints)][:n]
+
+
+def _structured(item, subj, craft, mat, domain):
+    """把检索结果拼成 结构化完整提示词。只输出真的知道的字段。"""
+    tags = list(item.get("style_tags") or [])
+    params = item.get("params") or {}
+    style = (item.get("style_string") or "").strip()
+    if style.startswith("in the style of "):
+        style = style[len("in the style of "):]
+
+    d = {}
+    if domain == "prompt_video":
+        mo = (item.get("motion") or "SLOW").upper()
+        mv = {"STATIC": "locked-off", "SLOW": "slow push-in",
+              "KINETIC": "fast handheld tracking"}.get(mo, "slow push-in")
+        d["Shot"] = (f"{mv}, {params.get('duration') or '5s'}, "
+                      f"{params.get('ar') or '21:9'}")
+
+    if subj and subj.get("hit"):
+        d["Subject"] = subj["phrase"]
+
+    body = (item.get("description") or "").split(", in the style of")[0].strip()
+    if domain == "prompt_video" and body:
+        # 取前两个从句即可：v18 在部分文档上追加过运镜短语，原描述里本来就有一个，
+        # 全留会得到「camera tracking with them, a slow vertical descent」这种重复
+        parts = [x.strip() for x in body.split(", ") if x.strip()]
+        d["Action"] = ", ".join(parts[:2])
+
+    d["Style"] = style
+
+    if domain != "prompt_video":
+        comp = _pick(tags, _COMP_HINTS)
+        if comp:
+            d["Composition"] = ", ".join(comp)
+
+    light = []
+    if mat and mat.get("hit"):
+        light.append(mat["phrase"])
+    sl = style.lower()
+    light += [t for t in _pick(tags, _LIGHT_HINTS) if t.lower() not in sl]
+    if light:
+        d["Light"] = ", ".join(dict.fromkeys(light))
+
+    if craft and craft.get("hit"):
+        d["Medium"] = craft["phrase"]
+
+    if domain == "prompt_video":
+        mo = (item.get("motion") or "SLOW").upper()
+        d["Negative"] = ", ".join(dict.fromkeys(
+            _NEG_VIDEO + _NEG_MOTION.get(mo, [])))
+    else:
+        d["Aspect"] = params.get("ar") or "2.35:1"
+        d["Negative"] = ", ".join(_NEG_IMAGE)
+
+    w = max(len(k) for k in d)
+    return "\n".join(f"{k + ':':<{w + 1}} {v}" for k, v in d.items() if v)
+
+
 def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
           subject_path=None, craft_path=None, material_path=None, use_material=False):
     st = _load(model_dir, corpus_path, device, subject_path, craft_path, material_path)
@@ -326,6 +407,9 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     "motion": d.get("motion", ""),
                     "style_string": f"in the style of {d['director']}" + (f", {tags}" if tags else ""),
                     "prompt": d.get("prompt", ""),
+                    "style_tags": list(d.get("style_tags") or []),
+                    "description": d.get("description", ""),
+                    "params": dict(d.get("params") or {}),
                 }
         return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain, craft, mat
 
@@ -358,6 +442,7 @@ class LocalStyleHint:
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
                 # 那是材质库内容不足（方案 A），不是通道机制问题。
                 "启用材质": ("BOOLEAN", {"default": True}),
+                "输出结构": (["片段", "结构化"], {"default": "片段"}),
                 "设备": (["cpu", "cuda"], {"default": "cpu"}),
                 "域": (["自动", "图片", "视频", "不限"], {"default": "自动"}),
                 "匹配方式": (["导演/风格聚合", "逐条提示词"], {"default": "导演/风格聚合"}),
@@ -379,7 +464,7 @@ class LocalStyleHint:
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
     def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
-            设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
+            输出结构, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
         items, mode, subj, domain_used, craft, mat = _rank(
             中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
             {"自动": "auto", "图片": "image", "视频": "video",
@@ -431,6 +516,7 @@ class LocalStyleHint:
             name, sc, obj = winner
             dbg = (f"最终: {name}分最高且过门槛 -> 只拼{name} "
                    f"({sc:.4f} > 风格 {top_style:.4f})\n" + dbg)
+            obj["hit"] = True   # 供结构化输出判断（之前漏了，导致 Subject 永远为空）
             if name == "主体":
                 text = obj["phrase"] + ", " + text
             elif name == "工艺":
@@ -459,6 +545,12 @@ class LocalStyleHint:
                 fmt = ("【图像形态】域未能判定，按静态图处理；"
                        "想生成视频请在「域」里选「视频」\n")
         dbg = fmt + dbg
+
+        # 结构化输出：用它替换掉逗号串（dbg 照旧返回，便于排查）
+        if 输出结构 == "结构化":
+            block = _structured(items[0], subj, craft, mat, domain_used)
+            return (block, dbg)
+
         return (text, dbg)
 
 
