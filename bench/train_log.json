@@ -14,70 +14,70 @@
     "skip_save": false,
     "select_mode": "final",
     "split_by": "query",
-    "out_dir": "models\\e5-director-c27",
-    "corpus": "data\\raw\\corpus_v21.jsonl",
-    "queries": "data\\raw\\queries_v4_fixed21m.jsonl"
+    "out_dir": "models\\e5-director-c28",
+    "corpus": "data\\raw\\corpus_v22.jsonl",
+    "queries": "data\\raw\\queries_v4_fixed22c.jsonl"
   },
   "baseline": {
-    "overall": 0.13888888888888887,
+    "overall": 0.16666666666666666,
     "both": 0.3333333333333333,
-    "style": 0.125,
+    "style": 0.16666666666666666,
     "name": 0.0
   },
   "best": {
-    "style": 0.7083333333333333,
+    "style": 1.0,
     "epoch": 6,
-    "overall": 0.8055555555555557
+    "overall": 1.0
   },
   "log": [
     {
       "epoch": 1,
-      "loss": 2.0392140988465193,
-      "dev_overall": 0.75,
+      "loss": 2.043095261186034,
+      "dev_overall": 0.8333333333333334,
       "both": 1.0,
-      "style": 0.625,
+      "style": 0.75,
       "name": 1.0
     },
     {
       "epoch": 2,
-      "loss": 0.549656542120399,
-      "dev_overall": 0.75,
+      "loss": 0.5603531579394917,
+      "dev_overall": 1.0,
       "both": 1.0,
-      "style": 0.625,
+      "style": 1.0,
       "name": 1.0
     },
     {
       "epoch": 3,
-      "loss": 0.3292967269381324,
-      "dev_overall": 0.9166666666666666,
+      "loss": 0.32202916158424627,
+      "dev_overall": 1.0,
       "both": 1.0,
-      "style": 0.875,
+      "style": 1.0,
       "name": 1.0
     },
     {
       "epoch": 4,
-      "loss": 0.2501352072417081,
-      "dev_overall": 0.8055555555555557,
+      "loss": 0.23994914581487467,
+      "dev_overall": 1.0,
       "both": 1.0,
-      "style": 0.7083333333333333,
+      "style": 1.0,
       "name": 1.0
     },
     {
       "epoch": 5,
-      "loss": 0.20539763733580874,
-      "dev_overall": 0.8055555555555557,
+      "loss": 0.213171552334513,
+      "dev_overall": 1.0,
       "both": 1.0,
-      "style": 0.7083333333333333,
+      "style": 1.0,
       "name": 1.0
     },
     {
       "epoch": 6,
-      "loss": 0.2018293130856294,
-      "dev_overall": 0.8055555555555557,
+      "loss": 0.1991588817192958,
+      "dev_overall": 1.0,
       "both": 1.0,
-      "style": 0.7083333333333333,
+      "style": 1.0,
       "name": 1.0
     }
   ],
-  "minutes": 1.835537854830424
+  "minutes": 1.6668736934661865
 }
