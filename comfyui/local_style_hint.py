@@ -422,6 +422,53 @@ def _limit_of(platform):
     return _MODEL_LIMITS["通用"]
 
 
+_DUR_REF = {}
+
+
+def _load_dur_ref():
+    """读时长参考表。找不到就用内置兜底，不让节点因为缺文件崩掉。"""
+    global _DUR_REF
+    if _DUR_REF:
+        return _DUR_REF
+    p = os.path.join(ROOT, "data", "raw", "duration_ref.json")
+    try:
+        with open(p, encoding="utf-8") as f:
+            _DUR_REF = json.load(f).get("classes", {})
+    except Exception:
+        _DUR_REF = {
+            "static": {"words": ["站", "坐", "停", "不动"], "sec": 3},
+            "action": {"words": ["走", "拿", "推", "转身"], "sec": 4},
+            "strong": {"words": ["劈", "砍", "撞", "跑", "格挡"], "sec": 5},
+            "transform": {"words": ["变成", "散开", "亮起"], "sec": 6},
+        }
+    return _DUR_REF
+
+
+def _ref_duration(text):
+    """按运动幅度给建议秒数。返回 (秒, 命中的类型名)。"""
+    ref = _load_dur_ref()
+    t = text or ""
+    hit = {}
+    for name, spec in ref.items():
+        words = spec.get("words") or []
+        n = sum(1 for w in words if w in t)
+        if n:
+            hit[name] = (spec.get("sec", 3), n)
+
+    if not hit:
+        return 3, "未识别"
+
+    # 静态且没有动作类命中 -> 直接给静态秒数（不累加）
+    moving = {k: v for k, v in hit.items()
+              if k in ("action", "strong", "transform", "crowd")}
+    if "static" in hit and not moving:
+        return hit["static"][0], "static"
+
+    # 否则取最长的那个类型
+    name = max(hit, key=lambda k: hit[k][0])
+    return hit[name][0], name
+
+
 def _est_beats(q):
     """粗估内容需要几拍。宁可高估：低估会让长镜头太空。"""
     t = q or ""
@@ -456,7 +503,9 @@ def _plan_duration(platform, q, asked=None):
         line = (f"【时长】Veo 固定 8 秒，内容约 {beats} 拍（{fill}）。"
                 f"\n        依据：{src}。")
         return 8, 8, 1, line
-    need = int(round(beats * _SEC_PER_BEAT))
+    # 先查表：时长由运动幅度决定，而不是字数或逗号数
+    _rd, _rt = _ref_duration(q)
+    need = int(_rd) if _rt != "未识别" else int(round(beats * _SEC_PER_BEAT))
     need = max(mn, min(need, mx))   # 下限也是硬约束：低于它提交无效
 
     if need <= safe:
@@ -515,17 +564,16 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     if light and style and light.strip("。； ")[:6] in style:
         light = ""
     # 时长：按真实镜数报，别让"3 镜"配一个"1 镜"的规划
-    # 每镜时长按各镜自己的内容估，取最大 —— 逐镜生成时它们互不相干
-    _per = max([_plan_duration(fmt, s)[1] for s in shots if s] or
-               [_plan_duration(fmt, " ".join(shots))[1]])
-    _t, _n, _dline = 0, 0, ""
-    if True:
-        _mx, _safe, _src, _mn = _limit_of(fmt)
-        _n = len(shots)
-        _per = max(_mn, min(_per, _mx))
-        _t = _per * _n
-        _dline = (f"【时长】每镜 {_per} 秒 x {_n} 镜 = {_t}s。"
-                  f"（{fmt or '通用'} 上限 {_mx}s / 最短 {_mn}s）")
+    # 逐镜分配时长：每镜按自己的运动幅度算，不是一刀切
+    _mx, _safe, _src, _mn = _limit_of(fmt)
+    _pers = []
+    for _sh in shots:
+        _sec, _kind = _ref_duration(_sh) if _sh else (4, "空槽")
+        _pers.append((max(_mn, min(int(_sec), _mx)), _kind))
+    _t = sum(p for p, _ in _pers)
+    _dline = (f"【时长】逐镜分配，合计 {_t}s。"
+              f"（{fmt or '通用'} 上限 {_mx}s / 最短 {_mn}s；按运动幅度分配，"
+              f"静态给 3 秒、强动作给 5 秒、变形给 6 秒）")
     out = [
         f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
         "        " + _dline,
@@ -539,7 +587,8 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     out.append("")
     for i, sh in enumerate(shots, 1):
         body = sh.strip() or "<写这一镜的动作：只有 1-2 个动作，写清从什么变成什么>"
-        out.append(f"【镜头 {i}】{body}")
+        _sec, _kind = _pers[i - 1]
+        out.append(f"【镜头 {i}】（{_sec} 秒 · {_kind}）{body}")
     out.append("")
     out.append("（共用块只写一次：逐镜重复风格会让各次生成色调不一致，剪不到一起。）")
     return "\n".join(out)
