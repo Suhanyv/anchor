@@ -325,6 +325,83 @@ _CMD_WORDS = (
 _TAIL_WORDS = ("的视频", "的镜头", "的画面", "的片子", "短片", "一段视频")
 
 
+_CN_NUM = "一二三四五六七八九十"
+_SHOT_HEAD = r"(?:镜头|镜号|第)\s*[" + _CN_NUM + r"1-9]\s*(?:个)?(?:镜(?:头)?)?"
+_COUNT_PAT = r"([一二三四五六七八九十1-9])\s*(?:个)?镜头"
+
+
+def _split_shots(q):
+    """把一条描述拆成多个镜头。拆不出来返回 []。
+
+    只认三种显式结构，不做语义猜测：
+        1. 镜头标记（镜头一 / 第2镜 / 镜号3）
+        2. 行首序号（1. / 2、/ 3)）
+        3. 箭头或竖线（→ / -> / |）
+    """
+    import re
+    t = (q or "").strip()
+    if not t:
+        return []
+
+    parts = re.split(_SHOT_HEAD + r"\s*[：:.、]?", t)
+    parts = [p.strip(" ：:，,。.、-—\n") for p in parts if p and len(p.strip()) >= 3]
+    if len(parts) >= 2:
+        return parts
+
+    if re.search(r"(?m)^\s*[1-9][.、)]\s+\S", t):
+        parts = [p.strip() for p in re.split(r"(?m)^\s*[1-9][.、)]\s+", t)
+                 if p and len(p.strip()) >= 3]
+        if len(parts) >= 2:
+            return parts
+
+    if re.search(r"→|->|—>|｜|\|", t):
+        parts = [p.strip(" ，,。.、") for p in re.split(r"→|->|—>|｜|\|", t)
+                 if p and len(p.strip(" ，,。.、")) >= 3]
+        if len(parts) >= 2:
+            return parts
+
+    return []
+
+
+def _count_shots(q):
+    """用户只说"想要三个镜头"但没给结构时，读出数量。读不到返回 0。"""
+    import re
+    m = re.search(_COUNT_PAT, q or "")
+    if not m:
+        return 0
+    c = m.group(1)
+    if c.isdigit():
+        return int(c)
+    idx = _CN_NUM.find(c)
+    return (idx + 1) if idx >= 0 else 0
+
+
+def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
+    """共用块 + 逐镜。shots 里的空串表示"这一镜待填"。"""
+    c = _core(item, subj, craft, mat, domain, "")
+    ar = c["ar"]
+    light = c["zh_light"] or "<光线与色调>"
+    style = c["zh_style"] or "<风格>"
+    # 光与风格同源时只写一次（否则共用块会重复两遍）
+    if light and style and light.strip("。； ")[:6] in style:
+        light = ""
+    out = [
+        f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
+        "        只使用<环境声>，不要配乐，不要字幕。",
+        "        不要出现：<2-4 个会让这批全废掉的错误，例如多余的人、"
+        "手部畸形、兵器穿模、各镜色调不一致>。",
+    ]
+    if "Veo" in fmt:
+        out.append("        ⚠️ Veo 一次只出一镜 8 秒，下面每一镜需要单独生成一次。")
+    out.append("")
+    for i, sh in enumerate(shots, 1):
+        body = sh.strip() or "<写这一镜的动作：只有 1-2 个动作，写清从什么变成什么>"
+        out.append(f"【镜头 {i}】{body}")
+    out.append("")
+    out.append("（共用块只写一次：逐镜重复风格会让各次生成色调不一致，剪不到一起。）")
+    return "\n".join(out)
+
+
 def _strip_cmd(q):
     """从描述里剥掉指令前缀与平台名，只留画面内容。"""
     import re as _re
@@ -1397,6 +1474,22 @@ class LocalStyleHint:
 
         global _CURRENT_TASK
         _CURRENT_TASK = 任务
+
+        # ---- 多镜头：检出结构就出「共用块 + 逐镜」----
+        # 放在任务分派之前：多镜头对文生/参考生都适用，
+        # 图生视频时共用块同样能省掉重复外观。
+        _shots = _split_shots(中文描述)
+        if len(_shots) < 2:
+            _n = _count_shots(中文描述)
+            if _n >= 2:
+                _shots = [""] * _n   # 只给了数量：出空槽，不替用户编动作
+        if len(_shots) >= 2:
+            _ms = _fmt_multishot(_shots, items[0], subj, craft, mat,
+                                 domain_used, 输出格式)
+            _tag = ("检出多镜结构" if any(_shots)
+                    else f"只检出数量 {len(_shots)} 镜，已出空槽")
+            dbg = f"【多镜头】{_tag}\n" + dbg
+            return (_ms, dbg)
 
         # 图生视频：只写动作，不套平台模板
         if 任务 == "图生视频":
