@@ -502,6 +502,38 @@ def _fmt_i2v_kling(item, subj, craft, mat, domain, query=""):
     )
 
 
+_TIME_LAPSE_WORDS = (
+    "延时", "时间压缩", "时移", "缩时", "云在走", "日出到日落", "日落日出",
+    "一整天", "一天里", "几天", "一年", "四季", "潮汐", "月相",
+    "公转", "自转", "星轨", "银河移动", "影子移动",
+)
+_SLOWMO_WORDS = (
+    "慢动作", "慢镜", "升格", "高速摄影", "极慢", "子弹时间",
+    "水滴落下", "碎裂瞬间", "飞溅", "破片",
+)
+
+
+def _time_note(query, dur=6):
+    """检测时间处理方式并返回约定块；实时/未提及返回空串。"""
+    q = query or ""
+    if any(w in q for w in _TIME_LAPSE_WORDS):
+        return (
+            f"\n\n【时间约定】这是**延时摄影**：把远长于 {dur} 秒的过程压缩进 {dur} 秒。"
+            "因此允许慢速过程看起来在快速发生；"
+            "但**不允许**出现：物体瞬移、无中间状态的跳变、光影硬切、"
+            "以及示意图式的轨道线/箭头/标注。"
+            "运动要有连续中间帧，只是整体速度被压缩。"
+        )
+    if any(w in q for w in _SLOWMO_WORDS):
+        return (
+            f"\n\n【时间约定】这是**慢动作**：把极短的过程拉长到 {dur} 秒。"
+            "因此允许形变与飞溅被逐帧看清；"
+            "但**不允许**出现：动作变成静止、粒子数量暴增、"
+            "以及失去重力的漂浮感。"
+        )
+    return ""
+
+
 def _fmt_motion(item, subj, craft, mat, domain, query=""):
     """图生视频专用：只写动作。
 
@@ -1205,9 +1237,14 @@ class LocalStyleHint:
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
     def run(self, *args, **kwargs):
-        """对外入口：统一给输出追加「任务约定」"""
+        """对外入口：统一追加「任务约定」与「时间约定」"""
         text, dbg = self._run_inner(*args, **kwargs)
-        return _post(text), dbg
+        # 中文描述是第 1 个位置参数
+        q = args[0] if args else kwargs.get("中文描述", "")
+        note = _time_note(q, 6)
+        if note:
+            dbg = "【时间】检测到延时/慢动作\n" + dbg
+        return _post(text) + note, dbg
 
     def _run_inner(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
                    任务, 输出格式, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
