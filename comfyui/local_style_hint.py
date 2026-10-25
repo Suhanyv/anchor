@@ -1053,7 +1053,14 @@ def _post(text):
     return text + _TASK_NOTE.get(_CURRENT_TASK, "")
 
 
-def _exact_hits(query, rows, min_len=3):
+# 泛用词黑名单：这些 2 字词出现在查询里不代表"点名了某个条目"
+_EXACT_STOP = {
+    "柔光", "硬光", "颗粒", "霓虹", "光斑", "高光", "反光", "阴影", "暗角",
+    "色彩", "色调", "质感", "氛围", "情绪", "风格", "画面", "镜头", "构图",
+}
+
+
+def _exact_hits(query, rows, min_len=2):
     """查询里逐字包含条目名、或包含长度 >= min_len 的关键词时，返回这些条目的下标。
 
     为什么不所有关键词都认：
@@ -1076,7 +1083,8 @@ def _exact_hits(query, rows, min_len=3):
             best = len(name)
         for kw in (r.get("kw_zh") or []):
             kw = str(kw).strip()
-            if len(kw) >= min_len and kw in query and len(kw) > best:
+            if (len(kw) >= min_len and kw in query and len(kw) > best
+                    and not (len(kw) == 2 and kw in _EXACT_STOP)):
                 best = len(kw)
         if best:
             hits.append((best, i))
@@ -1229,7 +1237,7 @@ class LocalStyleHint:
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v7.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v6.jsonl")}),
-                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v8.jsonl")}),
+                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v9.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
