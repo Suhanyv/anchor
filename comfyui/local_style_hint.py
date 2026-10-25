@@ -461,7 +461,12 @@ def _plan_duration(platform, q, asked=None):
         reason = f"内容约 {beats} 拍 x {_SEC_PER_BEAT:g}s = {need}s，在安全时长内"
     else:
         n = (need + safe - 1) // safe
-        per = max(3, need // n)
+        # 拆镜后的每镜时长也要卡下限（原来写死 3，会给 MiniMax 出 3 秒的无效参数）
+        per = max(mn, need // n)
+        # 若卡了下限导致总长超出上限，就再多拆一镜
+        while per * n > mx:
+            n += 1
+            per = max(mn, need // n)
         total = per * n
         reason = (f"内容约 {beats} 拍需要 {need}s，超过该平台安全时长 {safe}s "
                   f"-> 拆成 {n} 镜，每镜 {per}s")
