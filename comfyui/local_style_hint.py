@@ -431,6 +431,8 @@ def _est_beats(q):
         beats += t.count(w)
     # 箭头也是转折
     beats += t.count("→") + t.count("->")
+    # 逗号分隔的从句通常各含一个动作（"劈下，格挡" 是两拍）
+    beats += int(t.count("，") * 0.7)
     # 人或物一多，交互成本上来
     if any(w in t for w in ("一群", "多人", "人群", "众人", "交战", "混战")):
         beats += 2
@@ -511,9 +513,21 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     # 光与风格同源时只写一次（否则共用块会重复两遍）
     if light and style and light.strip("。； ")[:6] in style:
         light = ""
+    # 时长：按真实镜数报，别让"3 镜"配一个"1 镜"的规划
+    # 每镜时长按各镜自己的内容估，取最大 —— 逐镜生成时它们互不相干
+    _per = max([_plan_duration(fmt, s)[1] for s in shots if s] or
+               [_plan_duration(fmt, " ".join(shots))[1]])
+    _t, _n, _dline = 0, 0, ""
+    if True:
+        _mx, _safe, _src, _mn = _limit_of(fmt)
+        _n = len(shots)
+        _per = max(_mn, min(_per, _mx))
+        _t = _per * _n
+        _dline = (f"【时长】每镜 {_per} 秒 x {_n} 镜 = {_t}s。"
+                  f"（{fmt or '通用'} 上限 {_mx}s / 最短 {_mn}s）")
     out = [
         f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
-        "        " + _plan_duration(fmt, " ".join(shots))[3],
+        "        " + _dline,
         "        " + _cine_line(c),
         "        只使用<环境声>，不要配乐，不要字幕。",
         "        不要出现：<2-4 个会让这批全废掉的错误，例如"
@@ -530,8 +544,12 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     return "\n".join(out)
 
 
-def _strip_cmd(q):
-    """从描述里剥掉指令前缀与平台名，只留画面内容。"""
+def _strip_cmd(q, fallback=True):
+    """从描述里剥掉指令前缀与平台名，只留画面内容。
+
+    fallback=True  剥空了就返回原文（用于主体：宁可留着也别给空）
+    fallback=False 剥空了就返回空串（用于分镜：空段该被丢掉）
+    """
     import re as _re
     t = (q or "").strip()
     # 1) 冒号后面才是描述
@@ -556,7 +574,9 @@ def _strip_cmd(q):
             t = t[: -len(w)]
     # 5) 收掉多余空白与标点
     t = _re.sub(r"\s+", " ", t).strip(" ，,。.、·-")
-    return t or (q or "").strip()
+    if t:
+        return t
+    return (q or "").strip() if fallback else ""
 
 
 def _core(item, subj, craft, mat, domain, query=""):
@@ -1614,11 +1634,23 @@ class LocalStyleHint:
             if _n >= 2:
                 _shots = [""] * _n   # 只给了数量：出空槽，不替用户编动作
         if len(_shots) >= 2:
+            # 平台要先定下来，否则时长会按"通用"算（这里曾在识别之前 return）
+            _pf = 输出格式
+            if _pf == "自动（识别平台）":
+                _pf, _why = _detect_format(中文描述, domain_used)
+            # 每段都剥掉指令/平台名残留；剥完太短的段直接丢掉
+            _clean = []
+            for _s in _shots:
+                _s2 = _strip_cmd(_s, fallback=False)
+                if len(_s2) >= 3:
+                    _clean.append(_s2)
+            if len(_clean) >= 2:
+                _shots = _clean
             _ms = _fmt_multishot(_shots, items[0], subj, craft, mat,
-                                 domain_used, 输出格式)
+                                 domain_used, _pf)
             _tag = ("检出多镜结构" if any(_shots)
                     else f"只检出数量 {len(_shots)} 镜，已出空槽")
-            dbg = f"【多镜头】{_tag}\n" + dbg
+            dbg = f"【多镜头】{_tag}（平台 {_pf}）\n" + dbg
             return (_ms, dbg)
 
         # 图生视频：只写动作，不套平台模板
