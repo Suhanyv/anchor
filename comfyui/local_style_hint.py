@@ -592,7 +592,29 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
         _sec, _kind = _pers[i - 1]
         out.append(f"【镜头 {i}】（{_sec} 秒 · {_kind}）{body}")
     out.append("")
-    out.append("（共用块只写一次：逐镜重复风格会让各次生成色调不一致，剪不到一起。）")
+    out.append("（上面是规划。下面每一镜都是完整可粘的——"
+               "因为即梦一次只出一镜，共用块必须贴进每一段。）")
+    out.append("")
+    out.append("━━━ 可直接粘贴 ━━━")
+    out.append("")
+    _look = "；".join([x for x in (light, style) if x]) or "<风格与光线>"
+    _cine = _cine_line(c).split("\n")[0]
+    for i, sh in enumerate(shots, 1):
+        _sec, _kind = _pers[i - 1]
+        body = sh.strip() or "<写这一镜的动作>"
+        a = max(1, _sec // 3)
+        b = max(a + 1, _sec * 2 // 3)
+        out.append(f"—— 镜头 {i} · {_sec} 秒 ——")
+        out.append(f"{_look}。{ar}。")
+        out.append("")
+        out.append(f"0–{a} 秒：{body}，动作从这里开始，机位不动。")
+        out.append(f"{a}–{b} 秒：<写这一步怎么继续；有变化就写清从什么变成什么>。")
+        out.append(f"{b}–{_sec} 秒：<收束，停在什么画面上>。")
+        out.append("")
+        out.append(f"{_cine}")
+        out.append("只使用<环境声>，不要配乐，不要字幕。")
+        out.append("不要出现：<2-4 个会让这条废掉的错误>。")
+        out.append("")
     return "\n".join(out)
 
 
