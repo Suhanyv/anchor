@@ -75,15 +75,32 @@ pip install torch transformers
 
 ### 方式二：HTTP 服务
 
-```bash
-python src/serve_style.py --port 8848 --corpus data/raw/corpus_v16.jsonl --model models/e5-director-c18
+**服务端和节点是同一套实现**——服务直接调 `comfyui/local_style_hint.py` 的 `run()`，
+所以四通道和 14 种输出格式**天然一致**，不会漂。
 
-curl -X POST http://127.0.0.1:8848/style-hint \
-  -H 'Content-Type: application/json; charset=utf-8' \
-  -d '{"query":"霓虹夜色，慢门，暧昧的感觉","topk":3}'
+```bash
+python src/serve_style.py --port 8848          # 默认读 v21 语料 + c27 模型
 ```
 
-> 注意：服务端目前**只有风格通道**，节点有多通道。见 LIMITATIONS 第八节第 6 条。
+```bash
+# 健康检查：文档数、模型、通道、可用格式
+curl http://127.0.0.1:8848/health
+
+# 出提示词（format 可选，默认「结构化（英文）」）
+curl -X POST http://127.0.0.1:8848/style-hint \
+  -H 'Content-Type: application/json; charset=utf-8' \
+  -d '{"query":"霓虹夜色，慢门，暧昧的感觉",
+       "topk":3,"domain":"video",
+       "format":"即梦 Seedance 2.5（中文）"}'
+
+# 只看原始检索结果（不套模板），用于排查
+curl -X POST http://127.0.0.1:8848/search \
+  -H 'Content-Type: application/json; charset=utf-8' \
+  -d '{"query":"一个杯子就让人紧张","topk":5}'
+```
+
+`domain` 接受 `auto` / `image` / `video` / `any`，也接受中文的 自动/图片/视频/不限。
+`format` 取值见 `/health` 的 `formats` 字段（14 种，含即梦/可灵/MiniMax/Veo 等）。
 
 ### 方式三：直接调函数
 

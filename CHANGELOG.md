@@ -1,5 +1,39 @@
 # 更新日志
 
+## v0.1.7 — 服务端与节点合并为一份实现（2026-10-25）
+
+### 修的问题
+
+serve_style.py 自己实现了一遍检索，只有风格一个通道，而节点已经有四通道 + 14 种格式。
+这个不一致写在 LIMITATIONS 里很久了，一直靠记得同步维持——那不可靠。
+
+### 改法：一份实现，两个入口
+
+src/serve_style.py 现在**直接调用 comfyui/local_style_hint.py 的 
+un()**。
+服务端不再有独立逻辑，所以四通道与 14 种格式天然一致，不会漂。
+
+- GET /health：文档数、模型、通道、材质开关、可用格式列表
+- POST /style-hint：{query, topk, domain, format} → 提示词文本 + 调试信息
+- POST /search：{query, topk, domain} → 原始文档列表（不套模板）
+
+domain 接受 uto/image/video/any，也接受中文的 自动/图片/视频/不限。
+
+### 实测
+
+`
+/health     docs=1045  model=c27  corpus=v21  材质=True  格式=14
+/style-hint 选「即梦 Seedance 2.5（中文）」→ 输出与节点逐字一致
+/search     霓虹夜色 → Synthwave 0.4513 / Wong Kar-wai 0.4258 / Jia Zhangke 0.3903
+`
+
+### 一条记下来的教训
+
+**两个前端各写一遍是会反复犯的错。正确做法不是保持同步，是一份实现两个入口。**
+和前面那条节点默认值与工作流是两处独立来源是同一类问题。
+
+---
+
 ## v0.1.6 — 按平台输出不同格式（2026-10-25）
 
 ### 核心观念

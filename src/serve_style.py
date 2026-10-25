@@ -1,267 +1,123 @@
 """
-风格提示服务（CPU only，零第三方依赖）
+HTTP 服务：和 ComfyUI 节点共用同一套实现
 
-为什么要 CPU：
-    这台机器只有 8GB 显存，SDXL/Flux 要吃 6-8GB。
-    检索模型再占 1GB 必然打架。e5-small 在 CPU 上编码一个 query 约 50-150ms，
-    语料 embedding 预计算并缓存，启动只加载 .npy。
-    -> 显存 100% 留给扩散模型。
+设计上的一处改动（重要）
+------------------------
+旧版自己实现了一遍检索逻辑，只有风格一个通道，逐步落后于节点
+（节点有四通道 + 14 种输出格式，服务只有风格），写进了 LIMITATIONS。
 
-端点：
-    GET  /health
-    POST /style-hint   {"query": "...", "topk": 3}
-         -> 返回最匹配的导演 + 可直接粘进 prompt 的英文风格串
-    POST /search       {"query": "...", "topk": 5}
-         -> 返回最匹配的提示词原文
+现在改成**直接调用 comfyui/local_style_hint.py 的 run()**：
+一份实现，两个前端（ComfyUI 节点 / HTTP 服务），不会再有漂移。
 
-启动：
-    <项目根>/... <项目根>/... --port 8848
+端点
+----
+    GET  /health          文档数、模型、可用格式
+    POST /style-hint      {query, topk?, domain?, format?}  -> 提示词文本
+    POST /search          {query, topk?, domain?}           -> 原始文档列表
+
+domain: auto / image / video / any（也接受中文：自动/图片/视频/不限）
+format: 见 /health 的 formats 列表，默认「片段（英文）」
 """
 import argparse
 import json
 import os
 import sys
 import time
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-def _find_root():
-    """找项目根：从本文件与 CWD 分别向上找含 data/raw 的目录。
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "comfyui"))
 
-    ComfyUI 节点会被复制到 <ComfyUI>/custom_nodes/ 下，此时 __file__ 的祖先里
-    没有项目根，必须靠 CWD 或由用户显式设置路径。
-    """
-    seen = set()
-    for start in (os.path.dirname(os.path.abspath(__file__)), os.getcwd()):
-        p = start
-        for _ in range(8):
-            if p in seen:
-                break
-            seen.add(p)
-            if os.path.isdir(os.path.join(p, "data", "raw")):
-                return p
-            nxt = os.path.dirname(p)
-            if nxt == p:
-                break
-            p = nxt
-    return os.path.dirname(os.path.abspath(__file__))
+import local_style_hint as NODE  # noqa: E402
+
+DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v21.jsonl")
+DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-c27")
+DEFAULT_SUBJECTS = os.path.join(ROOT, "data", "raw", "subjects_v4.jsonl")
+DEFAULT_CRAFTS = os.path.join(ROOT, "data", "raw", "crafts_v3.jsonl")
+DEFAULT_MATERIALS = os.path.join(ROOT, "data", "raw", "materials_v4.jsonl")
+
+DOMAIN_ZH = {"auto": "自动", "image": "图片", "video": "视频", "any": "不限",
+             "自动": "自动", "图片": "图片", "视频": "视频", "不限": "不限"}
+
+STATE = {"corpus": DEFAULT_CORPUS, "model": DEFAULT_MODEL,
+         "subjects": DEFAULT_SUBJECTS, "crafts": DEFAULT_CRAFTS,
+         "materials": DEFAULT_MATERIALS, "use_material": True,
+         "device": "cpu", "node": None}
 
 
-ROOT = _find_root()
-DEFAULT_CORPUS = os.path.join(ROOT, "data", "raw", "corpus_v16.jsonl")
-# 部署用 c14（corpus_v14 + e5-director-c18），场景锚定 top1 55% / top3 70%。
-# 注意：c14 是全量训练，**不能用于对外声称泛化能力**；
-#       泛化数字只能用 e5-director-v4-noleak / v5 / v7 的留出实验。
-DEFAULT_MODEL = os.path.join(ROOT, "models", "e5-director-c18")
-CACHE_DIR = os.path.join(ROOT, "cache")
-MAXLEN = 128
-
-Q_PREFIX = "query: "
-P_PREFIX = "passage: "
-
-STATE = {"corpus": None, "doc_emb": None, "model": None, "tok": None, "enc": None}
+def formats():
+    return NODE.LocalStyleHint.INPUT_TYPES()["required"]["输出格式"][0]
 
 
-def _load_router():
-    try:
-        from domain_router import detect
-        return detect
-    except Exception:  # noqa: BLE001
-        return lambda _t: "any"
+def init(corpus, model, subjects, crafts, materials,
+         use_material=True, device="cpu"):
+    STATE.update({"corpus": corpus, "model": model, "subjects": subjects,
+                  "crafts": crafts, "materials": materials,
+                  "use_material": use_material, "device": device})
+    STATE["node"] = NODE.LocalStyleHint()
 
 
-detect_domain = _load_router()
+def _run(q, topk, domain, fmt):
+    """唯一的执行入口：和节点走同一条路。"""
+    n = STATE["node"]
+    out, dbg = n.run(
+        q, STATE["model"], STATE["corpus"], STATE["subjects"],
+        STATE["crafts"], STATE["materials"], STATE["use_material"],
+        fmt, STATE["device"], DOMAIN_ZH.get(domain, "自动"),
+        "导演/风格聚合", topk, "", False)
+    return out, dbg
 
 
-def _resolve_domain(q, mode):
-    """mode: auto | image | video | any -> prompt_image | prompt_video | any"""
-    m = (mode or "auto").lower()
-    if m == "image":
-        return "prompt_image"
-    if m == "video":
-        return "prompt_video"
-    if m == "any":
-        return "any"
-    d = detect_domain(q)
-    return d if d in ("prompt_image", "prompt_video") else "any"
+def style_hint(q, topk=3, domain="auto", fmt=None):
+    fmt = fmt or "结构化（英文）"
+    if fmt not in formats():
+        raise ValueError(f"未知格式：{fmt}。可用：{formats()}")
+    out, dbg = _run(q, topk, domain, fmt)
+    dom_line = next((l for l in dbg.split("\n") if l.startswith("【")), "")
+    return {
+        "query": q,
+        "domain_used": domain,
+        "format": fmt,
+        "prompt": out,
+        "note": dom_line,
+        "debug": dbg,
+    }
 
 
-def _allowed(pred):
-    """允许的文档下标；any 则全允许"""
-    corpus = STATE["corpus"]
-    if pred == "any":
-        return list(range(len(corpus)))
-    idx = [i for i, d in enumerate(corpus) if d.get("domain") == pred]
-    return idx or list(range(len(corpus)))
-
-
-def load_corpus(path):
-    with open(path, encoding="utf-8") as f:
-        return [json.loads(l) for l in f if l.strip()]
-
-
-def get_model(path):
-    import torch
-    from transformers import AutoModel, AutoTokenizer
-    tok = AutoTokenizer.from_pretrained(path)
-    enc = AutoModel.from_pretrained(path).eval()
-    for p in enc.parameters():
-        p.requires_grad_(False)
-    return tok, enc
-
-
-def encode(texts, prefix, tok, enc, bs=32):
-    import torch
-    import torch.nn.functional as F
-    out = []
-    with torch.no_grad():
-        for i in range(0, len(texts), bs):
-            b = tok([prefix + t for t in texts[i:i + bs]], padding=True,
-                    truncation=True, max_length=MAXLEN, return_tensors="pt")
-            h = enc(**b).last_hidden_state
-            m = b["attention_mask"].unsqueeze(-1).float()
-            v = ((h * m).sum(1) / m.sum(1).clamp(min=1e-6)).float()
-            out.append(F.normalize(v, dim=-1))
-    return torch.cat(out).numpy()
-
-
-def init(corpus_path, model_path):
-    import numpy as np
-    os.makedirs(CACHE_DIR, exist_ok=True)
-    corpus = load_corpus(corpus_path)
-    print(f"corpus: {len(corpus)} doc  ({os.path.basename(corpus_path)})")
-
-    tag = f"{os.path.basename(model_path)}__{os.path.basename(corpus_path)}.npy"
-    cache = os.path.join(CACHE_DIR, tag)
-
-    t0 = time.time()
-    tok, enc = get_model(model_path)
-    print(f"model loaded: {os.path.basename(model_path)}  ({time.time()-t0:.1f}s)")
-
-    if os.path.exists(cache):
-        doc_emb = np.load(cache)
-        if doc_emb.shape[0] == len(corpus):
-            print(f"doc embeddings: cache hit {doc_emb.shape}  ({time.time()-t0:.1f}s)")
-        else:
-            doc_emb = None
-    else:
-        doc_emb = None
-
-    if doc_emb is None:
-        t1 = time.time()
-        doc_emb = encode([d["text_semantic"] for d in corpus], P_PREFIX, tok, enc)
-        np.save(cache, doc_emb)
-        print(f"doc embeddings: computed {doc_emb.shape} in {time.time()-t1:.1f}s -> {cache}")
-
-    STATE.update(corpus=corpus, doc_emb=doc_emb, tok=tok, enc=enc)
-
-
-def query_embed(q):
-    return encode([q], Q_PREFIX, STATE["tok"], STATE["enc"])[0]
-
-
-def style_hint(q, topk, domain_mode="auto"):
-    import numpy as np
-    corpus, doc_emb = STATE["corpus"], STATE["doc_emb"]
-    pred = _resolve_domain(q, domain_mode)
-    allowed = _allowed(pred)
-    qe = query_embed(q)
-    sims = doc_emb @ qe
-
-    # 按导演聚合（只在允许的域内取最高分文档）
-    best = {}
-    for i in allowed:
-        d = corpus[i]
-        s = float(sims[i])
-        cur = best.get(d["director"])
-        if cur is None or s > cur["score"]:
-            best[d["director"]] = {
-                "score": s,
-                "director": d["director"],
-                "director_zh": d.get("director_zh", ""),
-                "facet": d.get("facet", "base"),
-                "domain": d.get("domain", ""),
-                "motion": d.get("motion", ""),
-                "params": d.get("params", {}),
-                "style_tags": d.get("style_tags", []),
-                "sample_prompt": d.get("prompt", ""),
-            }
-    ranked = sorted(best.values(), key=lambda x: -x["score"])[:topk]
-
-    for r in ranked:
-        tags = ", ".join(r["style_tags"][:4])
-        r["style_string"] = f"in the style of {r['director']}" + (f", {tags}" if tags else "")
-        r["score"] = round(r["score"], 4)
-    return {"query": q, "domain_used": pred, "results": ranked}
-
-
-def search(q, topk, domain_mode="auto"):
-    corpus, doc_emb = STATE["corpus"], STATE["doc_emb"]
-    pred = _resolve_domain(q, domain_mode)
-    allowed = _allowed(pred)
-    qe = query_embed(q)
-    sims = doc_emb @ qe
-    order = sorted(allowed, key=lambda j: -sims[j])[:topk]
-    out = []
-    for i in order:
-        d = corpus[int(i)]
-        out.append({
-            "doc_id": d["doc_id"],
-            "director": d["director"],
-            "director_zh": d.get("director_zh", ""),
-            "facet": d.get("facet", "base"),
-            "domain": d.get("domain", ""),
-            "motion": d.get("motion", ""),
-            "params": d.get("params", {}),
-            "score": round(float(sims[int(i)]), 4),
-            "prompt": d.get("prompt", ""),
-            "text_semantic": d.get("text_semantic", ""),
+def search(q, topk=5, domain="auto"):
+    """原始文档列表（不套模板），用于排查与二开。"""
+    n = STATE["node"]
+    items, mode, subj, dused, craft, mat = NODE._rank(
+        q, STATE["model"], STATE["corpus"], STATE["device"], topk,
+        "导演/风格聚合", DOMAIN_ZH.get(domain, "自动"),
+        STATE["subjects"], STATE["crafts"], STATE["materials"],
+        STATE["use_material"])
+    rows = []
+    for it in items:
+        rows.append({
+            "director": it.get("director", ""),
+            "director_zh": it.get("director_zh", ""),
+            "facet": it.get("facet", ""),
+            "domain": it.get("domain", ""),
+            "motion": it.get("motion", ""),
+            "score": round(float(it.get("score", 0)), 4),
+            "doc_id": it.get("doc_id", ""),
+            "description": it.get("description", ""),
+            "style_string": it.get("style_string", ""),
         })
-    return {"query": q, "results": out}
+    return {"query": q, "mode": mode, "domain_used": dused, "results": rows}
 
 
-class Handler(BaseHTTPRequestHandler):
-    def log_message(self, fmt, *args):
-        sys.stderr.write("[%s] %s\n" % (time.strftime("%H:%M:%S"), fmt % args))
-
-    def _send(self, obj, code=200):
-        body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Content-Length", str(len(body)))
-        self.end_headers()
-        self.wfile.write(body)
-
-    def do_GET(self):
-        if self.path.startswith("/health"):
-            self._send({"ok": True, "docs": len(STATE["corpus"]),
-                        "model": os.path.basename(DEFAULT_MODEL)})
-        else:
-            self._send({"error": "use POST /style-hint or /search"}, 404)
-
-    def do_POST(self):
-        try:
-            n = int(self.headers.get("Content-Length") or 0)
-            payload = json.loads(self.rfile.read(n) or b"{}")
-        except Exception as e:  # noqa: BLE001
-            self._send({"error": f"bad json: {e}"}, 400)
-            return
-
-        q = (payload.get("query") or "").strip()
-        if not q:
-            self._send({"error": "missing 'query'"}, 400)
-            return
-        topk = int(payload.get("topk") or 3)
-        domain = (payload.get("domain") or "auto").lower()
-
-        try:
-            if self.path.startswith("/style-hint"):
-                self._send(style_hint(q, topk, domain))
-            elif self.path.startswith("/search"):
-                self._send(search(q, topk, domain))
-            else:
-                self._send({"error": "unknown endpoint"}, 404)
-        except Exception as e:  # noqa: BLE001
-            self._send({"error": str(e)}, 500)
+def handle_post(path, payload):
+    q = (payload.get("query") or "").strip()
+    if not q:
+        raise ValueError("missing 'query'")
+    topk = int(payload.get("topk") or (3 if "style-hint" in path else 5))
+    domain = (payload.get("domain") or "auto").lower()
+    if path.startswith("/style-hint"):
+        return style_hint(q, topk, domain, payload.get("format"))
+    if path.startswith("/search"):
+        return search(q, topk, domain)
+    raise LookupError("unknown endpoint")
 
 
 def main():
@@ -270,13 +126,66 @@ def main():
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--corpus", default=DEFAULT_CORPUS)
     ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--subjects", default=DEFAULT_SUBJECTS)
+    ap.add_argument("--crafts", default=DEFAULT_CRAFTS)
+    ap.add_argument("--materials", default=DEFAULT_MATERIALS)
+    ap.add_argument("--no-material", action="store_true")
+    ap.add_argument("--device", default="cpu", choices=["cpu", "cuda"])
     a = ap.parse_args()
 
-    init(a.corpus, a.model)
+    init(a.corpus, a.model, a.subjects, a.crafts, a.materials,
+         not a.no_material, a.device)
+
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    class Handler(BaseHTTPRequestHandler):
+        def log_message(self, fmt, *args):
+            sys.stderr.write("[%s] %s\n" % (time.strftime("%H:%M:%S"), fmt % args))
+
+        def _send(self, obj, code=200):
+            body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def do_GET(self):
+            if self.path.startswith("/health"):
+                n = sum(1 for _ in open(STATE["corpus"], encoding="utf-8"))
+                self._send({"ok": True,
+                            "docs": n,
+                            "model": os.path.basename(STATE["model"]),
+                            "corpus": os.path.basename(STATE["corpus"]),
+                            "channels": ["风格", "题材", "工艺", "材质"],
+                            "material_enabled": STATE["use_material"],
+                            "formats": formats()})
+            else:
+                self._send({"error": "GET /health；写操作走 POST /style-hint 或 /search"}, 404)
+
+        def do_POST(self):
+            try:
+                n = int(self.headers.get("Content-Length") or 0)
+                payload = json.loads(self.rfile.read(n) or b"{}")
+            except Exception as e:  # noqa: BLE001
+                self._send({"error": f"bad json: {e}"}, 400)
+                return
+            try:
+                self._send(handle_post(self.path, payload))
+            except LookupError as e:
+                self._send({"error": str(e)}, 404)
+            except ValueError as e:
+                self._send({"error": str(e)}, 400)
+            except Exception as e:  # noqa: BLE001
+                self._send({"error": f"{type(e).__name__}: {e}"}, 500)
+
     srv = ThreadingHTTPServer((a.host, a.port), Handler)
     print(f"\nserving on http://{a.host}:{a.port}")
-    print("  GET  /health")
-    print("  POST /style-hint  {\"query\": \"霓虹夜色，慢门，暧昧的感觉\"}")
+    print(f"  corpus {os.path.basename(a.corpus)}   model {os.path.basename(a.model)}")
+    print(f"  通道 风格 / 题材 / 工艺 / 材质（材质 {'开' if not a.no_material else '关'}）")
+    print(f"  格式 {len(formats())} 种（见 /health）")
+    print("\n  GET  /health")
+    print("  POST /style-hint  {\"query\": \"霓虹夜色，慢门\", \"format\": \"即梦 Seedance 2.5（中文）\"}")
     print("  POST /search      {\"query\": \"一个杯子就让人紧张\"}")
     print("\n### SERVER_READY\n")
     try:
