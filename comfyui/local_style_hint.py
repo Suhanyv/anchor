@@ -1521,7 +1521,7 @@ class LocalStyleHint:
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v7.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v6.jsonl")}),
-                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v10.jsonl")}),
+                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v11.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
