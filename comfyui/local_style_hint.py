@@ -432,7 +432,8 @@ def _est_beats(q):
     # 箭头也是转折
     beats += t.count("→") + t.count("->")
     # 逗号分隔的从句通常各含一个动作（"劈下，格挡" 是两拍）
-    beats += int(t.count("，") * 0.7)
+    # 不能用小数：int() 会把 0.7 取整成 0，等于没加
+    beats += t.count("，")
     # 人或物一多，交互成本上来
     if any(w in t for w in ("一群", "多人", "人群", "众人", "交战", "混战")):
         beats += 2
