@@ -386,6 +386,81 @@ _CINE = {
 }
 
 
+# 平台时长：max=官方上限，safe=经验上仍能看的时长，src=依据
+# 未核实的 safe 一律保守取小 —— 宁可建议短一点，也别让它崩在中段。
+_MODEL_LIMITS = {
+    "即梦":      (30, 30, "上限官方 30s；使用者实测长时长仍稳"),
+    "Seedance": (30, 30, "同上"),
+    "MiniMax":  (15, 10, "上限 15s；使用者实测 10s 后开始崩"),
+    "可灵":     (30, 10, "上限官方 30s；安全值未核实，保守取 10"),
+    "Veo":      (8, 8, "官方固定 8 秒单镜"),
+    "Runway":   (10, 5, "未核实，保守取 5"),
+    "混元":     (10, 5, "未核实，保守取 5"),
+    "通用":     (10, 6, "无平台信息时的默认"),
+}
+
+# 每拍的秒数：一拍 = 一个可分辨的动作或变化
+_SEC_PER_BEAT = 2.5
+
+
+def _limit_of(platform):
+    for k, v in _MODEL_LIMITS.items():
+        if k in (platform or ""):
+            return v
+    return _MODEL_LIMITS["通用"]
+
+
+def _est_beats(q):
+    """粗估内容需要几拍。宁可高估：低估会让长镜头太空。"""
+    t = q or ""
+    beats = 1
+    # 显式转折词
+    for w in ("然后", "接着", "随后", "最后", "变成", "逐渐", "再", "又"):
+        beats += t.count(w)
+    # 箭头也是转折
+    beats += t.count("→") + t.count("->")
+    # 人或物一多，交互成本上来
+    if any(w in t for w in ("一群", "多人", "人群", "众人", "交战", "混战")):
+        beats += 2
+    # 已分镜的描述：拍数就是镜数
+    n_shot = sum(1 for i in range(1, 10) if f"镜头{'一二三四五六七八九'[i-1]}" in t)
+    if n_shot >= 2:
+        beats = max(beats, n_shot)
+    return max(1, min(beats, 8))
+
+
+def _plan_duration(platform, q, asked=None):
+    """返回 (建议总时长, 每镜时长, 镜数, 说明行)"""
+    mx, safe, src = _limit_of(platform)
+    # 固定时长平台（Veo 恒 8 秒）：不能给建议值，只能让内容去适配它
+    fixed = ("Veo" in (platform or "") and mx == safe)
+    beats = _est_beats(q)
+    if fixed:
+        fill = ("内容偏少，加一个动作副拍撑满，否则模型会自己补戏"
+                if beats <= 2 else "内容量合适")
+        line = (f"【时长】Veo 固定 8 秒，内容约 {beats} 拍（{fill}）。"
+                f"\n        依据：{src}。")
+        return 8, 8, 1, line
+    need = int(round(beats * _SEC_PER_BEAT))
+    need = max(3, min(need, mx))
+
+    if need <= safe:
+        total, per, n = need, need, 1
+        reason = f"内容约 {beats} 拍 x {_SEC_PER_BEAT:g}s = {need}s，在安全时长内"
+    else:
+        n = (need + safe - 1) // safe
+        per = max(3, need // n)
+        total = per * n
+        reason = (f"内容约 {beats} 拍需要 {need}s，超过该平台安全时长 {safe}s "
+                  f"-> 拆成 {n} 镜，每镜 {per}s")
+
+    line = (f"【时长】建议 {per} 秒/镜 x {n} 镜 = {total}s。"
+            f"（{platform or '通用'} 上限 {mx}s，经验安全 {safe}s；{reason}）")
+    if src:
+        line += f"\n        依据：{src}。"
+    return total, per, n, line
+
+
 def _cine_line(c):
     """摄影层：主选一个值写进正文，备选另起一行。"""
     tags = " ".join(c.get("tags") or []).lower()
@@ -421,6 +496,7 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
         light = ""
     out = [
         f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
+        "        " + _plan_duration(fmt, " ".join(shots))[3],
         "        " + _cine_line(c),
         "        只使用<环境声>，不要配乐，不要字幕。",
         "        不要出现：<2-4 个会让这批全废掉的错误，例如"
