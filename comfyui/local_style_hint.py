@@ -1178,7 +1178,8 @@ class LocalStyleHint:
         floors = {"主体": SUBJECT_FLOOR, "工艺": CRAFT_FLOOR, "材质": MAT_FLOOR}
 
         if subj:
-            dbg = (f"主体: {subj['zh']} {subj['score']:.4f} (下限{SUBJECT_FLOOR}) "
+            _t = "场景" if subj.get("type") == "scene" else "物件"
+        dbg = (f"主体[{_t}]: {subj['zh']} {subj['score']:.4f} (下限{SUBJECT_FLOOR}) "
                    f"{'过' if subj['score'] >= SUBJECT_FLOOR else '未过'}\n" + dbg)
         if craft:
             dbg = (f"工艺: {craft['zh']} {craft['score']:.4f} (下限{CRAFT_FLOOR}) "
