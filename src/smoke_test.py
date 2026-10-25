@@ -69,7 +69,8 @@ def main():
     for q, want, desc in CASES:
         try:
             out, dbg = node.run(q, a.model, DATA["corpus"], DATA["subjects"],
-                                DATA["crafts"], DATA["materials"], True, "片段",
+                                DATA["crafts"], DATA["materials"], True,
+                                "文生视频", "片段（英文）",
                                 "cpu", "不限", "导演/风格聚合", 1, "", False)
         except Exception as e:  # noqa: BLE001
             print(f"  [ERROR] {desc}: {type(e).__name__}: {e}")

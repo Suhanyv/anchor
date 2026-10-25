@@ -42,6 +42,7 @@
         "F:\\llm\\data\\raw\\crafts_v6.jsonl",
         "F:\\llm\\data\\raw\\materials_v8.jsonl",
         true,
+        "文生视频",
         "片段（英文）",
         "cpu",
         "自动",

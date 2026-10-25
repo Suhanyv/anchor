@@ -338,8 +338,15 @@ def _core(item, subj, craft, mat, domain, query=""):
     score = float(item.get("score") or 0)
     weak = score < 0.30
 
+    # 图生视频：外观已在首帧里。清空 kw（影响 zh_style）——
+    # 注意 zh_light 要等下面构造完再清，否则会被覆盖（这个坑踩过一次）。
+    if _CURRENT_TASK == "图生视频":
+        kw = []
+
     who_zh = item.get("director_zh") or item.get("director") or ""
-    if weak:
+    if _CURRENT_TASK == "图生视频":
+        zh_style = ""          # 外观交给首帧
+    elif weak:
         zh_style = "<风格：库中没有可靠匹配，请自行指定>"
     else:
         zh_style = who_zh + ("：" + "、".join(kw[:4]) if kw else "")
@@ -354,6 +361,11 @@ def _core(item, subj, craft, mat, domain, query=""):
     if not zh_light and kw and not weak:
         zh_light.append("、".join(kw[:3]))
     zh_light = "；".join([x for x in zh_light if x])
+
+    # 图生视频：外观已在首帧里，这里给显式占位符（不是留空——
+    # 留空会被各模板的 "or 自然光" 默认值填上，等于又给了一个外观来源）
+    if _CURRENT_TASK == "图生视频":
+        zh_light = "<外观以首帧为准，不用写>"
 
     # 场景槽位：type=scene 且过门槛就填，**不要求它赢**
     # 场景：优先用 scene_best（场景子集的最优），退而用 top1（若它本身就是场景）
@@ -836,6 +848,26 @@ def _structured(item, subj, craft, mat, domain):
     return "\n".join(f"{k + ':':<{w + 1}} {v}" for k, v in d.items() if v)
 
 
+_CURRENT_TASK = "文生视频"
+
+_TASK_NOTE = {
+    "图生视频": (
+        "\n\n【首帧约定】首帧图已提供，画面的外观、构图、光线以首帧为准。"
+        "上面**没有填外观相关的槽位是有意的**——再描述一遍会让模型重画首帧。"
+        "你只需要补：动什么、往哪个方向动、幅度多大、镜头怎么动、节奏。"
+    ),
+    "参考生视频": (
+        "\n\n【参考约定】逐条写明每个素材负责什么（人物外观 / 动作路径 / 运镜节奏 / 音色），"
+        "**并写明不要复制什么**。参考素材只承担明确职责，不要让模型自行推断。"
+        "只描述要变化的部分；除变化项外，身份、服装、配色保持不变。"
+    ),
+}
+
+
+def _post(text):
+    return text + _TASK_NOTE.get(_CURRENT_TASK, "")
+
+
 def _exact_hits(query, rows, min_len=3):
     """查询里逐字包含条目名、或包含长度 >= min_len 的关键词时，返回这些条目的下标。
 
@@ -1018,6 +1050,7 @@ class LocalStyleHint:
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
                 # 那是材质库内容不足（方案 A），不是通道机制问题。
                 "启用材质": ("BOOLEAN", {"default": True}),
+                "任务": (["文生视频", "图生视频", "参考生视频"], {"default": "文生视频"}),
                 "输出格式": ([
                     "片段（英文）",
                     "结构化（英文）",
@@ -1054,8 +1087,13 @@ class LocalStyleHint:
     def IS_CHANGED(cls, **kw):
         return float("NaN")   # 每次都重算，避免缓存旧的 query 结果
 
-    def run(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
-            输出格式, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
+    def run(self, *args, **kwargs):
+        """对外入口：统一给输出追加「任务约定」"""
+        text, dbg = self._run_inner(*args, **kwargs)
+        return _post(text), dbg
+
+    def _run_inner(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
+                   任务, 输出格式, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
         items, mode, subj, domain_used, craft, mat = _rank(
             中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
             {"自动": "auto", "图片": "image", "视频": "video",
@@ -1151,6 +1189,9 @@ class LocalStyleHint:
                    "输出里的风格一栏是占位符，不是推荐。\n".format(
                        items[0].get("director_zh") or items[0].get("director", "?"),
                        float(items[0].get("score") or 0))) + dbg
+
+        global _CURRENT_TASK
+        _CURRENT_TASK = 任务
 
         # ---- 按目标格式分发 ----
         # 视频专用格式遇到图片域、图片格式遇到视频域，都要回落到通用格式并说明，
