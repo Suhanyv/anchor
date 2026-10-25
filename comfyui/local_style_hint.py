@@ -556,6 +556,43 @@ def _cine_line(c):
     return primary + "\n" + alts
 
 
+def _propose_beats(item, subj, craft, mat, domain, n=3):
+    """按「建立 / 交手 / 收」的语法编排 N 拍，并标出每拍的来源。"""
+    c = _core(item, subj, craft, mat, domain, "")
+    look = "、".join([x for x in (c.get("zh_light") or "").split("、") if x][:3]) or "环境光"
+    _st = (subj or {}).get("type", "")
+    # 物件不能当人用（“长剑背对镜头”是错的）
+    who = ("他（<写是谁>）" if _st == "object"
+           else ((subj or {}).get("zh") or "他（<写是谁>）"))
+    prop = (subj or {}).get("phrase") or ""
+    tags = "、".join((item.get("kw_zh") or [])[:4]) or "—"
+
+    beats = []
+    # 第 1 拍：建立
+    beats.append((
+        f"全景或中远景。{who}在{look}里，"
+        f"画面里还有别的人影但都不清（<写几个人、在哪个方位>）；机位横移或不动，不给正脸。",
+        f"【库】{tags} 【编】不给正脸 / 用画外与边缘交代人数"))
+    # 第 2 拍：交手
+    if n >= 2:
+        beats.append((
+            f"近景，只跟一个人。一个对手从画框一侧进入，一个动作（劈或挡）；"
+            f"{who}架住，金属相碰。只此一个动作，不追加。",
+            "【库】对峙/突然加速 【编】只打一个人 / 一个动作 / 不追加"))
+    # 第 3 拍：收
+    if n >= 3:
+        beats.append((
+            f"镜头拉开或切到空处。{who}背对或侧对镜头，兵器垂下；"
+            f"其余人影在画外或虚焦里退开。画面停住。",
+            "【库】硬切/留白 【编】背面收 / 不交代结果"))
+    # 更多拍：在交手与收之间加过渡
+    while len(beats) < n:
+        beats.insert(-1, (
+            f"中景，横移未停。第二个人影从另一侧掠过，{who}没有出兵器，只侧身让开。",
+            "【库】横移 【编】用让开代替交战 / 保持人数压力"))
+    return beats[:n]
+
+
 def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     """共用块 + 逐镜。shots 里的空串表示"这一镜待填"。"""
     c = _core(item, subj, craft, mat, domain, "")
@@ -590,7 +627,9 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     for i, sh in enumerate(shots, 1):
         body = sh.strip() or "<写这一镜的动作：只有 1-2 个动作，写清从什么变成什么>"
         _sec, _kind = _pers[i - 1]
-        out.append(f"【镜头 {i}】（{_sec} 秒 · {_kind}）{body}")
+        _tags = (globals().get('_PROP_TAGS') or [])
+        _tag = f"  {_tags[i-1]}" if i - 1 < len(_tags) else ""
+        out.append(f"【镜头 {i}】（{_sec} 秒 · {_kind}）{body}{_tag}")
     out.append("")
     out.append("（上面是规划。下面每一镜都是完整可粘的——"
                "因为即梦一次只出一镜，共用块必须贴进每一段。）")
@@ -607,7 +646,8 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
         out.append(f"—— 镜头 {i} · {_sec} 秒 ——")
         out.append(f"{_look}。{ar}。")
         out.append("")
-        out.append(f"0–{a} 秒：{body}，动作从这里开始，机位不动。")
+        _cam = "" if ("机位" in body or "镜头" in body or "横移" in body) else "，机位不动"
+        out.append(f"0–{a} 秒：{body}，动作从这里开始{_cam}。")
         out.append(f"{a}–{b} 秒：<写这一步怎么继续；有变化就写清从什么变成什么>。")
         out.append(f"{b}–{_sec} 秒：<收束，停在什么画面上>。")
         out.append("")
@@ -1550,6 +1590,7 @@ class LocalStyleHint:
                 # 那是材质库内容不足（方案 A），不是通道机制问题。
                 "启用材质": ("BOOLEAN", {"default": True}),
                 "任务": (["文生视频", "图生视频", "参考生视频"], {"default": "文生视频"}),
+                "提案分镜": ("BOOLEAN", {"default": False}),
                 "输出格式": ([
                     "自动（识别平台）",
                     "片段（英文）",
@@ -1598,7 +1639,7 @@ class LocalStyleHint:
         return _post(text) + note, dbg
 
     def _run_inner(self, 中文描述, 模型目录, 语料文件, 题材文件, 工艺文件, 材质文件, 启用材质,
-                   任务, 输出格式, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
+                   任务, 提案分镜, 输出格式, 设备, 域, 匹配方式, 候选数, 追加到, 包含原文=False):
         items, mode, subj, domain_used, craft, mat = _rank(
             中文描述, 模型目录, 语料文件, 设备, 候选数, 匹配方式,
             {"自动": "auto", "图片": "image", "视频": "video",
@@ -1706,7 +1747,16 @@ class LocalStyleHint:
         if len(_shots) < 2:
             _n = _count_shots(中文描述)
             if _n >= 2:
-                _shots = [""] * _n   # 只给了数量：出空槽，不替用户编动作
+                if 提案分镜:
+                    # 用户开了提案：按建立/交手/收的语法编排，并标注来源
+                    _prop = _propose_beats(items[0], subj, craft, mat,
+                                           domain_used, _n)
+                    _shots = [b[0] for b in _prop]
+                    globals()['_PROP_TAGS'] = [b[1] for b in _prop]
+                    dbg = ("【提案】已按「建立/交手/收」编排 "
+                           f"{_n} 拍（来源在每拍末尾标注）\n" + dbg)
+                else:
+                    _shots = [""] * _n   # 只给了数量：出空槽，不替用户编动作
         if len(_shots) >= 2:
             # 平台要先定下来，否则时长会按"通用"算（这里曾在识别之前 return）
             _pf = 输出格式
