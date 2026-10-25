@@ -410,6 +410,59 @@ def _beats_zh(c, dur):
     ]
 
 
+# 平台识别表：关键词 -> 输出格式。顺序从具体到宽泛，先命中先用。
+# 认不出来就回落，不猜。
+_PLATFORM_HINTS = [
+    (("关键帧", "首尾帧", "首帧"), "即梦", "即梦 Seedance · 关键帧（中文）"),
+    (("多镜头", "分镜", "多机位"), "可灵", "可灵·多镜头（中文）"),
+    (("关键帧", "首尾帧"), "可灵", "可灵 4.0·关键帧（中文）"),
+    (("即梦", "seedance", "sd2.5", "sd 2.5", "seedance2.5"), "", "即梦 Seedance 2.5（中文）"),
+    (("可灵", "kling"), "", "可灵 4.0（中文，七要素）"),
+    (("minimax", "海螺", "hailuo"), "", "MiniMax H3（中文）"),
+    (("veo", "gemini", "google"), "", "Veo 3（英文，8 秒单镜）"),
+    (("runway", "gen-4", "gen4"), "", "Runway Gen-4（英文，≤60 词）"),
+    (("混元", "hunyuan"), "", "混元 HunyuanVideo（中文八段）"),
+    (("sora",), "", "Sora 2（已停服 · 仅存档）"),
+    (("sd", "stable diffusion", "sdxl", "flux", "midjourney", "mj"), "", "SD 正负向（英文）"),
+]
+
+
+def _detect_format(query, domain):
+    """从描述里认出目标平台。返回 (格式名, 依据)；认不出返回 (默认格式, "")。"""
+    q = (query or "").lower()
+    for words, also, fmt in _PLATFORM_HINTS:
+        hit = next((w for w in words if w in q), None)
+        if hit and (not also or also in q):
+            return fmt, hit
+    # 认不出来：视频给通用五面（模型无关），图片给 SD 正负向
+    return ("通用五面（英文，模型无关）" if domain == "prompt_video"
+            else "SD 正负向（英文）"), ""
+
+
+def _fmt_motion(item, subj, craft, mat, domain, query=""):
+    """图生视频专用：只写动作。
+
+    首帧已经给出了外观、构图、光线，这里再描述一遍等于给模型第二个来源，
+    会把首帧重画掉。所以这个模板**刻意不写**外观，只写三件事：
+        动作时间轴 / 镜头怎么动 / 什么必须保持不变
+    """
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    half = max(2, dur // 2)
+    move = {"STATIC": "镜头不动（三脚架）",
+            "SLOW": "镜头极缓推近",
+            "KINETIC": "镜头手持跟随"}.get(c["motion"], "镜头极缓推近")
+    return "\n".join([
+        "【动作时间轴】",
+        f"0–{half} 秒：<写：谁做什么、往哪个方向动、幅度多大>。",
+        f"{half}–{dur} 秒：<写：动作怎么继续或停下；如果要变形，写清从什么变成什么>。",
+        "",
+        f"【镜头】{move}，只一种运动，不切镜。",
+        "",
+        "【保持不变】主体、构图、光线、色调与首帧一致；身份、服装、配色不要变。",
+    ])
+
+
 def _fmt_seedance(item, subj, craft, mat, domain, query=""):
     """即梦 Seedance 2.5：官方四段式（中文）。
 
@@ -1052,6 +1105,7 @@ class LocalStyleHint:
                 "启用材质": ("BOOLEAN", {"default": True}),
                 "任务": (["文生视频", "图生视频", "参考生视频"], {"default": "文生视频"}),
                 "输出格式": ([
+                    "自动（识别平台）",
                     "片段（英文）",
                     "结构化（英文）",
                     "通用五面（英文，模型无关）",
@@ -1192,6 +1246,20 @@ class LocalStyleHint:
 
         global _CURRENT_TASK
         _CURRENT_TASK = 任务
+
+        # 图生视频：只写动作，不套平台模板
+        if 任务 == "图生视频":
+            _m = _fmt_motion(items[0], subj, craft, mat, domain_used, 中文描述)
+            dbg = "【格式】图生视频专用（只写动作，不描述外观）\n" + dbg
+            return (_m, dbg)   # 约定块由 run 包装器统一追加，这里不再加
+
+        # 自动识别平台
+        if 输出格式 == "自动（识别平台）":
+            _auto, _why = _detect_format(中文描述, domain_used)
+            输出格式 = _auto
+            dbg = (f"【自动】识别为 {_auto}" +
+                   (f"（依据『{_why}』）" if _why else "（没认出平台，用通用格式）")
+                   + "\n" + dbg)
 
         # ---- 按目标格式分发 ----
         # 视频专用格式遇到图片域、图片格式遇到视频域，都要回落到通用格式并说明，
