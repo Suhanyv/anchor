@@ -313,6 +313,10 @@ def _zh_light_style(item, mat, craft):
     return "；".join(out)
 
 
+SCENE_FLOOR = 0.36
+SUBJECT_TIE_MARGIN = 0.015   # 题材与工艺/材质近似平局时让题材赢
+
+
 def _core(item, subj, craft, mat, domain, query=""):
     """抽取公共字段，供各平台模板复用。
 
@@ -351,13 +355,29 @@ def _core(item, subj, craft, mat, domain, query=""):
         zh_light.append("、".join(kw[:3]))
     zh_light = "；".join([x for x in zh_light if x])
 
+    # 场景槽位：type=scene 且过门槛就填，**不要求它赢**
+    # 场景：优先用 scene_best（场景子集的最优），退而用 top1（若它本身就是场景）
+    scene_phrase = ""
+    subj_is_scene = False
+    if subj:
+        sb = subj.get("scene_best")
+        if sb and float(sb.get("score") or 0) >= SCENE_FLOOR:
+            scene_phrase = sb["phrase"]
+        elif (subj.get("type") == "scene"
+              and float(subj.get("score") or 0) >= SCENE_FLOOR):
+            scene_phrase = subj["phrase"]
+            subj_is_scene = True
+    subject_phrase = (subj["phrase"]
+                      if (subj and subj.get("hit") and not subj_is_scene) else "")
+
     return {
         "style": style, "zh_style": zh_style, "zh_light": zh_light,
+        "scene": scene_phrase,
         "tags": tags, "kw": kw, "params": params, "motion": mo,
         "head": parts[0] if parts else "",
         "tail": parts[1] if len(parts) > 1 else "",
         "subject_zh": (query or "").strip(),
-        "subject": subj["phrase"] if (subj and subj.get("hit")) else "",
+        "subject": subject_phrase,
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         "dur": params.get("duration") or "6s",
@@ -403,7 +423,8 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
     lines.append("")
 
     # 一句话概述：主体 + 地点 + 事件 + 题材或风格
-    lines.append(f"{light}。{who}。<地点与事件补一句：在哪里、发生什么>。")
+    lines.append(f"{light}。{who}。" + (c["scene"] + "。" if c["scene"]
+                                         else "<地点与事件补一句：在哪里、发生什么>。"))
     lines.append("")
 
     # 时间轴：连续整数秒，两段（时长短时够用；要更细就自己往下拆）
@@ -500,7 +521,7 @@ def _fmt_sora(item, subj, craft, mat, domain, query=""):
     return "\n".join([
         f"[主体] {who}。<补：年龄段、外观、服装、道具，具体到可识别>",
         "",
-        "[场景] <写清：时间、天气、地面材质、前景/中景/远景各有什么>",
+        f"[场景] {(c['scene'] or '') or '<写清：时间、天气、地面材质、前景/中景/远景各有什么>'}",
         "",
         f"[动作] {act}。8 秒内只做 1~2 个主动作，动作链清晰，不要瞬移。",
         "",
@@ -533,7 +554,7 @@ def _fmt_veo(item, subj, craft, mat, domain, query=""):
     """
     c = _core(item, subj, craft, mat, domain, query)
     who = c["subject"] or "<your subject>"
-    scene = "<your scene>"
+    scene = c["scene"] or "<your scene>"
     act = {"STATIC": "the subject stays almost still, only breathing and a slight shift",
            "SLOW": "the subject turns slowly toward the camera",
            "KINETIC": "the subject moves quickly across the frame"}.get(
@@ -582,7 +603,7 @@ def _fmt_minimax(item, subj, craft, mat, domain, query=""):
     return "\n".join([
         "参考素材：@1 负责<人物/商品外观>；@2 负责<相机路径/节奏/声音>。"
         "（没有素材就删掉这一行）",
-        f"场景顺序：{who}，{light} → {act} → 停在{end_shot}。",
+        f"场景顺序：{who}，{c['scene'] or light} → {act} → 停在{end_shot}。",
         f"主体动作：{who}，动作速度与反应是{act}。",
         f"相机：中景、平视机位开场，{move}，最后停在{end_shot}。",
         "声音：<对白>；<环境声>；<同步音效>；<背景音乐>。",
@@ -605,7 +626,7 @@ def _fmt_5aspect(item, subj, craft, mat, domain, query=""):
             "SLOW": "slow dolly forward", "KINETIC": "handheld tracking"}.get(
         c["motion"], "slow dolly forward")
     who = c["subject"] or "<your subject>"
-    scene = c["tail"] or "<your scene>"
+    scene = c["scene"] or c["tail"] or "<your scene>"
     # 英文块里不能混中文：光也用英文标签，不用 zh_light
     light = "; ".join(_pick(c["tags"], _LIGHT_HINTS))
     w = 9
@@ -648,7 +669,7 @@ def _fmt_hunyuan(item, subj, craft, mat, domain, query=""):
     return "\n".join([
         f"主体：{who}",
         f"运动：主体在画面中自然地动作，全程一个镜头不切换",
-        f"场景：<写清在哪里、什么时候>",
+        f"场景：{c['scene'] or '<写清在哪里、什么时候>'}",
         f"景别：中景",
         f"运镜：{move}，{dur} 秒",
         f"光照：{c['zh_light'] or '按参考描述'}",
@@ -684,7 +705,7 @@ def _fmt_kling(item, subj, craft, mat, domain, query=""):
     pace = _KL_PACE.get(c["motion"], _KL_PACE["SLOW"])
     # 场景我们确实不知道（检索只给风格与光），老实留占位符，
     # 否则「场景」和「光线」两栏会重复同一句风格词。
-    scene = "<写清地点与关键物件>"
+    scene = c["scene"] or "<写清地点与关键物件>"
     light = c["zh_light"] or "自然光"
     return (
         f"{who}，面部特征与服装保持不变。"
@@ -852,6 +873,25 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                 "zh": s["subject_zh"], "phrase": s["phrase"],
                 "type": s.get("type", ""), "hit": False}
 
+    # ---- 场景子集单独取最优（不限于 top1，也不改返回元组）----
+    if (subj is not None and st.get("subj_emb") is not None
+            and len(st.get("subjects") or [])):
+        try:
+            _sidx = [(i, r) for i, r in enumerate(st["subjects"])
+                     if r.get("type") == "scene"]
+            if _sidx:
+                _ii = [i for i, _ in _sidx]
+                _sub = ssims[_ii]
+                _kk = int(_sub.argmax())
+                _row = st["subjects"][_ii[_kk]]
+                subj["scene_best"] = {
+                    "score": float(_sub[_kk]),
+                    "phrase": _row["phrase"],
+                    "zh": _row.get("subject_zh", ""),
+                }
+        except Exception:
+            pass
+
     # ---- 分级去偏（必须在算风格分之前：需要先知道风格 top1 才能判题材是否命中）----
     # 先用原向量算一遍拿到 style_top，再决定减不减，最后重算风格分。
     _sims_raw = sims
@@ -1018,6 +1058,15 @@ class LocalStyleHint:
                 eligible.append((name, obj["score"], obj))
 
         winner = max(eligible, key=lambda x: x[1]) if eligible else None
+
+        # 近似平局：题材与工艺/材质差在 margin 内时，改判题材
+        if winner is not None:
+            _by_name = {x[0]: x for x in eligible}
+            if (winner[0] in ("工艺", "材质") and "主体" in _by_name
+                    and _by_name["主体"][1] >= winner[1] - SUBJECT_TIE_MARGIN):
+                dbg = (f"平局修正: 题材 {_by_name['主体'][1]:.4f} 与 {winner[0]} "
+                       f"{winner[1]:.4f} 差在 {SUBJECT_TIE_MARGIN} 内 -> 判题材赢\n" + dbg)
+                winner = _by_name["主体"]
         if winner is None:
             dbg = (f"最终: 风格最高或无人过门槛 -> 不拼内容 (风格 {top_style:.4f})\n" + dbg)
         else:

@@ -29,7 +29,7 @@ import local_style_hint as N  # noqa: E402
 
 M = os.path.join(ROOT, "models/e5-director-c27")
 C = os.path.join(ROOT, "data/raw/corpus_v21.jsonl")
-S = os.path.join(ROOT, "data/raw/subjects_v7.jsonl")
+S = os.path.join(ROOT, "data/raw/subjects_v8.jsonl")
 K = os.path.join(ROOT, "data/raw/crafts_v6.jsonl")
 MT = os.path.join(ROOT, "data/raw/materials_v8.jsonl")
 
