@@ -388,8 +388,8 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     out = [
         f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
         "        只使用<环境声>，不要配乐，不要字幕。",
-        "        不要出现：<2-4 个会让这批全废掉的错误，例如多余的人、"
-        "手部畸形、兵器穿模、各镜色调不一致>。",
+        "        不要出现：<2-4 个会让这批全废掉的错误，例如"
+        "手部畸形、兵器穿模、面部漂移、各镜色调不一致>。",
     ]
     if "Veo" in fmt:
         out.append("        ⚠️ Veo 一次只出一镜 8 秒，下面每一镜需要单独生成一次。")
@@ -715,7 +715,7 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
                  f"只使用<环境声>，不要配乐，不要字幕。")
     # negative 并入全局约束：这是这一格最容易被忽略、又最影响成败的部分
     lines.append("不要出现：<写 2-4 个真正会让这条废掉的错误，"
-                 "例如多余的人、手部畸形、兵器穿模、血迹>。")
+                 "例如手部畸形、兵器穿模、面部漂移、血迹>。")
     return "\n".join(lines)
 
 
