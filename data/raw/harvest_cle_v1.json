@@ -1,0 +1,2461 @@
+{
+ "source": "Cleveland Museum of Art open access API",
+ "license": "CC0 / public domain metadata; only vocabulary fields taken",
+ "n_works": 3000,
+ "technique": [
+  [
+   "ink, tempera, and gold on vellum; leather binding",
+   852
+  ],
+  [
+   "oil on canvas",
+   196
+  ],
+  [
+   "bronze",
+   103
+  ],
+  [
+   "ceramic",
+   53
+  ],
+  [
+   "marble",
+   51
+  ],
+  [
+   "oil on fabric",
+   50
+  ],
+  [
+   "oil on wood",
+   35
+  ],
+  [
+   "lithograph",
+   24
+  ],
+  [
+   "engraving",
+   22
+  ],
+  [
+   "cast gold",
+   21
+  ],
+  [
+   "silver gilt",
+   20
+  ],
+  [
+   "tin-glazed earthenware (maiolica)",
+   20
+  ],
+  [
+   "limestone",
+   19
+  ],
+  [
+   "steel",
+   19
+  ],
+  [
+   "silver",
+   18
+  ],
+  [
+   "sandstone",
+   17
+  ],
+  [
+   "terracotta",
+   16
+  ],
+  [
+   "gilt bronze",
+   13
+  ],
+  [
+   "ebony, marquetry in metal and tortoise shell",
+   13
+  ],
+  [
+   "schist",
+   12
+  ],
+  [
+   "gold",
+   11
+  ],
+  [
+   "tempera and gold on wood",
+   10
+  ],
+  [
+   "Gold",
+   10
+  ],
+  [
+   "lindenwood",
+   10
+  ],
+  [
+   "soft-paste porcelain",
+   10
+  ],
+  [
+   "silver gilt, opaque cloisonné enamel",
+   10
+  ],
+  [
+   "Gum tempera, ink, and gold on paper",
+   10
+  ],
+  [
+   "lithograph on China paper laid on wove paper",
+   9
+  ],
+  [
+   "gum tempera, ink, and gold on paper",
+   9
+  ],
+  [
+   "tempera and gold on wood panel",
+   8
+  ],
+  [
+   "ivory",
+   8
+  ],
+  [
+   "One of a pair of six-panel folding screens; ink, color, and gold on paper",
+   8
+  ],
+  [
+   "tapestry weave: silk and wool",
+   8
+  ],
+  [
+   "Tin-glazed earthenware, painted in blue",
+   8
+  ],
+  [
+   "Hanging scroll; ink on silk",
+   7
+  ],
+  [
+   "oil on wood panel",
+   7
+  ],
+  [
+   "hanging scroll; ink on paper",
+   7
+  ],
+  [
+   "Gum tempera and gold on paper",
+   7
+  ],
+  [
+   "ebony, marquetry in metal and tortoiseshell",
+   7
+  ],
+  [
+   "travertine",
+   7
+  ],
+  [
+   "oil on panel",
+   6
+  ],
+  [
+   "ink, tempera, and gold on vellum",
+   6
+  ],
+  [
+   "wood",
+   6
+  ],
+  [
+   "gessoed and painted sycamore fig",
+   6
+  ],
+  [
+   "oil on copper",
+   6
+  ],
+  [
+   "hanging scroll; ink and color on paper",
+   6
+  ],
+  [
+   "opaque watercolor, ink, and gold on paper",
+   6
+  ],
+  [
+   "painted limestone",
+   6
+  ],
+  [
+   "Gilt silver and ivory",
+   6
+  ],
+  [
+   "gold, cast",
+   6
+  ],
+  [
+   "Handscroll; ink and color on silk",
+   6
+  ],
+  [
+   "Hanging scroll; ink and color on silk",
+   6
+  ],
+  [
+   "granodiorite",
+   5
+  ],
+  [
+   "watercolor over graphite",
+   5
+  ],
+  [
+   "Gum tempera and ink on paper",
+   5
+  ],
+  [
+   "pen and brown ink",
+   5
+  ],
+  [
+   "oil on board",
+   5
+  ],
+  [
+   "Silk; complementary weft-faced twill weave with inner warps (samite)",
+   5
+  ],
+  [
+   "Pair of six-panel folding screens; ink, color, and gold on paper",
+   5
+  ],
+  [
+   "hanging scroll; ink and color on silk",
+   5
+  ],
+  [
+   "hard-paste porcelain",
+   5
+  ],
+  [
+   "celadon",
+   5
+  ],
+  [
+   "soft-paste porcelain with enamel and gilt decoration",
+   5
+  ],
+  [
+   "carved bamboo",
+   5
+  ],
+  [
+   "Bronze",
+   4
+  ],
+  [
+   "glazed earthenware, sancai (three-color) ware",
+   4
+  ],
+  [
+   "Oil on canvas",
+   4
+  ],
+  [
+   "Hanging scroll; ink and slight color on silk",
+   4
+  ],
+  [
+   "silk and wool; tapestry weave",
+   4
+  ],
+  [
+   "Wood and paint",
+   4
+  ],
+  [
+   "glass",
+   4
+  ],
+  [
+   "tempera on wood panel",
+   4
+  ],
+  [
+   "Copper alloy, cast, engraved, chased, and pierced",
+   4
+  ],
+  [
+   "Sandstone",
+   4
+  ],
+  [
+   "Gum tempera on paper",
+   4
+  ],
+  [
+   "gold, enamel, lapis lazuli, pearls, diamonds, rubies",
+   4
+  ],
+  [
+   "hanging scroll; ink and light color on paper",
+   4
+  ],
+  [
+   "album leaf; ink and light color on paper",
+   4
+  ],
+  [
+   "Album leaf; ink and color on silk",
+   4
+  ],
+  [
+   "gilded copper, champlevé enamel",
+   4
+  ],
+  [
+   "vizille alabaster",
+   3
+  ],
+  [
+   "red sandstone",
+   3
+  ],
+  [
+   "stone",
+   3
+  ],
+  [
+   "oil on linen",
+   3
+  ],
+  [
+   "granite",
+   3
+  ],
+  [
+   "glazed terracotta",
+   3
+  ],
+  [
+   "hammered and cut gold",
+   3
+  ],
+  [
+   "tempera and gold on vellum",
+   3
+  ],
+  [
+   "gilded wood",
+   3
+  ],
+  [
+   "pot metal, white glass with silver stain",
+   3
+  ],
+  [
+   "cast bronze, incised, with traces of gilding",
+   3
+  ],
+  [
+   "painted sandstone",
+   3
+  ],
+  [
+   "ceramic, slip",
+   3
+  ],
+  [
+   "Marble",
+   3
+  ],
+  [
+   "Copper alloy",
+   3
+  ],
+  [
+   "pastel",
+   3
+  ],
+  [
+   "Terracotta",
+   3
+  ],
+  [
+   "Wood, resin, glass beads, plant fiber, and metal",
+   3
+  ],
+  [
+   "soft-paste porcelain with enamel decoration",
+   3
+  ],
+  [
+   "Handscroll; ink on paper",
+   3
+  ],
+  [
+   "Hanging scroll; ink and color on paper",
+   3
+  ],
+  [
+   "Ceramic",
+   3
+  ],
+  [
+   "black and white chalk (both stumped)",
+   3
+  ],
+  [
+   "Tin-glazed soft-paste porcelain with enamel decoration",
+   3
+  ],
+  [
+   "Celadon ware with inlaid white and black slip decoration",
+   3
+  ],
+  [
+   "Album leaf; ink on silk",
+   3
+  ],
+  [
+   "blued, etched, and gilded steel",
+   3
+  ],
+  [
+   "silver and silver gilt",
+   3
+  ],
+  [
+   "silver bronze",
+   3
+  ],
+  [
+   "Gilt-wood, gesso",
+   3
+  ],
+  [
+   "gold, bowenite",
+   3
+  ],
+  [
+   "Alabaster",
+   3
+  ],
+  [
+   "color monotype",
+   3
+  ],
+  [
+   "steatite",
+   3
+  ],
+  [
+   "Handscroll; ink and color on paper",
+   3
+  ],
+  [
+   "steel with gold inlay, gilt-brass mounts; walnut burl stock; chiseled high-relief decoration",
+   3
+  ],
+  [
+   "Hanging scroll; ink and light color on paper",
+   3
+  ],
+  [
+   "oil on paper, mounted on canvas",
+   3
+  ],
+  [
+   "Wood",
+   3
+  ],
+  [
+   "gray schist",
+   3
+  ],
+  [
+   "double-leaf from a pair of albums; ink and light color on paper",
+   3
+  ],
+  [
+   "wood, with traces of polychromy",
+   3
+  ],
+  [
+   "lindenwood with polychromy and gilding",
+   2
+  ],
+  [
+   "bronze with traces of gilding",
+   2
+  ],
+  [
+   "tempera and oil on wood",
+   2
+  ],
+  [
+   "chloritic schist",
+   2
+  ],
+  [
+   "gold, cloisonné enamel, porphyry, gems, pearls, niello, wood core",
+   2
+  ],
+  [
+   "jade (nephrite)",
+   2
+  ],
+  [
+   "pastel on brown paper",
+   2
+  ],
+  [
+   "Greek marble",
+   2
+  ],
+  [
+   "tempera and oil with gold on wood",
+   2
+  ],
+  [
+   "oil on oak panel",
+   2
+  ],
+  [
+   "oil and gold on wood",
+   2
+  ],
+  [
+   "Wood and iron",
+   2
+  ],
+  [
+   "ink, tempera and gold on vellum",
+   2
+  ],
+  [
+   "red chalk over black chalk or charcoal",
+   2
+  ],
+  [
+   "Wood and organic materials",
+   2
+  ],
+  [
+   "oil on millboard",
+   2
+  ],
+  [
+   "pen and brown ink, with black and red chalk, touched with white gouache",
+   2
+  ],
+  [
+   "gray sandstone",
+   2
+  ],
+  [
+   "Leaded glass, bronze",
+   2
+  ],
+  [
+   "porcelain with underglaze blue",
+   2
+  ],
+  [
+   "Painted clamshell",
+   2
+  ],
+  [
+   "glass with enameled and gilded decoration",
+   2
+  ],
+  [
+   "Hanging scroll; ink and light color on silk",
+   2
+  ],
+  [
+   "ceramic and slip",
+   2
+  ],
+  [
+   "watercolor on ivory",
+   2
+  ],
+  [
+   "Wood, glass beads, upholstery studs, plant fiber, and iron",
+   2
+  ],
+  [
+   "opaque watercolor, gold, and silver on paper",
+   2
+  ],
+  [
+   "metalpoint",
+   2
+  ],
+  [
+   "handscroll; ink and slight color on silk",
+   2
+  ],
+  [
+   "pen and brown ink (iron gall) and brush and brown wash",
+   2
+  ],
+  [
+   "black chalk heightened with traces of white chalk",
+   2
+  ],
+  [
+   "fritware with luster-painted design",
+   2
+  ],
+  [
+   "unglazed soft-paste porcelain (biscuit)",
+   2
+  ],
+  [
+   "pot metal, white glass, and silver stain",
+   2
+  ],
+  [
+   "Handscroll; ink and light color on silk",
+   2
+  ],
+  [
+   "gum tempera and gold on paper",
+   2
+  ],
+  [
+   "bronze, hollow cast",
+   2
+  ],
+  [
+   "jade, gold, rubies, gouache, ivory, glass",
+   2
+  ],
+  [
+   "wood (walnut?), bone veneers, flax cord, steel (etched, traces of gilding). woolen pompoms, stock decorated wih inlaid trophies of arms",
+   2
+  ],
+  [
+   "Handscroll; ink and light color on paper",
+   2
+  ],
+  [
+   "pale turquoise faience",
+   2
+  ],
+  [
+   "Porcelain with underglaze blue and overglaze color enamel (Hizen ware, Nabeshima type)",
+   2
+  ],
+  [
+   "bronze with silver inlays",
+   2
+  ],
+  [
+   "red chalk",
+   2
+  ],
+  [
+   "pentelic marble",
+   2
+  ],
+  [
+   "bronze with copper inlays",
+   2
+  ],
+  [
+   "stucco",
+   2
+  ],
+  [
+   "graphite",
+   2
+  ],
+  [
+   "bronze, cast and incised",
+   2
+  ],
+  [
+   "monotype",
+   2
+  ],
+  [
+   "opaque watercolor and gold on paper",
+   2
+  ],
+  [
+   "pen and brown ink with brush and brown wash",
+   2
+  ],
+  [
+   "pottery",
+   2
+  ],
+  [
+   "celadon ware with incised and carved decoration",
+   2
+  ],
+  [
+   "Fritware with underglaze-painted design, Sultanabad ware",
+   2
+  ],
+  [
+   "celadon ware with inlaid white and black slip decoration",
+   2
+  ],
+  [
+   "riveted steel rings",
+   2
+  ],
+  [
+   "gilded steel (invaded with rust); red velvet lining, plume holder",
+   2
+  ],
+  [
+   "steel, engraved",
+   2
+  ],
+  [
+   "Pair of six-panel folding screens; ink and color on gilded paper",
+   2
+  ],
+  [
+   "earthenware with colored slips",
+   2
+  ],
+  [
+   "wood, leather, steel",
+   2
+  ],
+  [
+   "graywacke",
+   2
+  ],
+  [
+   "Silk and gold thread: lampas",
+   2
+  ],
+  [
+   "Hanging scroll; ink on paper",
+   2
+  ],
+  [
+   "silver with gilded foil",
+   2
+  ],
+  [
+   "One of a pair of six-panel folding screens; ink on paper",
+   2
+  ],
+  [
+   "Fritware with underglaze design",
+   2
+  ],
+  [
+   "pen and brown ink and brush and brown wash over graphite, framing lines in brown ink",
+   2
+  ],
+  [
+   "handscroll; ink and light color on paper",
+   2
+  ],
+  [
+   "etched steel",
+   2
+  ],
+  [
+   "steel, blued and gilded",
+   2
+  ],
+  [
+   "etching",
+   2
+  ],
+  [
+   "Silver",
+   2
+  ],
+  [
+   "gold, hammered",
+   2
+  ],
+  [
+   "Inlaid abalone shells on black lacquer ground, applied with red lacquer on the interior",
+   2
+  ],
+  [
+   "celadon with inlaid design",
+   2
+  ],
+  [
+   "pastel on pale blue laid paper",
+   2
+  ],
+  [
+   "painted enamel, glass painting, and cast-iron stand",
+   2
+  ],
+  [
+   "volcanic stone",
+   2
+  ],
+  [
+   "earthenware with polychromy",
+   2
+  ],
+  [
+   "albumen print from wet collodion negative",
+   2
+  ],
+  [
+   "color woodblock print",
+   2
+  ],
+  [
+   "One of a pair of six-panel folding screens; ink and color on gilded paper",
+   2
+  ],
+  [
+   "One of a pair of six-panel folding screens; ink and slight color on paper",
+   2
+  ],
+  [
+   "porcelain with famille rose overglaze enamel decoration",
+   2
+  ],
+  [
+   "salted paper print from wet collodion negative",
+   2
+  ],
+  [
+   "One of a pair of six-panel folding screens; ink and color on paper",
+   2
+  ],
+  [
+   "Album with eleven leaves; ink or ink and color on silk",
+   2
+  ],
+  [
+   "oil, originally on wood, transferred to masonite",
+   1
+  ],
+  [
+   "inlaid wood (mahogany?), cast and gilded bronze mounts, inlays of ivory or bone, metal, and mother-of-pearl (marine mussels or pearl oysters)",
+   1
+  ],
+  [
+   "brass inlaid with silver",
+   1
+  ],
+  [
+   "pastel on gray wove paper",
+   1
+  ],
+  [
+   "gilt-silver and translucent enamels",
+   1
+  ],
+  [
+   "Tempera and gold on wood panel (poplar)",
+   1
+  ],
+  [
+   "Hinoki cypress wood with lacquer, metal staples and fittings",
+   1
+  ],
+  [
+   "salins alabaster",
+   1
+  ],
+  [
+   "brass with silver and copper inlay",
+   1
+  ],
+  [
+   "mixed media:  wood, gold alloy, pigment, shell inlay",
+   1
+  ],
+  [
+   "gilt bronze with silver and copper inlay",
+   1
+  ],
+  [
+   "hammered silver soldered together, with chased decoration",
+   1
+  ],
+  [
+   "stone, pigment",
+   1
+  ],
+  [
+   "camelid fiber: plain weave with embroidery",
+   1
+  ],
+  [
+   "oil on canvas on panel-back stretcher",
+   1
+  ],
+  [
+   "gypsum",
+   1
+  ],
+  [
+   "porcelain with underglaze painted decoration",
+   1
+  ],
+  [
+   "tempera with gold on panel",
+   1
+  ],
+  [
+   "walnut",
+   1
+  ],
+  [
+   "Pale greenish-white jade",
+   1
+  ],
+  [
+   "nielloed silver plaques within gilt-silver borders",
+   1
+  ],
+  [
+   "Gilt bronze with silver, stones, and pigment",
+   1
+  ],
+  [
+   "ceramic mosaic",
+   1
+  ],
+  [
+   "greenstone, pigment",
+   1
+  ],
+  [
+   "Earthenware with carved and applied decoration",
+   1
+  ],
+  [
+   "boxwood with inscription inlaid in Egyptian blue",
+   1
+  ],
+  [
+   "Wood, plant fibers, paint, and iron",
+   1
+  ],
+  [
+   "Silver, Wood",
+   1
+  ],
+  [
+   "serpentinite",
+   1
+  ],
+  [
+   "alabaster, traces of polychromy",
+   1
+  ],
+  [
+   "distemper on fabric",
+   1
+  ],
+  [
+   "porcelain with underglaze blue and overglaze enamel decoration, docai (\"joined colors\") ware",
+   1
+  ],
+  [
+   "lacquered wood with polychromy",
+   1
+  ],
+  [
+   "oil on paper mounted on wood",
+   1
+  ],
+  [
+   "pearls, diamonds, jade, rock crystal, silver, gold",
+   1
+  ],
+  [
+   "lacquered wood with ink, color, gold, cut gold, and metalwork",
+   1
+  ],
+  [
+   "jadeite",
+   1
+  ],
+  [
+   "silver, enamel, jasper, agate, emeralds",
+   1
+  ],
+  [
+   "porcelaneous stoneware, Ru ware",
+   1
+  ],
+  [
+   "bronze with silver and gold inlaid lacquer",
+   1
+  ],
+  [
+   "agate, gold, silver, diamonds, rubies",
+   1
+  ],
+  [
+   "mahogany, teak with dial faces of gilded and patinated metal, glass",
+   1
+  ],
+  [
+   "leaded glass",
+   1
+  ],
+  [
+   "gilt silver, champlevé enamel, oak",
+   1
+  ],
+  [
+   "Black chalk with stumping, and red chalk, heightened with white chalk on beige laid paper",
+   1
+  ],
+  [
+   "porcelain painted in polychrome enamels over transparent glaze",
+   1
+  ],
+  [
+   "silver gilt, niello",
+   1
+  ],
+  [
+   "Elephant ivory",
+   1
+  ],
+  [
+   "gilded copper, champlevé enamel; the reverse decorated in vernis brun",
+   1
+  ],
+  [
+   "Handscroll; ink, color, and gold on paper",
+   1
+  ],
+  [
+   "marble with traces of bole (red clay) and limestone with traces of paint",
+   1
+  ],
+  [
+   "wool and dye",
+   1
+  ],
+  [
+   "lavender blue faience with deep blue overglaze",
+   1
+  ],
+  [
+   "Stoneware with black “hare’s fur” glaze and metal-bound rim, Jian ware",
+   1
+  ],
+  [
+   "gilt-wood, reproduction wool upholstery",
+   1
+  ],
+  [
+   "hanging scroll; ink, color, gold, silver, and cut gold on silk",
+   1
+  ],
+  [
+   "Chloritic schist",
+   1
+  ],
+  [
+   "bronze inlaid with gold and silver",
+   1
+  ],
+  [
+   "Watercolor with graphite and scraping on paper",
+   1
+  ],
+  [
+   "earthenware with colored slips, black burial deposits",
+   1
+  ],
+  [
+   "Japanese nutmeg-yew wood with traces of color and gold",
+   1
+  ],
+  [
+   "marble and stone tesserae",
+   1
+  ],
+  [
+   "wood with polychromy and cut gold",
+   1
+  ],
+  [
+   "alabaster with traces of paint and gilding",
+   1
+  ],
+  [
+   "Black chalk, gray wash, and brown ink, on cream laid paper; traces of transfer",
+   1
+  ],
+  [
+   "fresco on wall fragment",
+   1
+  ],
+  [
+   "Steel, brass; silver and gold plating, cotton velveteen",
+   1
+  ],
+  [
+   "Gray and black wash, charcoal, and graphite, with watercolor, on cream laid paper",
+   1
+  ],
+  [
+   "graphite on cream wove paper",
+   1
+  ],
+  [
+   "watercolor and gouache over graphite on wove paper",
+   1
+  ],
+  [
+   "basse-taille enamel and gilding on silver, silver thread, gilt-silver buckle, cast and chased",
+   1
+  ],
+  [
+   "cut and polished steel with gold and silvered decoration",
+   1
+  ],
+  [
+   "Wood (Nauclea pobeguinii) and paint",
+   1
+  ],
+  [
+   "oil on wood, transferred to pressed wood",
+   1
+  ],
+  [
+   "Pen and brown ink, brush and brown wash, red chalk with traces of white opaque watercolor over black chalk, on paper; traces of transfer",
+   1
+  ],
+  [
+   "Wood, rawhide, cane, paint, bone, natural fiber, and metal",
+   1
+  ],
+  [
+   "tempera and oil with gold on panel",
+   1
+  ],
+  [
+   "oil and tempera with charcoal on millboard",
+   1
+  ],
+  [
+   "porcelain with underglaze iron",
+   1
+  ],
+  [
+   "Pen and brown ink and brush and brown wash over red chalk",
+   1
+  ],
+  [
+   "pen and brown ink and brush and gray and black washes over traces of graphite (?); framing lines in pen and brown and black ink",
+   1
+  ],
+  [
+   "pearwood",
+   1
+  ],
+  [
+   "gilt silver and ivory",
+   1
+  ],
+  [
+   "gold, silver gilt, enamel, glass, ivory",
+   1
+  ],
+  [
+   "conch shell",
+   1
+  ],
+  [
+   "Cotton: warp; cotton and silk: wefts; silk: pile, asymmetrical knot; gilt- and silver-metal thread: brocaded",
+   1
+  ],
+  [
+   "tin-glazed earthenware with yellow and blue lustre (maiolica)",
+   1
+  ],
+  [
+   "alabaster with traces of gilding and polychromy",
+   1
+  ],
+  [
+   "\"Plum pudding\" mahogany, red cedar, chestnut, white pine, brass",
+   1
+  ],
+  [
+   "Watercolor and graphite on paper",
+   1
+  ],
+  [
+   "Brush and brown wash with graphite squaring lines and underdrawing on cream laid paper",
+   1
+  ],
+  [
+   "marble with polychromy",
+   1
+  ],
+  [
+   "earthenware, pigment",
+   1
+  ],
+  [
+   "gold: worked in repoussé; cloisonné enamel, intaglio gems, pearls, wood core",
+   1
+  ],
+  [
+   "glazed porcelain",
+   1
+  ],
+  [
+   "Wood and organic material",
+   1
+  ],
+  [
+   "oil on mahogany",
+   1
+  ],
+  [
+   "bronze; with incised designs",
+   1
+  ],
+  [
+   "Wood, cotton, plant fiber, glass beads, and indigo",
+   1
+  ],
+  [
+   "ivory, wood",
+   1
+  ],
+  [
+   "cast gold, modern greenstone",
+   1
+  ],
+  [
+   "bronze (solid cast)",
+   1
+  ],
+  [
+   "graphite with stumping and graphite wash on parchment",
+   1
+  ],
+  [
+   "Alpaca wool: plain weave with embroidery and warp substitution",
+   1
+  ],
+  [
+   "Savonnerie knotted pile (symmetrical ruf knot), wool, hemp",
+   1
+  ],
+  [
+   "painted wood, with ivory and glass",
+   1
+  ],
+  [
+   "thangka; gum tempera, ink, and gold on sized cotton; mount: silk",
+   1
+  ],
+  [
+   "black crayon (wetted and rubbed) heightened with white chalk on faded blue paper",
+   1
+  ],
+  [
+   "black and gray wash with white paint, scratched away in places, on gray cardboard prepared with white ground",
+   1
+  ],
+  [
+   "conté crayon heightened with white chalk on cream handmade modern laid paper",
+   1
+  ],
+  [
+   "oil on canvas glued to cardboard",
+   1
+  ],
+  [
+   "wood with polychromy and gilding",
+   1
+  ],
+  [
+   "Copper alloy and iron",
+   1
+  ],
+  [
+   "Pen and brown ink, brush and brown wash and yellow gouache heightened with traces of white, over black chalk, with stylus (banister); framing lines in pen and brown ink",
+   1
+  ],
+  [
+   "limestone with polychromy and gilding",
+   1
+  ],
+  [
+   "red chalk; red and black chalk (upper left figure)",
+   1
+  ],
+  [
+   "Porcelain with overglaze color enamels (Hizen ware, Kakiemon type)",
+   1
+  ],
+  [
+   "Gold, translucent enamel",
+   1
+  ],
+  [
+   "Wood, iron alloy, copper alloy, glass beads, plant fiber, and cloth",
+   1
+  ],
+  [
+   "Wood, iron alloy, glass beads, plant fiber, and cloth",
+   1
+  ],
+  [
+   "silver, with mercury gilding and glass inlays",
+   1
+  ],
+  [
+   "pen and brown ink and black chalk",
+   1
+  ],
+  [
+   "gold-silver-copper alloy (cast)",
+   1
+  ],
+  [
+   "watercolor on ivory in a gold and split pearl frame",
+   1
+  ],
+  [
+   "soapstone",
+   1
+  ],
+  [
+   "Wood, iron alloy, copper alloy, and cloth",
+   1
+  ],
+  [
+   "Eight-panel folding screen; ink with gold and silver foil on paper",
+   1
+  ],
+  [
+   "pen and brown ink, brush and brown wash, and black chalk, heightened with white paint; framing lines in pen and brown ink",
+   1
+  ],
+  [
+   "black chalk with red chalk",
+   1
+  ],
+  [
+   "dry lacquer",
+   1
+  ],
+  [
+   "enameled gold, precious stones, and pearls; some later additions with modern chain",
+   1
+  ],
+  [
+   "Gold set with precious and semi-precious stones",
+   1
+  ],
+  [
+   "Savonnerie knotted-pile (144 symmetrical rug knots per square inch); wool, hemp",
+   1
+  ],
+  [
+   "Wood, ceramic or Formica, copper alloy, and iron alloy",
+   1
+  ],
+  [
+   "pastel with charcoal on tracing paper mounted on paper and backed with gray board",
+   1
+  ],
+  [
+   "oil on paper mounted to board",
+   1
+  ],
+  [
+   "graphite on beige wove paper",
+   1
+  ],
+  [
+   "ten-panel folding screen; ink and color on silk",
+   1
+  ],
+  [
+   "pen and brown ink and brush and brown wash over black chalk; framing lines in brown ink over graphite on antique laid paper",
+   1
+  ],
+  [
+   "Copper alloy, wood, upholstery studs, and iron alloy",
+   1
+  ],
+  [
+   "lead",
+   1
+  ],
+  [
+   "porcelain with celadon glaze",
+   1
+  ],
+  [
+   "wood and cinnabar",
+   1
+  ],
+  [
+   "rock crystal intaglio, gilded from reverse with gold and silver, backed with lapis lazuli, mounted in a gold pendant",
+   1
+  ],
+  [
+   "gold, cast and hammered",
+   1
+  ],
+  [
+   "Two-panel folding screen; ink on paper",
+   1
+  ],
+  [
+   "Cypress with lacquer, color, gold, cut gold, rock-crystal inlaid eyes, and quartz",
+   1
+  ],
+  [
+   "gilt bronze with polychromy",
+   1
+  ],
+  [
+   "watercolor with gouache and scratch-away",
+   1
+  ],
+  [
+   "Hanging scroll; ink, color, and gold ink on silk",
+   1
+  ],
+  [
+   "bronze: cast, chased, and punched",
+   1
+  ],
+  [
+   "triptych (tabernacle); tempera and gold on poplar panel",
+   1
+  ],
+  [
+   "porcelaneous stoneware, Guan ware",
+   1
+  ],
+  [
+   "pen and brown ink and brush and brown wash and white gouache; framing lines in pen and black ink",
+   1
+  ],
+  [
+   "Wood, upholstery studs, and colorant",
+   1
+  ],
+  [
+   "horn, enamel and gold",
+   1
+  ],
+  [
+   "gold on blue glass",
+   1
+  ],
+  [
+   "gold, nephrite, enamel, pearls",
+   1
+  ],
+  [
+   "blown glass",
+   1
+  ],
+  [
+   "stoneware with celadon glaze, incised and carved decoration",
+   1
+  ],
+  [
+   "porcelaneous stoneware with celadon glaze and molded decoration",
+   1
+  ],
+  [
+   "Folded book with illustrated frontispiece; gold and silver on mulberry paper",
+   1
+  ],
+  [
+   "carved lacquer",
+   1
+  ],
+  [
+   "oil and tempera on wood",
+   1
+  ],
+  [
+   "Silk: satin weave; embroidery; paper edging on neck and sleeves",
+   1
+  ],
+  [
+   "Pen and brown ink, touched with white gouache; framing lines in pen and brown ink",
+   1
+  ],
+  [
+   "brass inlaid with silver; lid and base added later",
+   1
+  ],
+  [
+   "gold alloy",
+   1
+  ],
+  [
+   "bronze, hollow cast, with silver inlays",
+   1
+  ],
+  [
+   "steel; gold and silver damascened hilt",
+   1
+  ],
+  [
+   "wax on a metal armature, mounted on wood",
+   1
+  ],
+  [
+   "silver with gilt, incised, and chased decoration",
+   1
+  ],
+  [
+   "tempera on canvas",
+   1
+  ],
+  [
+   "gold, enamel, and ivory",
+   1
+  ],
+  [
+   "translucent enamel on gold",
+   1
+  ],
+  [
+   "rhodonite, silver, enamel, emeralds, sapphires",
+   1
+  ],
+  [
+   "Hanging scroll; ink, color, gold, and cut gold on silk",
+   1
+  ],
+  [
+   "watercolor on ivory in a gold frame",
+   1
+  ],
+  [
+   "gold, silver gilt, enamel, rubies, diamonds",
+   1
+  ],
+  [
+   "bronze with silver and copper inlays",
+   1
+  ],
+  [
+   "pastel with charcoal underdrawing on tracing paper mounted on cardboard",
+   1
+  ],
+  [
+   "handscroll; ink on paper",
+   1
+  ],
+  [
+   "earthenware with luster-painted design",
+   1
+  ],
+  [
+   "gilt bronze with gold, silver, copper, turquoise, lapis, and coral inlay",
+   1
+  ],
+  [
+   "glazed earthenware",
+   1
+  ],
+  [
+   "opaque watercolor, ink, gold and silver on paper",
+   1
+  ],
+  [
+   "nephrite, gold, enamel, diamonds",
+   1
+  ],
+  [
+   "red mottled sandstone",
+   1
+  ],
+  [
+   "enamel, in original gilt-wood and gesso carved frame",
+   1
+  ]
+ ],
+ "type": [
+  [
+   "Bound Volume",
+   857
+  ],
+  [
+   "Painting",
+   571
+  ],
+  [
+   "Sculpture",
+   411
+  ],
+  [
+   "Ceramic",
+   241
+  ],
+  [
+   "Metalwork",
+   160
+  ],
+  [
+   "Drawing",
+   142
+  ],
+  [
+   "Arms and Armor",
+   137
+  ],
+  [
+   "Print",
+   76
+  ],
+  [
+   "Silver",
+   48
+  ],
+  [
+   "Miscellaneous",
+   43
+  ],
+  [
+   "Furniture and woodwork",
+   41
+  ],
+  [
+   "Jewelry",
+   32
+  ],
+  [
+   "Textile",
+   26
+  ],
+  [
+   "Manuscript",
+   25
+  ],
+  [
+   "Mask",
+   20
+  ],
+  [
+   "Glass",
+   18
+  ],
+  [
+   "Funerary Equipment",
+   16
+  ],
+  [
+   "Portrait Miniature",
+   15
+  ],
+  [
+   "Tapestry",
+   14
+  ],
+  [
+   "Enamel",
+   12
+  ],
+  [
+   "Wood",
+   11
+  ],
+  [
+   "Ivory",
+   9
+  ],
+  [
+   "Jade",
+   7
+  ],
+  [
+   "Tools and Equipment",
+   7
+  ],
+  [
+   "Portfolio",
+   7
+  ],
+  [
+   "Lacquer",
+   5
+  ],
+  [
+   "Vessels",
+   5
+  ],
+  [
+   "Lamp",
+   4
+  ],
+  [
+   "Stone",
+   4
+  ],
+  [
+   "Photograph",
+   4
+  ],
+  [
+   "Carpet",
+   3
+  ],
+  [
+   "Garment",
+   3
+  ],
+  [
+   "Timepiece",
+   3
+  ],
+  [
+   "Embroidery",
+   3
+  ],
+  [
+   "Glyptic",
+   3
+  ],
+  [
+   "Velvet",
+   3
+  ],
+  [
+   "Mosaic",
+   2
+  ],
+  [
+   "Cosmetic Objects",
+   2
+  ],
+  [
+   "Amulets",
+   2
+  ],
+  [
+   "Scarabs",
+   2
+  ],
+  [
+   "Calligraphy",
+   2
+  ],
+  [
+   "Seals",
+   2
+  ],
+  [
+   "Monotype",
+   1
+  ],
+  [
+   "Musical Instrument",
+   1
+  ]
+ ],
+ "culture": [
+  [
+   "Byzantium, Constantinople",
+   856
+  ],
+  [
+   "France, 19th century",
+   130
+  ],
+  [
+   "Italy",
+   87
+  ],
+  [
+   "France",
+   77
+  ],
+  [
+   "United States",
+   58
+  ],
+  [
+   "Russia, St. Petersburg",
+   47
+  ],
+  [
+   "Korea, Goryeo dynasty (918–1392)",
+   39
+  ],
+  [
+   "Japan, Edo period (1615–1868)",
+   39
+  ],
+  [
+   "Netherlands",
+   35
+  ],
+  [
+   "Germany",
+   33
+  ],
+  [
+   "Greek, Attic",
+   33
+  ],
+  [
+   "China, Ming dynasty (1368–1644)",
+   27
+  ],
+  [
+   "Flanders",
+   24
+  ],
+  [
+   "America",
+   24
+  ],
+  [
+   "England, London",
+   23
+  ],
+  [
+   "Italy, Venice",
+   23
+  ],
+  [
+   "Korea, Joseon dynasty (1392–1910)",
+   21
+  ],
+  [
+   "England, 18th century",
+   21
+  ],
+  [
+   "France, late 19th Century",
+   21
+  ],
+  [
+   "France, late 17th Century",
+   21
+  ],
+  [
+   "Northern India, Pahari kingdoms",
+   20
+  ],
+  [
+   "England, 19th century",
+   18
+  ],
+  [
+   "France, Paris",
+   18
+  ],
+  [
+   "Italy, Roman",
+   18
+  ],
+  [
+   "Etruscan",
+   18
+  ],
+  [
+   "Italy, Florence",
+   17
+  ],
+  [
+   "Spain",
+   17
+  ],
+  [
+   "Japan, Momoyama period (1573–1615)",
+   15
+  ],
+  [
+   "Japan, Kamakura period (1185–1333)",
+   13
+  ],
+  [
+   "China, Southern Song dynasty (1127-1279)",
+   13
+  ],
+  [
+   "Austria",
+   12
+  ],
+  [
+   "Mughal India, court of Akbar (reigned 1556–1605)",
+   12
+  ],
+  [
+   "England, 17th century (Charles II)",
+   11
+  ],
+  [
+   "China, Yuan dynasty (1271–1368)",
+   10
+  ],
+  [
+   "China, Qing dynasty (1644-1911)",
+   10
+  ],
+  [
+   "Greece",
+   10
+  ],
+  [
+   "Japan, Heian period (794–1185)",
+   9
+  ],
+  [
+   "China, Qing dynasty (1644–1911)",
+   9
+  ],
+  [
+   "Netherlands, Holland, Delft",
+   9
+  ],
+  [
+   "China, Tang dynasty (618-907)",
+   8
+  ],
+  [
+   "Egypt, New Kingdom (1540–1069 BCE), Dynasty 18, reign of Amenhotep III (1390–1352 BCE)",
+   8
+  ],
+  [
+   "Italy, Siena",
+   8
+  ],
+  [
+   "China, Yuan dynasty (1271-1368)",
+   8
+  ],
+  [
+   "Belgium, 17th century",
+   8
+  ],
+  [
+   "America, New York",
+   7
+  ],
+  [
+   "Japan, Meiji period (1868–1912)",
+   7
+  ],
+  [
+   "Japan, Muromachi period (1392–1573)",
+   7
+  ],
+  [
+   "Egypt, Late period (715–332 BCE), Dynasty 26",
+   7
+  ],
+  [
+   "France, late 19th-early 20th Century",
+   6
+  ],
+  [
+   "Anatolia, late Roman-early Christian",
+   6
+  ],
+  [
+   "England",
+   6
+  ],
+  [
+   "North Italy, 16th century",
+   6
+  ],
+  [
+   "Italy, Milan",
+   6
+  ],
+  [
+   "Greece, Hellenistic period",
+   6
+  ],
+  [
+   "Iran, Luristan",
+   6
+  ],
+  [
+   "Flanders, Bruges",
+   5
+  ],
+  [
+   "Switzerland",
+   5
+  ],
+  [
+   "India, Kashmir",
+   5
+  ],
+  [
+   "Egypt, Greco-Roman period (332 BCE–395 CE), Ptolemaic dynasty (305–30 BCE)",
+   5
+  ],
+  [
+   "Egypt, Thebes, Third Intermediate (1069–715 BCE), Dynasties 21–22",
+   5
+  ],
+  [
+   "United States, Ohio, Cleveland",
+   5
+  ],
+  [
+   "Germany, Nuremberg",
+   5
+  ],
+  [
+   "Africa, West Africa, Côte d’Ivoire, Baule-style carver",
+   5
+  ],
+  [
+   "South Italian, Apulian",
+   5
+  ],
+  [
+   "France, Sèvres",
+   5
+  ],
+  [
+   "England, Bristol",
+   5
+  ],
+  [
+   "England, London, Chelsea",
+   5
+  ],
+  [
+   "Germany (?)",
+   5
+  ],
+  [
+   "Germany, Augsburg",
+   5
+  ],
+  [
+   "Italy, Urbino",
+   5
+  ],
+  [
+   "France, Vincennes",
+   5
+  ],
+  [
+   "Germany, 18th century",
+   5
+  ],
+  [
+   "Netherlands, 16th century",
+   5
+  ],
+  [
+   "Germany, Lower Saxony?, Romanesque period, 11th century",
+   4
+  ],
+  [
+   "Iran, Sasanian Empire (224–651 CE)",
+   4
+  ],
+  [
+   "Italy, 19th century",
+   4
+  ],
+  [
+   "France, late 18th-early 19th century",
+   4
+  ],
+  [
+   "France, Lyon(?), early 16th century",
+   4
+  ],
+  [
+   "Egypt, Byzantine period",
+   4
+  ],
+  [
+   "France, 20th century",
+   4
+  ],
+  [
+   "Central Tibet",
+   4
+  ],
+  [
+   "Africa, West Africa, Ghana, Asante Empire/Kingdom, Kumasi or probably Kumasi, member of the goldsmiths' guild",
+   4
+  ],
+  [
+   "Nigeria, Benin Kingdom, Ẹdo peoples, members of the Igun Eronmwon (royal brasscasters) guild",
+   4
+  ],
+  [
+   "Iran, Khurasan, Seljuq period of Iran (1037–1194)",
+   4
+  ],
+  [
+   "England, 17th century",
+   4
+  ],
+  [
+   "China, Western Han dynasty (206 BCE–8 CE)",
+   4
+  ],
+  [
+   "Africa, Central Africa, Democratic Republic of Congo, Luba-style carver",
+   4
+  ],
+  [
+   "Pakistan, Gandhara, Buner area, early Kushan period",
+   4
+  ],
+  [
+   "Iran, Shiraz, Timurid period (1370-1501)",
+   4
+  ],
+  [
+   "North China, Tang dynasty (618-907)",
+   4
+  ],
+  [
+   "Cambodia",
+   4
+  ],
+  [
+   "Germany, Saxony, 16th century",
+   4
+  ],
+  [
+   "Germany, 19th century",
+   4
+  ],
+  [
+   "Colombia, Muisca style",
+   4
+  ],
+  [
+   "Italy, Papal States, Faenza",
+   4
+  ],
+  [
+   "Central Asia (Sogdiana) or Tibet",
+   4
+  ],
+  [
+   "Turkey, Iznik, Ottoman period (1299–1922)",
+   4
+  ],
+  [
+   "China, Western Zhou dynasty (c. 1046–771 BCE)",
+   4
+  ],
+  [
+   "Germany, Lower Saxony, Hildesheim, Romanesque period, 12th century",
+   4
+  ],
+  [
+   "Netherlands, active Dijon, 15th century",
+   3
+  ],
+  [
+   "France, early 20th Century",
+   3
+  ],
+  [
+   "Germany, 20th century",
+   3
+  ],
+  [
+   "India, Mathura, Kushan period",
+   3
+  ],
+  [
+   "China, probably Shaanxi province, Xi'an, Tang dynasty (618-907)",
+   3
+  ],
+  [
+   "Pakistan, Gandhara, Kushan period",
+   3
+  ],
+  [
+   "Byzantium, Constantinople, Byzantine period",
+   3
+  ],
+  [
+   "Japan, Asuka period (538–710)",
+   3
+  ],
+  [
+   "Egypt, New Kingdom (1540–1069 BCE), Dynasty 18",
+   3
+  ],
+  [
+   "Egypt, Karnak, New Kingdom (1540–1069 BCE), Dynasty 18, reign of Akhenaten (1351–1334 BCE)",
+   3
+  ],
+  [
+   "China, late Northern Song dynasty (960-1127) - Jin dynasty (1115-1234)",
+   3
+  ],
+  [
+   "China, Northern Qi dynasty (550-577)",
+   3
+  ],
+  [
+   "Panama, Azuero Peninsula, Parita style, 11th-16th century",
+   3
+  ],
+  [
+   "Korea, Unified Silla period (676-935)",
+   3
+  ],
+  [
+   "Iran, Tabriz, Ilkhanid period (1256-1353)",
+   3
+  ],
+  [
+   "Africa, Central Africa, Democratic Republic of Congo, probably Ngbandi-style carver",
+   3
+  ],
+  [
+   "Isthmian Region (Colombia), Sinú (Zenú), 5th century-11th century",
+   3
+  ],
+  [
+   "Nepal, Kathmandu Valley",
+   3
+  ],
+  [
+   "China, Southern Song dynasty (1127–1279)",
+   3
+  ],
+  [
+   "Greece, Greco-Roman Period, late Ptolemaic Dynasty",
+   3
+  ],
+  [
+   "China, Tang dynasty (618–907)",
+   3
+  ],
+  [
+   "France, Saint Cloud, 18th century",
+   3
+  ],
+  [
+   "Colombia, Calima region, Yotoco style",
+   3
+  ],
+  [
+   "Italy, Roman, Augustan period",
+   3
+  ],
+  [
+   "Italy, Rome, Early Imperial period",
+   3
+  ],
+  [
+   "China, Northern Wei dynasty (386-534)",
+   3
+  ],
+  [
+   "Nepal",
+   3
+  ],
+  [
+   "China, Qing dynasty (1644–1911), Qianlong reign (1736–95)",
+   3
+  ],
+  [
+   "Costa Rica, Diquís region, 11th-16th century",
+   3
+  ],
+  [
+   "Mexico, Veracruz?, 600-950 AD",
+   3
+  ],
+  [
+   "Afghanistan, Hadda, probably Tape Shotor",
+   3
+  ],
+  [
+   "China, Warring States period (475–221 BCE)",
+   3
+  ],
+  [
+   "Egypt or Syria(?)",
+   3
+  ],
+  [
+   "Japan, Muromachi period (1392–1573) to Momoyama period (1573–1615)",
+   3
+  ],
+  [
+   "Southern Netherlands or Northern France",
+   3
+  ],
+  [
+   "China, Northern Song dynasty (960–1127)",
+   3
+  ],
+  [
+   "Peru, South Coast, Ica Valley, Ocucaje site, Paracas style",
+   3
+  ],
+  [
+   "Italy, Urbino, 16th century",
+   3
+  ],
+  [
+   "European, 15th century",
+   3
+  ],
+  [
+   "Italy, Rome",
+   3
+  ],
+  [
+   "Pakistan, Gandhara, probably Sirkap, early Kushan period",
+   3
+  ],
+  [
+   "Germany, possibly Augsburg",
+   3
+  ],
+  [
+   "China, Ming dynasty (1368-1644), Wanli mark and reign (1573-1619)",
+   3
+  ],
+  [
+   "Italy, Naples",
+   2
+  ],
+  [
+   "Netherlands, Leuven, 15th century",
+   2
+  ],
+  [
+   "Germany, Würzburg, 16th century",
+   2
+  ],
+  [
+   "Peru, South Coast, Paracas (Cavernas) style",
+   2
+  ],
+  [
+   "Mexico, Gulf Coast, Classic Veracruz style (600-1100)",
+   2
+  ],
+  [
+   "Japan, Jōmon period (c. 10,500–300 BCE)",
+   2
+  ],
+  [
+   "Greece, Archaic period",
+   2
+  ],
+  [
+   "Peru, North Coast, Chongoyape(?), Chavín style (900-200 BCE)",
+   2
+  ]
+ ],
+ "department": [
+  [
+   "Medieval Art",
+   1149
+  ],
+  [
+   "Decorative Art and Design",
+   218
+  ],
+  [
+   "Chinese Art",
+   201
+  ],
+  [
+   "European Painting and Sculpture",
+   200
+  ],
+  [
+   "Greek and Roman Art",
+   171
+  ],
+  [
+   "Indian and Southeast Asian Art",
+   139
+  ],
+  [
+   "Drawings",
+   139
+  ],
+  [
+   "Modern European Painting and Sculpture",
+   137
+  ],
+  [
+   "Japanese Art",
+   106
+  ],
+  [
+   "Art of the Americas",
+   86
+  ],
+  [
+   "African Art",
+   81
+  ],
+  [
+   "Egyptian and Ancient Near Eastern Art",
+   78
+  ],
+  [
+   "Prints",
+   75
+  ],
+  [
+   "American Painting and Sculpture",
+   63
+  ],
+  [
+   "Korean Art",
+   63
+  ],
+  [
+   "Textiles",
+   49
+  ],
+  [
+   "Islamic Art",
+   41
+  ],
+  [
+   "Photography",
+   4
+  ]
+ ]
+}
