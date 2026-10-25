@@ -376,6 +376,40 @@ def _count_shots(q):
     return (idx + 1) if idx >= 0 else 0
 
 
+# 摄影层候选值：按"常见且有效"排序，给用户挑，不是让他从零想。
+_CINE = {
+    "dof": ("浅景深（背景化开）", "中景深（环境可读）", "深景深（全部清晰）"),
+    "tex": ("35mm 胶片颗粒", "干净的数码质感", "轻微颗粒 + 低对比"),
+    "grade": ("青橙对比", "冷青灰", "暖金", "低饱和", "单色调（红）", "自然色"),
+    "mood": ("压抑", "疏离", "温柔", "紧绷", "空", "疲惫"),
+    "lens": ("35mm 广角", "50mm 标准", "85mm 中焦", "135mm 长焦压缩"),
+}
+
+
+def _cine_line(c):
+    """摄影层：主选一个值写进正文，备选另起一行。"""
+    tags = " ".join(c.get("tags") or []).lower()
+    kw = " ".join(c.get("kw") or "")
+
+    def has(words):
+        return any(w in tags or w in kw for w in words)
+
+    # 主选：能从风格关键词推的就推，推不出用第一个候选
+    dof = _CINE["dof"][0] if has(("close", "特写", "浅景深", "肖像")) else _CINE["dof"][1]
+    tex = _CINE["tex"][0] if has(("grain", "颗粒", "film", "胶片", "旧")) else _CINE["tex"][1]
+    grade = (_CINE["grade"][0] if has(("neon", "霓虹", "青橙", "teal", "cyan", "赛博"))
+             else _CINE["grade"][5] if has(("natural", "自然", "纪实", "doc"))
+             else _CINE["grade"][2])
+    mood = _CINE["mood"][0] if has(("lonely", "孤独", "压抑", "melancholy", "冰冷")) else _CINE["mood"][3]
+    lens = _CINE["lens"][2] if has(("close", "特写", "肖像", "脸")) else _CINE["lens"][1]
+
+    primary = f"摄影层：{dof}；{tex}；{grade}；{mood}；{lens}。"
+    alts = ("备选（换一个即可）：" +
+            " / ".join([_CINE["dof"][2], _CINE["tex"][2], _CINE["grade"][1],
+                        _CINE["mood"][5], _CINE["lens"][0]]) + "。")
+    return primary + "\n" + alts
+
+
 def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     """共用块 + 逐镜。shots 里的空串表示"这一镜待填"。"""
     c = _core(item, subj, craft, mat, domain, "")
@@ -387,6 +421,7 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
         light = ""
     out = [
         f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
+        "        " + _cine_line(c),
         "        只使用<环境声>，不要配乐，不要字幕。",
         "        不要出现：<2-4 个会让这批全废掉的错误，例如"
         "手部畸形、兵器穿模、面部漂移、各镜色调不一致>。",
@@ -578,6 +613,7 @@ def _fmt_i2v_minimax(item, subj, craft, mat, domain, query=""):
         f"相机：{cam}，只一种运动，最后停在 <结束构图>。",
         "声音：<对白>；<环境声>；<同步音效>；<背景音乐>。",
         "保持不变：主体身份、构图、光线、色调与 @1 一致。",
+        _cine_line(c),
         "不要出现：错字、元素变形、重复主体、水印、字幕。",
     ])
 
@@ -713,6 +749,7 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
     lines.append(f"全程保持主体清晰、背景自然虚化；{c['ar']}；"
                  f"{'轻微手持呼吸感' if c['motion'] != 'STATIC' else '机位完全固定'}；"
                  f"只使用<环境声>，不要配乐，不要字幕。")
+    lines.append(_cine_line(c))
     # negative 并入全局约束：这是这一格最容易被忽略、又最影响成败的部分
     lines.append("不要出现：<写 2-4 个真正会让这条废掉的错误，"
                  "例如手部畸形、兵器穿模、面部漂移、血迹>。")
