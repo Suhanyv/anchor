@@ -627,9 +627,7 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
     for i, sh in enumerate(shots, 1):
         body = sh.strip() or "<写这一镜的动作：只有 1-2 个动作，写清从什么变成什么>"
         _sec, _kind = _pers[i - 1]
-        _tags = (globals().get('_PROP_TAGS') or [])
-        _tag = f"  {_tags[i-1]}" if i - 1 < len(_tags) else ""
-        out.append(f"【镜头 {i}】（{_sec} 秒 · {_kind}）{body}{_tag}")
+        out.append(f"【镜头 {i}】（{_sec} 秒 · {_kind}）{body}")
     out.append("")
     out.append("（上面是规划。下面每一镜都是完整可粘的——"
                "因为即梦一次只出一镜，共用块必须贴进每一段。）")
@@ -1754,7 +1752,7 @@ class LocalStyleHint:
                     _shots = [b[0] for b in _prop]
                     globals()['_PROP_TAGS'] = [b[1] for b in _prop]
                     dbg = ("【提案】已按「建立/交手/收」编排 "
-                           f"{_n} 拍（来源在每拍末尾标注）\n" + dbg)
+                           f"{_n} 拍（来源见下方【来源】段）\n" + dbg)
                 else:
                     _shots = [""] * _n   # 只给了数量：出空槽，不替用户编动作
         if len(_shots) >= 2:
@@ -1772,9 +1770,16 @@ class LocalStyleHint:
                 _shots = _clean
             _ms = _fmt_multishot(_shots, items[0], subj, craft, mat,
                                  domain_used, _pf)
-            _tag = ("检出多镜结构" if any(_shots)
+            _tag = ("检出多镜结构" if _split_shots(中文描述)
                     else f"只检出数量 {len(_shots)} 镜，已出空槽")
             dbg = f"【多镜头】{_tag}（平台 {_pf}）\n" + dbg
+            # 来源只进调试，不进正文（正文里的"【编】"会被模型画出来）
+            _tg = globals().get("_PROP_TAGS") or []
+            if _tg:
+                _lines = "\n".join(
+                    f"  镜头{i+1}  {t}" for i, t in enumerate(_tg))
+                dbg = f"【来源】\n{_lines}\n" + dbg
+                globals()["_PROP_TAGS"] = []   # 用完清掉，避免串到下一次
             return (_ms, dbg)
 
         # 图生视频：只写动作，不套平台模板
