@@ -329,8 +329,16 @@ def _core(item, subj, craft, mat, domain, query=""):
     parts = [x.strip() for x in body.split(", ") if x.strip()]
     mo = (item.get("motion") or "SLOW").upper()
 
+    # 低置信度护栏：风格分低于阈值时，库里的"最高分"其实是噪声，
+    # 中文模板不能把它当风格打印出来（实测出现过给"竹简"匹配恐怖片）。
+    score = float(item.get("score") or 0)
+    weak = score < 0.30
+
     who_zh = item.get("director_zh") or item.get("director") or ""
-    zh_style = who_zh + ("：" + "、".join(kw[:4]) if kw else "")
+    if weak:
+        zh_style = "<风格：库中没有可靠匹配，请自行指定>"
+    else:
+        zh_style = who_zh + ("：" + "、".join(kw[:4]) if kw else "")
 
     # 光/质感优先用材质与工艺通道；两者都没命中时才回落到风格关键词，
     # 否则中文模板里会把同一组词说两遍（「整体走 X」和「光线与质感是 X」）。
@@ -339,7 +347,7 @@ def _core(item, subj, craft, mat, domain, query=""):
         zh_light.append(mat.get("zh") or "")
     if craft and craft.get("hit"):
         zh_light.append(craft.get("zh") or "")
-    if not zh_light and kw:
+    if not zh_light and kw and not weak:
         zh_light.append("、".join(kw[:3]))
     zh_light = "；".join([x for x in zh_light if x])
 
@@ -350,6 +358,7 @@ def _core(item, subj, craft, mat, domain, query=""):
         "tail": parts[1] if len(parts) > 1 else "",
         "subject_zh": (query or "").strip(),
         "subject": subj["phrase"] if (subj and subj.get("hit")) else "",
+        "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         "dur": params.get("duration") or "6s",
     }
@@ -1044,6 +1053,11 @@ class LocalStyleHint:
                 fmt = ("【图像形态】域未能判定，按静态图处理；"
                        "想生成视频请在「域」里选「视频」\n")
         dbg = fmt + dbg
+        if float(items[0].get("score") or 0) < 0.30:
+            dbg = ("⚠️ 风格置信度低（{} : {:.4f}）：库里没有可靠匹配，"
+                   "输出里的风格一栏是占位符，不是推荐。\n".format(
+                       items[0].get("director_zh") or items[0].get("director", "?"),
+                       float(items[0].get("score") or 0))) + dbg
 
         # ---- 按目标格式分发 ----
         # 视频专用格式遇到图片域、图片格式遇到视频域，都要回落到通用格式并说明，
