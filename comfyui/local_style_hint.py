@@ -205,13 +205,13 @@ SUBJECT_RATIO = 0.95
 # 所以再加一道**绝对下限**。0.36 是实测校准值（样本少，标注为经验值）：
 #   中世纪骑士 0.4945 ✓ / 唐代宫廷 0.5070 ✓ / 武侠竹林 0.4813 ✓ / 老人 0.4168 ✓
 #   沙漠商队误报 0.3378 ✗ / 跑偏那条 0.2042 ✗
-SUBJECT_FLOOR = 0.36
+SUBJECT_FLOOR = 0.52
 
 # ---- 赢家通吃：风格 / 主体 / 工艺 / 材质 四个渠道比大小 ----
 # 实测（6 条 query 全渠道打分）：6 条里 5 条正确答案就是分最高的那个渠道。
 # 相对比值（渠道分 >= 风格分 x 0.95）在风格分低时会误开，已被推翻。
 # 现在只用「每渠道绝对下限 + 高于风格分」。
-MAT_FLOOR = 0.40
+MAT_FLOOR = 0.52
 
 # ---- 工艺/媒介通道的门槛（同一套相对判据）----
 # 实测：蓝晒 1.27 / 金缮 1.31 / 刺绣 1.05 命中；铜版画 0.92、无工艺 0.50~0.91 正确排除
@@ -222,7 +222,7 @@ CRAFT_RATIO = 0.95
 #   假阳性 拉弓->刺绣 0.4070 / 铜版->火柴盒 0.4215 / 骑士->糖画 0.2252
 # 假阳性来自"风格分很低时任何工艺都显得相对更强"，所以必须靠绝对下限挡。
 # 0.44 是 6 个样本上校准的，样本少，标注为经验值。
-CRAFT_FLOOR = 0.44
+CRAFT_FLOOR = 0.52
 
 # ---- 分级去偏：把「画什么」从 query 向量里减掉，只留「怎么拍」----
 # 实测（场景基准 20 题）：全局去偏净亏 10pp，因为它把地貌类的风格信号也减掉了。
@@ -313,7 +313,7 @@ def _zh_light_style(item, mat, craft):
     return "；".join(out)
 
 
-SCENE_FLOOR = 0.36
+SCENE_FLOOR = 0.39
 SUBJECT_TIE_MARGIN = 0.015   # 题材与工艺/材质近似平局时让题材赢
 
 
@@ -836,6 +836,37 @@ def _structured(item, subj, craft, mat, domain):
     return "\n".join(f"{k + ':':<{w + 1}} {v}" for k, v in d.items() if v)
 
 
+def _exact_hits(query, rows, min_len=3):
+    """查询里逐字包含条目名、或包含长度 >= min_len 的关键词时，返回这些条目的下标。
+
+    为什么不所有关键词都认：
+    部分条目的 kw_zh 里放了泛用风格词（"柔光""颗粒""霓虹"），
+    它们是形容词或泛指，会把纯风格查询误判成"命中了某材质"。
+
+    所以只认两类：
+        1. 条目名本身（*_zh 字段），任意长度
+        2. kw_zh 且长度 >= min_len（默认 3）
+
+    命中的条目按匹配词长度排序，长的优先。
+    """
+    if not query:
+        return []
+    hits = []
+    for i, r in enumerate(rows):
+        name = str(r.get("subject_zh") or r.get("craft_zh") or r.get("mat_zh") or "").strip()
+        best = 0
+        if name and name in query:
+            best = len(name)
+        for kw in (r.get("kw_zh") or []):
+            kw = str(kw).strip()
+            if len(kw) >= min_len and kw in query and len(kw) > best:
+                best = len(kw)
+        if best:
+            hits.append((best, i))
+    hits.sort(key=lambda x: -x[0])
+    return [i for _, i in hits]
+
+
 def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
           subject_path=None, craft_path=None, material_path=None, use_material=False):
     st = _load(model_dir, corpus_path, device, subject_path, craft_path, material_path)
@@ -847,18 +878,24 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
     craft = None
     if st.get("craft_emb") is not None and len(st["crafts"]):
         csims = (st["craft_emb"] @ qe).numpy()
+        _ex = _exact_hits(q, st["crafts"])
         k = int(csims.argmax())
+        if _ex:
+            k = max(_ex, key=lambda j: float(csims[j]))
         c = st["crafts"][k]
-        craft = {"score": float(csims[k]), "en": c["craft_en"],
+        craft = {"exact": bool(_ex), "score": float(csims[k]), "en": c["craft_en"],
                  "zh": c["craft_zh"], "phrase": c["phrase"], "hit": False}
 
     # ---- 材质/光通道（第四条，仅在「启用材质」打开时计算）----
     mat = None
     if use_material and st.get("mat_emb") is not None and len(st["materials"]):
         msims = (st["mat_emb"] @ qe).numpy()
+        _ex = _exact_hits(q, st["materials"])
         k = int(msims.argmax())
+        if _ex:
+            k = max(_ex, key=lambda j: float(msims[j]))
         m = st["materials"][k]
-        mat = {"score": float(msims[k]), "en": m["mat_en"],
+        mat = {"exact": bool(_ex), "score": float(msims[k]), "en": m["mat_en"],
                "zh": m["mat_zh"], "phrase": m["phrase"], "hit": False}
 
     # ---- 题材通道（独立索引，与风格并行）----
@@ -866,10 +903,13 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
     subj_idx = None
     if st.get("subj_emb") is not None and len(st["subjects"]):
         ssims = (st["subj_emb"] @ qe).numpy()
+        _ex = _exact_hits(q, st["subjects"])
         k = int(ssims.argmax())
+        if _ex:
+            k = max(_ex, key=lambda j: float(ssims[j]))
         s = st["subjects"][k]
         subj_idx = k
-        subj = {"score": float(ssims[k]), "en": s["subject_en"],
+        subj = {"exact": bool(_ex), "score": float(ssims[k]), "en": s["subject_en"],
                 "zh": s["subject_zh"], "phrase": s["phrase"],
                 "type": s.get("type", ""), "hit": False}
 
@@ -883,6 +923,9 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                 _ii = [i for i, _ in _sidx]
                 _sub = ssims[_ii]
                 _kk = int(_sub.argmax())
+                _exs = _exact_hits(q, [st["subjects"][i] for i in _ii])
+                if _exs:
+                    _kk = max(_exs, key=lambda j: float(_sub[j]))
                 _row = st["subjects"][_ii[_kk]]
                 subj["scene_best"] = {
                     "score": float(_sub[_kk]),
@@ -1054,7 +1097,8 @@ class LocalStyleHint:
 
         eligible = []
         for name, obj in (("主体", subj), ("工艺", craft), ("材质", mat)):
-            if obj and obj["score"] > top_style and obj["score"] >= floors[name]:
+            if (obj and obj["score"] > top_style
+                    and (obj.get("exact") or obj["score"] >= floors[name])):
                 eligible.append((name, obj["score"], obj))
 
         winner = max(eligible, key=lambda x: x[1]) if eligible else None
@@ -1071,8 +1115,8 @@ class LocalStyleHint:
             dbg = (f"最终: 风格最高或无人过门槛 -> 不拼内容 (风格 {top_style:.4f})\n" + dbg)
         else:
             name, sc, obj = winner
-            dbg = (f"最终: {name}分最高且过门槛 -> 只拼{name} "
-                   f"({sc:.4f} > 风格 {top_style:.4f})\n" + dbg)
+            dbg = (f"最终: {name}分最高{'（精确词命中）' if obj.get('exact') else ''}"
+                   f" -> 只拼{name} ({sc:.4f} > 风格 {top_style:.4f})\n" + dbg)
             obj["hit"] = True   # 供结构化输出判断（之前漏了，导致 Subject 永远为空）
             if name == "主体":
                 text = obj["phrase"] + ", " + text
