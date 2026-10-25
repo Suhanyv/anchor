@@ -644,6 +644,10 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
         out.append(f"—— 镜头 {i} · {_sec} 秒 ——")
         out.append(f"{_look}。{ar}。")
         out.append("")
+        # 即梦官方四段是「素材绑定 + 一句话概述 + 时间轴 + 全局约束」，
+        # 之前粘贴版从风格直接跳到时间轴，概述那段漏了。
+        out.append(f"一句话概述：{body}。")
+        out.append("")
         _cam = "" if ("机位" in body or "镜头" in body or "横移" in body) else "，机位不动"
         out.append(f"0–{a} 秒：{body}，动作从这里开始{_cam}。")
         out.append(f"{a}–{b} 秒：<写这一步怎么继续；有变化就写清从什么变成什么>。")
