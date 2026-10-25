@@ -317,6 +317,43 @@ SCENE_FLOOR = 0.39
 SUBJECT_TIE_MARGIN = 0.015   # 题材与工艺/材质近似平局时让题材赢
 
 
+_CMD_WORDS = (
+    "文生视频", "图生视频", "参考生视频", "文生图", "图生图",
+    "生成一段", "生成一个", "生成", "做一段", "做一个", "做个", "拍一段", "拍一个",
+    "帮我", "帮忙", "请", "我想要", "想要", "给我", "能不能", "可以", "麻烦",
+)
+_TAIL_WORDS = ("的视频", "的镜头", "的画面", "的片子", "短片", "一段视频")
+
+
+def _strip_cmd(q):
+    """从描述里剥掉指令前缀与平台名，只留画面内容。"""
+    import re as _re
+    t = (q or "").strip()
+    # 1) 冒号后面才是描述
+    for sep in ("：", ":"):
+        if sep in t:
+            head, tail = t.split(sep, 1)
+            if len(tail.strip()) >= 4:
+                t = tail.strip()
+            break
+    # 2) 平台名
+    for words, _also, _fmt in _PLATFORM_HINTS:
+        for w in words:
+            if len(w) >= 2:
+                t = _re.sub(_re.escape(w), " ", t, flags=_re.I)
+    # 3) 生成动词
+    for w in _CMD_WORDS:
+        t = t.replace(w, " ")
+    # 4) 收尾
+    t = t.strip()
+    for w in _TAIL_WORDS:
+        if t.endswith(w):
+            t = t[: -len(w)]
+    # 5) 收掉多余空白与标点
+    t = _re.sub(r"\s+", " ", t).strip(" ，,。.、·-")
+    return t or (q or "").strip()
+
+
 def _core(item, subj, craft, mat, domain, query=""):
     """抽取公共字段，供各平台模板复用。
 
@@ -388,7 +425,7 @@ def _core(item, subj, craft, mat, domain, query=""):
         "tags": tags, "kw": kw, "params": params, "motion": mo,
         "head": parts[0] if parts else "",
         "tail": parts[1] if len(parts) > 1 else "",
-        "subject_zh": (query or "").strip(),
+        "subject_zh": _strip_cmd(query),
         "subject": subject_phrase,
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
@@ -845,15 +882,15 @@ def _fmt_hunyuan(item, subj, craft, mat, domain, query=""):
 #   主体 + 动作 + 场景 + 镜头 + 光线 + 节奏 + 声音
 # 并强调「用直白的语言说清楚，少用魔幻/震撼这类抽象词」，
 # 以及「一段只写一种运镜」「写明面部与服装保持不变」。
-_KL_MOVE = {"STATIC": "固定机位，镜头不动",
-            "SLOW": "固定机位，镜头轻微推近",
-            "KINETIC": "手持跟拍，镜头随主体移动"}
+_KL_MOVE = {"STATIC": "镜头不动",
+            "SLOW": "镜头缓慢推近",
+            "KINETIC": "手持跟拍"}
 _KL_PACE = {"STATIC": "节奏舒缓，单一连续镜头",
             "SLOW": "节奏舒缓，单一连续镜头",
             "KINETIC": "节奏偏快，单一连续镜头"}
-_KL_ACT = {"STATIC": "几乎不动，只有呼吸和发丝有极小的变化",
-           "SLOW": "缓慢地转头或移动，动作幅度很小",
-           "KINETIC": "快速穿过画面，动作幅度大"}
+_KL_ACT = {"STATIC": "几乎不动，只有极细微的变化",
+           "SLOW": "缓慢地移动或变化，幅度很小，速度恒定",
+           "KINETIC": "快速移动，幅度较大"}
 
 
 def _fmt_kling(item, subj, craft, mat, domain, query=""):
