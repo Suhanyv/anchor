@@ -1,9 +1,9 @@
 {
-  "label": "e5-director-c28 + corpus_v22.jsonl",
+  "label": "e5-director-c27 + _fair_subset.jsonl",
   "n": 20,
   "top1": 0.45,
-  "top3": 0.65,
-  "top5": 0.7,
+  "top3": 0.7,
+  "top5": 0.8,
   "rows": [
     {
       "query": "女骑士骑着披甲战马在无边草原上全速疾驰，远景全身，跟随镜头",
@@ -12,14 +12,14 @@
         "Christopher Nolan",
         "Ridley Scott"
       ],
-      "rank": 7,
+      "rank": 5,
       "top1": "Wuershan",
       "top5": [
         "Wuershan",
-        "Akira Kurosawa",
         "Persian Miniature",
         "Mughal Miniature",
-        "Wasteland"
+        "Akira Kurosawa",
+        "Denis Villeneuve"
       ],
       "src": "prompt_02"
     },
@@ -37,7 +37,7 @@
         "Wuershan",
         "Persian Miniature",
         "Pier Paolo Pasolini",
-        "Coen Brothers"
+        "Michelangelo Antonioni"
       ],
       "src": "prompt_02"
     },
@@ -48,14 +48,14 @@
         "Michael Haneke",
         "David Fincher"
       ],
-      "rank": 18,
+      "rank": 25,
       "top1": "Guillermo del Toro",
       "top5": [
         "Guillermo del Toro",
         "Frant Gwo",
+        "Op Art",
         "Andrei Tarkovsky",
-        "Sergei Eisenstein",
-        "Ridley Scott"
+        "Bauhaus"
       ],
       "src": "prompt_02"
     },
@@ -65,13 +65,13 @@
         "Denis Villeneuve",
         "Christopher Nolan"
       ],
-      "rank": 3,
-      "top1": "Jiaozi",
+      "rank": 4,
+      "top1": "Wasteland",
       "top5": [
+        "Wasteland",
         "Jiaozi",
         "Wuershan",
         "Christopher Nolan",
-        "Wasteland",
         "Akira Kurosawa"
       ],
       "src": "prompt_02"
@@ -81,14 +81,14 @@
       "accept": [
         "Alfred Hitchcock"
       ],
-      "rank": 2,
-      "top1": "Wasteland",
+      "rank": 1,
+      "top1": "Alfred Hitchcock",
       "top5": [
-        "Wasteland",
         "Alfred Hitchcock",
-        "Guillermo del Toro",
+        "Wasteland",
         "Wuershan",
-        "Terrence Malick"
+        "Terrence Malick",
+        "Guillermo del Toro"
       ],
       "src": "prompt_01"
     },
@@ -102,9 +102,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Ching Siu-tung",
-        "Song Academy Realism",
-        "Handscroll Panorama",
-        "Zhang Yimou"
+        "Terrence Malick",
+        "Street Photography",
+        "Handscroll Panorama"
       ],
       "src": "prompt_01"
     },
@@ -118,9 +118,9 @@
       "top5": [
         "Alfred Hitchcock",
         "Wong Kar-wai",
-        "Brian De Palma",
-        "Martin Scorsese",
-        "William Friedkin"
+        "Street Photography",
+        "William Friedkin",
+        "Stanley Kubrick"
       ],
       "src": "prompt_01"
     },
@@ -133,9 +133,9 @@
       "top1": "Misty River Lone Boat",
       "top5": [
         "Misty River Lone Boat",
+        "Wuershan",
         "King Hu",
         "Hou Hsiao-hsien",
-        "Wuershan",
         "Ching Siu-tung"
       ],
       "src": "东方-应命中"
@@ -161,13 +161,13 @@
       "accept": [
         "One-Corner Composition"
       ],
-      "rank": 1,
-      "top1": "One-Corner Composition",
+      "rank": 2,
+      "top1": "Liubai Negative Space",
       "top5": [
-        "One-Corner Composition",
         "Liubai Negative Space",
-        "Song Academy Realism",
+        "One-Corner Composition",
         "Art Nouveau",
+        "Song Academy Realism",
         "Minhwa"
       ],
       "src": "东方-应命中"
@@ -181,8 +181,8 @@
       "top1": "Song Academy Realism",
       "top5": [
         "Song Academy Realism",
-        "Liubai Negative Space",
         "Minhwa",
+        "Liubai Negative Space",
         "Gongbi Fine-Line Painting",
         "Persian Miniature"
       ],
@@ -197,10 +197,10 @@
       "top1": "Zhang Yimou",
       "top5": [
         "Zhang Yimou",
-        "Ching Siu-tung",
         "King Hu",
         "Dunhuang Murals",
-        "Hou Hsiao-hsien"
+        "Hou Hsiao-hsien",
+        "Park Chan-wook"
       ],
       "src": "题材-应命中"
     },
@@ -217,7 +217,7 @@
         "Cyberpunk",
         "Wong Kar-wai",
         "Mamoru Oshii",
-        "Martin Scorsese",
+        "Tsai Ming-liang",
         "Synthwave"
       ],
       "src": "通用"
@@ -233,8 +233,8 @@
         "Alfred Hitchcock",
         "Wong Kar-wai",
         "William Friedkin",
-        "Satoshi Kon",
-        "Francis Ford Coppola"
+        "Surrealism",
+        "Dark Academia"
       ],
       "src": "通用-机制"
     },
@@ -245,14 +245,14 @@
         "Stanley Kubrick",
         "Wes Anderson"
       ],
-      "rank": 7,
+      "rank": 2,
       "top1": "Chantal Akerman",
       "top5": [
         "Chantal Akerman",
-        "Yasujiro Ozu",
-        "Alfred Hitchcock",
+        "Wes Anderson",
         "Bauhaus",
-        "Satoshi Kon"
+        "One-Corner Composition",
+        "Stanley Kubrick"
       ],
       "src": "通用"
     },
@@ -264,14 +264,14 @@
         "Hou Hsiao-hsien",
         "Edward Yang"
       ],
-      "rank": 5,
+      "rank": 3,
       "top1": "Dark Academia",
       "top5": [
         "Dark Academia",
         "Bauhaus",
+        "Yasujiro Ozu",
         "Liubai Negative Space",
-        "Wasteland",
-        "Yasujiro Ozu"
+        "Kiyoshi Kurosawa"
       ],
       "src": "prompt_06"
     },
@@ -282,14 +282,14 @@
         "Jia Zhangke",
         "Hirokazu Kore-eda"
       ],
-      "rank": 9,
+      "rank": 15,
       "top1": "Frant Gwo",
       "top5": [
         "Frant Gwo",
-        "Cyberpunk",
-        "Vaporwave",
         "Bong Joon-ho",
-        "John Carpenter"
+        "Folk Woodblock New Year Print",
+        "Wes Anderson",
+        "Vaporwave"
       ],
       "src": "prompt_06"
     },
@@ -300,14 +300,14 @@
         "Hirokazu Kore-eda",
         "Hou Hsiao-hsien"
       ],
-      "rank": 11,
+      "rank": 16,
       "top1": "Sofia Coppola",
       "top5": [
         "Sofia Coppola",
         "Shin-hanga",
-        "Greta Gerwig",
-        "Francis Ford Coppola",
-        "Baroque"
+        "Baroque",
+        "Chantal Akerman",
+        "Greta Gerwig"
       ],
       "src": "prompt_06"
     },
@@ -321,10 +321,10 @@
       "top1": "Tsai Ming-liang",
       "top5": [
         "Tsai Ming-liang",
+        "Wasteland",
         "Chantal Akerman",
-        "King Hu",
         "William Friedkin",
-        "Wasteland"
+        "Chinese Literati Ink-Wash"
       ],
       "src": "prompt_06"
     },
