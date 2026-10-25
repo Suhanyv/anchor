@@ -503,25 +503,27 @@ def _plan_duration(platform, q, asked=None):
         line = (f"【时长】Veo 固定 8 秒，内容约 {beats} 拍（{fill}）。"
                 f"\n        依据：{src}。")
         return 8, 8, 1, line
-    # 先查表：时长由运动幅度决定，而不是字数或逗号数
+    # 时长来源分两种：
+    #   有顺序词（然后/接着/最后）-> 多步叙述，按拍数累加
+    #   没有顺序词             -> 单一动作，按运动幅度查表
+    # 否则"拿起简然后变然后亮…"会被当成一个动作，估成 4 秒。
+    _seq = any(w in (q or "") for w in ("然后", "接着", "随后", "最后"))
     _rd, _rt = _ref_duration(q)
-    need = int(_rd) if _rt != "未识别" else int(round(beats * _SEC_PER_BEAT))
+    if _seq or _rt == "未识别":
+        need = int(round(beats * _SEC_PER_BEAT))
+    else:
+        need = int(_rd)
     need = max(mn, min(need, mx))   # 下限也是硬约束：低于它提交无效
 
+    # 不自动拆镜：一镜给到底，超出的部分只做说明，拆分与否由人决定。
+    total, per, n = min(need, safe), min(need, safe), 1
     if need <= safe:
-        total, per, n = need, need, 1
-        reason = f"内容约 {beats} 拍 x {_SEC_PER_BEAT:g}s = {need}s，在安全时长内"
+        reason = f"内容需要约 {need}s，在安全时长内"
     else:
-        n = (need + safe - 1) // safe
-        # 拆镜后的每镜时长也要卡下限（原来写死 3，会给 MiniMax 出 3 秒的无效参数）
-        per = max(mn, need // n)
-        # 若卡了下限导致总长超出上限，就再多拆一镜
-        while per * n > mx:
-            n += 1
-            per = max(mn, need // n)
-        total = per * n
-        reason = (f"内容约 {beats} 拍需要 {need}s，超过该平台安全时长 {safe}s "
-                  f"-> 拆成 {n} 镜，每镜 {per}s")
+        over = need - safe
+        reason = (f"内容需要约 {need}s，超过该平台安全时长 {safe}s（差 {over}s）。"
+                  f"本镜按 {safe}s 给满；超出部分建议自行删减，或另起一镜——"
+                  f"**工具不替你拆**，因为拆分涉及转场与节奏，那该你来定")
 
     line = (f"【时长】建议 {per} 秒/镜 x {n} 镜 = {total}s。"
             f"（{platform or '通用'} 上限 {mx}s，经验安全 {safe}s；{reason}）")
