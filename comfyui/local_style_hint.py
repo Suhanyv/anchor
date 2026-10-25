@@ -626,14 +626,19 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
 
     # 时间轴：连续整数秒，两段（时长短时够用；要更细就自己往下拆）
     lines.append(f"0–{half} 秒：<景别>。{who}，{light}，{move}。")
-    lines.append(f"{half}–{dur} 秒：镜头{ ('轻微跟随' if c['motion'] != 'STATIC' else '保持不动') }；"
-                 f"{act}；画面在这里发生一次变化，其余保持不变。")
+    # 第二段不要写"缓慢地移动"这种通用句，改成明确的填空提示：
+    # 通用句会让用户以为已经写完了，其实动作一点没推进。
+    lines.append(f"{half}–{dur} 秒：<写：上一段的动作怎么继续或停下；"
+                 f"要变形就写清从什么变成什么>。")
     lines.append("")
 
     # 全局约束（官方：机位、光线、色彩、环境声、画幅，以及"无字幕、无配乐"）
     lines.append(f"全程保持主体清晰、背景自然虚化；{c['ar']}；"
                  f"{'轻微手持呼吸感' if c['motion'] != 'STATIC' else '机位完全固定'}；"
                  f"只使用<环境声>，不要配乐，不要字幕。")
+    # negative 并入全局约束：这是这一格最容易被忽略、又最影响成败的部分
+    lines.append("不要出现：<写 2-4 个真正会让这条废掉的错误，"
+                 "例如多余的人、手部畸形、兵器穿模、血迹>。")
     return "\n".join(lines)
 
 
