@@ -70,7 +70,7 @@ def main():
         try:
             out, dbg = node.run(q, a.model, DATA["corpus"], DATA["subjects"],
                                 DATA["crafts"], DATA["materials"], True,
-                                "文生视频", "片段（英文）",
+                                "文生视频", False, "片段（英文）",
                                 "cpu", "不限", "导演/风格聚合", 1, "", False)
         except Exception as e:  # noqa: BLE001
             print(f"  [ERROR] {desc}: {type(e).__name__}: {e}")
