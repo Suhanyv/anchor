@@ -106,6 +106,15 @@ NEG = [
 ]
 
 
+# --- 统一路径：以节点默认值为准，避免脚本与部署漂移 ---
+try:
+    from paths import DEFAULTS as _PATHS
+    M, C = _PATHS["model"], _PATHS["corpus"]
+    S, K, MT = _PATHS["subjects"], _PATHS["crafts"], _PATHS["materials"]
+except Exception:
+    pass
+
+
 def main():
     def probe(q):
         items, mode, subj, dom, craft, mat = N._rank(

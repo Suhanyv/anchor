@@ -36,9 +36,19 @@ CASES = [
 ]
 
 
+# --- 统一路径：以节点默认值为准（原先指向 v4/v3/v4 和 c18，与部署不符）---
+try:
+    from paths import DEFAULTS as _PATHS
+    DATA.update({"corpus": _PATHS["corpus"], "subjects": _PATHS["subjects"],
+                 "crafts": _PATHS["crafts"], "materials": _PATHS["materials"]})
+    _DEFAULT_MODEL = _PATHS["model"]
+except Exception:
+    _DEFAULT_MODEL = None
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="models/e5-director-c18")
+    ap.add_argument("--model", default=_DEFAULT_MODEL)
     ap.add_argument("--url", default=None, help="额外测一次 HTTP 服务")
     a = ap.parse_args()
 
@@ -50,6 +60,32 @@ def main():
             return 1
         n = sum(1 for _ in open(p, encoding="utf-8"))
         print(f"  有  {rel}  ({n} 行)")
+
+    # 一致性检查：节点默认值 与 工作流里存的 必须指向同一批文件。
+    # 这两个地方曾经各自漂移（节点 v7 / 工作流 v12），而冒烟照样通过——
+    # 因为没人检查它们是否一致。这类"不报错的错"必须让它在冒烟阶段就叫。
+    print("\n=== 1b. 节点默认值 vs 工作流 ===")
+    try:
+        import json as _json
+        import sys as _sys
+        _sys.path.insert(0, os.path.join(ROOT, "comfyui"))
+        from local_style_hint import LocalStyleHint as _L
+        _d = _L.INPUT_TYPES()["required"]
+        _node = {os.path.basename(_d[k][1]["default"])
+                 for k in ("语料文件", "题材文件", "工艺文件", "材质文件")}
+        _wf = _json.load(open(os.path.join(ROOT, "comfyui/workflow_style_hint.json"),
+                             encoding="utf-8"))
+        _wl = {os.path.basename(v) for v in _wf["nodes"][0]["widgets_values"]
+               if isinstance(v, str) and v.endswith(".jsonl")}
+        if _node == _wl:
+            print(f"  一致  {sorted(_node)}")
+        else:
+            print(f"  FAIL  节点 {sorted(_node)}")
+            print(f"        工作流 {sorted(_wl)}")
+            ok -= 1
+    except Exception as e:  # noqa: BLE001
+        print(f"  FAIL {type(e).__name__}: {e}")
+        ok -= 1
 
     print("\n=== 2. 模型 ===")
     mp = os.path.join(ROOT, a.model)
