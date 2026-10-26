@@ -16,9 +16,14 @@
   },
   "platforms": {
     "即梦": {
-      "violence": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
-      "gore": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
-      "nudity": { "verdict": "unknown", "source": "未实测" },
+      "_monitoring": {
+        "value": true,
+        "source": "使用者说明 2026-10-26：即梦会监控",
+        "note": "有审核不等于会拦。实测暴力/血腥/武器都过，说明审核线不在这些类别上。"
+      },
+      "violence": { "verdict": "allow", "source": "使用者实测 2026-10-26（有监控仍通过）" },
+      "gore": { "verdict": "allow", "source": "使用者实测 2026-10-26（有监控仍通过）" },
+      "nudity": { "verdict": "unknown", "source": "未实测；平台有监控，预期偏严（预期不作为规则）" },
       "weapons": { "verdict": "allow", "source": "使用者实测 2026-10-26（交战镜头通过）" },
       "real_person": { "verdict": "unknown", "source": "未实测" },
       "ip": { "verdict": "unknown", "source": "未实测" }
