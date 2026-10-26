@@ -68,10 +68,23 @@ pip install torch transformers
 #    comfyui/workflow_style_hint.json
 ```
 
-节点参数 13 个，常用的就三个：`中文描述`、`域`（自动/图片/视频）、`候选数`。
+节点参数 16 个，常用三个：`中文描述`、`任务`（文生视频/图生视频/参考生视频）、
+`输出格式`（默认「自动」会从描述里认平台，比如写了"sd2.5"就出即梦格式）。
 输出接到 `CLIPTextEncode.text` 即可。
 
 > ⚠️ 首次运行会加载模型 + 编码全部文档，约 30–60 秒；之后每次 15–60 ms（纯 CPU，不占显存）。
+
+### 文档索引
+
+| 文档 | 什么时候看 |
+|---|---|
+| [docs/OUTPUT_FORMATS.md](docs/OUTPUT_FORMATS.md) | 输出格式有哪几种、什么时候用哪种 |
+| [docs/PLATFORM_MATRIX.md](docs/PLATFORM_MATRIX.md) | 每个平台的上限/时间轴/安全时长；以及各平台内容的实测结论 |
+| [docs/FORMAT_SAMPLES.md](docs/FORMAT_SAMPLES.md) | 同一个镜头在 14 种格式下长什么样（并排对比）|
+| [docs/LOCAL_LLM_DIRECTOR.md](docs/LOCAL_LLM_DIRECTOR.md) | 本地小模型能不能自己写分镜（三轮实验与结论）|
+| [STATUS.md](STATUS.md) | 全部实验记录（六十九节）|
+| [CORRECTIONS.md](CORRECTIONS.md) | **读任何数字之前先看这份** |
+| [LIMITATIONS.md](LIMITATIONS.md) | 已知缺陷 |
 
 ### 方式二：HTTP 服务
 
@@ -149,24 +162,37 @@ Style:    Ching Siu-tung, wire-work flight, sleeves and ribbons, drifting mist
 Negative: scene change, camera shake, zoom pumping, fast cutting, jump cuts
 ```
 
-### 参数表（14 个）
+### 参数表（16 个）
 
 | # | 参数 | 取值 |
 |---|---|---|
 | 1 | 中文描述 | 你的中文描述 |
-| 2 | 模型目录 | `models/e5-director-c22` |
-| 3 | 语料文件 | `data/raw/corpus_v19.jsonl` |
-| 4 | 题材文件 | `data/raw/subjects_v4.jsonl` |
-| 5 | 工艺文件 | `data/raw/crafts_v3.jsonl` |
-| 6 | 材质文件 | `data/raw/materials_v4.jsonl` |
+| 2 | 模型目录 | `models/e5-director-c27` |
+| 3 | 语料文件 | `data/raw/corpus_v21.jsonl` |
+| 4 | 题材文件 | `data/raw/subjects_v12.jsonl` |
+| 5 | 工艺文件 | `data/raw/crafts_v6.jsonl` |
+| 6 | 材质文件 | `data/raw/materials_v11.jsonl` |
 | 7 | 启用材质 | True / False |
-| 8 | **输出结构** | **片段**（一行逗号串）/ **结构化**（分栏文本）|
-| 9 | 设备 | cpu / cuda |
-| 10 | 域 | 自动 / 图片 / 视频 / 不限 |
-| 11 | 匹配方式 | 导演/风格聚合 / 原样提示词 |
-| 12 | 候选数 | 1–5 |
-| 13 | 追加到 | 附加在末尾的固定文本 |
-| 14 | 包含原文 | 把中文原话拼在最前 |
+| 8 | **任务** | **文生视频**（万物都写）/ **图生视频**（只写动作，外观交给首帧）/ **参考生视频**（写清每条素材职责）|
+| 9 | 提案分镜 | True：只给了"想要 N 个镜头"时，按建立/交手/收自动编排；False：出空槽 |
+| 10 | **输出格式** | **自动（识别平台）** + 14 种，见 [格式清单](docs/OUTPUT_FORMATS.md) |
+| 11 | 设备 | cpu / cuda |
+| 12 | 域 | 自动 / 图片 / 视频 / 不限 |
+| 13 | 匹配方式 | 导演/风格聚合 / 原样提示词 |
+| 14 | 候选数 | 1–5 |
+| 15 | 追加到 | 附加在末尾的固定文本 |
+| 16 | 包含原文 | 把中文原话拼在最前 |
+
+**最常用的三个**：`中文描述`、`任务`、`输出格式`（默认"自动"就会从你的描述里认平台）。
+
+### 三个可编辑的数据表（改它们不用改代码）
+
+| 文件 | 管什么 |
+|---|---|
+| `data/raw/duration_ref.json` | 每镜多长：静态 3 秒 / 动作 4 秒 / 强动作 5 秒 / 变形 6 秒 |
+| `data/raw/moderation_ref.json` | 平台 × 内容类别能不能过（每格带实测者与日期）|
+| `data/raw/prefs.jsonl` | 你对产出方案的偏好记录（品味数据的原料）|
+
 
 
 ---
@@ -174,17 +200,25 @@ Negative: scene change, camera shake, zoom pumping, fast cutting, jump cuts
 ## 架构：四个索引 + 一条裁决规则
 
 ```
-              ┌─ 风格索引  796 条 / 129 实体 ──→ in the style of <导演>, <标签>
-              ├─ 题材索引   40 条 /  20 题材  ──→ a knight in plate armour on a horse
-中文 query ───┼─ 工艺索引   32 条 /  16 工艺  ──→ rendered as a cyanotype print
-              └─ 材质索引  109 条 /  23 材质  ──→ …, 暗角，画面边缘压暗
+              ┌─ 风格索引 1045 条 / 175 实体 ──→ in the style of <导演>, <标签>
+              ├─ 题材索引  294 条 /  88 项  ──→ a knight in plate armour on a horse
+              │                                （含"场景"一支：卧室/沙滩/窗台/天桥…）
+中文 query ───┼─ 工艺索引  125 条 /  47 项  ──→ rendered as a cyanotype print
+              └─ 材质索引  305 条 /  69 项  ──→ …, 暗角，画面边缘压暗
                         ↓
                 赢家通吃：谁分最高谁说话；风格最高则什么内容都不拼
                 每渠道另有绝对下限（风格低分时会误开，所以必须有）
+                近似平局（差 0.015 内）判题材赢——具体物件比技法更该当主体
+                精确词命中可越过下限（查询里逐字写了词，比余弦相似度更硬）
 ```
 
 **为什么四个索引而不是一个？** 实测把工艺塞进风格索引会让场景 −5pp、材质 −7pp。
 共享向量空间里任何新增都会稀释已有维度，只有正交通道不互相伤害。
+
+**为什么场景单独一支？** 填充率审计发现：查"东西"（汝窑、雪中庭院）能填满，
+查"场面"（在卧室相拥、在沙滩奔跑）全是占位符——**因为四个通道里没有"地点"**。
+加上场景支之后 Veo 从 57% → 79%，混元 21% → 43%。
+
 
 **为什么赢家通吃？** 10 条测试里，正确答案 9 次就是分最高的那个渠道；
 而"相对比值"（渠道分 ≥ 风格分 × 0.95）在风格分低时会全部误开。
