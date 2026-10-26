@@ -513,12 +513,20 @@ def _plan_duration(platform, q, asked=None):
         need = int(round(beats * _SEC_PER_BEAT))
     else:
         need = int(_rd)
-    need = max(mn, min(need, mx))   # 下限也是硬约束：低于它提交无效
+    need_raw = need                    # 夹下限之前的真实需求
+    need = max(mn, min(need, mx))      # 下限也是硬约束：低于它提交无效
 
     # 不自动拆镜：一镜给到底，超出的部分只做说明，拆分与否由人决定。
     total, per, n = min(need, safe), min(need, safe), 1
     if need <= safe:
         reason = f"内容需要约 {need}s，在安全时长内"
+        # 平台最短比内容需要还长：那多出来的秒数模型会自己找事做。
+        # 实测（骑士镜1，4s，内容只有一个手指动作）：
+        # 镜头摇到脚上 → 最后停在一块空地上。
+        if mn and need_raw < mn:
+            reason += (f"；但平台最短 {mn}s，多出的 {mn - need_raw}s 必须填东西——"
+                       f"否则模型会自己找事做（实测会把镜头摇到地上）。"
+                       f"加一个动作副拍撑满。")
     else:
         over = need - safe
         reason = (f"内容需要约 {need}s，超过该平台安全时长 {safe}s（差 {over}s）。"
