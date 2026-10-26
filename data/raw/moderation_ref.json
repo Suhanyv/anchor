@@ -1,49 +1,67 @@
 {
-  "_about": "内容限制表：按平台决定哪些词要处理。用户偏好不算限制——平台规则才算。",
-  "_principle": "不要把自己的审美当成平台约束。血是否保留由平台定，不由我们定。未实测的一律标 unverified，默认不删、只提示。",
+  "_about": "内容限制表：按【平台 × 内容类别】判定。用户偏好不算限制，平台实测才算。",
+  "_principle": "一个平台一个结论不够用——可灵就是血腥可以、裸露不行。所以按类别记，每条带 verdict 与 source。",
+  "_schema": {
+    "verdict": "allow | block | unknown",
+    "source": "必须写依据；实测要带日期",
+    "local": "本地部署时的情形（可能完全无审核）"
+  },
+  "categories": {
+    "violence": "暴力行为：打斗、劈砍、撞击、围殴",
+    "gore": "血腥：血、伤口、尸体、断肢",
+    "nudity": "裸露与性暗示",
+    "weapons": "武器出现在画面里",
+    "real_person": "真人面孔、名人、公众人物",
+    "ip": "受版权保护的角色（电影/游戏/动漫）"
+  },
   "platforms": {
     "即梦": {
-      "strictness": "lenient_verified",
-      "source": "使用者实测（2026-10-26）：含血腥描述的视频可通过，未触审核",
-      "action": "keep",
-      "terms": {}
+      "violence": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "gore": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "nudity": { "verdict": "unknown", "source": "未实测" },
+      "weapons": { "verdict": "allow", "source": "使用者实测 2026-10-26（交战镜头通过）" },
+      "real_person": { "verdict": "unknown", "source": "未实测" },
+      "ip": { "verdict": "unknown", "source": "未实测" }
     },
     "可灵": {
-      "strictness": "lenient",
-      "source": "未实测",
-      "action": "warn",
-      "terms": {}
+      "violence": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "gore": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "nudity": { "verdict": "block", "source": "使用者实测 2026-10-26：不能裸露" },
+      "weapons": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "real_person": { "verdict": "unknown", "source": "未实测" },
+      "ip": { "verdict": "unknown", "source": "未实测" }
     },
     "MiniMax": {
-      "strictness": "lenient",
-      "source": "未实测",
-      "action": "warn",
-      "terms": {}
-    },
-    "Veo": {
-      "strictness": "strict",
-      "source": "官方 13 类明文（暴力/武器/血腥/自残等），见 docs/PLATFORM_MATRIX.md 第九节",
-      "action": "remove",
-      "terms": {
-        "血": "暴力/血腥",
-        "鲜血": "暴力/血腥",
-        "血腥": "暴力/血腥",
-        "尸体": "暴力/血腥",
-        "残肢": "暴力/血腥",
-        "斩断": "暴力行为",
-        "刺穿": "暴力行为"
+      "violence": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "gore": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "nudity": { "verdict": "unknown", "source": "云端未实测" },
+      "weapons": { "verdict": "allow", "source": "使用者实测 2026-10-26" },
+      "real_person": { "verdict": "unknown", "source": "未实测" },
+      "ip": { "verdict": "unknown", "source": "未实测" },
+      "local": {
+        "verdict": "none",
+        "source": "使用者实测 2026-10-26：本地部署完全可以，无内容审核"
       }
     },
-    "通用": {
-      "strictness": "unknown",
-      "source": "无平台信息",
-      "action": "warn",
-      "terms": {}
+    "Veo": {
+      "violence": { "verdict": "block", "source": "官方 13 类明文（docs/PLATFORM_MATRIX.md 第九节）" },
+      "gore": { "verdict": "block", "source": "官方 13 类明文" },
+      "nudity": { "verdict": "block", "source": "官方 13 类明文" },
+      "weapons": { "verdict": "block", "source": "官方 13 类明文" },
+      "real_person": { "verdict": "block", "source": "官方：名人/公众人物/未授权真人" },
+      "ip": { "verdict": "block", "source": "官方：受版权保护的角色" }
     }
   },
+  "term_to_category": {
+    "血": "gore", "鲜血": "gore", "血腥": "gore", "尸体": "gore", "残肢": "gore",
+    "斩断": "violence", "砍": "violence", "劈": "violence", "刺穿": "violence",
+    "刀": "weapons", "剑": "weapons", "枪": "weapons",
+    "裸": "nudity", "性": "nudity", "床戏": "nudity",
+    "名人": "real_person", "明星": "real_person",
+    "钢铁侠": "ip", "蜘蛛侠": "ip", "动漫角色": "ip"
+  },
   "tone_words": {
-    "_note": "调性词与内容限制无关，是提示词质量问题：这些词在画面描述里不产生画面。所有平台一视同仁地提示。",
-    "action": "warn",
+    "_note": "调性词与内容限制无关，是提示词质量问题：这些词不产生画面。所有平台一视同仁地提示，不删。",
     "terms": ["壮观", "震撼", "美丽", "唯美", "视觉效果", "画面感", "史诗般",
               "令人", "不禁", "仿佛", "似乎", "如同"]
   }
