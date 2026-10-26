@@ -985,6 +985,38 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
     return "\n".join(lines)
 
 
+def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
+    """即梦整段式：一整段散文，不分栏不带标签。"""
+    c = _core(item, subj, craft, mat, domain, query)
+    dur = int(str(c["dur"]).rstrip("s") or 6)
+    half = max(2, dur // 2)
+    who = c["subject_zh"] or "<主体>"
+    light = c["zh_light"] or "自然光"
+    style = c["zh_style"] or ""
+    move = {"STATIC": "固定机位", "SLOW": "镜头极缓推近",
+            "KINETIC": "手持跟随"}.get(c["motion"], "镜头极缓推近")
+    # 摄影层揉成短句，不加"摄影层"三字
+    cine = _cine_line(c).split("\n")[0].replace("摄影层：", "")
+
+    # 光与风格同源时只写一次，否则整段里会说两遍
+    if light and style and light.strip("。； ")[:6] in style:
+        light = ""
+    seg = [f"{light}。"] if light else []
+    if style:
+        seg.append(f"{style}。")
+    seg.append(f"{who}。")
+    seg.append(f"0 到 {half} 秒，{who}，{move}。")
+    seg.append(f"{half} 到 {dur} 秒，<写：动作怎么继续或停下；"
+               f"要变形就写清从什么变成什么>。")
+    seg.append(f"{cine}")
+    seg.append(f"{c['ar']}，全程保持主体清晰、背景自然虚化。")
+    seg.append("只使用<环境声>，不要配乐，不要字幕。")
+    # 示例里不写"多余的人"——那是未经实测的假设，会压制群像镜头（见 CORRECTIONS C6）
+    seg.append("不要出现：<2-4 个会让这条废掉的错误，例如手部畸形、"
+               "兵器穿模、面部漂移>。")
+    return "".join(seg)
+
+
 def _fmt_seedance_kf(item, subj, craft, mat, domain, query=""):
     """即梦 Seedance 2.5 · 关键帧：第一句必须声明帧顺序。
 
@@ -1607,6 +1639,7 @@ class LocalStyleHint:
                     "结构化（英文）",
                     "通用五面（英文，模型无关）",
                     "即梦 Seedance 2.5（中文）",
+                    "即梦 Seedance 2.5 · 整段（中文）",
                     "即梦 Seedance · 关键帧（中文）",
                     "MiniMax H3（中文）",
                     "混元 HunyuanVideo（中文八段）",
@@ -1849,6 +1882,10 @@ class LocalStyleHint:
             if not is_video:
                 return (_structured(items[0], subj, craft, mat, domain_used),
                         "【格式】即梦 Seedance 是视频格式，当前是图片域 -> 回落到结构化\n" + dbg)
+            if "整段" in want:
+                return (_fmt_seedance_prose(items[0], subj, craft, mat,
+                                            domain_used, 中文描述),
+                        "【格式】即梦整段式（不分栏，一气写下来）\n" + dbg)
             if "关键帧" in want:
                 return (_fmt_seedance_kf(items[0], subj, craft, mat, domain_used, 中文描述),
                         "【格式】即梦 Seedance 2.5 · 关键帧（依据：官方提示词指南）\n" + dbg)
