@@ -86,7 +86,9 @@ def main():
         out.append("")
         for f in fmts:
             try:
-                text, dbg = node.run(q, M, C, S, K, MT, True, f,
+                # 任务 / 提案分镜 是后加的，不传会 TypeError（样例会变成 30 条报错）
+                task = "图生视频" if "图生" in f else "文生视频"
+                text, dbg = node.run(q, M, C, S, K, MT, True, task, False, f,
                                      "cpu", dlabel, "导演/风格聚合", 1, "", False)
             except Exception as e:  # noqa: BLE001
                 text, dbg = f"（出错：{type(e).__name__}: {e}）", ""

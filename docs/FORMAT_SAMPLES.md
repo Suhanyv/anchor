@@ -7,6 +7,7 @@
 
 | 格式 | 什么时候用 | 出处 |
 |---|---|---|
+| `自动（识别平台）` | — | — |
 | `片段（英文）` | 任何平台都能吃的底料，接在主体后面 | 通用 |
 | `结构化（英文）` | 人看的分栏文本，排查用 | 通用 |
 | `通用五面（英文，模型无关）` | 不知道选哪个时的保底 | OpenMontage / CMU 论文 |
@@ -26,16 +27,30 @@
 
 **输入描述**：`一个男孩和一个鲸鱼女孩在卧室里相拥`
 
+### 自动（识别平台）
+
+> 【格式】通用五面（Subject/Motion/Scene/Spatial/Camera）
+
+```text
+Subject:  a whale's back breaking the surface, water sheeting off it
+Motion:   the subject moves through the frame; nothing else moves
+Scene:    a small bedroom, the bed unmade, one window with the curtain half drawn; light: stark coastal light
+Spatial:  eye-level, mid shot, subject in the near plane, background readable
+Camera:   camera completely static (no movement, no zoom, no focus change), 8s, 21:9, one continuous take, no cuts
+Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness
+```
+
 ### 片段（英文）
 
 ```text
-in the style of Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness, locked-off camera, one unbroken take
+a whale's back breaking the surface, water sheeting off it, in the style of Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness, locked-off camera, one unbroken take
 ```
 
 ### 结构化（英文）
 
 ```text
 Shot:     locked-off, 8s, 21:9
+Subject:  a whale's back breaking the surface, water sheeting off it
 Action:   a woman's face in extreme close-up in harsh light, high-contrast black and white
 Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness
 Negative: scene change, camera shake, zoom pumping, flicker, frame stutter, morphing, fast cutting, whip pan, handheld shake, zooming
@@ -46,9 +61,9 @@ Negative: scene change, camera shake, zoom pumping, flicker, frame stutter, morp
 > 【格式】通用五面（Subject/Motion/Scene/Spatial/Camera）
 
 ```text
-Subject:  <your subject>
+Subject:  a whale's back breaking the surface, water sheeting off it
 Motion:   the subject moves through the frame; nothing else moves
-Scene:    high-contrast black and white; light: stark coastal light
+Scene:    a small bedroom, the bed unmade, one window with the curtain half drawn; light: stark coastal light
 Spatial:  eye-level, mid shot, subject in the near plane, background readable
 Camera:   camera completely static (no movement, no zoom, no focus change), 8s, 21:9, one continuous take, no cuts
 Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness
@@ -61,12 +76,15 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 ```text
 （素材绑定：图片 1 负责<人物/场景/风格>，视频 1 只参考<动作/运镜>，音频 1 负责<音色/节奏>；没有素材就删掉这一行）
 
-黑白特写、冷峻、静默。一个男孩和一个鲸鱼女孩在卧室里相拥。<地点与事件补一句：在哪里、发生什么>。
+自然光。一个男孩和一个鲸鱼女孩在卧室里相拥。a small bedroom, the bed unmade, one window with the curtain half drawn。
 
-0–4 秒：<景别>。一个男孩和一个鲸鱼女孩在卧室里相拥，黑白特写、冷峻、静默，固定机位，不移动。
-4–8 秒：镜头保持不动；几乎不动，只有呼吸和发丝有极小的变化；画面在这里发生一次变化，其余保持不变。
+0–4 秒：<景别>。一个男孩和一个鲸鱼女孩在卧室里相拥，自然光，固定机位，不移动。
+4–8 秒：<写：上一段的动作怎么继续或停下；要变形就写清从什么变成什么>。
 
 全程保持主体清晰、背景自然虚化；21:9；机位完全固定；只使用<环境声>，不要配乐，不要字幕。
+摄影层：浅景深（背景化开）；干净的数码质感；暖金；紧绷；85mm 中焦。
+备选（换一个即可）：深景深（全部清晰） / 轻微颗粒 + 低对比 / 冷青灰 / 疲惫 / 35mm 广角。
+不要出现：<写 2-4 个真正会让这条废掉的错误，例如手部畸形、兵器穿模、面部漂移、血迹>。
 ```
 
 ### 即梦 Seedance · 关键帧（中文）
@@ -76,7 +94,7 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 ```text
 以图片 1 至图片 N 的顺序作为关键帧，制作 8 秒 21:9 的短片。
 
-全片保持黑白特写、冷峻、静默；主体外观、服装与身份一致，不换人、不变形。
+全片保持自然光；主体外观、服装与身份一致，不换人、不变形。
 
 0–2 秒对应图片 1；2–5 秒对应图片 2；5–8 秒对应图片 3。
 严格保持关键帧的画面顺序与构图，不新增镜头，角色外观随对应关键帧保持一致。
@@ -90,11 +108,11 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 
 ```text
 参考素材：@1 负责<人物/商品外观>；@2 负责<相机路径/节奏/声音>。（没有素材就删掉这一行）
-场景顺序：一个男孩和一个鲸鱼女孩在卧室里相拥，黑白特写、冷峻、静默 → 几乎不动，只有呼吸和发丝有极小的变化 → 停在原构图。
-主体动作：一个男孩和一个鲸鱼女孩在卧室里相拥，动作速度与反应是几乎不动，只有呼吸和发丝有极小的变化。
-相机：中景、平视机位开场，固定机位，镜头不动，最后停在原构图。
+场景顺序：一个男孩和一个鲸鱼女孩在卧室里相拥，a small bedroom, the bed unmade, one window with the curtain half drawn → 几乎不动，只有极细微的变化 → 停在原构图。
+主体动作：一个男孩和一个鲸鱼女孩在卧室里相拥，动作速度与反应是几乎不动，只有极细微的变化。
+相机：中景、平视机位开场，镜头不动，最后停在原构图。
 声音：<对白>；<环境声>；<同步音效>；<背景音乐>。
-保持不变：主体身份、服装、场景结构与「黑白特写、冷峻、静默」不变。
+保持不变：主体身份、服装、场景结构与「自然光」不变。
 不要出现：错字、元素变形、重复主体、水印、字幕。
 ```
 
@@ -105,11 +123,11 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 ```text
 主体：一个男孩和一个鲸鱼女孩在卧室里相拥
 运动：主体在画面中自然地动作，全程一个镜头不切换
-场景：<写清在哪里、什么时候>
+场景：a small bedroom, the bed unmade, one window with the curtain half drawn
 景别：中景
 运镜：固定机位，不移动，8 秒
-光照：黑白特写、冷峻、静默
-风格：伯格曼：黑白特写、冷峻、静默
+光照：按参考描述
+风格：<风格：库中没有可靠匹配，请自行指定>
 氛围：安静、克制，情绪落在最后一帧
 （英文锚定：Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness）
 （画幅 21:9）
@@ -120,7 +138,7 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 > 【格式】Runway Gen-4（只写运动，≤60 词）
 
 ```text
-<your subject>. Static camera, no movement at all. One continuous scene, no cuts. Subject motion is the focus; keep the frame simple.
+a whale's back breaking the surface, water sheeting off it. Static camera, no movement at all. One continuous scene, no cuts. Subject motion is the focus; keep the frame simple.
 ```
 
 ### 可灵 4.0（中文，七要素）
@@ -128,7 +146,7 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 > 【格式】可灵 4.0（中文，七要素）（依据：可灵官方提示词指南）
 
 ```text
-一个男孩和一个鲸鱼女孩在卧室里相拥，面部特征与服装保持不变。几乎不动，只有呼吸和发丝有极小的变化。<写清地点与关键物件>。固定机位，镜头不动，黑白特写、冷峻、静默，节奏舒缓，单一连续镜头。环境音：<写环境音或留空>
+一个男孩和一个鲸鱼女孩在卧室里相拥，面部特征与服装保持不变。几乎不动，只有极细微的变化。a small bedroom, the bed unmade, one window with the curtain half drawn。镜头不动，自然光，节奏舒缓，单一连续镜头。环境音：<写环境音或留空>
 ```
 
 ### 可灵·多镜头（中文）
@@ -136,8 +154,8 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 > 【格式】可灵·多镜头（中文）（依据：可灵官方提示词指南）
 
 ```text
-一个男孩和一个鲸鱼女孩在卧室里相拥，伯格曼：黑白特写、冷峻、静默。
-镜头 1：中景，一个男孩和一个鲸鱼女孩在卧室里相拥的动作与环境，固定机位，镜头不动。
+一个男孩和一个鲸鱼女孩在卧室里相拥，<风格：库中没有可靠匹配，请自行指定>。
+镜头 1：中景，一个男孩和一个鲸鱼女孩在卧室里相拥的动作与环境，镜头不动。
 镜头 2：<换一种信息：给反应或给细节，不要重复镜头 1>
 镜头 3：<收尾镜头，停在能当封面的构图上>
 环境音：<写环境音或留空>
@@ -148,8 +166,8 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 > 【格式】可灵 4.0·关键帧（中文）（依据：可灵官方提示词指南）
 
 ```text
-0–4 秒：一个男孩和一个鲸鱼女孩在卧室里相拥，黑白特写、冷峻、静默，固定机位，镜头不动。
-4–8 秒：几乎不动，只有呼吸和发丝有极小的变化；画面状态在这里发生一次变化，其余保持不变。
+0–4 秒：一个男孩和一个鲸鱼女孩在卧室里相拥，按参考描述的光，镜头不动。
+4–8 秒：几乎不动，只有极细微的变化；画面状态在这里发生一次变化，其余保持不变。
 （总长 8 秒，画幅 21:9；每加一个关键帧只改一件事，不要同时改人物、环境、商品、镜头、光线和风格）
 ```
 
@@ -160,7 +178,7 @@ Style:    Ingmar Bergman, high-contrast black and white, extreme close-ups of fa
 ```text
 8-second video.
 
-<your subject> in <your scene>.
+a whale's back breaking the surface, water sheeting off it in a small bedroom, the bed unmade, one window with the curtain half drawn.
 
 the subject stays almost still, only breathing and a slight shift.
 
@@ -176,15 +194,15 @@ Static camera, no movement.
 ```text
 [主体] 一个男孩和一个鲸鱼女孩在卧室里相拥。<补：年龄段、外观、服装、道具，具体到可识别>
 
-[场景] <写清：时间、天气、地面材质、前景/中景/远景各有什么>
+[场景] a small bedroom, the bed unmade, one window with the curtain half drawn
 
-[动作] 几乎不动，只有呼吸和发丝有极小的变化。8 秒内只做 1~2 个主动作，动作链清晰，不要瞬移。
+[动作] 几乎不动，只有极细微的变化。8 秒内只做 1~2 个主动作，动作链清晰，不要瞬移。
 
 [镜头] 中景、平视机位开场，固定机位，不移动，镜头运动平滑，不做突兀跳切；只写一种运动。
 
-[光线] 黑白特写、冷峻、静默。写清冷暖、强弱、方向。
+[光线] 自然光，色温与方向写清。写清冷暖、强弱、方向。
 
-[风格] 伯格曼：黑白特写、冷峻、静默。风格词控制在 3~5 个，不要堆冲突风格。
+[风格] <风格：库中没有可靠匹配，请自行指定>。风格词控制在 3~5 个，不要堆冲突风格。
 
 [技术参数] 时长 8 秒，24fps，21:9，4K，画面稳定。
 
@@ -196,13 +214,22 @@ Static camera, no movement.
 > 【格式】SD 正向/负向逗号串（无时间轴）
 
 ```text
-Positive: a woman's face in extreme close-up in harsh light, Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness, extreme close-ups of faces, 21:9
+Positive: a whale's back breaking the surface, water sheeting off it, a woman's face in extreme close-up in harsh light, Ingmar Bergman, high-contrast black and white, extreme close-ups of faces, stark coastal light, intimate stillness, extreme close-ups of faces, 21:9
 Negative: text, watermark, signature, deformed hands, extra fingers, oversharpened, hdr halo
 ```
 
 ## 三、样例：图片
 
 **输入描述**：`雨夜的街道，霓虹倒映在积水里，一个人走过`
+
+### 自动（识别平台）
+
+> 【格式】SD 正向/负向逗号串（无时间轴）
+
+```text
+Positive: a wet street at night, signs reflecting in puddles, a holographic advertisement flickering over a wet crowd, Cyberpunk, neon signage, wet street, dense cabling, holographic ad, 2.35:1
+Negative: text, watermark, signature, deformed hands, extra fingers, oversharpened, hdr halo
+```
 
 ### 片段（英文）
 
@@ -226,7 +253,7 @@ Negative: text, watermark, signature, deformed hands, extra fingers, oversharpen
 ```text
 Subject:  a wet street at night, signs reflecting in puddles
 Motion:   the subject moves through the frame; nothing else moves
-Scene:    <your scene>; light: neon signage
+Scene:    a tiled bathroom, water still running, the mirror fogged; light: neon signage
 Spatial:  eye-level, mid shot, subject in the near plane, background readable
 Camera:   slow dolly forward, 6s, 2.35:1, one continuous take, no cuts
 Style:    Cyberpunk, neon signage, wet street, dense cabling, holographic ad
@@ -272,7 +299,7 @@ Negative: text, watermark, signature, deformed hands, extra fingers, oversharpen
 ```text
 主体：雨夜的街道，霓虹倒映在积水里，一个人走过
 运动：主体在画面中自然地动作，全程一个镜头不切换
-场景：<写清在哪里、什么时候>
+场景：a tiled bathroom, water still running, the mirror fogged
 景别：中景
 运镜：缓慢推近，6 秒
 光照：全息广告、人群、湿地

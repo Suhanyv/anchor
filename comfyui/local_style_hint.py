@@ -1407,6 +1407,11 @@ _EXACT_STOP = {
     "色彩", "色调", "质感", "氛围", "情绪", "风格", "画面", "镜头", "构图",
 }
 
+# 单字名黑名单：这些字的复合词义与条目义不同
+# 「鲸鱼女孩」里的"鲸"不是"鲸背露出水面"，所以单字精确匹配对它要关掉。
+# 猫/狗/马/兔 这类不撞车的单字不进来。
+_ONE_CHAR_BLOCK = {"鲸"}
+
 
 def _exact_hits(query, rows, min_len=2):
     """查询里逐字包含条目名、或包含长度 >= min_len 的关键词时，返回这些条目的下标。
@@ -1427,7 +1432,10 @@ def _exact_hits(query, rows, min_len=2):
     for i, r in enumerate(rows):
         name = str(r.get("subject_zh") or r.get("craft_zh") or r.get("mat_zh") or "").strip()
         best = 0
-        if name and name in query:
+        # 单字条目名一般可以做精确匹配（猫/狗/马 都安全），
+        # 但少数会撞进复合词里：「鲸鱼女孩」的"鲸"会把"鲸背露出水面"拼进卧室。
+        if (name and name in query
+                and (len(name) >= 2 or name not in _ONE_CHAR_BLOCK)):
             best = len(name)
         for kw in (r.get("kw_zh") or []):
             kw = str(kw).strip()
@@ -1583,7 +1591,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v12.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v13.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v6.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v11.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
