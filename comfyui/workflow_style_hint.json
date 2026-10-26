@@ -39,7 +39,7 @@
         "F:\\llm\\models\\e5-director-c27",
         "F:\\llm\\data\\raw\\corpus_v21.jsonl",
         "F:\\llm\\data\\raw\\subjects_v14.jsonl",
-        "F:\\llm\\data\\raw\\crafts_v7.jsonl",
+        "F:\\llm\\data\\raw\\crafts_v8.jsonl",
         "F:\\llm\\data\\raw\\materials_v12.jsonl",
         true,
         "文生视频",

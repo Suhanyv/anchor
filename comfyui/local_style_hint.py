@@ -710,6 +710,45 @@ def _strip_cmd(q, fallback=True):
     return (q or "").strip() if fallback else ""
 
 
+_SYMPTOMS = None
+
+
+def _load_symptoms():
+    global _SYMPTOMS
+    if _SYMPTOMS is not None:
+        return _SYMPTOMS
+    try:
+        p = os.path.join(ROOT, "data/raw/symptoms.json")
+        with open(p, encoding="utf-8") as f:
+            _SYMPTOMS = json.load(f).get("症状", {})
+    except Exception:
+        _SYMPTOMS = {}
+    return _SYMPTOMS
+
+
+def _symptom_means(q):
+    """查询里说了哪些毛病，对应该用哪些手段。
+
+    用户说的是**症状**（"打击感不够"），提示词里要写的是**手段**
+    （"剑停在最高点一瞬""接触停两帧""脚往后滑"）。
+    症状本身写不进画面——写"不够"只会得到不够。
+
+    返回 (命中症状, 手段短语)。只有手段进提示词。
+    """
+    t = q or ""
+    syn = _load_symptoms()
+    hit, means, seen = [], [], set()
+    for name in sorted(syn, key=len, reverse=True):
+        if name and name in t:
+            hit.append(name)
+            for m in (syn[name].get("means") or []):
+                zh = str(m.get("zh") or "").strip()
+                if zh and zh not in seen:
+                    seen.add(zh)
+                    means.append(zh)
+    return hit, means
+
+
 def _dur_from_query(query):
     """按运动幅度给这一镜的时长，返回 '5s' 这样的串；算不出就 None。
 
@@ -1055,6 +1094,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     seg.append(f"{half} 到 {dur} 秒，<写：动作怎么继续或停下；"
                f"要变形就写清从什么变成什么>。")
     seg.append(f"{cine}")
+    # 症状 -> 手段：写"怎么治"，不写"有什么毛病"
+    _hit_s, _means = _symptom_means(query)
+    if _means:
+        seg.append("技法：" + "；".join(_means[:4]) + "。")
     seg.append(f"{c['ar']}，全程保持主体清晰、背景自然虚化。")
     seg.append("只使用<环境声>，不要配乐，不要字幕。")
     # 示例里不写"多余的人"——那是未经实测的假设，会压制群像镜头（见 CORRECTIONS C6）
@@ -1697,7 +1740,7 @@ class LocalStyleHint:
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v14.jsonl")}),
-                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v7.jsonl")}),
+                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
