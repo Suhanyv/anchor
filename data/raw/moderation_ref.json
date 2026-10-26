@@ -3,9 +3,9 @@
   "_principle": "不要把自己的审美当成平台约束。血是否保留由平台定，不由我们定。未实测的一律标 unverified，默认不删、只提示。",
   "platforms": {
     "即梦": {
-      "strictness": "lenient",
-      "source": "未实测。官方指南未列内容禁则；用户倾向保留",
-      "action": "warn",
+      "strictness": "lenient_verified",
+      "source": "使用者实测（2026-10-26）：含血腥描述的视频可通过，未触审核",
+      "action": "keep",
       "terms": {}
     },
     "可灵": {
