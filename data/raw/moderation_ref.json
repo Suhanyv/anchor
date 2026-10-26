@@ -1,0 +1,50 @@
+{
+  "_about": "内容限制表：按平台决定哪些词要处理。用户偏好不算限制——平台规则才算。",
+  "_principle": "不要把自己的审美当成平台约束。血是否保留由平台定，不由我们定。未实测的一律标 unverified，默认不删、只提示。",
+  "platforms": {
+    "即梦": {
+      "strictness": "lenient",
+      "source": "未实测。官方指南未列内容禁则；用户倾向保留",
+      "action": "warn",
+      "terms": {}
+    },
+    "可灵": {
+      "strictness": "lenient",
+      "source": "未实测",
+      "action": "warn",
+      "terms": {}
+    },
+    "MiniMax": {
+      "strictness": "lenient",
+      "source": "未实测",
+      "action": "warn",
+      "terms": {}
+    },
+    "Veo": {
+      "strictness": "strict",
+      "source": "官方 13 类明文（暴力/武器/血腥/自残等），见 docs/PLATFORM_MATRIX.md 第九节",
+      "action": "remove",
+      "terms": {
+        "血": "暴力/血腥",
+        "鲜血": "暴力/血腥",
+        "血腥": "暴力/血腥",
+        "尸体": "暴力/血腥",
+        "残肢": "暴力/血腥",
+        "斩断": "暴力行为",
+        "刺穿": "暴力行为"
+      }
+    },
+    "通用": {
+      "strictness": "unknown",
+      "source": "无平台信息",
+      "action": "warn",
+      "terms": {}
+    }
+  },
+  "tone_words": {
+    "_note": "调性词与内容限制无关，是提示词质量问题：这些词在画面描述里不产生画面。所有平台一视同仁地提示。",
+    "action": "warn",
+    "terms": ["壮观", "震撼", "美丽", "唯美", "视觉效果", "画面感", "史诗般",
+              "令人", "不禁", "仿佛", "似乎", "如同"]
+  }
+}

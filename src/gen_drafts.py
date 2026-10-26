@@ -41,10 +41,36 @@ K = os.path.join(ROOT, "data/raw/crafts_v6.jsonl")
 MT = os.path.join(ROOT, "data/raw/materials_v11.jsonl")
 PREFS = os.path.join(ROOT, "data/raw/prefs.jsonl")
 
-# 违规与调性词：出现就标出来，不替人改
-BAD = {"血": "暴力", "死": "暴力", "尸": "暴力", "倒地": "提前交代胜负",
-       "壮观": "评价句", "震撼": "评价句", "美丽": "评价句", "唯美": "评价句",
-       "视觉效果": "评价句", "令人": "评价句", "仿佛": "评价句", "似乎": "评价句"}
+MOD_REF = os.path.join(ROOT, "data/raw/moderation_ref.json")
+
+
+def _mod():
+    try:
+        with open(MOD_REF, encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {"platforms": {}, "tone_words": {"terms": [], "action": "warn"}}
+
+
+def scan(text, platform="即梦"):
+    """按平台判断哪些词要处理。
+
+    用户偏好不是限制：血要不要留由平台规则定，不由我们定。
+    未实测的平台标 unverified，默认只提示、不删。
+    """
+    ref = _mod()
+    prof = ref.get("platforms", {}).get(platform) or ref.get("platforms", {}).get("通用", {})
+    action = prof.get("action", "warn")
+    out = []
+    for term, why in (prof.get("terms") or {}).items():
+        if term in text:
+            out.append(f"{term}（{why}）→ {action}")
+    tone = ref.get("tone_words", {})
+    for term in (tone.get("terms") or []):
+        if term in text:
+            out.append(f"{term}（调性词，不产生画面）→ warn")
+    return sorted(set(out))
+
 
 DIRECTIONS = {
     "A 克制版": "少动作、多留白：每镜只让人做一件很小的事，其余交给环境和停顿。",
@@ -63,11 +89,6 @@ FEW_U = ("请求：一个人走进便利店，想要三个镜头\n"
 FEW_A = ("镜头1（4秒）：男人推开门进来，门上的铃响了一下，他在门口停住\n"
          "镜头2（5秒）：他走到冷柜前拉开门，取出一瓶水，冷气从柜里溢出来\n"
          "镜头3（4秒）：他在收银台放下水，手停在口袋里找钱")
-
-
-def scan(text):
-    hits = [f"{k}（{v}）" for k, v in BAD.items() if k in text]
-    return sorted(set(hits))
 
 
 def main():
@@ -110,7 +131,7 @@ def main():
         resp = tok.decode(o[0][ids["input_ids"].shape[1]:],
                           skip_special_tokens=True).strip()
         drafts[name] = resp
-        flags = scan(resp)
+        flags = scan(resp, "即梦")
         print(f"━━━ {name}（{time.time()-t0:.1f}s）━━━")
         print(resp)
         if flags:
