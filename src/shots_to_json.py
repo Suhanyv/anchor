@@ -11,9 +11,13 @@ fence = chr(96) * 3
 blocks = re.findall(r"## (.+?)\n\n" + fence + r"\n(.*?)\n" + fence, t, re.S)
 
 rows = []
+skipped = 0
 for title, text in blocks:
     m = re.search(r"(\d+)\s*秒", title)
-    sec = int(m.group(1)) if m else 0
+    if not m:
+        skipped += 1          # 「生成顺序与接法」这类小节不是镜头
+        continue
+    sec = int(m.group(1))
     style = text.split("：")[0].split("。")[0].strip()
     rows.append({
         "title": title.strip(),
