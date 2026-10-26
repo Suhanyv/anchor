@@ -713,6 +713,17 @@ def _dur_from_query(query):
     return f"{max(3, min(int(sec), 10))}s"
 
 
+def _strip_style_mention(q, item):
+    """把"用<风格名>"这类点名从文本里去掉（风格已经体现在别处了）。"""
+    import re
+    t = q or ""
+    for key in ("director_zh", "director"):
+        nm = str((item or {}).get(key) or "").strip()
+        if len(nm) >= 2:
+            t = re.sub(r"用?\s*" + re.escape(nm) + r"\s*(那种|式|风格)?\s*[，,、]?\s*", "", t)
+    return t.strip(" ，,、") or (q or "")
+
+
 def _core(item, subj, craft, mat, domain, query=""):
     """抽取公共字段，供各平台模板复用。
 
@@ -784,7 +795,7 @@ def _core(item, subj, craft, mat, domain, query=""):
         "tags": tags, "kw": kw, "params": params, "motion": mo,
         "head": parts[0] if parts else "",
         "tail": parts[1] if len(parts) > 1 else "",
-        "subject_zh": _strip_cmd(query),
+        "subject_zh": _strip_style_mention(_strip_cmd(query), item),
         "subject": subject_phrase,
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
