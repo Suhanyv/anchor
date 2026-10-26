@@ -1,0 +1,122 @@
+{
+  "_about": "源登记表：一个视频镜头需要哪些要素，每样能从哪个合规源取。按要素组织，不按网站组织。",
+  "_rule": "只登记实测可达、授权清楚的源。status 里的日期是实测日；未实测的写 unknown，不许写成通。",
+  "_last_audit": "2026-10-27",
+
+  "要素": {
+    "风格": {
+      "need": "导演、流派、影调词、构图习惯",
+      "sources": [],
+      "note": "没有能直接供风格的公开源。现有 175 个实体是人工策展（影展片单、导演访谈、官方指南），继续这样攒。"
+    },
+    "主体": {
+      "need": "人物、器物、动物的具体外观描述",
+      "sources": ["Cleveland", "Smithsonian", "NYPL"],
+      "note": "馆藏记录描述的是『一件东西』，能供器物；人物和动物覆盖弱。"
+    },
+    "场景": {
+      "need": "地点、场面、环境中有什么",
+      "sources": [],
+      "note": "馆藏记录供不了场景——问『维京长船』会得到一本书的书名（实测）。场景只能人工写。"
+    },
+    "工艺": {
+      "need": "技法名与做法",
+      "sources": ["Cleveland", "Europeana"],
+      "note": "最可靠的一类。馆方的 technique 字段就是技法名，且短、专业、可直接用。"
+    },
+    "材质": {
+      "need": "表面、材料、纹理",
+      "sources": ["Cleveland", "Europeana"],
+      "note": "馆方的 materials 字段，如『silk and silver thread』。注意它会混进『wove paper』这类载体词。"
+    },
+    "光线": {
+      "need": "布光方式（侧逆光、窗光、烛光、实用光源）",
+      "sources": [],
+      "note": "无源。现在靠风格关键词里的『暖光/逆光』，粒度太粗，是明显短板。"
+    },
+    "运镜": {
+      "need": "机位与运动（横移、推近、手持、升降）",
+      "sources": [],
+      "note": "无源。现在靠风格关键词（『横移』）与时长表推断。"
+    },
+    "声音": {
+      "need": "环境声、音效、材质声",
+      "sources": [],
+      "note": "无源。Freesound 需注册 token（实测 401）；Pixabay 需 key（实测 400）。库里完全没有声音这一维。"
+    },
+    "色彩": {
+      "need": "调色倾向（暖金、青橙、低饱和）",
+      "sources": [],
+      "note": "无源。现在由风格实体的关键词提供。"
+    }
+  },
+
+  "源": {
+    "Cleveland": {
+      "base": "https://openaccess-api.clevelandart.org/api/artworks/",
+      "auth": "none",
+      "license": "CC0",
+      "serves": ["工艺", "材质", "主体"],
+      "status": "通",
+      "tested": "2026-10-27",
+      "note": "亚洲藏品强；technique/materials 字段可直接用。"
+    },
+    "Smithsonian": {
+      "base": "https://api.si.edu/openaccess/api/v1.0/search",
+      "auth": "demo_key",
+      "license": "CC0（多数）",
+      "serves": ["主体"],
+      "status": "通",
+      "tested": "2026-10-27",
+      "note": "大量图书目录记录，会返回书名/论文集；必须过滤，否则污染（已加闸）。中文著录可命中。"
+    },
+    "Europeana": {
+      "base": "https://api.europeana.eu/record/v2/search.json",
+      "auth": "demo_key",
+      "license": "混合（逐条看）",
+      "serves": ["工艺", "材质"],
+      "status": "通",
+      "tested": "2026-10-27",
+      "note": "欧洲各国藏品，多语言元数据；授权混杂，入库前必须逐条确认。"
+    },
+    "Wikimedia": {
+      "base": "https://commons.wikimedia.org/w/api.php",
+      "auth": "none",
+      "license": "CC（逐条看）",
+      "serves": ["主体"],
+      "status": "通",
+      "tested": "2026-10-27",
+      "note": "中文可搜分类名；但结果常是文件名，信息量低。"
+    },
+    "NYPL": {
+      "base": "https://digitalcollections.nypl.org",
+      "auth": "none",
+      "license": "混合",
+      "serves": ["主体"],
+      "status": "通（HTML，非 API）",
+      "tested": "2026-10-27",
+      "note": "返回 HTML，要解析；不优先。"
+    }
+  },
+
+  "断掉的源": {
+    "_note": "登记下来，避免以后重复试。断的原因要写清，方便判断是不是临时。",
+    "Met": "410 Gone（2026-10-27 复测仍 410）",
+    "Rijksmuseum": "410 Gone",
+    "Art Institute of Chicago": "403 Forbidden",
+    "Harvard Art Museums": "401 需要 key",
+    "Freesound": "401 需要注册 token —— 唯一的声音源，值得去注册",
+    "Pixabay": "400 需要正式 key",
+    "Art UK": "DNS 解析失败",
+    "Internet Archive": "超时",
+    "Wikipedia REST": "超时",
+    "TMDB": "超时（电影风格的主要来源，断得很可惜）",
+    "Wikidata": "429 硬封（SPARQL）"
+  },
+
+  "下一步优先级": [
+    "去注册 Freesound —— 声音是唯一完全没有的要素",
+    "光线与运镜没有源，只能靠人工攒词表（各 30-50 个即可覆盖大部分镜头）",
+    "TMDB 若能通，是最好的风格源（导演、类型、关键词），值得换网络环境再试"
+  ]
+}

@@ -15,6 +15,7 @@ ComfyUI 自定义节点（本地版）—— 不依赖任何外部服务
 
 import json
 import os
+import time
 
 
 def _find_root():
@@ -749,6 +750,37 @@ def _symptom_means(q):
     return hit, means
 
 
+def _record_gap(query, what, score=0.0):
+    """把"我不会"记成作业。
+
+    用户要它能自己学习，第一步不是抓数据，是**知道自己缺什么**。
+    这里只记，不 infer——最后要不要学、学什么源，由人决定。
+    """
+    q = (query or "").strip()
+    if len(q) < 2:
+        return
+    try:
+        p = os.path.join(ROOT, "data/raw/gaps.jsonl")
+        # 同一个查询只记一次
+        if os.path.exists(p):
+            with open(p, encoding="utf-8") as f:
+                for line in f:
+                    try:
+                        if json.loads(line).get("query") == q:
+                            return
+                    except Exception:
+                        continue
+        rec = {"query": q, "missing": what, "score": round(float(score), 4),
+               "ts": time.strftime("%Y-%m-%d %H:%M:%S")}
+        with open(p, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception as e:  # noqa: BLE001
+        # 记作业失败不该影响出提示词，但也不能一声不响——
+        # 这里曾经因为 time 没 import 而静默失败，作业一条都没记下来。
+        global _GAP_ERROR
+        _GAP_ERROR = f"{type(e).__name__}: {e}"
+
+
 def _dur_from_query(query):
     """按运动幅度给这一镜的时长，返回 '5s' 这样的串；算不出就 None。
 
@@ -809,6 +841,7 @@ def _core(item, subj, craft, mat, domain, query=""):
         zh_style = ""          # 外观交给首帧
     elif weak:
         zh_style = "<风格：库中没有可靠匹配，请自行指定>"
+        _record_gap(query, "style", score)
     else:
         zh_style = who_zh + ("：" + "、".join(kw[:4]) if kw else "")
 
