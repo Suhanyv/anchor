@@ -695,6 +695,24 @@ def _strip_cmd(q, fallback=True):
     return (q or "").strip() if fallback else ""
 
 
+def _dur_from_query(query):
+    """按运动幅度给这一镜的时长，返回 '5s' 这样的串；算不出就 None。
+
+    为什么需要：`_core` 的 dur 原来取自文档的 params.duration（那条风格样例
+    建议的时长），和时长表按运动幅度算出来的值不一致——实测出现过
+    表说 3 秒、正文写 "0 到 4 秒 / 4 到 8 秒"。时长以这一镜的运动幅度为准。
+    """
+    try:
+        sec, kind = _ref_duration(query)
+    except Exception:
+        return None
+    if kind == "未识别" or not sec:
+        # 查不到运动类型就按拍数估，不要回退到文档建议的时长（那是另一条风格样例的）
+        beats = _est_beats(query)
+        return f"{max(3, min(int(beats * 2.5), 10))}s"
+    return f"{max(3, min(int(sec), 10))}s"
+
+
 def _core(item, subj, craft, mat, domain, query=""):
     """抽取公共字段，供各平台模板复用。
 
@@ -714,7 +732,7 @@ def _core(item, subj, craft, mat, domain, query=""):
     # 低置信度护栏：风格分低于阈值时，库里的"最高分"其实是噪声，
     # 中文模板不能把它当风格打印出来（实测出现过给"竹简"匹配恐怖片）。
     score = float(item.get("score") or 0)
-    weak = score < 0.30
+    weak = (score < 0.30) and not item.get("_named")   # 点名的不算弱
 
     # 图生视频：外观已在首帧里。清空 kw（影响 zh_style）——
     # 注意 zh_light 要等下面构造完再清，否则会被覆盖（这个坑踩过一次）。
@@ -770,7 +788,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         "subject": subject_phrase,
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
-        "dur": params.get("duration") or "6s",
+        # 时长以"这一镜的运动幅度"为准（我们自己的表），
+        # 文档里的 params.duration 只是那条风格样例的建议，不该覆盖它。
+        "dur": _dur_from_query(query) or (params.get("duration") or "6s"),
     }
 
 
@@ -1480,6 +1500,24 @@ def _exact_hits(query, rows, min_len=2):
     return [i for _, i in hits]
 
 
+def _named_style(q, corpus):
+    """查询里是否逐字点了某个风格实体的名。返回该实体的下标列表或 []。"""
+    if not q:
+        return []
+    names = {}
+    for i, d in enumerate(corpus):
+        for key in ("director_zh", "director"):
+            nm = str(d.get(key) or "").strip()
+            # 单字名太容易撞（"雪""火"），只认 2 字以上
+            if len(nm) >= 2 and nm in q:
+                names.setdefault(nm, []).append(i)
+    if not names:
+        return []
+    # 名字长的优先（"皮影戏" 胜过 "皮影"）
+    best = max(names, key=len)
+    return names[best]
+
+
 def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
           subject_path=None, craft_path=None, material_path=None, use_material=False):
     st = _load(model_dir, corpus_path, device, subject_path, craft_path, material_path)
@@ -1578,9 +1616,16 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
     }.get(domain, "any")
     allowed = _allowed_idx(corpus, domain)
 
+    # 用户逐字点了风格名 -> 只在这些实体的文档里取最高分（不看分数绝对值）
+    _named = _named_style(q, corpus)
+
     if by == "导演/风格聚合":
         best = {}
-        for i in allowed:
+        _namedset = set(_named)
+        _pool = [i for i in allowed if i in _namedset] if _named else allowed
+        if _named and not _pool:
+            _pool = allowed          # 点名的实体不在本域里，退回全池
+        for i in _pool:
             d = corpus[i]
             s = float(sims[i])
             cur = best.get(d["director"])
@@ -1599,6 +1644,8 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     "kw_zh": list(d.get("kw_zh") or []),
                     "description": d.get("description", ""),
                     "params": dict(d.get("params") or {}),
+                    # 用户点名了这个风格：低置信护栏不该再把它抹成占位符
+                    "_named": bool(_named and i in _namedset),
                 }
         return sorted(best.values(), key=lambda x: -x["score"])[:topk], "director", subj, domain, craft, mat
 
