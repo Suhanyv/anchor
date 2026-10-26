@@ -698,6 +698,13 @@ def _strip_cmd(q, fallback=True):
             t = t[: -len(w)]
     # 5) 收掉多余空白与标点
     t = _re.sub(r"\s+", " ", t).strip(" ，,。.、·-")
+    # 6) 剥指令词之后会留下空壳：「用 ，打击感要够」里的「用 ，」
+    #    这类残句会被模型当成画面上的字，必须一并清掉。
+    #    三种形态：句首「用 ，」、句中「…，用 ，…」、以及「用 主体」（只剩一个空格）
+    for _ in range(3):
+        t = _re.sub(r"(^|[，,、])\s*(?:用|拿|以|帮我|给我|请)\s*[，,、]+\s*", r"\1", t)
+        t = _re.sub(r"(^|[，,、])\s*(?:用|拿|以|帮我|给我|请)\s+(?=\S)", r"\1", t)
+    t = _re.sub(r"[，,、]{2,}", "，", t).strip(" ，,。.、·-")
     if t:
         return t
     return (q or "").strip() if fallback else ""
@@ -1689,9 +1696,9 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v13.jsonl")}),
-                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v6.jsonl")}),
-                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v11.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v14.jsonl")}),
+                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v7.jsonl")}),
+                "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
                 # 仍存在的已知错误是「材质通道内部认错材质名」（暗角/混凝土），
