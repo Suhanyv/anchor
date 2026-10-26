@@ -28,7 +28,81 @@
 
 ---
 
-## 第 2 步：生成令牌（Token）
+## 第 2 步：配 SSH 公钥（推荐，不需要任何密码）
+
+> **为什么不用令牌**：令牌是一串能直接推代码的密码，贴进聊天记录或写进文件就泄露了
+> （本项目真发生过一次）。公钥可以随便公开，私钥永远不出你的电脑。
+
+### 2.1 生成密钥对
+
+PowerShell 里跑：
+
+```powershell
+ssh-keygen -t ed25519 -N '""' -C "anchor@$(hostname)" -f $env:USERPROFILE\.ssh\id_ed25519
+```
+
+会生成两个文件：
+
+```
+id_ed25519        ← 私钥，不要外发，不要提交
+id_ed25519.pub    ← 公钥，可以公开
+```
+
+### 2.2 把公钥加到 GitHub
+
+```powershell
+Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub
+```
+
+复制输出那一整行（`ssh-ed25519 AAAA... `），然后：
+
+**github.com → 右上头像 → Settings → 左侧「SSH and GPG keys」→ New SSH key**
+
+| 字段 | 填什么 |
+|---|---|
+| Title | `anchor-win`（随便起） |
+| Key type | 认证密钥 / Authentication Key |
+| Key | 粘那一整行公钥 |
+
+点 **Add SSH key**。
+
+### 2.3 22 端口被挡的话，走 443
+
+国内网络常常连不上 github.com 的 22 端口，报：
+
+```
+ssh: connect to host github.com port 22: Connection refused
+```
+
+GitHub 官方支持 SSH over 443。在 `C:\Users\<你>\.ssh\config` 里写：
+
+```
+Host github.com
+  HostName ssh.github.com
+  Port 443
+  User git
+  StrictHostKeyChecking accept-new
+```
+
+**这条配一次就够**，以后 `git push` 自动走 443。
+
+### 2.4 验证连通
+
+```powershell
+ssh -T git@github.com
+```
+
+看到这句就成了（**退出码是 1，这是正常的**，GitHub 不给 shell 权限）：
+
+```
+Hi <你的用户名>! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+---
+
+## 第 2 步（备选）：生成令牌（Token）
+
+> 只有在 SSH 实在用不了时才走这条。**令牌等于密码，用完立刻删。**
 
 打开 → **https://github.com/settings/tokens**
 
@@ -48,11 +122,23 @@
 
 ## 第 3 步：把代码推上去
 
-在你的电脑上打开 **PowerShell**（开始菜单搜 powershell），然后**一行一行**粘贴下面这些，每行按一次回车：
+### 走 SSH（推荐）
 
 ```powershell
 cd F:\llm
 ```
+
+```powershell
+git remote add origin git@github.com:Suhanyv/anchor.git
+```
+
+```powershell
+git push -u origin main --tags
+```
+
+**没有弹窗，不问密码。** 直接开始推。
+
+### 走令牌（备选）
 
 ```powershell
 git remote add origin https://github.com/Suhanyv/anchor.git
@@ -62,7 +148,7 @@ git remote add origin https://github.com/Suhanyv/anchor.git
 git push -u origin main --tags
 ```
 
-第三行执行后会弹出窗口，问你要账号密码：
+弹出窗口问你要账号密码：
 
 | 它问什么 | 你填什么 |
 |---|---|
@@ -72,11 +158,29 @@ git push -u origin main --tags
 > 🔴 **这里填令牌，不是你的账号密码。**
 > 输的时候屏幕可能不显示任何字（这是正常的，不是卡住），粘完直接回车。
 
-等它跑完，最后会看到类似：
+---
+
+### 推之前先自检这三项
+
+```powershell
+# 1. 有没有把令牌/私钥漏进提交
+git log --all --oneline -S 'ghp_' --pickaxe-regex
+git log --all --oneline -S 'github_pat_' --pickaxe-regex
+
+# 2. 有没有把环境/模型/缓存提交进去（应该一个都没有）
+git ls-files | Select-String '^(python312|\.venv|models|cache)/'
+
+# 3. 能不能快进（不能的话说明远端历史和你本地不一样，先别推）
+git merge-base --is-ancestor origin/main HEAD
+```
+
+**三项都过了再推。** 第一项有输出说明泄露过，要先把那条历史清掉。
+
+### 推成功长这样
 
 ```
- * [new branch]      main -> main
- * [new tag]         v0.1.0 -> v0.1.0
+   80dab08..d229f2a  main -> main
+ * [new tag]         v0.1.9 -> v0.1.9
 ```
 
 **看到这两行就成了。** 刷新一下你的仓库页面，文件都在。
