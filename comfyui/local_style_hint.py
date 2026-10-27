@@ -751,6 +751,42 @@ def _load_index(filekey):
     return rows
 
 
+def _quantity_of(query):
+    """查询里的数量词 -> (中文前缀, 英文前缀)。单数返回 ("", "")。
+
+    按**在句中出现的位置**挑，不是按表顺序：
+    「一群记者围住一个人」里「一个」排在表前面，先匹配就把"一群"漏掉了（实测）。
+    位置相同再取更长的（"一群群" 优先于 "一群"）。
+    """
+    q = query or ""
+    table = _load_ref("quantity_ref.json")
+    best = None
+    for k in table:
+        if not k:
+            continue
+        p = q.find(k)
+        if p < 0:
+            continue
+        key = (p, -len(k))
+        if best is None or key < best[0]:
+            best = (key, k)
+    if best is None:
+        return "", ""
+    row = table[best[1]]
+    return str(row.get("zh") or ""), str(row.get("en") or "")
+
+
+def _apply_quantity(phrase, en_prefix):
+    """把英文数量拼到短语前，去掉原来的冠词。"""
+    if not phrase or not en_prefix:
+        return phrase
+    for art in ("a ", "an ", "the "):
+        if phrase.lower().startswith(art):
+            phrase = phrase[len(art):]
+            break
+    return f"{en_prefix} {phrase}"
+
+
 def _named_index_terms(query):
     """查询里逐字点名的技法/材质，返回 [(中文名, 一句可粘的描述)]。
 
@@ -907,6 +943,15 @@ def _core(item, subj, craft, mat, domain, query=""):
     # 中文模板不能把它当风格打印出来（实测出现过给"竹简"匹配恐怖片）。
     score = float(item.get("score") or 0)
     weak = (score < 0.30) and not item.get("_named")   # 点名的不算弱
+
+    # 数量：两个武士 != 一个武士，构图与景别全变
+    _qzh, _qen = _quantity_of(query)
+    if _qen and subj:
+        subj = dict(subj)
+        subj["phrase"] = _apply_quantity(subj.get("phrase") or "", _qen)
+    if _qzh and subj:
+        subj = dict(subj)
+        subj["zh"] = _qzh + str(subj.get("zh") or "")
 
     # 图生视频：外观已在首帧里。清空 kw（影响 zh_style）——
     # 注意 zh_light 要等下面构造完再清，否则会被覆盖（这个坑踩过一次）。
