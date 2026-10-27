@@ -87,6 +87,17 @@ def critic(out, dbg):
         pass
     m["dims"] = sum(m[k] for k in
                     ("style_ok", "light", "motion", "subject", "craft", "material"))
+    # 风格相似度：用作排序的第二依据。
+    # 不加它会出这种事（实测）：沙滩镜头选了「雾江孤舟」，因为它的维度比瓦尔达多，
+    # 但"雾江、孤舟、远山"和沙滩根本不是一回事。**维度数会骗人，相似度不会。**
+    m["style_score"] = 0.0
+    mm = re.search(r"\(([\d.]+)\s*>\s*风格\s*([\d.]+)\)", dbg)
+    if mm:
+        m["style_score"] = float(mm.group(2))
+    else:
+        mm2 = re.search(r"风格\s*([\d.]+)", dbg)
+        if mm2:
+            m["style_score"] = float(mm2.group(1))
     return m
 
 
@@ -125,43 +136,65 @@ def draft_queries(q, paths):
     elif cands:
         out.append((f"B 点名风格（{cands[0]}）", f"用{cands[0]}，{q}"))
     # C：点名一个技法（从症状表拿，这是"开药方"那条路）
+    # 但只有动作戏才给这一版——否则「卧室里相拥」会得到「顿帧」，
+    # 指标好看而内容荒谬（实测发生过）。
     _hit, means = N._symptom_means(q)
-    if not means:
-        # 没报症状，就用打击感这一组做默认——它是武戏最常见的缺口
+    if not means and _needs_craft(q):
         means = [m["zh"] for m in
                  (N._load_symptoms().get("打击感不够", {}).get("means") or [])]
-    if means:
+    if means and _needs_craft(q):
         out.append(("C 点名技法", f"用顿帧，{q}"))
     return out
+
+
+# 相关性闸：某一维只有在该镜"确实需要它"时才补
+# 教训（2026-10-27）：agent 会给「卧室里相拥」也补「顿帧＋锻打铁」，
+# 因为六维指标好看。指标好看而内容荒谬，比缺一维糟得多。
+ACTION_WORDS = ("打", "战", "劈", "砍", "挡", "格挡", "冲", "撞", "交手", "厮杀",
+                "剑", "刀", "矛", "盾", "兵器", "拳", "踢", "挥")
+MATERIAL_WORDS = ("甲", "剑", "刀", "盾", "铁", "钢", "铜", "木", "石", "纸",
+                  "布", "皮", "丝", "陶", "瓷", "玻璃", "金属")
+
+
+def _needs_craft(q):
+    """这一镜是不是打斗/动作戏——不是就别补打击感技法。"""
+    return any(w in (q or "") for w in ACTION_WORDS)
+
+
+def _needs_material(q):
+    """这一镜有没有值得写材质的东西。"""
+    return any(w in (q or "") for w in MATERIAL_WORDS)
 
 
 def repair(q, m, paths, tried):
     """根据指标决定改什么。返回 (新查询, 动作说明) 或 (None, 原因)。
 
     只许改输入与查表，不许写内容。
-    顺序按"能自己解决的程度"排：缺维度（可点名/可学） > 缺光运镜（查表）
-    > 弱风格（点名） > 洞（放弃，交给人）。
+    **先过相关性闸**：这一镜不需要某一维，就不为指标去补它。
     """
-    # ① 缺工艺：找技法名点名；表里没有就什么都做不了
+    # ① 缺工艺：只在动作戏里补，而且只补技法名
     if not m["craft"]:
-        syn = N._load_symptoms()
-        names = []
-        for sym, body in syn.items():
-            if sym in (q or ""):
-                names += [x.get("craft") for x in (body.get("means") or [])]
-        names += ["顿帧", "反作用", "速度斜坡", "接触特写"]
-        for nm in dict.fromkeys([n for n in names if n]):
-            if nm in (q or ""):          # 已经点过名了，别再叠一层
-                continue
-            nq = f"用{nm}，{q}"
-            if nq not in tried:
-                return nq, f"缺工艺：点名技法「{nm}」"
-        return None, "缺工艺：技法名都试过了"
+        if not _needs_craft(q):
+            pass           # 不是动作戏，跳过这一维（宁可缺，不可塞）
+        else:
+            syn = N._load_symptoms()
+            names = []
+            for sym, body in syn.items():
+                if sym in (q or ""):
+                    names += [x.get("craft") for x in (body.get("means") or [])]
+            names += ["顿帧", "反作用", "速度斜坡", "接触特写"]
+            for nm in dict.fromkeys([n for n in names if n]):
+                if nm in (q or ""):
+                    continue
+                nq = f"用{nm}，{q}"
+                if nq not in tried:
+                    return nq, f"缺工艺：点名技法「{nm}」"
+            return None, "缺工艺：技法名都试过了"
 
-    # ② 缺材质：馆藏里材质词最全，先试在查询里点名材质方向
-    if not m["material"]:
+    # ② 缺材质：只在有器物的镜头里补
+    if not m["material"] and _needs_material(q):
         for w in ("锻打铁", "旧皮革", "粗麻", "铜绿", "剑刃钢"):
-            if w in (q or ""):       # 已经试过这个词，别再叠
+            if w in (q or ""):
                 continue
             nq = f"{q}，{w}"
             if nq not in tried:
