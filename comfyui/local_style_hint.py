@@ -1774,11 +1774,21 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
         ssims = (st["subj_emb"] @ qe).numpy()
         _ex = _exact_hits(q, st["subjects"])
         if _ex:
-            # 精确命中可能同时包含人物与场景（「两个武士…长满狗尾巴草的山」
-            # 会同时命中 武士 与 芒草）。主体位优先非场景，场景另有槽位。
+            # 精确命中可能同时包含主角与地点：
+            #   「两个武士在长满狗尾巴草的山上」 -> 武士 + 芒草
+            #   「怪兽空降地球」               -> 怪兽 + 地球（地球分更高）
+            # 中文里主体通常出现在地点之前，所以先按"在查询里的位置"排，
+            # 位置相同再看非场景、最后看分数。
             _ex_non = [j for j in _ex
                        if st["subjects"][j].get("type") != "scene"]
-            k = max(_ex_non or _ex, key=lambda j: float(ssims[j]))
+            _pool = _ex_non or _ex
+
+            def _pos(j):
+                nm = str(st["subjects"][j].get("subject_zh") or "")
+                p = q.find(nm) if nm else -1
+                return p if p >= 0 else 10 ** 6
+
+            k = min(_pool, key=lambda j: (_pos(j), -float(ssims[j])))
         else:
             k = int(ssims.argmax())
             # 没有精确命中时，也别让场景条目占主体位
@@ -1901,7 +1911,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v16.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v17.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
