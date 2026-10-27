@@ -25,6 +25,8 @@ SHOTS = [
 
 
 def run_one(req, paths, rounds=2):
+    # 原始请求指向的风格排序：用来判断每个候选"偏没偏"
+    orig_top = A.best_style_candidates(req, paths, 6)
     cands = []
     for name, q in A.draft_queries(req, paths):
         out, dbg = A._run(q, paths)
@@ -45,13 +47,20 @@ def run_one(req, paths, rounds=2):
                 q, out, dbg, m = nq, out2, dbg2, m2
                 break
             q, out, dbg, m = nq, out2, dbg2, m2
-        cands.append({"name": name, "q": q, "out": out, "m": m, "trace": trace})
-    # 排序：洞少 > 维度多 > **风格更像** > 弱风格少
-    # 加风格相似度是因为实测里 agent 会用维度数换掉语义贴合
-    # （沙滩镜头选了「雾江孤舟」，因为它的维度比瓦尔达多）
-    cands.sort(key=lambda c: (c["m"]["holes"], -c["m"]["dims"],
-                              -c["m"].get("style_score", 0),
-                              c["m"]["weak_style"]))
+        # 这一版最终用的是什么风格，相对原始请求偏了多少
+        st = A.best_style_candidates(q, paths, 1)
+        m["style"] = st[0][0] if st else ""
+        m["style_fit"] = A.style_fit(m["style"], orig_top)
+        cands.append({"name": name, "q": q, "out": out, "m": m,
+                      "trace": trace})
+    # 排序：洞少 > 弱风格 > **风格贴合** > 维度多
+    # 为什么贴合排在维度前面（2026-10-27 实测）：
+    #   维度可以靠点名凑（塞顿帧、塞锻打铁），但**风格错了这一镜就废了**，
+    #   而且后面补不回来；缺一维只是少个参数，人一填就有。
+    #   所以：宁可少一维，不可错风格。
+    cands.sort(key=lambda c: (c["m"]["holes"], c["m"]["weak_style"],
+                              -c["m"].get("style_fit", 0),
+                              -c["m"]["dims"]))
     return cands
 
 

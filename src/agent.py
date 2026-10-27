@@ -35,6 +35,24 @@ def _paths():
             d["材质文件"][1]["default"])
 
 
+def style_fit(style_name, top_list):
+    """候选用的风格，和**原始请求**指向的风格是否一致。
+
+    为什么不能直接用候选自己的 score：
+        各草稿的查询文本不同（B 是「用布列松，…」），
+        "布列松"三个字进了查询，那条文档的分自然被抬高（0.3891 vs 0.3128）。
+        拿它排序等于奖励"把名字塞进句子"，而不是奖励贴合。
+    所以改成：看候选的风格在**原始请求**的 top 列表里排第几。
+    """
+    if not style_name:
+        return 0.0
+    for i, item in enumerate(top_list[:6]):
+        nm = item[0] if isinstance(item, tuple) else item
+        if nm == style_name:
+            return [1.0, 0.85, 0.7, 0.6, 0.5, 0.4][min(i, 5)]
+    return 0.2          # 不在原始 top-6 里：基本是 agent 自己挑的
+
+
 def critic(out, dbg):
     """客观指标。一个美学判断都不许进这里。"""
     holes = len(re.findall(r"<[^>]*>", out))
@@ -108,36 +126,47 @@ def _run(q, paths):
 
 
 def best_style_candidates(q, paths, n=3):
-    """给修补用：这个查询最像的 n 个风格实体名。"""
+    """给修补用：这个查询最像的 n 个风格实体（带分数）。"""
     M, C, S, K, MT = paths
     items, _m, _s, _d, _c, _mat = N._rank(
         q, M, C, "cpu", n, "导演/风格聚合", "视频", S, K, MT, True)
     out = []
     for it in items:
         nm = it.get("director_zh") or it.get("director")
-        if nm and nm not in out:
-            out.append(nm)
+        sc = float(it.get("score") or 0)
+        if nm and all(nm != x[0] for x in out):
+            out.append((nm, sc))
     return out
 
 
 def draft_queries(q, paths):
     """三版候选的三种输入。
 
-    坑：第一版写的是"原话 / 原话+点名风格 / 原话+补光运镜"，
-    结果三版输出**一模一样**——因为乌尔善本来就是最高分，
-    "黄昏""横移"本来就在它的关键词里，改措辞不改变检索。
-    所以差异必须来自**结构**：换风格实体、换技法、换详略。
+    坑 1：第一版让差异来自措辞（原话 / +点名风格 / +补光运镜），三版一模一样——
+    因为乌尔善本来就是最高分，"黄昏""横移"本来在它的关键词里。
+    确定性检索下，改措辞不改变结果。
+
+    坑 2：于是改成"点名次优风格"，结果更糟——点名**绕过打分**，
+    沙滩镜头因此选中了「雾江孤舟」而不是检索本来排第一的瓦尔达
+    （0.2370 vs 0.2633）。**agent 不能拿点名去覆盖检索的判断。**
+
+    所以 B 只在次优与最优分数接近时才点名；否则改用格式/细节变体。
     """
     out = [("A 原话", q)]
-    cands = best_style_candidates(q, paths, 3)
-    # B：换一个**次优**风格（不是最高分那个，否则和 A 一样）
-    if len(cands) >= 2:
-        out.append((f"B 换风格（{cands[1]}）", f"用{cands[1]}，{q}"))
-    elif cands:
-        out.append((f"B 点名风格（{cands[0]}）", f"用{cands[0]}，{q}"))
-    # C：点名一个技法（从症状表拿，这是"开药方"那条路）
-    # 但只有动作戏才给这一版——否则「卧室里相拥」会得到「顿帧」，
-    # 指标好看而内容荒谬（实测发生过）。
+    cands = best_style_candidates(q, paths, 2)
+    if len(cands) == 2:
+        (n1, s1), (n2, s2) = cands
+        if s1 - s2 <= 0.02:            # 近似平局，点名次优不算降级
+            out.append((f"B 换风格（{n2}）", f"用{n2}，{q}"))
+    if len(out) == 1:
+        # 没有可换的风格：用光线/运镜查表做变体（同样只改输入，不写内容）
+        lg = N._match_ref("light_ref.json", q, [])
+        mv = N._match_ref("motion_ref.json", q, [])
+        if lg and lg["kw"]:
+            out.append(("B 补光线", f"{q}，{lg['kw'][0]}"))
+        elif mv and mv["kw"]:
+            out.append(("B 补运镜", f"{q}，{mv['kw'][0]}"))
+    # C：点名一个技法（只在动作戏里——否则「卧室里相拥」会得到「顿帧」）
     _hit, means = N._symptom_means(q)
     if not means and _needs_craft(q):
         means = [m["zh"] for m in
@@ -203,7 +232,7 @@ def repair(q, m, paths, tried):
 
     # ③ 弱风格
     if m["weak_style"]:
-        for cand in best_style_candidates(q, paths, 3):
+        for cand, _sc in best_style_candidates(q, paths, 3):
             nq = f"用{cand}，{q}"
             if nq not in tried:
                 return nq, f"风格弱：点名「{cand}」重跑"
