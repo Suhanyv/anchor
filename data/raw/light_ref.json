@@ -136,5 +136,20 @@
     "zh": "暖金色调，亮部偏橙，暗部偏褐",
     "en": "warm gold, highlights orange, shadows brown",
     "kw": ["暖金", "暖黄", "金色"]
+  },
+  "雪天光": {
+    "zh": "雪地反光，天光发白，阴影偏冷蓝，高处亮、低处灰",
+    "en": "snow bounce filling the frame, a white sky, shadows going cold blue",
+    "kw": ["雪天", "下雪", "雪地", "雪景", "大雪"]
+  },
+  "雨天光": {
+    "zh": "雨天，所有表面都湿，光被打散，暗部有反光",
+    "en": "rain, every surface wet, light scattered, reflections in the shadows",
+    "kw": ["雨天", "下雨", "雨中", "雨后", "细雨"]
+  },
+  "沙尘光": {
+    "zh": "沙尘把光滤成土黄，远处一层层退掉，太阳只剩一个白点",
+    "en": "dust filtering the sun to a flat ochre, the distance receding in layers",
+    "kw": ["沙尘", "风沙", "扬尘", "黄土"]
   }
 }

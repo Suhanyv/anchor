@@ -565,9 +565,9 @@ def _cine_line(c):
     return primary + "\n" + alts
 
 
-def _propose_beats(item, subj, craft, mat, domain, n=3):
+def _propose_beats(item, subj, craft, mat, domain, n=3, query=""):
     """按「建立 / 交手 / 收」的语法编排 N 拍，并标出每拍的来源。"""
-    c = _core(item, subj, craft, mat, domain, "")
+    c = _core(item, subj, craft, mat, domain, query)
     look = "、".join([x for x in (c.get("zh_light") or "").split("、") if x][:3]) or "环境光"
     _st = (subj or {}).get("type", "")
     # 物件不能当人用（“长剑背对镜头”是错的）
@@ -578,8 +578,12 @@ def _propose_beats(item, subj, craft, mat, domain, n=3):
 
     beats = []
     # 第 1 拍：建立
+    # 光不能当地点用：「他在低角度黄昏侧光…里」是病句（实测出现过）。
+    # 地点优先用场景槽位；没有场景就用"画面里"。
+    _scene = (subj or {}) if _st == "scene" else {}
+    _where = (_scene.get("zh") or "画面里")
     beats.append((
-        f"全景或中远景。{who}在{look}里，"
+        f"全景或中远景。{who}在{_where}，{look}；"
         f"画面里还有别的人影但都不清（<写几个人、在哪个方位>）；机位横移或不动，不给正脸。",
         f"【库】{tags} 【编】不给正脸 / 用画外与边缘交代人数"))
     # 第 2 拍：交手
@@ -602,9 +606,9 @@ def _propose_beats(item, subj, craft, mat, domain, n=3):
     return beats[:n]
 
 
-def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt=""):
+def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt="", query=""):
     """共用块 + 逐镜。shots 里的空串表示"这一镜待填"。"""
-    c = _core(item, subj, craft, mat, domain, "")
+    c = _core(item, subj, craft, mat, domain, query)
     ar = c["ar"]
     light = c["zh_light"] or "<光线与色调>"
     style = c["zh_style"] or "<风格>"
@@ -1659,7 +1663,7 @@ _EXACT_STOP = {
 # 单字名黑名单：这些字的复合词义与条目义不同
 # 「鲸鱼女孩」里的"鲸"不是"鲸背露出水面"，所以单字精确匹配对它要关掉。
 # 猫/狗/马/兔 这类不撞车的单字不进来。
-_ONE_CHAR_BLOCK = {"鲸"}
+_ONE_CHAR_BLOCK = {"鲸", "狗"}
 
 
 def _exact_hits(query, rows, min_len=2):
@@ -2037,7 +2041,7 @@ class LocalStyleHint:
                 if 提案分镜:
                     # 用户开了提案：按建立/交手/收的语法编排，并标注来源
                     _prop = _propose_beats(items[0], subj, craft, mat,
-                                           domain_used, _n)
+                                           domain_used, _n, query=中文描述)
                     _shots = [b[0] for b in _prop]
                     globals()['_PROP_TAGS'] = [b[1] for b in _prop]
                     dbg = ("【提案】已按「建立/交手/收」编排 "
@@ -2058,7 +2062,7 @@ class LocalStyleHint:
             if len(_clean) >= 2:
                 _shots = _clean
             _ms = _fmt_multishot(_shots, items[0], subj, craft, mat,
-                                 domain_used, _pf)
+                                 domain_used, _pf, query=中文描述)
             _tag = ("检出多镜结构" if _split_shots(中文描述)
                     else f"只检出数量 {len(_shots)} 镜，已出空槽")
             dbg = f"【多镜头】{_tag}（平台 {_pf}）\n" + dbg
