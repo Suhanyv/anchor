@@ -1756,9 +1756,22 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
     if st.get("subj_emb") is not None and len(st["subjects"]):
         ssims = (st["subj_emb"] @ qe).numpy()
         _ex = _exact_hits(q, st["subjects"])
-        k = int(ssims.argmax())
         if _ex:
-            k = max(_ex, key=lambda j: float(ssims[j]))
+            # 精确命中可能同时包含人物与场景（「两个武士…长满狗尾巴草的山」
+            # 会同时命中 武士 与 芒草）。主体位优先非场景，场景另有槽位。
+            _ex_non = [j for j in _ex
+                       if st["subjects"][j].get("type") != "scene"]
+            k = max(_ex_non or _ex, key=lambda j: float(ssims[j]))
+        else:
+            k = int(ssims.argmax())
+            # 没有精确命中时，也别让场景条目占主体位
+            if st["subjects"][k].get("type") == "scene":
+                _non = [j for j, r in enumerate(st["subjects"])
+                        if r.get("type") != "scene"]
+                if _non:
+                    _kn = max(_non, key=lambda j: float(ssims[j]))
+                    if float(ssims[_kn]) >= float(ssims[k]) * 0.8:
+                        k = _kn
         s = st["subjects"][k]
         subj_idx = k
         subj = {"exact": bool(_ex), "score": float(ssims[k]), "en": s["subject_en"],
@@ -1871,7 +1884,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v14.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v15.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
