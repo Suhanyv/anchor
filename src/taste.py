@@ -54,6 +54,58 @@ def N_rank(q, M, C, S, K, MT):
     return N._rank(q, M, C, "cpu", 1, "导演/风格聚合", "视频", S, K, MT, True)
 
 
+def cmd_batch(reqs):
+    """一次问多条，每条三版。编号 1A/1B/1C，pick 时直接说 1A。"""
+    import re
+    paths = A._paths()
+    allc = []
+    print(f"=== 一次 {len(reqs)} 条，每条三版 ===\n")
+    for idx, req in enumerate(reqs, 1):
+        single = re.sub(r"[，,]?\s*(?:要|需要)?\s*[一二两三四五六七八九十\d]+\s*个\s*镜头",
+                        "", req).strip("，, ")
+        cands = []
+        for name, q in _taste_variants(single, paths):
+            out, dbg = A._run(q, paths)
+            m = A.critic(out, dbg)
+            cands.append({"key": f"{idx}{name[0]}", "name": name, "query": q,
+                          "out": out, "m": m, "knobs": _knobs(paths, q),
+                          "req": req})
+        cands.sort(key=lambda c: (c["m"]["holes"], -c["m"]["dims"]))
+        allc.extend(cands)
+        print(f"【{idx}】{req}")
+        for c in cands:
+            k = c["knobs"]
+            print(f"  {c['key']}  维 {c['m']['dims']}/6 洞 {c['m']['holes']}  "
+                  f"{k['style']} {k['score']}  光 {(k['light'] or '（无）')[:14]}")
+            print(f"      {c['out'][:110].replace(chr(10), ' ')}")
+        print()
+    with open(PENDING, "w", encoding="utf-8") as f:
+        json.dump({"request": " / ".join(reqs), "batch": True,
+                   "ts": time.strftime("%Y-%m-%d %H:%M:%S"), "cands": allc},
+                  f, ensure_ascii=False, indent=1)
+    print("挑：python src/taste.py pick 1C --note \"...\"   可连挑多次")
+    print("\n### TASTE_BATCH_DONE")
+
+
+def _taste_variants(single, paths):
+    """品味采集专用的三版：三版**各有一种光**，让选择落在"哪种光"上。
+
+    为什么不沿用旧设计（A 无光 / B 补运镜 / C 补光）：
+    实测连挑三次都选了 C——因为只有 C 有光。**那不是偏好，是设计逼出来的。**
+    现在三版都有光，只是光不同；室内场景换室内光，室外换室外光。
+    """
+    _INDOOR = ("便利店", "房间", "室内", "办公室", "厨房", "教室", "医院",
+               "走廊", "公寓", "电梯", "超市", "货架")
+    indoor = any(w in single for w in _INDOOR)
+    if indoor:
+        cands = ["荧光灯", "侧逆光", "冷青灰"]
+    else:
+        cands = ["侧逆光", "暖金", "柔散光"]
+    tags = ["A 光一", "B 光二", "C 光三"]
+    # 用「光用X」显式覆盖，避免追加的光词和场景词打架
+    return [(tags[i], f"光用{w}，{single}") for i, w in enumerate(cands)]
+
+
 def cmd_ask(req):
     import re
     paths = A._paths()
@@ -85,7 +137,7 @@ def cmd_ask(req):
     print("\n### TASTE_ASK_DONE")
 
 
-def cmd_pick(letter, note=""):
+def cmd_pick(letter, note="", also=None):
     if not os.path.exists(PENDING):
         print("  先跑 ask")
         return
@@ -94,16 +146,20 @@ def cmd_pick(letter, note=""):
     if not chosen:
         print(f"  没有 {letter} 这一版")
         return
+    # 「也可以」：同一镜多个方向都成立时，别把另一个记成"被拒"
+    _also = [x.strip().upper() for x in (also or "").split(",") if x.strip()]
+    ok_keys = {letter.upper()} | set(_also)
     rec = {
         "request": d["request"],
         "asked": d["ts"],
         "picked": letter.upper(),
+        "also_ok": sorted(_also),
         "picked_knobs": chosen["knobs"],
         "picked_metrics": chosen["m"],
         "picked_text": chosen["out"],
         "rejected": [{"key": c["key"], "knobs": c["knobs"],
                       "metrics": c["m"]} for c in d["cands"]
-                     if c["key"] != chosen["key"]],
+                     if c["key"] not in ok_keys],
         "note": note,
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
@@ -111,7 +167,9 @@ def cmd_pick(letter, note=""):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
     n = sum(1 for _ in open(PREFS, encoding="utf-8"))
     print(f"  记下了：选 {letter.upper()}（{chosen['knobs']['style']}）。累计 {n} 条")
-    os.remove(PENDING)
+    # batch 模式下保留 pending，允许连着挑好几条；单条模式挑完就清
+    if not d.get("batch"):
+        os.remove(PENDING)
 
 
 def cmd_report():
@@ -147,10 +205,15 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "report"
     if cmd == "ask":
         cmd_ask(sys.argv[2])
+    elif cmd == "batch":
+        cmd_batch(sys.argv[2:])
     elif cmd == "pick":
         note = ""
         if "--note" in sys.argv:
             note = sys.argv[sys.argv.index("--note") + 1]
-        cmd_pick(sys.argv[2], note)
+        also = ""
+        if "--also" in sys.argv:
+            also = sys.argv[sys.argv.index("--also") + 1]
+        cmd_pick(sys.argv[2], note, also)
     else:
         cmd_report()

@@ -710,6 +710,8 @@ def _strip_cmd(q, fallback=True):
     for _ in range(3):
         t = _re.sub(r"(^|[，,、])\s*(?:用|拿|以|帮我|给我|请)\s*[，,、]+\s*", r"\1", t)
         t = _re.sub(r"(^|[，,、])\s*(?:用|拿|以|帮我|给我|请)\s+(?=\S)", r"\1", t)
+    # 「光用荧光灯，」这类覆盖指令：只在解析时用，不进正文
+    t = _re.sub(r"(^|[，,、])\s*(?:光用|用光)\s*[^\s，,。；;]+\s*[，,、]?\s*", r"\1", t)
     t = _re.sub(r"[，,、]{2,}", "，", t).strip(" ，,。.、·-")
     if t:
         return t
@@ -814,8 +816,16 @@ def _named_index_terms(query):
     """查询里逐字点名的技法/材质，返回 [(中文名, 一句可粘的描述)]。
 
     不走通道、不看分数——用户点了名就该用。
+
+    但**光和运镜不算**：材质库里有一条叫「逆光」，描述是四句英文布光短语。
+    它会被「侧逆光」逐字命中，然后（a）从正文里被剥掉，剩一个"侧"，
+    （b）把英文塞进中文提示词的技法行。光是光表的事，不是材质。
     """
     q = query or ""
+    _skip = set()
+    for _f in ("light_ref.json", "motion_ref.json"):
+        for _row in _load_ref(_f).values():
+            _skip.update(_row.get("kw") or [])
     out = []
     for filekey, namekey, extrakey in (
             ("工艺文件", "craft_zh", "description"),
@@ -824,8 +834,12 @@ def _named_index_terms(query):
             nm = str(r.get(namekey) or "").strip()
             if len(nm) < 2 or nm not in q:
                 continue
-            # 英文模板要 phrase，中文模板要 description
+            if nm in _skip:
+                continue        # 光是光表的事
+            # 描述是纯英文的条目（来自英文馆藏字段）不该进中文模板的技法行
             zh = (r.get(extrakey) or nm).split("：")[-1].strip()
+            if not any("\u4e00" <= ch <= "\u9fff" for ch in zh):
+                continue
             out.append((nm, zh[:60] or nm))
     return out
 
@@ -833,12 +847,24 @@ def _named_index_terms(query):
 def _match_ref(filename, query, kw=None):
     """在词表里找匹配：先看查询原话，再看风格关键词。
 
-    返回词条 dict（含 zh/en/kw）或 None。
+    支持显式覆盖：查询里写「光用荧光灯」，就以荧光灯为准，
+    不管别的词先出现。否则追加光词会和场景词打架
+    （实测「深夜便利店…，冷青灰」光栏仍是荧光灯，一段里出现两种光）。
     """
     table = _load_ref(filename)
     if not table:
         return None
     q = query or ""
+    # 显式指定优先
+    import re as _re
+    m = _re.search(r"(?:光用|用光|打)\s*([^\s，,。；;]+)", q)
+    if m:
+        want = m.group(1)
+        if want in table:
+            return table[want]
+        for name, row in table.items():
+            if want in (row.get("kw") or []):
+                return row
     for name, row in table.items():
         for k in (row.get("kw") or [name]):
             if k and k in q:
@@ -1285,6 +1311,11 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _mv = _match_ref("motion_ref.json", query, c.get("kw") or [])
     if _mv:
         move = _mv["zh"]
+        # 正文里已经写了这个词就别再重复一次：
+        # "…战场上，手持，手持，画面有轻微的呼吸式晃动"（实测）
+        _head = move.split("，")[0]
+        if who.rstrip("。 ").endswith(_head):
+            move = move[len(_head):].lstrip("，")
     else:
         move = {"STATIC": "固定机位", "SLOW": "镜头极缓推近",
                 "KINETIC": "手持跟随"}.get(c["motion"], "镜头极缓推近")
