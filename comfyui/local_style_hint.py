@@ -1078,8 +1078,35 @@ def _core(item, subj, craft, mat, domain, query=""):
     scene_phrase = ""
     subj_is_scene = False
     if subj:
+        _sc_list = subj.get("scenes") or []
         sb = subj.get("scene_best")
-        if sb and (float(sb.get("score") or 0) >= SCENE_FLOOR or sb.get("exact")):
+        if _sc_list:
+            # 多场景：最多两个。三层判重——
+            #   ① 短语互相包含
+            #   ② 中文名互相包含（「芒草」与「芒草山坡」）
+            #   ③ **没在句子里点名的泛化地点，另有一个场景时丢掉**
+            #      实测「长满狗尾巴草的山上」会同时给出 芒草 与 山坡，
+            #      两个名字互不包含、短语也互不包含，但说的是同一个地方。
+            _GENERIC_SCENE = {"山坡", "田野", "树林", "草地", "河岸", "街角",
+                              "巷子", "桥", "公路", "台阶", "天台"}
+            _ph, _zhs = [], []
+            for d in _sc_list:
+                p = d.get("phrase") or ""
+                z = d.get("zh") or ""
+                if not p:
+                    continue
+                if any(p in x or x in p for x in _ph):
+                    continue
+                if z and any(z in q2 or q2 in z for q2 in _zhs if q2):
+                    continue
+                if z in _GENERIC_SCENE and z not in (query or ""):
+                    continue
+                _ph.append(p)
+                _zhs.append(z)
+                if len(_ph) == 2:
+                    break
+            scene_phrase = ", ".join(_ph)
+        elif sb and (float(sb.get("score") or 0) >= SCENE_FLOOR or sb.get("exact")):
             scene_phrase = sb["phrase"]
         elif (subj.get("type") == "scene"
               and float(subj.get("score") or 0) >= SCENE_FLOOR):
@@ -1995,6 +2022,26 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     # 「机器人坐在草地上看星空」里草地与星空都是逐字写出来的。
                     "exact": bool(_exs),
                 }
+                # 多场景槽：「草地上看星空」同时有两个场景，只留一个会丢掉一个。
+                # 收下所有"精确命中或分数够"的场景，按分数排序，最多三个。
+                _scenes = []
+                for _j, _idx in enumerate(_ii):
+                    _r = st["subjects"][_idx]
+                    _sc = float(_sub[_j])
+                    _is_ex = bool(_exact_hits(q, [_r]))
+                    if _is_ex or _sc >= SCENE_FLOOR:
+                        _scenes.append({"zh": _r.get("subject_zh", ""),
+                                        "phrase": _r.get("phrase", ""),
+                                        "score": _sc, "exact": _is_ex})
+                _scenes.sort(key=lambda d: (0 if d["exact"] else 1, -d["score"]))
+                seen, _uniq = set(), []
+                for d in _scenes:
+                    if d["zh"] in seen:
+                        continue
+                    seen.add(d["zh"])
+                    _uniq.append(d)
+                if _uniq:
+                    subj["scenes"] = _uniq[:3]
         except Exception:
             pass
 
