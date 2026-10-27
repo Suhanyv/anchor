@@ -920,7 +920,18 @@ def _core(item, subj, craft, mat, domain, query=""):
         zh_style = "<风格：库中没有可靠匹配，请自行指定>"
         _record_gap(query, "style", score)
     else:
-        zh_style = who_zh + ("：" + "、".join(kw[:4]) if kw else "")
+        # 光表已经命中时，风格里的光词要剔掉——否则同一段里会出现
+        # 「夜空为唯一光源」后面紧跟「自然光、黄金时刻」这种自相矛盾（实测）。
+        _lp_early = _match_ref("light_ref.json", query, kw)
+        _kw_use = kw
+        if _lp_early:
+            # 光表命中后，风格里那些"光类"关键词要剔掉。
+            # 不能用光表的 kw 去比对——「自然光」「黄金时刻」根本不在表里，
+            # 它们只是风格自己的形容。所以按词根判。
+            _LIGHT_ROOTS = ("光", "时刻", "逆照", "剪影", "明暗", "暗调", "高调")
+            _kw_use = [w for w in kw
+                       if not any(r in w for r in _LIGHT_ROOTS)]
+        zh_style = who_zh + ("：" + "、".join(_kw_use[:4]) if _kw_use else "")
 
     # 光/质感优先用材质与工艺通道；两者都没命中时才回落到风格关键词，
     # 否则中文模板里会把同一组词说两遍（「整体走 X」和「光线与质感是 X」）。
@@ -1426,7 +1437,13 @@ def _fmt_5aspect(item, subj, craft, mat, domain, query=""):
     who = c["subject"] or "<your subject>"
     scene = c["scene"] or c["tail"] or "<your scene>"
     # 英文块里不能混中文：光也用英文标签，不用 zh_light
-    light = "; ".join(_pick(c["tags"], _LIGHT_HINTS))
+    # 但光表有英文 en 字段——查询里点名了某种光（星空/烛光/雨天）就该用英文那条，
+    # 否则"看星空"会得到 natural light（实测）。
+    _lp = _match_ref("light_ref.json", query, c.get("kw") or [])
+    if _lp and _lp.get("en"):
+        light = _lp["en"]
+    else:
+        light = "; ".join(_pick(c["tags"], _LIGHT_HINTS))
     w = 9
     return "\n".join([
         f"{'Subject:':<{w}} {who}",
@@ -1884,7 +1901,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v15.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v16.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
@@ -1986,8 +2003,15 @@ class LocalStyleHint:
 
         eligible = []
         for name, obj in (("主体", subj), ("工艺", craft), ("材质", mat)):
-            if (obj and obj["score"] > top_style
-                    and (obj.get("exact") or obj["score"] >= floors[name])):
+            if not obj:
+                continue
+            # 精确词命中 = 用户在查询里逐字写了这个条目，直接有资格，
+            # 不再要求"分数高于风格"。实测：一个人形机器人坐在草地上看星空
+            # 主体 人形机器人 0.3337 输给风格 马利克 0.3840，于是被丢掉——
+            # 但用户明明写了"机器人"三个字。
+            if obj.get("exact"):
+                eligible.append((name, max(obj["score"], top_style + 1e-4), obj))
+            elif obj["score"] > top_style and obj["score"] >= floors[name]:
                 eligible.append((name, obj["score"], obj))
 
         winner = max(eligible, key=lambda x: x[1]) if eligible else None

@@ -5,151 +5,291 @@
   "侧逆光": {
     "zh": "侧逆光，人物边缘被勾出一道亮边，脸大部分在暗里",
     "en": "a hard rim light along the subject's edge, the face mostly in shadow",
-    "kw": ["侧逆光", "轮廓光", "勾边"]
+    "kw": [
+      "侧逆光",
+      "轮廓光",
+      "勾边"
+    ]
   },
   "窗光": {
     "zh": "单侧窗光，光从一扇窗斜切进来，室内其余部分暗下去",
     "en": "single-source window light raking in from one side, the rest of the room falling dark",
-    "kw": ["窗光", "窗户光", "自然光从窗", "侧窗"]
+    "kw": [
+      "窗光",
+      "窗户光",
+      "自然光从窗",
+      "侧窗"
+    ]
   },
   "烛光": {
     "zh": "烛光，光源在画面内，火苗附近最亮，向四周快速衰减，光在轻微跳动",
     "en": "practical candlelight inside the frame, brightest at the flame, falling off fast, the light flickering",
-    "kw": ["烛光", "蜡烛", "火光", "灯火"]
+    "kw": [
+      "烛光",
+      "蜡烛",
+      "火光",
+      "灯火"
+    ]
   },
   "实用光": {
     "zh": "画面内的实用光源（台灯、霓虹、车灯），光源本身入画",
     "en": "practical light sources inside the frame, the source itself visible",
-    "kw": ["台灯", "霓虹", "车灯", "灯泡", "灯管"]
+    "kw": [
+      "台灯",
+      "霓虹",
+      "车灯",
+      "灯泡",
+      "灯管"
+    ]
   },
   "逆光剪影": {
     "zh": "强逆光，主体几乎全黑，只剩轮廓，背景过曝",
     "en": "strong backlight, the subject nearly black against an overexposed background",
-    "kw": ["逆光", "剪影", "背光"]
+    "kw": [
+      "逆光",
+      "剪影",
+      "背光"
+    ]
   },
   "顶光": {
     "zh": "顶光，光从正上方落下，眼眶和下颌压出硬阴影",
     "en": "top light from directly above, hard shadows under the brow and the jaw",
-    "kw": ["顶光", "头顶光"]
+    "kw": [
+      "顶光",
+      "头顶光"
+    ]
   },
   "底光": {
     "zh": "底光，光从下往上打，阴影反着长，脸显得不对劲",
     "en": "light from below, shadows falling upward, the face reading wrong",
-    "kw": ["底光", "脚光", "下打光"]
+    "kw": [
+      "底光",
+      "脚光",
+      "下打光"
+    ]
   },
   "柔散光": {
     "zh": "大面积柔光，几乎没有硬阴影，过渡很长",
     "en": "large soft light with almost no hard shadow and very long falloff",
-    "kw": ["柔光", "散光", "柔散"]
+    "kw": [
+      "柔光",
+      "散光",
+      "柔散"
+    ]
   },
   "硬直射光": {
     "zh": "硬直射光，阴影边缘锋利，尘土在光柱里显形",
     "en": "hard direct sunlight, edges of shadow razor sharp, dust visible in the beam",
-    "kw": ["硬光", "直射光", "日光", "强光"]
+    "kw": [
+      "硬光",
+      "直射光",
+      "日光",
+      "强光"
+    ]
   },
   "阴天光": {
     "zh": "阴天散射光，无方向，整体均匀偏冷",
     "en": "overcast diffuse light, no direction, even and slightly cool",
-    "kw": ["阴天", "多云", "散射光"]
+    "kw": [
+      "阴天",
+      "多云",
+      "散射光"
+    ]
   },
   "黄昏侧光": {
     "zh": "低角度黄昏侧光，暖金色，影子拉得很长",
     "en": "low golden hour side light, shadows stretched long",
-    "kw": ["黄昏", "夕阳", "落日", "金色时刻"]
+    "kw": [
+      "黄昏",
+      "夕阳",
+      "落日",
+      "金色时刻"
+    ]
   },
   "蓝调时刻": {
     "zh": "蓝调时刻，天光剩一点冷蓝，人工光开始显眼",
     "en": "blue hour, the sky holding a last cold blue while artificial lights come up",
-    "kw": ["蓝调", "入夜", "天将黑"]
+    "kw": [
+      "蓝调",
+      "入夜",
+      "天将黑"
+    ]
   },
   "月光": {
     "zh": "月光，冷、弱、方向单一，暗部细节几乎不留",
     "en": "moonlight, cold and weak from one direction, almost no detail in the shadows",
-    "kw": ["月光", "月夜"]
+    "kw": [
+      "月光",
+      "月夜"
+    ]
   },
   "火光": {
     "zh": "火光，橙红，靠近光源的部分在闪，远处仍暗",
     "en": "firelight, orange-red, flickering near the source, the distance staying dark",
-    "kw": ["火把", "篝火", "燃烧", "火焰"]
+    "kw": [
+      "火把",
+      "篝火",
+      "燃烧",
+      "火焰"
+    ]
   },
   "光柱": {
     "zh": "一道有形的光柱穿过空气，尘埃在里面悬浮",
     "en": "a visible shaft of light through the air with dust suspended in it",
-    "kw": ["光柱", "光束", "丁达尔"]
+    "kw": [
+      "光柱",
+      "光束",
+      "丁达尔"
+    ]
   },
   "斑驳树影": {
     "zh": "光透过枝叶，在人和地上落下晃动的碎影",
     "en": "light broken through leaves, shifting patches falling on the subject and the ground",
-    "kw": ["树影", "斑驳", "叶影"]
+    "kw": [
+      "树影",
+      "斑驳",
+      "叶影"
+    ]
   },
   "水面反光": {
     "zh": "水面把光反上来，下方向上打亮，纹路在动",
     "en": "light bouncing up off water, the subject lit from below, the pattern moving",
-    "kw": ["水面", "反光", "波纹光"]
+    "kw": [
+      "水面",
+      "反光",
+      "波纹光"
+    ]
   },
   "高调": {
     "zh": "高调布光，画面大面积白，阴影很少很浅",
     "en": "high key, the frame mostly white with few and shallow shadows",
-    "kw": ["高调", "明亮", "白净"]
+    "kw": [
+      "高调",
+      "明亮",
+      "白净"
+    ]
   },
   "低调": {
     "zh": "低调布光，画面大面积暗，只有小片区域见光",
     "en": "low key, the frame mostly dark with only a small lit area",
-    "kw": ["低调", "昏暗", "暗调"]
+    "kw": [
+      "低调",
+      "昏暗",
+      "暗调"
+    ]
   },
   "明暗对比": {
     "zh": "强明暗对比，亮部与暗部之间几乎没有过渡",
     "en": "strong chiaroscuro, almost no gradient between lit and unlit",
-    "kw": ["高对比", "明暗", "黑白对比"]
+    "kw": [
+      "高对比",
+      "明暗",
+      "黑白对比"
+    ]
   },
   "雾气漫射": {
     "zh": "雾或尘把光打散，远处一层层变淡，没有清晰边界",
     "en": "fog or dust scattering the light, distance fading in layers with no clear edges",
-    "kw": ["雾", "尘雾", "烟"]
+    "kw": [
+      "雾",
+      "尘雾",
+      "烟"
+    ]
   },
   "眼神光": {
     "zh": "眼里有一点清晰的高光，其余面部柔和",
     "en": "a small clean catchlight in the eye, the rest of the face soft",
-    "kw": ["眼神光", "眼部高光"]
+    "kw": [
+      "眼神光",
+      "眼部高光"
+    ]
   },
   "漏光": {
     "zh": "画面边缘漏进一片失控的亮光，带轻微眩光",
     "en": "a stray flare leaking in at the frame edge with slight glare",
-    "kw": ["漏光", "眩光", "光晕"]
+    "kw": [
+      "漏光",
+      "眩光",
+      "光晕"
+    ]
   },
   "单点光": {
     "zh": "只有一处光源，四周完全沉黑，像舞台",
     "en": "one single light source with everything else falling to black, like a stage",
-    "kw": ["单点光", "舞台光", "聚光"]
+    "kw": [
+      "单点光",
+      "舞台光",
+      "聚光"
+    ]
   },
   "荧光灯": {
     "zh": "荧光灯，偏绿的冷白，轻微频闪，室内显得廉价",
     "en": "fluorescent light, greenish cool white, slight flicker, the room reading cheap",
-    "kw": ["荧光灯", "日光灯", "办公室光"]
+    "kw": [
+      "荧光灯",
+      "日光灯",
+      "办公室光"
+    ]
   },
   "冷青灰": {
     "zh": "冷青灰的光，整体偏青，肤色被压掉血色",
     "en": "cold cyan-grey light draining the colour from skin",
-    "kw": ["冷青", "青灰", "冷调"]
+    "kw": [
+      "冷青",
+      "青灰",
+      "冷调"
+    ]
   },
   "暖金": {
     "zh": "暖金色调，亮部偏橙，暗部偏褐",
     "en": "warm gold, highlights orange, shadows brown",
-    "kw": ["暖金", "暖黄", "金色"]
+    "kw": [
+      "暖金",
+      "暖黄",
+      "金色"
+    ]
   },
   "雪天光": {
     "zh": "雪地反光，天光发白，阴影偏冷蓝，高处亮、低处灰",
     "en": "snow bounce filling the frame, a white sky, shadows going cold blue",
-    "kw": ["雪天", "下雪", "雪地", "雪景", "大雪"]
+    "kw": [
+      "雪天",
+      "下雪",
+      "雪地",
+      "雪景",
+      "大雪"
+    ]
   },
   "雨天光": {
     "zh": "雨天，所有表面都湿，光被打散，暗部有反光",
     "en": "rain, every surface wet, light scattered, reflections in the shadows",
-    "kw": ["雨天", "下雨", "雨中", "雨后", "细雨"]
+    "kw": [
+      "雨天",
+      "下雨",
+      "雨中",
+      "雨后",
+      "细雨"
+    ]
   },
   "沙尘光": {
     "zh": "沙尘把光滤成土黄，远处一层层退掉，太阳只剩一个白点",
     "en": "dust filtering the sun to a flat ochre, the distance receding in layers",
-    "kw": ["沙尘", "风沙", "扬尘", "黄土"]
+    "kw": [
+      "沙尘",
+      "风沙",
+      "扬尘",
+      "黄土"
+    ]
+  },
+  "星空夜": {
+    "zh": "夜空为唯一光源，地面几乎全暗，人和物体只被星光勾出一点轮廓",
+    "en": "the night sky as the only source, ground nearly black, figures reduced to the faintest edge",
+    "kw": [
+      "星空",
+      "夜空",
+      "银河",
+      "星野",
+      "夜里看天"
+    ]
   }
 }
