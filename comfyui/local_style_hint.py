@@ -730,6 +730,43 @@ def _load_ref(filename):
     return _REF_CACHE[filename]
 
 
+_IDX_CACHE = {}
+
+
+def _load_index(filekey):
+    """按节点的默认值取索引文件（不写死文件名，避免又一次漂移）。"""
+    if filekey in _IDX_CACHE:
+        return _IDX_CACHE[filekey]
+    try:
+        d = LocalStyleHint.INPUT_TYPES()["required"]
+        p = d[filekey][1]["default"]
+        rows = [json.loads(l) for l in open(p, encoding="utf-8") if l.strip()]
+    except Exception:
+        rows = []
+    _IDX_CACHE[filekey] = rows
+    return rows
+
+
+def _named_index_terms(query):
+    """查询里逐字点名的技法/材质，返回 [(中文名, 一句可粘的描述)]。
+
+    不走通道、不看分数——用户点了名就该用。
+    """
+    q = query or ""
+    out = []
+    for filekey, namekey, extrakey in (
+            ("工艺文件", "craft_zh", "description"),
+            ("材质文件", "mat_zh", "description")):
+        for r in _load_index(filekey):
+            nm = str(r.get(namekey) or "").strip()
+            if len(nm) < 2 or nm not in q:
+                continue
+            # 英文模板要 phrase，中文模板要 description
+            zh = (r.get(extrakey) or nm).split("：")[-1].strip()
+            out.append((nm, zh[:60] or nm))
+    return out
+
+
 def _match_ref(filename, query, kw=None):
     """在词表里找匹配：先看查询原话，再看风格关键词。
 
@@ -1150,6 +1187,14 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     dur = int(str(c["dur"]).rstrip("s") or 6)
     half = max(2, dur // 2)
     who = c["subject_zh"] or "<主体>"
+    # 点名的技法/材质名不该留在句子里——它已经写进下面的【技法】行了。
+    # 不剥就会出现「用反作用，用顿帧，一个骑士…」这种叠罗汉。
+    _named0 = _named_index_terms(query)
+    for _nm, _zh in _named0:
+        if _nm and _nm in who:
+            who = who.replace(f"用{_nm}，", "").replace(f"用{_nm}", "")
+            who = who.replace(f"，{_nm}", "").replace(_nm, "")
+    who = who.strip("，,、 ") or (c["subject_zh"] or "<主体>")
     light = c["zh_light"] or "自然光"
     style = c["zh_style"] or ""
     # 运镜优先查表：查询里写了"贴地/横移/环绕"，就不该一律给"极缓推近"。
@@ -1176,8 +1221,11 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     seg.append(f"{cine}")
     # 症状 -> 手段：写"怎么治"，不写"有什么毛病"
     _hit_s, _means = _symptom_means(query)
-    if _means:
-        seg.append("技法：" + "；".join(_means[:4]) + "。")
+    _named = [zh for _n, zh in _named_index_terms(query)]
+    _all = [x.strip("。；;，, ") for x in dict.fromkeys(_named + _means)]
+    _all = [x for x in _all if x]
+    if _all:
+        seg.append("技法：" + "；".join(_all[:5]) + "。")
     seg.append(f"{c['ar']}，全程保持主体清晰、背景自然虚化。")
     seg.append("只使用<环境声>，不要配乐，不要字幕。")
     # 示例里不写"多余的人"——那是未经实测的假设，会压制群像镜头（见 CORRECTIONS C6）
