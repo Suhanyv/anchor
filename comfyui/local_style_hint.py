@@ -1005,7 +1005,7 @@ def _core(item, subj, craft, mat, domain, query=""):
     subj_is_scene = False
     if subj:
         sb = subj.get("scene_best")
-        if sb and float(sb.get("score") or 0) >= SCENE_FLOOR:
+        if sb and (float(sb.get("score") or 0) >= SCENE_FLOOR or sb.get("exact")):
             scene_phrase = sb["phrase"]
         elif (subj.get("type") == "scene"
               and float(subj.get("score") or 0) >= SCENE_FLOOR):
@@ -1480,7 +1480,11 @@ def _fmt_5aspect(item, subj, craft, mat, domain, query=""):
             "SLOW": "slow dolly forward", "KINETIC": "handheld tracking"}.get(
         c["motion"], "slow dolly forward")
     who = c["subject"] or "<your subject>"
-    scene = c["scene"] or c["tail"] or "<your scene>"
+    # 场景只能来自场景条目。**不能拿风格文档自带的场景当你的场景**：
+    # 实测「两个武士在雪地对决」输出了 "dust lifted by the march"（行军扬尘），
+    # 那是乌尔善那条样例自带的场面，用户根本没写。
+    # 风格说"怎么拍"，不该说"拍什么"。
+    scene = c["scene"] or "<your scene>"
     # 英文块里不能混中文：光也用英文标签，不用 zh_light
     # 但光表有英文 en 字段——查询里点名了某种光（星空/烛光/雨天）就该用英文那条，
     # 否则"看星空"会得到 natural light（实测）。
@@ -1868,6 +1872,9 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                     "score": float(_sub[_kk]),
                     "phrase": _row["phrase"],
                     "zh": _row.get("subject_zh", ""),
+                    # 精确命中的场景也不该被门槛丢掉：
+                    # 「机器人坐在草地上看星空」里草地与星空都是逐字写出来的。
+                    "exact": bool(_exs),
                 }
         except Exception:
             pass
