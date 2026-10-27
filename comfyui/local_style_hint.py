@@ -844,6 +844,29 @@ def _named_index_terms(query):
     return out
 
 
+def _scene_light(query):
+    """场景 → 光。命中就返回光表里那条，否则 None。
+
+    优先级在通用匹配之上：场景词在查询里常常排在光词前面
+    （「雨天，两个人在街上」里没有光词，但雨天自带光）。
+    依据来自偏好记录：深夜便利店选荧光灯、雨里选柔散光。
+    """
+    q = query or ""
+    try:
+        p = os.path.join(ROOT, "data/raw/scene_light.json")
+        with open(p, encoding="utf-8") as f:
+            rules = json.load(f).get("rules") or []
+    except Exception:
+        return None
+    table = _load_ref("light_ref.json")
+    for r in rules:
+        if any(w in q for w in (r.get("when") or [])):
+            key = r.get("light")
+            if key in table:
+                return table[key]
+    return None
+
+
 def _match_ref(filename, query, kw=None):
     """在词表里找匹配：先看查询原话，再看风格关键词。
 
@@ -1031,7 +1054,9 @@ def _core(item, subj, craft, mat, domain, query=""):
     # 否则中文模板里会把同一组词说两遍（「整体走 X」和「光线与质感是 X」）。
     # 但**光线词表优先**：查询里写了"烛光"，就该打烛光，不该回落到自然光
     zh_light = []
-    _lp = _match_ref("light_ref.json", query, kw)
+    # 先看场景表（深夜便利店 -> 荧光灯；雨 -> 雨天光），再看词面匹配。
+    # 场景词往往不带"光"字，但场景本身决定了光是什么样。
+    _lp = _scene_light(query) or _match_ref("light_ref.json", query, kw)
     if _lp:
         zh_light.append(_lp["zh"])
     else:
