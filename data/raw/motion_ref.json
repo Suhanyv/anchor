@@ -1,0 +1,110 @@
+{
+  "_about": "运镜表：机位到底怎么动。人工策展——公开源没有这个（见 sources.json）。",
+  "_why": "实测：运镜现在靠风格关键词蹭（乌尔善带『横移』），蹭不到就按运动幅度给一个默认推近。而『缓缓推近』几乎是所有镜头的默认值，用多了整片一个味道。",
+  "_usage": "查询里出现 kw -> 用这条；否则看风格关键词；都没有才按运动幅度回落。",
+  "固定": {
+    "zh": "机位完全固定，不推不摇，靠画面内的动",
+    "en": "a locked-off camera, no push and no pan, all movement inside the frame",
+    "kw": ["固定", "不动", "静止机位", "定机位"]
+  },
+  "缓慢推近": {
+    "zh": "极缓推近，整段只推进一点，观众几乎察觉不到",
+    "en": "an extremely slow push in, barely perceptible across the shot",
+    "kw": ["推近", "推进", "推"]
+  },
+  "缓慢拉远": {
+    "zh": "极缓拉远，人物在画面里越来越小，环境越来越多",
+    "en": "an extremely slow pull back, the subject shrinking as the environment grows",
+    "kw": ["拉远", "拉开", "后拉"]
+  },
+  "横移": {
+    "zh": "平行横移，机位沿一条直线滑过去，前景逐层掠过",
+    "en": "a lateral tracking move along one line, foreground passing in layers",
+    "kw": ["横移", "平移", "侧移"]
+  },
+  "摇摄": {
+    "zh": "原地摇摄，机身不移动，视线从一处转到另一处",
+    "en": "a pan from a fixed position, the gaze moving from one place to another",
+    "kw": ["摇镜", "摇摄", "转头"]
+  },
+  "升降": {
+    "zh": "机位上下移动，从低处升到高处或反过来",
+    "en": "the camera rising or descending vertically",
+    "kw": ["升降", "升起", "下降", "摇臂"]
+  },
+  "手持": {
+    "zh": "手持，画面有轻微的呼吸式晃动，不追求稳",
+    "en": "handheld with a slight breathing sway, deliberately not steady",
+    "kw": ["手持", "晃动", "肩扛"]
+  },
+  "跟随背影": {
+    "zh": "机位跟在人背后，保持同一距离，人往前走",
+    "en": "tracking behind the subject at a constant distance as they walk away",
+    "kw": ["跟拍", "跟随", "背影", "跟着"]
+  },
+  "环绕": {
+    "zh": "机位绕着主体转半圈，背景跟着流过去",
+    "en": "orbiting half way around the subject, the background flowing past",
+    "kw": ["环绕", "绕拍", "转圈"]
+  },
+  "甩镜": {
+    "zh": "快速甩镜，画面糊成一片，落在新的目标上",
+    "en": "a fast whip pan blurring into the new subject",
+    "kw": ["甩镜", "甩", "快速摇"]
+  },
+  "变焦推": {
+    "zh": "机位不动，镜头变焦推近，透视被压平",
+    "en": "a zoom in from a fixed position, perspective flattening",
+    "kw": ["变焦", "拉近焦距", "推焦"]
+  },
+  "越肩": {
+    "zh": "越肩机位，前景是另一个人的肩或后脑，虚的",
+    "en": "over the shoulder, another person's shoulder soft in the foreground",
+    "kw": ["越肩", "过肩"]
+  },
+  "俯拍": {
+    "zh": "高位俯拍，机位在上方往下看，人显得小",
+    "en": "a high angle looking down, the subject made small",
+    "kw": ["俯拍", "俯视", "高角度"]
+  },
+  "仰拍": {
+    "zh": "低角度仰拍，机位在下方往上看，人显得高",
+    "en": "a low angle looking up, the subject looming",
+    "kw": ["仰拍", "仰视", "低角度"]
+  },
+  "贴地": {
+    "zh": "机位压到地面高度，只看脚下与地面上的东西",
+    "en": "the camera at ground level, seeing only feet and what lies on the floor",
+    "kw": ["贴地", "地面高度", "地上"]
+  },
+  "顶视": {
+    "zh": "正上方垂直俯视，像平面图",
+    "en": "a straight overhead shot, reading like a plan view",
+    "kw": ["顶视", "正俯", "平面视角"]
+  },
+  "长焦压缩": {
+    "zh": "长焦压缩空间，前后景贴在一起，背景几乎不动",
+    "en": "a long lens compressing depth, foreground and background pressed together",
+    "kw": ["长焦", "压缩", "远摄"]
+  },
+  "广角贴近": {
+    "zh": "广角贴近主体，边缘拉伸，空间被撑开",
+    "en": "a wide lens close in, edges stretching and space opening up",
+    "kw": ["广角", "超广角", "近距离"]
+  },
+  "穿过遮挡": {
+    "zh": "机位从遮挡物之间穿过去，前中景一层层让开",
+    "en": "the camera passing between occluders, layers clearing one after another",
+    "kw": ["穿过", "钻过", "穿越"]
+  },
+  "揭示": {
+    "zh": "机位移动把原本挡住的东西让出来，答案最后才出现",
+    "en": "movement revealing what was blocked, the answer arriving last",
+    "kw": ["揭示", "露出", "展现"]
+  },
+  "斯坦尼康": {
+    "zh": "斯坦尼康跟随，走动平稳但有人味",
+    "en": "a steadicam follow, smooth but still human",
+    "kw": ["斯坦尼康", "稳定器", "平稳跟随"]
+  }
+}

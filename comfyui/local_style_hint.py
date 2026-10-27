@@ -712,6 +712,42 @@ def _strip_cmd(q, fallback=True):
 
 
 _SYMPTOMS = None
+_REF_CACHE = {}
+
+
+def _load_ref(filename):
+    """读一张人工策展词表（光线/运镜）。同进程内缓存。"""
+    if filename in _REF_CACHE:
+        return _REF_CACHE[filename]
+    try:
+        p = os.path.join(ROOT, "data/raw", filename)
+        with open(p, encoding="utf-8") as f:
+            t = json.load(f)
+        _REF_CACHE[filename] = {k: v for k, v in t.items()
+                                if not k.startswith("_") and isinstance(v, dict)}
+    except Exception:
+        _REF_CACHE[filename] = {}
+    return _REF_CACHE[filename]
+
+
+def _match_ref(filename, query, kw=None):
+    """在词表里找匹配：先看查询原话，再看风格关键词。
+
+    返回词条 dict（含 zh/en/kw）或 None。
+    """
+    table = _load_ref(filename)
+    if not table:
+        return None
+    q = query or ""
+    for name, row in table.items():
+        for k in (row.get("kw") or [name]):
+            if k and k in q:
+                return row
+    for k in (kw or []):
+        for name, row in table.items():
+            if k in (row.get("kw") or []) or k == name:
+                return row
+    return None
 
 
 def _load_symptoms():
@@ -847,13 +883,18 @@ def _core(item, subj, craft, mat, domain, query=""):
 
     # 光/质感优先用材质与工艺通道；两者都没命中时才回落到风格关键词，
     # 否则中文模板里会把同一组词说两遍（「整体走 X」和「光线与质感是 X」）。
+    # 但**光线词表优先**：查询里写了"烛光"，就该打烛光，不该回落到自然光
     zh_light = []
-    if mat and mat.get("hit"):
-        zh_light.append(mat.get("zh") or "")
-    if craft and craft.get("hit"):
-        zh_light.append(craft.get("zh") or "")
-    if not zh_light and kw and not weak:
-        zh_light.append("、".join(kw[:3]))
+    _lp = _match_ref("light_ref.json", query, kw)
+    if _lp:
+        zh_light.append(_lp["zh"])
+    else:
+        if mat and mat.get("hit"):
+            zh_light.append(mat.get("zh") or "")
+        if craft and craft.get("hit"):
+            zh_light.append(craft.get("zh") or "")
+        if not zh_light and kw and not weak:
+            zh_light.append("、".join(kw[:3]))
     zh_light = "；".join([x for x in zh_light if x])
 
     # 图生视频：外观已在首帧里，这里给显式占位符（不是留空——
@@ -1111,8 +1152,14 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     who = c["subject_zh"] or "<主体>"
     light = c["zh_light"] or "自然光"
     style = c["zh_style"] or ""
-    move = {"STATIC": "固定机位", "SLOW": "镜头极缓推近",
-            "KINETIC": "手持跟随"}.get(c["motion"], "镜头极缓推近")
+    # 运镜优先查表：查询里写了"贴地/横移/环绕"，就不该一律给"极缓推近"。
+    # 全片每个镜头都"极缓推近"是实测出来的一个通病。
+    _mv = _match_ref("motion_ref.json", query, c.get("kw") or [])
+    if _mv:
+        move = _mv["zh"]
+    else:
+        move = {"STATIC": "固定机位", "SLOW": "镜头极缓推近",
+                "KINETIC": "手持跟随"}.get(c["motion"], "镜头极缓推近")
     # 摄影层揉成短句，不加"摄影层"三字
     cine = _cine_line(c).split("\n")[0].replace("摄影层：", "")
 
