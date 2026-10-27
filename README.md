@@ -82,6 +82,8 @@ pip install torch transformers
 | [docs/PLATFORM_MATRIX.md](docs/PLATFORM_MATRIX.md) | 每个平台的上限/时间轴/安全时长；以及各平台内容的实测结论 |
 | [docs/FORMAT_SAMPLES.md](docs/FORMAT_SAMPLES.md) | 同一个镜头在 14 种格式下长什么样（并排对比）|
 | [docs/LOCAL_LLM_DIRECTOR.md](docs/LOCAL_LLM_DIRECTOR.md) | 本地小模型能不能自己写分镜（三轮实验与结论）|
+| [docs/AGENT.md](docs/AGENT.md) | 三版候选＋定向修补：它会自查，但一个字的内容也不写 |
+| [docs/QUICKSTART.md](docs/QUICKSTART.md) | 第一次用，只动三个参数就够 |
 | [STATUS.md](STATUS.md) | 全部实验记录（六十九节）|
 | [CORRECTIONS.md](CORRECTIONS.md) | **读任何数字之前先看这份** |
 | [LIMITATIONS.md](LIMITATIONS.md) | 已知缺陷 |
