@@ -15,6 +15,7 @@ ComfyUI 自定义节点（本地版）—— 不依赖任何外部服务
 
 import json
 import os
+import re
 import time
 
 
@@ -752,15 +753,37 @@ def _load_index(filekey):
 
 
 def _quantity_of(query):
-    """查询里的数量词 -> (中文前缀, 英文前缀)。单数返回 ("", "")。
+    """查询里的数量 -> (中文前缀, 英文前缀)。单数返回 ("", "")。
 
-    按**在句中出现的位置**挑，不是按表顺序：
-    「一群记者围住一个人」里「一个」排在表前面，先匹配就把"一群"漏掉了（实测）。
-    位置相同再取更长的（"一群群" 优先于 "一群"）。
+    两条路：
+      ① 短语表（一群 / 各家 / 无数 / 千军万马 —— 这些没有数字）
+      ② 数字 + 量词（两辆 / 三个 / 五架 / 两匹）—— 量词几乎不限，
+         所以用正则，不靠表。实测「两辆拉力赛车」因为表里只有"两个"而全丢。
+
+    按**在句中出现的位置**挑最早的那个：单数（一个/一位/一名）不加前缀。
     """
     q = query or ""
-    table = _load_ref("quantity_ref.json")
+    _NUM = {"一": "one", "两": "two", "二": "two", "三": "three", "四": "four",
+            "五": "five", "六": "six", "七": "seven", "八": "eight", "九": "nine",
+            "十": "ten", "几": "a few", "数": "several"}
+    _CLS = "辆匹条艘架座只名位头队群把张幅件台部枝根"
+
     best = None
+    # ① 数字 + 可选量词
+    m = re.search(r"([" + "".join(_NUM) + r"])\s*([" + _CLS + r"])?", q)
+    if m:
+        num, cls = m.group(1), m.group(2)
+        _CROWD = ("群", "队", "批", "堆")
+        if cls in _CROWD:
+            # 一群 / 一队 / 一批 —— 不是数字，是量词本身表数量
+            best = ((m.start(), -len(m.group(0))),
+                    m.group(0), "a crowd of", m.group(0))
+        elif not (num == "一" and cls in (None, "个", "位", "名", "只")):
+            # 中文前缀要带量词：两辆拉力赛车，不是"两拉力赛车"
+            best = ((m.start(), -len(m.group(0))),
+                    m.group(0), str(_NUM.get(num, "")), m.group(0))
+    # ② 短语表（位置更早才覆盖）
+    table = _load_ref("quantity_ref.json")
     for k in table:
         if not k:
             continue
@@ -769,11 +792,11 @@ def _quantity_of(query):
             continue
         key = (p, -len(k))
         if best is None or key < best[0]:
-            best = (key, k)
+            row = table[k]
+            best = (key, k, str(row.get("en") or ""), str(row.get("zh") or ""))
     if best is None:
         return "", ""
-    row = table[best[1]]
-    return str(row.get("zh") or ""), str(row.get("en") or "")
+    return best[3], best[2]
 
 
 def _apply_quantity(phrase, en_prefix):
@@ -1962,8 +1985,8 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v21.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v17.jsonl")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v25.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v18.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
