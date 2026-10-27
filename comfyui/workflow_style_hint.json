@@ -37,8 +37,8 @@
       "widgets_values": [
         "我想要一个中世纪骑士，骑马在麦田狂奔的镜头",
         "F:\\llm\\models\\e5-director-c27",
-        "F:\\llm\\data\\raw\\corpus_v25.jsonl",
-        "F:\\llm\\data\\raw\\subjects_v18.jsonl",
+        "F:\\llm\\data\\raw\\corpus_v26.jsonl",
+        "F:\\llm\\data\\raw\\subjects_v19.jsonl",
         "F:\\llm\\data\\raw\\crafts_v8.jsonl",
         "F:\\llm\\data\\raw\\materials_v12.jsonl",
         true,

@@ -6,7 +6,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "comfyui"))
 import local_style_hint as N  # noqa: E402
 
-Q = "两辆拉力赛车在沙地赛场上竞速，五个镜头"
+Q = "一个道士，和僵尸对打，六个镜头"
 
 node = N.LocalStyleHint()
 d = N.LocalStyleHint.INPUT_TYPES()["required"]
