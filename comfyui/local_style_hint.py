@@ -1088,14 +1088,27 @@ def _core(item, subj, craft, mat, domain, query=""):
     subject_phrase = (subj["phrase"]
                       if (subj and subj.get("hit") and not subj_is_scene) else "")
 
+    # 第二主体并进主体描述——一处折叠，所有模板自动生效。
+    # 「一个道士，和僵尸对打」以前只出一个道士，对面那位整个消失。
+    _sec = (subj or {}).get("second") or {}
+    _szh = _strip_style_mention(_strip_cmd(query), item)
+    # 原句里已经点了这个名就不用再补（"和僵尸对打，对面是僵尸"是重复）
+    if _sec.get("zh") and _sec["zh"] not in _szh:
+        _szh = f"{_szh}，对面是{_sec['zh']}"
+    if _sec.get("phrase") and subject_phrase:
+        subject_phrase = f"{subject_phrase} facing {_sec['phrase']}"
+
     return {
         "style": style, "zh_style": zh_style, "zh_light": zh_light,
         "scene": scene_phrase,
         "tags": tags, "kw": kw, "params": params, "motion": mo,
         "head": parts[0] if parts else "",
         "tail": parts[1] if len(parts) > 1 else "",
-        "subject_zh": _strip_style_mention(_strip_cmd(query), item),
+        "subject_zh": _szh,
         "subject": subject_phrase,
+        # 第二主体：只有真认出来才有，不硬凑
+        "subject2_zh": _sec.get("zh", ""),
+        "subject2": _sec.get("phrase", ""),
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         # 时长以"这一镜的运动幅度"为准（我们自己的表），
@@ -1487,6 +1500,8 @@ def _fmt_veo(item, subj, craft, mat, domain, query=""):
     """
     c = _core(item, subj, craft, mat, domain, query)
     who = c["subject"] or "<your subject>"
+    if c.get("subject2"):
+        who = f"{who} facing {c['subject2']}"
     scene = c["scene"] or "<your scene>"
     act = {"STATIC": "the subject stays almost still, only breathing and a slight shift",
            "SLOW": "the subject turns slowly toward the camera",
@@ -1932,6 +1947,31 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
         subj = {"exact": bool(_ex), "score": float(ssims[k]), "en": s["subject_en"],
                 "zh": s["subject_zh"], "phrase": s["phrase"],
                 "type": s.get("type", ""), "hit": False}
+
+        # ---- 第二主体：对打/对峙这类镜有两个当事方 ----
+        # 「一个道士，和僵尸对打」以前只有道士进提示词，僵尸整个消失。
+        # 取"除它之外"最像的那条；名字得不同，场景类不算（场景另有槽位）。
+        try:
+            _others = [(j, r) for j, r in enumerate(st["subjects"])
+                       if r.get("type") != "scene"
+                       and (r.get("subject_zh") or "") != (s.get("subject_zh") or "")]
+            if _others:
+                _jj, _rr = max(_others, key=lambda t: float(ssims[t[0]]))
+                _sc2 = float(ssims[_jj])
+                # 闸：要么逐字命中（僵尸就写在句子里），要么分数真够高。
+                # 只按"相对主体分的比例"会误报：实测「骑士和一个对手对峙」
+                # 把「奔马」当成了对手，「机器人看星空」把「星云」当成了配角。
+                _ex2 = bool(_exact_hits(q, [_rr]))
+                if _ex2 or _sc2 >= 0.45:
+                    subj["second"] = {
+                        "zh": _rr.get("subject_zh", ""),
+                        "phrase": _rr.get("phrase", ""),
+                        "score": _sc2,
+                        "exact": _ex2,
+                        "type": _rr.get("type", ""),
+                    }
+        except Exception:
+            pass
 
     # ---- 场景子集单独取最优（不限于 top1，也不改返回元组）----
     if (subj is not None and st.get("subj_emb") is not None
