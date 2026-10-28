@@ -556,6 +556,16 @@ def _cine_line(c):
     grade = (_CINE["grade"][0] if has(("neon", "霓虹", "青橙", "teal", "cyan", "赛博"))
              else _CINE["grade"][5] if has(("natural", "自然", "纪实", "doc"))
              else _CINE["grade"][2])
+    # 调色要跟光走：雨天配"暖金"是矛盾的（用户已经判过一次矛盾）。
+    # 冷光场景改用自然色/冷青灰，暖光场景才用暖金。
+    _lz = c.get("zh_light") or ""
+    _COOL = ("雨天", "雪", "荧光", "冷青", "夜空", "月", "雾")
+    _WARM = ("烛", "火", "暖金", "黄昏", "夕阳", "落日")
+    if not has(("neon", "霓虹", "青橙", "teal", "cyan", "赛博")):
+        if any(w in _lz for w in _COOL):
+            grade = _CINE["grade"][5]          # 自然色
+        elif any(w in _lz for w in _WARM):
+            grade = _CINE["grade"][2]          # 暖金
     mood = _CINE["mood"][0] if has(("lonely", "孤独", "压抑", "melancholy", "冰冷")) else _CINE["mood"][3]
     lens = _CINE["lens"][2] if has(("close", "特写", "肖像", "脸")) else _CINE["lens"][1]
 
@@ -2152,7 +2162,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v26.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v19.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v20.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
