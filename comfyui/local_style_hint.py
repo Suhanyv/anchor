@@ -631,7 +631,9 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt="", query=""):
         f"【共用】{("；".join([x for x in (light, style) if x]))}。{ar}。",
         "        " + _dline,
         "        " + _cine_line(c),
-        "        只使用<环境声>，不要配乐，不要字幕。",
+        # 环境声能推出来就写死，否则留占位符
+        ("        只使用" + c["sound_zh"] + "，不要配乐，不要字幕。")
+        if c.get("sound_zh") else "        只使用<环境声>，不要配乐，不要字幕。",
         "        不要出现：<2-4 个会让这批全废掉的错误，例如"
         "手部畸形、兵器穿模、面部漂移、各镜色调不一致>。",
     ]
@@ -668,7 +670,8 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt="", query=""):
         out.append(f"{b}–{_sec} 秒：<收束，停在什么画面上>。")
         out.append("")
         out.append(f"{_cine}")
-        out.append("只使用<环境声>，不要配乐，不要字幕。")
+        out.append((f"只使用{c['sound_zh']}，不要配乐，不要字幕。")
+                   if c.get("sound_zh") else "只使用<环境声>，不要配乐，不要字幕。")
         out.append("不要出现：<2-4 个会让这条废掉的错误>。")
         out.append("")
     return "\n".join(out)
@@ -865,6 +868,19 @@ def _scene_light(query):
             if key in table:
                 return table[key]
     return None
+
+
+def _scene_sound(query):
+    """场景 → 环境声。命中返回 (zh, en)，否则 ("", "")。
+
+    声音是最后一块空白：一直写「只使用<环境声>」等于让模型自己猜。
+    没有公开源（Freesound 要 token，实测 401），
+    但每个场景的环境声就那么几种，可以人工写。
+    """
+    row = _match_ref("sound_ref.json", query, [])
+    if not row:
+        return "", ""
+    return (row.get("zh") or ""), (row.get("en") or "")
 
 
 def _match_ref(filename, query, kw=None):
@@ -1136,6 +1152,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 第二主体：只有真认出来才有，不硬凑
         "subject2_zh": _sec.get("zh", ""),
         "subject2": _sec.get("phrase", ""),
+        # 环境声：场景能推出来就写死，推不出仍留占位符（该空就空）
+        "sound_zh": _scene_sound(query)[0],
+        "sound": _scene_sound(query)[1],
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         # 时长以"这一镜的运动幅度"为准（我们自己的表），
@@ -1347,7 +1366,8 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
     # 全局约束（官方：机位、光线、色彩、环境声、画幅，以及"无字幕、无配乐"）
     lines.append(f"全程保持主体清晰、背景自然虚化；{c['ar']}；"
                  f"{'轻微手持呼吸感' if c['motion'] != 'STATIC' else '机位完全固定'}；"
-                 f"只使用<环境声>，不要配乐，不要字幕。")
+                 + (f"只使用{c['sound_zh']}，不要配乐，不要字幕。" if c.get("sound_zh")
+                    else "只使用<环境声>，不要配乐，不要字幕。"))
     lines.append(_cine_line(c))
     # negative 并入全局约束：这是这一格最容易被忽略、又最影响成败的部分
     lines.append("不要出现：<写 2-4 个真正会让这条废掉的错误，"
@@ -1406,7 +1426,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     if _all:
         seg.append("技法：" + "；".join(_all[:5]) + "。")
     seg.append(f"{c['ar']}，全程保持主体清晰、背景自然虚化。")
-    seg.append("只使用<环境声>，不要配乐，不要字幕。")
+    # 环境声能推出来就写死；推不出来才留占位符
+    _snd = c.get("sound_zh") or ""
+    seg.append(f"只使用{_snd}，不要配乐，不要字幕。" if _snd
+               else "只使用<环境声>，不要配乐，不要字幕。")
     # 示例里不写"多余的人"——那是未经实测的假设，会压制群像镜头（见 CORRECTIONS C6）
     seg.append("不要出现：<2-4 个会让这条废掉的错误，例如手部畸形、"
                "兵器穿模、面部漂移>。")

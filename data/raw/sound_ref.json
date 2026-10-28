@@ -1,0 +1,29 @@
+{
+  "_about": "场景 → 声音。声音是最后一整维空白：提示词里一直写「只使用<环境声>」，等于把这一维整个交给模型去猜。",
+  "_why": "没有公开源可用（Freesound 要注册 token，实测 401），但声音本身是可以人工策展的：每个场景的环境声就那么几种。这张表和「场景→光」同一个做法。",
+  "_usage": "按顺序匹配，命中就把环境声写死；不命中仍留 <环境声> 占位符（该空就空）。",
+
+  "雨": { "zh": "雨打在铁皮和地面上，鞋踩进水里，远处车流压过湿路面", "en": "rain on metal and stone, footsteps through water, traffic hissing on wet asphalt", "kw": ["雨", "下雨", "雨中", "雨里"] },
+  "雪": { "zh": "雪吸掉了大部分声音，只剩脚踩雪的碎响和远处的风", "en": "snow swallowing most sound, boots creaking, wind far off", "kw": ["雪天", "下雪", "雪地", "雪原", "雪中"] },
+  "风沙": { "zh": "风裹着沙打在衣服和金属上，布面被扯得发响", "en": "wind driving sand against cloth and metal, fabric snapping", "kw": ["沙尘", "风沙", "沙漠", "戈壁", "大风"] },
+
+  "室内夜": { "zh": "日光灯的低频嗡鸣，冰柜的压缩机，脚步在瓷砖上", "en": "a fluorescent hum, a fridge compressor, footsteps on tile", "kw": ["便利店", "超市", "货架", "办公室", "教室", "走廊"] },
+  "医院": { "zh": "走廊尽头的轮子声，监护仪的规律提示音，远处有人低声说话", "en": "a trolley far down the corridor, a monitor's steady tone, low voices", "kw": ["医院", "急诊", "病房", "诊室"] },
+  "家": { "zh": "水龙头滴水，电器嗡鸣，楼下偶尔传上来说话声", "en": "a dripping tap, appliance hum, voices drifting up from below", "kw": ["卧室", "公寓", "客厅", "厨房", "家"] },
+
+  "森林": { "zh": "树叶互相摩擦，鸟叫很稀疏，脚踩断枯枝", "en": "leaves rubbing, sparse birds, twigs snapping underfoot", "kw": ["树林", "森林", "竹林", "草丛"] },
+  "水边": { "zh": "水拍岸的节奏，风把水声带过来，远处有船", "en": "water against the shore, wind carrying it, a boat somewhere", "kw": ["河岸", "海边", "沙滩", "渡口", "湖", "江"] },
+  "街道": { "zh": "车流压过路面，远处红绿灯的提示音，人声在一起", "en": "traffic over asphalt, a crossing signal, a wash of voices", "kw": ["街道", "街角", "十字路口", "巷子", "城市"] },
+
+  "战场": { "zh": "金属相撞，靴子踩在碎石上，很多人的呼吸和喊声", "en": "metal on metal, boots on gravel, many breaths and shouts", "kw": ["战场", "军阵", "交战", "对决", "厮杀", "对峙"] },
+  "马蹄": { "zh": "马蹄打在硬地上，甲片互撞，旗面被风扯响", "en": "hooves on hard ground, plate armour clashing, a banner snapping", "kw": ["骑士", "马", "骑兵", "行军"] },
+  "刀剑": { "zh": "刀出鞘的摩擦，交锋那一下最响，其余是脚步和呼吸", "en": "steel leaving a scabbard, one loud strike, then feet and breath", "kw": ["剑", "刀", "兵器", "格挡", "劈"] },
+
+  "道术": { "zh": "香火细微的爆响，纸符翻动，木剑划过空气", "en": "incense crackling, paper charms turning, a wooden sword through air", "kw": ["道士", "僵尸", "符", "法坛", "义庄"] },
+
+  "引擎": { "zh": "发动机在高转，砂石打在车底，轮胎侧滑时的尖响", "en": "an engine held high, gravel under the floor, tyres breaking loose", "kw": ["赛车", "引擎", "竞速", "车"] },
+
+  "太空": { "zh": "几乎没有声音，只有极低频的舱体共振和自己呼吸", "en": "almost nothing, only a low hull resonance and your own breathing", "kw": ["太空", "宇宙", "舱内", "空间站"] },
+  "火": { "zh": "火苗的爆裂，木头塌下去的闷响，远处有人清嗓子", "en": "flames popping, wood settling, someone clearing their throat", "kw": ["火把", "篝火", "火堆", "燃烧"] },
+  "教堂": { "zh": "空间混响很长，脚步一响就散开，几乎没有人声", "en": "long reverb, each footstep spreading out, almost no voices", "kw": ["教堂", "寺院", "庙", "神殿"] }
+}
