@@ -880,6 +880,19 @@ def _scene_light(query):
     return None
 
 
+def _scene_beats(query):
+    """动作 → 节拍。返回 (第二段, 收尾) 或 ("", "")。
+
+    每条输出以前都挂着同一句「<写：动作怎么继续或停下…>」，
+    等于把"这一镜怎么发展"整个交回给人。而动作的推进是可枚举的：
+    跑就跑远、打就收势、坐就换重心。填不出仍留占位符。
+    """
+    row = _match_ref("beat_ref.json", query, [])
+    if not row:
+        return "", ""
+    return (row.get("mid") or ""), (row.get("end") or "")
+
+
 def _scene_sound(query):
     """场景 → 环境声。命中返回 (zh, en)，否则 ("", "")。
 
@@ -1165,6 +1178,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 环境声：场景能推出来就写死，推不出仍留占位符（该空就空）
         "sound_zh": _scene_sound(query)[0],
         "sound": _scene_sound(query)[1],
+        # 动作节拍：第二段与收尾。填得出就不留占位符
+        "beat_mid": _scene_beats(query)[0],
+        "beat_end": _scene_beats(query)[1],
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         # 时长以"这一镜的运动幅度"为准（我们自己的表），
@@ -1425,8 +1441,15 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
         seg.append(f"{style}。")
     seg.append(f"{who}。")
     seg.append(f"0 到 {half} 秒，{who}，{move}。")
-    seg.append(f"{half} 到 {dur} 秒，<写：动作怎么继续或停下；"
-               f"要变形就写清从什么变成什么>。")
+    # 第二段：能从动作表推出的就写出来，推不出才留占位符
+    _bmid, _bend = c.get("beat_mid") or "", c.get("beat_end") or ""
+    if _bmid:
+        seg.append(f"{half} 到 {dur} 秒，{_bmid}。")
+        if _bend:
+            seg.append(f"最后：{_bend}。")
+    else:
+        seg.append(f"{half} 到 {dur} 秒，<写：动作怎么继续或停下；"
+                   f"要变形就写清从什么变成什么>。")
     seg.append(f"{cine}")
     # 症状 -> 手段：写"怎么治"，不写"有什么毛病"
     _hit_s, _means = _symptom_means(query)
@@ -2010,11 +2033,16 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
 
         # ---- 第二主体：对打/对峙这类镜有两个当事方 ----
         # 「一个道士，和僵尸对打」以前只有道士进提示词，僵尸整个消失。
-        # 取"除它之外"最像的那条；名字得不同，场景类不算（场景另有槽位）。
+        # **只在对抗性动词出现时才启用**：实测「拿起桌上的竹简」把「团扇」
+        # 当成了对手，因为两个都是器物、分数也够。
+        _VERSUS = ("对打", "对峙", "交战", "交手", "搏斗", "打斗", "面对",
+                   "迎战", "对垒", "对视")
         try:
-            _others = [(j, r) for j, r in enumerate(st["subjects"])
-                       if r.get("type") != "scene"
-                       and (r.get("subject_zh") or "") != (s.get("subject_zh") or "")]
+            _others = []
+            if any(v in q for v in _VERSUS):
+                _others = [(j, r) for j, r in enumerate(st["subjects"])
+                           if r.get("type") != "scene"
+                           and (r.get("subject_zh") or "") != (s.get("subject_zh") or "")]
             if _others:
                 _jj, _rr = max(_others, key=lambda t: float(ssims[t[0]]))
                 _sc2 = float(ssims[_jj])
