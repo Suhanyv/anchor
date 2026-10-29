@@ -880,6 +880,38 @@ def _scene_light(query):
     return None
 
 
+def _scene_risks(query, limit=3):
+    """这条会怎么废。返回具体风险短语，最多 limit 条。
+
+    通用的「手部畸形、兵器穿模」不是针对这一条的：
+    雨里真正会废的是"雨只在前景、衣服却没湿"，
+    僵尸是"关节太顺、不像僵的"，赛车是"轮胎陷进地面"。
+    """
+    rows = _load_ref("risk_ref.json")
+    q = query or ""
+    pools = []
+    for name, row in rows.items():
+        if any(k in q for k in (row.get("kw") or [name])):
+            rs = [r for r in (row.get("risk") or []) if r not in
+                  [x for p in pools for x in p]]
+            if rs:
+                pools.append(rs)
+    # 每类轮流取一条：否则「道士打僵尸」只会拿到打斗那组，
+    # 僵尸特有的风险（关节太顺、符纸飘得不像纸）一条都进不来。
+    out = []
+    i = 0
+    while len(out) < limit and any(pools):
+        for p in pools:
+            if i < len(p) and p[i] not in out:
+                out.append(p[i])
+                if len(out) >= limit:
+                    break
+        i += 1
+        if i > 8:
+            break
+    return out[:limit]
+
+
 def _scene_beats(query):
     """动作 → 节拍。返回 (第二段, 收尾) 或 ("", "")。
 
@@ -1181,6 +1213,8 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 动作节拍：第二段与收尾。填得出就不留占位符
         "beat_mid": _scene_beats(query)[0],
         "beat_end": _scene_beats(query)[1],
+        # 风险：具体到这一条的失败方式
+        "risks": _scene_risks(query),
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         # 时长以"这一镜的运动幅度"为准（我们自己的表），
@@ -1464,8 +1498,12 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     seg.append(f"只使用{_snd}，不要配乐，不要字幕。" if _snd
                else "只使用<环境声>，不要配乐，不要字幕。")
     # 示例里不写"多余的人"——那是未经实测的假设，会压制群像镜头（见 CORRECTIONS C6）
-    seg.append("不要出现：<2-4 个会让这条废掉的错误，例如手部畸形、"
-               "兵器穿模、面部漂移>。")
+    _rk = c.get("risks") or []
+    if _rk:
+        seg.append("不要出现：" + "、".join(_rk) + "。")
+    else:
+        seg.append("不要出现：<2-4 个会让这条废掉的错误，例如手部畸形、"
+                   "兵器穿模、面部漂移>。")
     return "".join(seg)
 
 
