@@ -1345,6 +1345,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         "shotsize_zh": ((shot_size_auto(subj, query))
                         if not _match_ref("shot_size_ref.json", query, [])
                         else (_match_ref("shot_size_ref.json", query, []) or {}).get("zh", "")),
+        # 机位角度：观众从哪个位置看。仰视让人变重，俯视让人变轻
+        "angle_zh": ((_match_ref("camera_angle_ref.json", query, []) or {})
+                     .get("zh", "")),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1625,6 +1628,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _ss = c.get("shotsize_zh") or ""
     if _ss:
         seg.append(f"{_ss}。")
+    # 机位角度：观众从哪个位置看
+    _ag = c.get("angle_zh") or ""
+    if _ag:
+        seg.append(f"{_ag}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

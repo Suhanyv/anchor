@@ -1,0 +1,161 @@
+{
+  "_about": "机位角度：观众从哪个位置看。角度是带态度的视点。",
+  "_why": "运镜表只有「怎么动」（推、移、环绕），没有「从哪个高度看」。仰视让人变重，俯视让人变轻，地平线一斜就说明有事不对——这是运镜那一维盖不住的。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/camera-angles （17 种角度；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "查询点名就用，输出一句「角度：…」。只认查询原话，不接受风格标签（实测黑泽明的「动态构图」会误触发）。",
+  "平视": {
+    "kw": [
+      "平视",
+      "eye level"
+    ],
+    "zh": "角度：机位在人物眼睛高度，不仰不俯；观众与他对等，这个角度最像日常",
+    "en": "camera at eye height, neither above nor below, seeing the subject as an equal"
+  },
+  "俯拍": {
+    "kw": [
+      "俯拍",
+      "高角度",
+      "high angle",
+      "高机位",
+      "从上往下"
+    ],
+    "zh": "角度：机位在人上方压下来；人变小、没遮拦、孤立，观众站在一个居高临下的位置",
+    "en": "camera above and angled down, the subject smaller and exposed, the viewer looking down on them"
+  },
+  "低角度": {
+    "kw": [
+      "低角度",
+      "仰拍",
+      "low angle",
+      "仰视",
+      "从下往上"
+    ],
+    "zh": "角度：机位在视线以下往上仰；人在画面里变得高大、沉，一股压迫过来的力量",
+    "en": "camera below eye level looking up, the figure tall and heavy, force pressing toward the lens"
+  },
+  "垂直俯拍": {
+    "kw": [
+      "垂直俯拍",
+      "上帝视角",
+      "birds eye",
+      "鸟瞰",
+      "俯瞰",
+      "顶拍",
+      "航拍俯视"
+    ],
+    "zh": "角度：从高处垂直往下看；人变成平面上的小形状，观众开始像读地图一样读它",
+    "en": "straight down from high above, the figure flattened to a shape, the frame read like a map"
+  },
+  "虫视角": {
+    "kw": [
+      "虫视角",
+      "worms eye"
+    ],
+    "zh": "角度：机位贴地陡直朝上；人、楼、东西在镜头前高耸，观众觉得自己渺小",
+    "en": "camera on the ground tilted steeply up, everything towering, the viewer made small"
+  },
+  "桌面俯拍": {
+    "kw": [
+      "桌面俯拍",
+      "顶视",
+      "overhead"
+    ],
+    "zh": "角度：正上方垂直往下看一个近处的平面——书桌、床、棋盘、一双正在工作的手；位置一眼读懂",
+    "en": "straight down onto a close surface — a desk, a bed, a board, working hands — everything's position legible"
+  },
+  "地面视角": {
+    "kw": [
+      "地面视角",
+      "ground level",
+      "贴地视角",
+      "地面机位"
+    ],
+    "zh": "角度：机位贴地、大致水平，地面往远处延伸；先看到靴子、车轮、灰尘，然后才看到脸",
+    "en": "camera on the floor, roughly level, ground running away; boots and wheels before faces"
+  },
+  "荷兰角": {
+    "kw": [
+      "荷兰角",
+      "斜角",
+      "dutch angle"
+    ],
+    "zh": "角度：机位沿镜轴转，地平线在画面里斜着穿过；所有垂线都歪了，说明有事不对",
+    "en": "camera rolled on its axis, the horizon cutting diagonally, every vertical off — something is wrong"
+  },
+  "主观镜头": {
+    "kw": [
+      "主观镜头",
+      "POV",
+      "第一人称"
+    ],
+    "zh": "角度：机位就在他的眼睛位置，拍他看见的；观众不再旁观，那一刻就是他",
+    "en": "the camera at the character's eyes, seeing what they see, the viewer becoming them"
+  },
+  "侧面": {
+    "kw": [
+      "侧面",
+      "侧脸",
+      "profile"
+    ],
+    "zh": "角度：与脸成 90 度，只看得见眉骨、鼻梁、下颌一条轮廓线，只有一只眼；他在看，看不见我们",
+    "en": "90° to the face, one brow-nose-jaw line and a single eye, the subject unable to see the viewer"
+  },
+  "四分之三": {
+    "kw": [
+      "四分之三",
+      "three quarter"
+    ],
+    "zh": "角度：相对镜头转约 45 度，两只眼都在，脸的立体轮廓也在；人在场、有层次、好读",
+    "en": "about 45° to the lens, both eyes and the volume of the face, present and readable"
+  },
+  "反打": {
+    "kw": [
+      "反打",
+      "reverse angle",
+      "正反打"
+    ],
+    "zh": "角度：机位转到对面，拍上一镜里他面对的那一侧；两个角度一剪，观众站到了对话中间",
+    "en": "the camera turned to the far side, covering what the previous angle faced, the viewer placed between"
+  },
+  "后备箱": {
+    "kw": [
+      "后备箱",
+      "trunk shot"
+    ],
+    "zh": "角度：机位在行李箱内部仰拍，盖子打开、有人俯身看进来；观众代入了箱里的那个东西",
+    "en": "camera inside the trunk looking up as the lid opens, a face leaning in from above"
+  },
+  "腰部高度": {
+    "kw": [
+      "腰部高度",
+      "hip level"
+    ],
+    "zh": "角度：机位在站姿的腰高，框住手、腰带、枪套，身体从画面下方往上延伸；先看到手要干什么，再看到表情",
+    "en": "camera at hip height, hands and belt and holster framed, the body rising out of the bottom edge"
+  },
+  "肩高": {
+    "kw": [
+      "肩高",
+      "shoulder level"
+    ],
+    "zh": "角度：机位在成年人肩膀高度，略低于视线；人比平视略高一点，观众觉得自己也在房间里",
+    "en": "camera at shoulder height, just under eyeline, the viewer standing in the room too"
+  },
+  "打破第四面墙": {
+    "kw": [
+      "打破第四面墙",
+      "直视镜头",
+      "fourth wall"
+    ],
+    "zh": "角度：角色直视镜头，说话，或者只是察觉到观众在；屏障没了，观众成了同谋或被指控的人",
+    "en": "the subject looks straight down the lens, addressing or noticing the viewer, the barrier gone"
+  },
+  "物体主观": {
+    "kw": [
+      "物体主观",
+      "object POV"
+    ],
+    "zh": "角度：机位架在一个物体的位置上，仿佛它看得见——信箱、冰箱、手机、飞行中的子弹",
+    "en": "the camera placed as an object that can see — a mailbox, a fridge, a phone, a bullet in flight"
+  }
+}
