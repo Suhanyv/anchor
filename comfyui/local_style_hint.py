@@ -1355,6 +1355,9 @@ def _core(item, subj, craft, mat, domain, query=""):
                      .get("zh", "")),
         # 色调：命中就给 short 填进摄影层，desc 另起一句
         "color_row": (_match_ref("color_ref.json", query, []) or {}),
+        # 光学效果：镜片上的把戏，摄影机"真在现场"的证据
+        "optical_zh": ((_match_ref("optical_ref.json", query, []) or {})
+                       .get("zh", "")),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1643,6 +1646,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _cd = (c.get("color_row") or {}).get("desc") or ""
     if _cd:
         seg.append(f"{_cd}。")
+    # 光学效果
+    _op = c.get("optical_zh") or ""
+    if _op:
+        seg.append(f"{_op}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

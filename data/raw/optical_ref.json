@@ -1,0 +1,87 @@
+{
+  "_about": "光学效果：发生在镜片或感光元件上的把戏。焦点、眩光、叠加、比例。",
+  "_why": "这类效果是「摄影机真实在场」的证据——眩光让人相信光真的照进了镜头。以前只有漏光一条，其余全无。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/optical-effects （29 种机内光学效果；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "点名就用，输出一句「光学：…」。挑了对生成有实际影响的 16 条，纯后期或过于冷门的没收录。",
+
+  "镜头眩光": {
+    "kw": ["眩光", "光斑", "lens flare", "耀斑"],
+    "zh": "光学：强光直射镜头，在镜片里散成光斑和光带；这一下让摄影机显得真的在现场",
+    "en": "hard light striking the lens and scattering into flares along the glass"
+  },
+  "变形光斑": {
+    "kw": ["变形宽银幕", "横向光带", "anamorphic"],
+    "zh": "光学：强光点打在变形镜头上，拉出一道细长的蓝色横光带；大银幕的规模感",
+    "en": "a point of light smeared into a long blue horizontal streak by an anamorphic lens"
+  },
+  "高光晕": {
+    "kw": ["高光晕", "halation", "红晕"],
+    "zh": "光学：最亮处周围一圈柔和偏红橙的晕，像光在胶片里回头反射了一次",
+    "en": "a soft red-orange halo blooming around the highlights"
+  },
+  "胶片颗粒": {
+    "kw": ["颗粒", "grain", "噪点感"],
+    "zh": "光学：画面上一层细微跳动的颗粒，像沙；它告诉观众自己离现实有多近",
+    "en": "a fine moving grain over the image, the texture of the emulsion itself"
+  },
+  "焦外光斑": {
+    "kw": ["bokeh", "焦外", "散景"],
+    "zh": "光学：焦点之外的小光点化开成柔和的色块；背景不再给信息，变成气氛",
+    "en": "out-of-focus points blooming into soft colour, the background turned to atmosphere"
+  },
+  "双重曝光": {
+    "kw": ["双重曝光", "double exposure"],
+    "zh": "光学：两个画面叠在同一个镜头里，一个像幽灵透过另一个；一张脸里填满一段记忆",
+    "en": "two images layered in one frame, one ghosting through the other"
+  },
+  "焦点转移": {
+    "kw": ["焦点转移", "转焦", "rack focus"],
+    "zh": "光学：一个镜头内把清晰的焦点从一个人移到另一个人，前一个变虚后一个变实；像画面内部剪了一刀",
+    "en": "focus pulled from one subject to another within the shot, a cut made without cutting"
+  },
+  "浅景深": {
+    "kw": ["浅景深", "shallow focus"],
+    "zh": "光学：只有薄薄一层是清楚的，前后全糊；人被从周围世界里摘出来",
+    "en": "only a thin plane in focus, foreground and background dissolved"
+  },
+  "深焦": {
+    "kw": ["深焦", "deep focus"],
+    "zh": "光学：前中后三层同时清晰，一镜里可以同时演几件事，观众自己决定看哪",
+    "en": "foreground, middle and back all sharp, several things happening at once"
+  },
+  "强制透视": {
+    "kw": ["强制透视", "forced perspective"],
+    "zh": "光学：把人或物摆在算好的距离上，让镜头里的大小和远近撒谎；换个角度就穿帮",
+    "en": "subjects placed at calculated distances so size and distance lie to the lens"
+  },
+  "漏光": {
+    "kw": ["漏光", "light leak"],
+    "zh": "光学：一道偏离的光扫过画面边缘，通常暖橙或红；像旧摄影机、家庭录像、一段容易碎的回忆",
+    "en": "a stray warm streak sweeping across one edge of the frame"
+  },
+  "暗角": {
+    "kw": ["暗角", "vignette"],
+    "zh": "光学：画面四角压暗，中心保持亮；视线被收拢，画面变得私密、像相册里的",
+    "en": "corners darkened, the centre held bright, the frame turned private"
+  },
+  "夜视": {
+    "kw": ["夜视", "night vision"],
+    "zh": "光学：增强器的绿单色、重颗粒、发亮的眼睛、过曝的光源，周围一圈圆框；有人在暗处看得见",
+    "en": "green monochrome, heavy grain, glowing eyes, a circular frame"
+  },
+  "热成像": {
+    "kw": ["热成像", "thermal"],
+    "zh": "光学：世界变成温度图，活的身体在白黄橙里发亮，背后是冷蓝紫；追踪的是生命，不是身份",
+    "en": "the world as a heat map, bodies glowing white-orange against cold violet"
+  },
+  "故障": {
+    "kw": ["故障", "glitch", "撕裂"],
+    "zh": "光学：画面卡顿、错位、撕裂、出现像素块或雪花；信号出错，或者现实本身出了错",
+    "en": "frame stuttering, tearing, pixel blocks and static"
+  },
+  "画幅切换": {
+    "kw": ["画幅切换", "变形画幅", "ratio switch"],
+    "zh": "光学：放映途中改变画面形状，从方到宽或反过来；世界在打开或收紧",
+    "en": "the frame changing shape mid-film, opening or closing"
+  }
+}
