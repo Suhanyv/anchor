@@ -1,0 +1,77 @@
+{
+  "_about": "脸部光型：光从哪个角度打，脸上留下什么形状的阴影，观众因此读出什么。",
+  "_why": "已有 32 种光全是「什么时候、什么光源」（雨天光、荧光灯、月光），缺的是「光位」。同一支蜡烛，从侧面打和从底下打，是两场戏。这一类全部缺。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/lighting （38 种布光技法的分类；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "查询点名就用，输出一句「光位：…」；不点名不写。",
+
+  "伦勃朗光": {
+    "kw": ["伦勃朗光", "三角光"],
+    "zh": "光位：主光高一点、斜 45 度从一侧打，另一侧脸颊大半沉进阴影，只在眼睛下面留一小块三角亮斑；脸是雕塑感的，有一半藏着没露",
+    "en": "key high and 45° off one side, the far cheek mostly shadow but a small triangle of light under the eye"
+  },
+  "环形光": {
+    "kw": ["环形光", "loop"],
+    "zh": "光位：主光略高于眼睛、偏 30 到 45 度，鼻子投下一小片弯向脸颊但不断开的影子；脸自然、立体、让人觉得可信",
+    "en": "key just above eye level at 30–45°, a small loop shadow from the nose curving toward the cheek without touching"
+  },
+  "蝴蝶光": {
+    "kw": ["蝴蝶光", "butterfly"],
+    "zh": "光位：主光又高又正、直对着脸，鼻子底下投出一小片对称的蝴蝶形阴影；颧骨被提亮，像海报",
+    "en": "key high and dead centre, a symmetrical butterfly shadow under the nose, cheekbones lifted"
+  },
+  "分脸光": {
+    "kw": ["分脸光", "split"],
+    "zh": "光位：主光与脸成 90 度，正好半张脸受光、半张沿着鼻梁沉进阴影；人被劈成两半",
+    "en": "key at 90° to the face, one half lit, the other dropped into shadow along the nose line"
+  },
+  "窄光": {
+    "kw": ["窄光", "short light"],
+    "zh": "光位：主光打向离镜头较远那侧，靠近镜头的一侧反而在暗里；脸更瘦、更有轮廓，像有话没说",
+    "en": "key on the far cheek, the near side in shadow, the face narrowed and withheld"
+  },
+  "宽光": {
+    "kw": ["宽光", "broad light"],
+    "zh": "光位：主光打向靠近镜头那一侧，阴影落在远处那半；脸饱满、柔和、敞开着",
+    "en": "key on the near cheek, shadow falling away from camera, the face opened and rounded"
+  },
+  "三点布光": {
+    "kw": ["三点布光", "三灯"],
+    "zh": "光位：主光造型、辅光把阴影提起来、背面一道光把人从背景里分出来；观众只看到一张立体的脸，不会注意到灯",
+    "en": "key for shape, fill lifting the shadow, a back light separating the figure from the ground"
+  },
+  "轮廓光": {
+    "kw": ["轮廓光", "rim"],
+    "zh": "光位：光从身后略偏一侧来，只在头发、肩膀或身体边缘勾一道细亮线；脸可以全在暗里，形体照样读得出来",
+    "en": "light from behind and slightly off-axis, a thin bright edge on hair and shoulder, the face free to stay dark"
+  },
+  "轮廓侧光": {
+    "kw": ["轮廓侧光", "kicker"],
+    "zh": "光位：从侧后方、位置偏低打来，擦过脸颊下颌的边缘；质感、张力、身体的存在感都出来了",
+    "en": "from behind and low at the side, grazing jaw and cheek, texture and physical presence"
+  },
+  "头发光": {
+    "kw": ["头发光", "hair light"],
+    "zh": "光位：从上方偏后打，照亮头顶和后脑，头发从背景里分离出来、带一层光晕",
+    "en": "from above and behind, lifting the crown and the back of the head off the background"
+  },
+  "交叉布光": {
+    "kw": ["交叉布光", "cross"],
+    "zh": "光位：两侧各一支，每一支对一边是主光、对另一边是轮廓；人在两个方向被同时雕刻，紧绷、对峙、像舞台",
+    "en": "a light on each side, key for one cheek and rim for the other, the figure carved from both directions"
+  },
+  "剪影浮雕光": {
+    "kw": ["剪影浮雕", "cameo"],
+    "zh": "光位：只照亮主体，背景压成纯黑，像刻在黑石板上的一幅浮雕；除他之外别无可看",
+    "en": "only the subject lit, background crushed to black, a cameo on dark stone"
+  },
+  "反光板补光": {
+    "kw": ["反光板", "bounce"],
+    "zh": "光位：光先打到白板、墙面、天花板或沙地上再反射回来；柔和、铺得开、阴影不会死黑",
+    "en": "light bounced off a white card, wall or sand, soft and broad, shadows never crushed"
+  },
+  "动机光源": {
+    "kw": ["动机光", "motivated"],
+    "zh": "光位：每一束光都像是从画面里真实存在的东西来的——窗、台灯、屏幕、火、驶过的车；观众意识不到布光，于是相信这个房间",
+    "en": "every beam traceable to something inside the world: window, lamp, screen, fire, a passing car"
+  }
+}
