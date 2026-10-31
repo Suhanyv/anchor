@@ -2339,7 +2339,7 @@ class LocalStyleHint:
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v26.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v20.jsonl")}),
-                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v8.jsonl")}),
+                "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
                 # （钢甲问出太空船内、丝绸问出湿壁画两个案例已修好）。
