@@ -567,6 +567,10 @@ def _cine_line(c):
         elif any(w in _lz for w in _WARM):
             grade = _CINE["grade"][2]          # 暖金
     # 类型片视觉定了调就只有它能定调：黑色电影不能配"自然色"
+    # 色表优先：命中就用它，别再用写死的三档
+    _cr = c.get("color_row") or {}
+    if _cr.get("short"):
+        grade = _cr["short"]
     _glz = c.get("genrelook_zh") or ""
     if _glz:
         if "黑白" in _glz:
@@ -1348,6 +1352,8 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 机位角度：观众从哪个位置看。仰视让人变重，俯视让人变轻
         "angle_zh": ((_match_ref("camera_angle_ref.json", query, []) or {})
                      .get("zh", "")),
+        # 色调：命中就给 short 填进摄影层，desc 另起一句
+        "color_row": (_match_ref("color_ref.json", query, []) or {}),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1632,6 +1638,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _ag = c.get("angle_zh") or ""
     if _ag:
         seg.append(f"{_ag}。")
+    # 色调：调色是一句完整的话，不只是摄影层里两个字的标签
+    _cd = (c.get("color_row") or {}).get("desc") or ""
+    if _cd:
+        seg.append(f"{_cd}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

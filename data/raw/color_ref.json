@@ -1,0 +1,97 @@
+{
+  "_about": "调色风格：色调承载基调。以前摄影层的调色是写死的几个候选（暖金/青橙/自然色），现在改由这张表决定。",
+  "_why": "调色不是装饰，是信号：琥珀色=过去，冷蓝=当下，去饱和=战争。写死候选等于让每个镜头只有三种情绪。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/color （15 种调色；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "命中就用 short 填进摄影层的调色位，并把 desc 作为一句「色调：…」写进正文。",
+
+  "青橙": {
+    "kw": ["青橙", "teal and orange", "teal"],
+    "short": "青橙对比",
+    "desc": "色调：肤色和暖光推向橙，阴影与天空推向青蓝；两种互补色一撞，人从背景里跳出来",
+    "en": "skin and warm light to orange, shadows and sky to teal, complementary so the figure lifts off the ground"
+  },
+  "跳漂": {
+    "kw": ["跳漂", "bleach bypass", "留银"],
+    "short": "跳漂",
+    "desc": "色调：保留部分银粒，彩色上叠一层黑白；深黑、硬高光、颜色发闷，泛金属光",
+    "en": "silver retained over colour, crushed blacks, hard highlights, metallic and tired"
+  },
+  "黑白": {
+    "kw": ["黑白", "black and white", "单色"],
+    "short": "黑白",
+    "desc": "色调：去掉颜色，只剩纯白到深黑的影调；注意力全落在脸、形体和光上",
+    "en": "no colour, only tone from white to black, attention moved to face, form and light"
+  },
+  "棕褐": {
+    "kw": ["棕褐", "sepia", "老照片"],
+    "short": "棕褐",
+    "desc": "色调：暖褐色单色，像老照片的调色；一眼读出这是过去、是记忆",
+    "en": "warm brown monochrome, the colour of old prints, read as memory"
+  },
+  "低饱和": {
+    "kw": ["低饱和", "去饱和", "desaturated"],
+    "short": "低饱和",
+    "desc": "色调：所有颜色压下去，剩灰、橄榄和褪掉的棕，只留一丝色相；世界像耗尽了能量",
+    "en": "colour pulled down to grey, olive and faded brown with a trace of hue left"
+  },
+  "高饱和": {
+    "kw": ["高饱和", "hyper saturated", "浓艳"],
+    "short": "高饱和",
+    "desc": "色调：颜色推到远超自然的强度，红像在烧，绿在发光，霓虹在颤；离开寻常现实",
+    "en": "colour pushed past nature, reds burning, greens glowing, neon vibrating"
+  },
+  "冷蓝": {
+    "kw": ["冷蓝", "cool blue", "钢灰"],
+    "short": "冷蓝",
+    "desc": "色调：整片偏蓝和钢灰，白、暗部、连肤色都变冷；暖意像是被人为抽走",
+    "en": "everything pushed to blue and steel grey, warmth drained out of the frame"
+  },
+  "暖琥珀": {
+    "kw": ["暖琥珀", "warm amber", "蜜色"],
+    "short": "暖金",
+    "desc": "色调：偏金、蜜、橙，高光变暖，皮肤透出柔光；亲近、安心、也可能是闷住人的暖",
+    "en": "gold, honey and orange, highlights warmed, skin luminous — cosy or stifling"
+  },
+  "褪色": {
+    "kw": ["褪色", "faded film", "粉彩"],
+    "short": "褪色",
+    "desc": "色调：黑位提亮、对比度降低、颜色偏粉彩，像晒了多年的老照片；温柔又隔着一层",
+    "en": "lifted blacks, low contrast, pastel colour, like a print left in the sun"
+  },
+  "反冲": {
+    "kw": ["反冲", "cross process", "交叉冲洗"],
+    "short": "反冲",
+    "desc": "色调：反差拉高，高光过曝，颜色跑向黄、绿或品红；生涩、不稳定，像失控之夜的快照",
+    "en": "contrast pushed, highlights blown, colour drifting to yellow-green or magenta"
+  },
+  "假夜景": {
+    "kw": ["假夜景", "day for night"],
+    "short": "蓝调夜景",
+    "desc": "色调：白天拍、降曝光加蓝调，装成月光下的夜；夜很辽阔，细节还在",
+    "en": "shot by day, underexposed and blued into moonlight, the night wide and legible"
+  },
+  "钨丝白平衡": {
+    "kw": ["钨丝", "tungsten", "3200K"],
+    "short": "钨丝白平衡",
+    "desc": "色调：机器按白炽灯的色温定，灯下的室内是暖的，窗外和日光变成很冷的蓝",
+    "en": "balanced for tungsten so the room glows warm and daylight outside turns deep blue"
+  },
+  "分离色调": {
+    "kw": ["分离色调", "split toning"],
+    "short": "分离色调",
+    "desc": "色调：暗部染一种色（偏绿或偏青），高光与皮肤染另一种（偏琥珀）；两种情绪同时在",
+    "en": "shadows one colour, highlights another, two moods holding in one frame"
+  },
+  "过曝": {
+    "kw": ["过曝", "overexposed", "烧白"],
+    "short": "过曝",
+    "desc": "色调：最亮处烧成纯白，天空、窗户、皮肤发光晕丢细节；灼热、记忆，或某种圣洁",
+    "en": "highlights burned to white, sky and skin blooming and losing detail"
+  },
+  "自然色": {
+    "kw": ["自然色", "natural"],
+    "short": "自然色",
+    "desc": "色调：不做强烈倾向，只把白平衡和对比做干净",
+    "en": "no strong cast, white balance and contrast kept clean"
+  }
+}
