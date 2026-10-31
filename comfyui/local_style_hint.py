@@ -566,6 +566,15 @@ def _cine_line(c):
             grade = _CINE["grade"][5]          # 自然色
         elif any(w in _lz for w in _WARM):
             grade = _CINE["grade"][2]          # 暖金
+    # 类型片视觉定了调就只有它能定调：黑色电影不能配"自然色"
+    _glz = c.get("genrelook_zh") or ""
+    if _glz:
+        if "黑白" in _glz:
+            grade = "黑白"
+        elif any(w in _glz for w in ("冷色", "褪色", "冷冽", "青绿")):
+            grade = _CINE["grade"][5]          # 自然色
+        elif any(w in _glz for w in ("高饱和", "饱和", "粉与青绿", "暖")):
+            grade = _CINE["grade"][2]          # 暖金
     mood = _CINE["mood"][0] if has(("lonely", "孤独", "压抑", "melancholy", "冰冷")) else _CINE["mood"][3]
     lens = _CINE["lens"][2] if has(("close", "特写", "肖像", "脸")) else _CINE["lens"][1]
 
@@ -1213,7 +1222,15 @@ def _core(item, subj, craft, mat, domain, query=""):
     zh_light = []
     # 先看场景表（深夜便利店 -> 荧光灯；雨 -> 雨天光），再看词面匹配。
     # 场景词往往不带"光"字，但场景本身决定了光是什么样。
-    _lp = _scene_light(query) or _match_ref("light_ref.json", query, kw)
+    #
+    # **但类型片视觉压过场景光**：整包已经写明了光，再叠一条场景光就是打架。
+    # 实测「黑色电影，一个人坐在办公室」同时出现"荧光灯，偏绿的冷白"
+    # 和"黑白，硬光低调布光"——两种光在一段里互相拆台。
+    _gl_row = _match_ref("genre_look_ref.json", query, kw)
+    if _gl_row:
+        _lp = None
+    else:
+        _lp = _scene_light(query) or _match_ref("light_ref.json", query, kw)
     if _lp:
         zh_light.append(_lp["zh"])
     else:
