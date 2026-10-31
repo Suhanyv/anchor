@@ -731,6 +731,9 @@ def _strip_cmd(q, fallback=True):
         t = _re.sub(r"(^|[，,、])\s*(?:用|拿|以|帮我|给我|请)\s+(?=\S)", r"\1", t)
     # 「光用荧光灯，」这类覆盖指令：只在解析时用，不进正文
     t = _re.sub(r"(^|[，,、])\s*(?:光用|用光)\s*[^\s，,。；;]+\s*[，,、]?\s*", r"\1", t)
+    # 「12 秒」这种时长指令同理：只在解析时用，正文里由模板自己写秒数
+    t = _re.sub(r"(^|[，,、])\s*\d{1,2}\s*(?:秒|s\b|sec)\s*[，,、]?\s*", r"\1", t,
+                flags=_re.I)
     t = _re.sub(r"[，,、]{2,}", "，", t).strip(" ，,。.、·-")
     if t:
         return t
@@ -983,11 +986,20 @@ def _scene_beats(query):
     每条输出以前都挂着同一句「<写：动作怎么继续或停下…>」，
     等于把"这一镜怎么发展"整个交回给人。而动作的推进是可枚举的：
     跑就跑远、打就收势、坐就换重心。填不出仍留占位符。
+
+    按 `_priority` 排，不按表顺序：实测「抱着纸箱跑」先撞上「拥抱」，
+    输出成"手臂收紧、两个人的头靠近"——抱着东西和拥抱是两件事。
     """
-    row = _match_ref("beat_ref.json", query, [])
-    if not row:
-        return "", ""
-    return (row.get("mid") or ""), (row.get("end") or "")
+    rows = _load_ref("beat_ref.json")
+    q = query or ""
+    order = rows.get("_priority") or []
+    names = [n for n in order if n in rows] + \
+            [n for n in rows if n not in order and not n.startswith("_")]
+    for name in names:
+        row = rows.get(name) or {}
+        if any(k in q for k in (row.get("kw") or [name])):
+            return (row.get("mid") or ""), (row.get("end") or "")
+    return "", ""
 
 
 def _scene_sound(query):
@@ -1103,12 +1115,21 @@ def _record_gap(query, what, score=0.0):
 
 
 def _dur_from_query(query):
-    """按运动幅度给这一镜的时长，返回 '5s' 这样的串；算不出就 None。
+    """这一镜多长。先看用户有没有直接写秒数，再看运动幅度。
 
-    为什么需要：`_core` 的 dur 原来取自文档的 params.duration（那条风格样例
+    用户写「10 秒的镜头」就该给 10 秒——以前这个数字被完全忽略，
+    时长永远按运动幅度猜（静态 3、动作 4、强动作 5），想要长也表达不出来。
+    平台上下限仍由 _plan_duration 卡。
+
+    回溯：`_core` 的 dur 原来取自文档的 params.duration（那条风格样例
     建议的时长），和时长表按运动幅度算出来的值不一致——实测出现过
     表说 3 秒、正文写 "0 到 4 秒 / 4 到 8 秒"。时长以这一镜的运动幅度为准。
     """
+    _m = re.search(r"(\d{1,2})\s*(?:秒|s\b|sec)", query or "", re.I)
+    if _m:
+        _n = int(_m.group(1))
+        if 1 <= _n <= 60:
+            return f"{max(3, min(_n, 30))}s"
     try:
         sec, kind = _ref_duration(query)
     except Exception:
