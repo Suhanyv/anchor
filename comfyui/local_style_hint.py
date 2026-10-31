@@ -1313,6 +1313,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 脸部光型：同一支蜡烛从侧面打和从底下打，是两场戏
         "facelight_zh": ((_match_ref("face_light_ref.json", query, kw) or {})
                          .get("zh", "")),
+        # 类型片视觉：给一个名字等于给一包光、镜头、色彩、布景
+        "genrelook_zh": ((_match_ref("genre_look_ref.json", query, kw) or {})
+                         .get("zh", "")),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1585,6 +1588,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _fl = c.get("facelight_zh") or ""
     if _fl:
         seg.append(f"{_fl}。")
+    # 类型片视觉放在光型之后：它是一整包，要压得住前面的单项
+    _gl = c.get("genrelook_zh") or ""
+    if _gl:
+        seg.append(f"{_gl}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

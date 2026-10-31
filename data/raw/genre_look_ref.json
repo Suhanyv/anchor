@@ -1,0 +1,107 @@
+{
+  "_about": "类型片视觉风格：一整套一眼能认出的选择组合。给一个名字，等于给一包光、镜头、色彩、布景。",
+  "_why": "库里有 176 个风格实体，但都是导演/流派；缺的是「类型片整体长什么样」这一层。写「赛博朋克」比写十个形容词有效。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/genre-looks （20 种类型视觉风格；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "查询点名就用，输出一句「视觉：…」；可与风格实体并存（风格是作者，视觉是类型）。",
+
+  "黑色电影": {
+    "kw": ["黑色电影", "film noir", "noir"],
+    "zh": "视觉：黑白，硬光打的低调布光，百叶窗把光切成条，影子压在墙上；构图故意歪，人在画面里不平",
+    "en": "black and white, hard low-key, venetian blinds striping the wall, shadows heavier than the people, canted frames"
+  },
+  "新黑色电影": {
+    "kw": ["新黑色", "neo-noir"],
+    "zh": "视觉：黑色电影的阴影与宿命，但拍成彩色、拍在现代城市，甚至拍在刺眼的白天",
+    "en": "noir shadows and fatalism in colour, in a modern city, sometimes in hard daylight"
+  },
+  "德国表现主义": {
+    "kw": ["表现主义", "expressionism"],
+    "zh": "视觉：布景是斜的、墙是尖的，影子画上去一样硬；空间在表达内心，不在再现现实",
+    "en": "tilted sets, jagged walls, shadows painted onto the world, space as inner state rather than place"
+  },
+  "铅黄": {
+    "kw": ["铅黄", "giallo"],
+    "zh": "视觉：高饱和的红蓝绿光整片打上来，极端特写，凶手视角，暴力被拍成歌剧",
+    "en": "saturated red, blue and green light washing whole rooms, extreme close-ups, killer POV, violence staged like opera"
+  },
+  "意大利西部": {
+    "kw": ["意大利西部", "spaghetti western"],
+    "zh": "视觉：荒原被晒到发白，眼睛和手的极限特写，大段沉默，风把尘土吹过画面",
+    "en": "sun-bleached badlands, extreme close-ups on eyes and hands, long silences, dust crossing frame"
+  },
+  "伪纪录片": {
+    "kw": ["伪纪录", "found footage"],
+    "zh": "视觉：画面是角色自己拿机器拍的，会晃、会失焦、会突然黑掉；死角本身就是证据",
+    "en": "shot by the characters themselves, shaking, losing focus, cutting to black, the blind spots standing as evidence"
+  },
+  "真实电影": {
+    "kw": ["真实电影", "cinema verite", "观察式"],
+    "zh": "视觉：轻便手持跟拍，现场光，同期声，几乎不布置，事件自己发生",
+    "en": "lightweight handheld following real people, available light, sync sound, almost no staging"
+  },
+  "法国新浪潮": {
+    "kw": ["新浪潮", "new wave"],
+    "zh": "视觉：真实街道、自然光、轻便摄影机；剪辑故意跳，规则被打破",
+    "en": "real streets, available light, portable camera, edits that jump the classical line on purpose"
+  },
+  "武侠": {
+    "kw": ["武侠", "wuxia"],
+    "zh": "视觉：威亚让人离地，衣袂和袖子在风里飘，山水占满背景；打斗更像一段舞蹈",
+    "en": "wire-work lifting bodies, sleeves and robes streaming, mountains filling the frame, combat as dance"
+  },
+  "科技黑色": {
+    "kw": ["科技黑色", "tech noir"],
+    "zh": "视觉：黑色的阴影与宿命，加上屏幕、机器、霓虹和冷的人造光；危险是人自己造的",
+    "en": "noir shadow and fatalism plus screens, machinery, neon and cold artificial light"
+  },
+  "赛博朋克": {
+    "kw": ["赛博朋克", "cyberpunk"],
+    "zh": "视觉：巨城浸在雨和霓虹里，广告牌高过楼，街道挤，人体有机械改造；科技很亮，人很脏",
+    "en": "a megacity soaked in rain and neon, billboards taller than buildings, crowded streets, bodies with machinery"
+  },
+  "南方哥特": {
+    "kw": ["南方哥特", "southern gothic"],
+    "zh": "视觉：破败的老宅、湿热的植被、蕾丝与十字架、狂热的信仰；礼数底下压着暴力",
+    "en": "decayed mansions, humid vegetation, lace and crucifixes, fervent belief, violence under the manners"
+  },
+  "宇宙恐怖": {
+    "kw": ["宇宙恐怖", "cosmic horror"],
+    "zh": "视觉：颜色不对、形状不可能、只给一角从不给全貌；人小得可以忽略",
+    "en": "wrong colours, impossible geometry, fragments only never the whole, the human scale negligible"
+  },
+  "蒸汽波": {
+    "kw": ["蒸汽波", "vaporwave"],
+    "zh": "视觉：粉与青绿的渐变，VHS 颗粒，打烊后空无一人的商场，棕榈树与大理石雕像，早期电脑图形",
+    "en": "pink-to-teal gradients, VHS grain, an empty mall after closing, palms and marble statues, early CGI"
+  },
+  "纪录片质感": {
+    "kw": ["纪录片质感", "documentary"],
+    "zh": "视觉：手持、现场光、跟随式取景、对焦不那么准；看起来像正在发生，不是安排好的",
+    "en": "handheld, available light, following the action, focus slightly off, happening rather than staged"
+  },
+  "大片质感": {
+    "kw": ["大片质感", "blockbuster"],
+    "zh": "视觉：大幅度运动镜头、场面撑满、互补色高饱和、布光有光泽、全程在动",
+    "en": "large camera moves, scale filling the frame, saturated complementary colour, glossy lighting, constant motion"
+  },
+  "艺术片质感": {
+    "kw": ["艺术片", "arthouse"],
+    "zh": "视觉：长镜头、工整的全景、自然光、沉默与含混；意义在事件之间的空里",
+    "en": "long takes, composed wides, available light, silence and ambiguity, meaning in the gaps"
+  },
+  "梦核": {
+    "kw": ["梦核", "dreamcore", "阈限空间"],
+    "zh": "视觉：光柔和褪色，空间是空的、熟悉又不对（走廊、泳池、停车场）；像回忆一件没发生过的事",
+    "en": "soft faded light, empty liminal rooms — corridor, pool, car park — familiar and wrong"
+  },
+  "反乌托邦": {
+    "kw": ["反乌托邦", "dystopian"],
+    "zh": "视觉：冷色或褪色，建筑压过来，监控、标语、破败与空旷；体制的重量压在人身上",
+    "en": "cold or bleached palette, crowding architecture, surveillance, decay and emptiness, institutional weight"
+  },
+  "魔幻现实主义": {
+    "kw": ["魔幻现实", "magical realism"],
+    "zh": "视觉：不可能的事发生在一个写实的世界里，用拍日常一样的平静去拍它；没人惊讶",
+    "en": "the impossible inside a realistic world, filmed with the calm of the everyday, nobody reacting"
+  }
+}
