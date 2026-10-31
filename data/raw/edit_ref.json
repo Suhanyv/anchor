@@ -1,0 +1,87 @@
+{
+  "_about": "剪辑与转场：两个镜头之间发生的事。只在多镜时用，单镜不需要。",
+  "_why": "以前完全没有这一维。多镜输出只给了共用块和逐镜内容，两镜怎么接上全靠人自己想。剪辑是节奏所在，剪点本身就是表达。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/editing （16 种剪辑与转场；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "多镜模板里命中就写一句「剪点：…」；单镜不写。",
+
+  "匹配剪辑": {
+    "kw": ["匹配剪辑", "match cut"],
+    "zh": "剪点：两个镜头共享一个形状、动作或声音，视线顺势滑过去，人还没想明白就已经到了新时空",
+    "en": "two shots joined on a shared shape, movement or sound, the eye sliding through the cut"
+  },
+  "图形匹配": {
+    "kw": ["图形匹配", "graphic match"],
+    "zh": "剪点：两个镜头的形、线、色或构图对齐在同一位置，主体已经换了，念头却已经种下",
+    "en": "shapes, lines or colour aligned across the cut, the subject changed, the idea planted"
+  },
+  "动作接续": {
+    "kw": ["动作接续", "match on action"],
+    "zh": "剪点：动作在一个镜头里开始、在下一个里完成，剪辑点藏在动作中间，几乎察觉不到",
+    "en": "a movement begun in one shot and finished in the next, the cut hidden inside the action"
+  },
+  "跳切": {
+    "kw": ["跳切", "jump cut"],
+    "zh": "剪点：同一机位里直接抽掉一段时间，人从一处猛地跳到另一处；这个跳跃是看得见的，急躁或不安由此出来",
+    "en": "time removed inside one setup, the figure snapping to a new position, the cut deliberately visible"
+  },
+  "硬切": {
+    "kw": ["硬切", "smash cut"],
+    "zh": "剪点：毫无预警地切到情绪相反的一场戏，常常切在动作或台词中途；身体先于理智感到那一下",
+    "en": "an unannounced jump to an opposite emotion, often mid-action, felt before it is understood"
+  },
+  "叠化": {
+    "kw": ["叠化", "dissolve"],
+    "zh": "剪点：前一个镜头淡出的同时后一个淡入，中间有一瞬两画面叠在一起；时间在柔和地流过去",
+    "en": "one image fading as the next arrives, both present for a moment, time passing softly"
+  },
+  "淡入淡出": {
+    "kw": ["淡入", "淡出", "fade"],
+    "zh": "剪点：画面从黑里浮出来，或沉进黑里去；像睁眼和闭眼，是清楚的起、止或停顿",
+    "en": "the image surfacing from black or sinking into it, an eye opening or closing"
+  },
+  "划像": {
+    "kw": ["划像", "wipe"],
+    "zh": "剪点：一条线或一个形状扫过画面，把旧镜头推走；转场看得一清二楚，节奏像翻页",
+    "en": "a line or shape sweeping the old shot away, the transition openly shown"
+  },
+  "圈入圈出": {
+    "kw": ["圈入", "圈出", "iris"],
+    "zh": "剪点：画面用一个缩小或扩大的圆圈打开、收拢，圆心落在某个人或某个细节上",
+    "en": "the frame opening or closing as a circle, centred on one person or one detail"
+  },
+  "交叉剪辑": {
+    "kw": ["交叉剪辑", "cross cutting"],
+    "zh": "剪点：两条同时发生、地点不同的线来回切，观众自己在脑子里把它们接上；悬念和宿命感由此而来",
+    "en": "two lines in two places alternating, the viewer joining them, suspense built by the alternation"
+  },
+  "分屏": {
+    "kw": ["分屏", "split screen"],
+    "zh": "剪点：画幅分成两块或更多，同时放不同的镜头；可以直接对比，这是交叉剪辑做不到的",
+    "en": "the frame split into panels running at once, direct comparison rather than alternation"
+  },
+  "蒙太奇": {
+    "kw": ["蒙太奇", "montage"],
+    "zh": "剪点：一组短镜头串起来，把很长一段时间压成几分钟；人在这段里变了，但不必看他熬过每一天",
+    "en": "a run of short shots compressing long time, a change without the days it took"
+  },
+  "轴向剪辑": {
+    "kw": ["轴向剪辑", "axial cut"],
+    "zh": "剪点：沿同一条视线方向突然拉近或拉远，角度不变；像影片猛吸了一口气",
+    "en": "a sudden jump along the same sightline, angle unchanged, the film inhaling"
+  },
+  "隐形剪辑": {
+    "kw": ["隐形剪辑", "invisible cut"],
+    "zh": "剪点：把剪辑点藏进一次运动、一片暗面、一个甩镜或一个经过画面的东西里，两个镜头看起来是连续的",
+    "en": "the cut hidden inside a movement, a shadow, a whip pan or something passing the lens"
+  },
+  "J切L切": {
+    "kw": ["J-cut", "L-cut", "声音先行"],
+    "zh": "剪点：下一个镜头的声音先于画面到（J），或上一个的声音延续到画面已切走之后（L）；观众被声音牵着过剪点",
+    "en": "next shot's sound arriving before its picture, or the last shot's sound outliving its image"
+  },
+  "闪切": {
+    "kw": ["闪切", "flash cut"],
+    "zh": "剪点：插入一两个极短的镜头，有时只有一帧，马上切回来；几乎来不及看清，但感觉得到",
+    "en": "one or two frames inserted and gone, felt rather than seen"
+  }
+}

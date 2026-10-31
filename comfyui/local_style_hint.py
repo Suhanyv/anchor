@@ -660,6 +660,15 @@ def _fmt_multishot(shots, item, subj, craft, mat, domain, fmt="", query=""):
         "        不要出现：<2-4 个会让这批全废掉的错误，例如"
         "手部畸形、兵器穿模、面部漂移、各镜色调不一致>。",
     ]
+    # 剪点：多镜才有意义，单镜不需要。以前这一维完全没有。
+    _ed = _match_ref("edit_ref.json", query, [])
+    if _ed and _ed.get("zh"):
+        out.append("        " + _ed["zh"] + "。")
+    elif len(shots) >= 2:
+        # 按镜数判，不按"有没有填"判：多镜时槽位本来就可能是空的
+        # 没点名就给三个候选：剪点是多镜的必需品，留空等于这一维没做
+        out.append("        「动作接续」把剪点藏进动作 · 「匹配剪辑」用共享形状接两镜 · "
+                   "「叠化」让时间柔和流过去——选一个。")
     if "Veo" in fmt:
         out.append("        ⚠️ Veo 一次只出一镜 8 秒，下面每一镜需要单独生成一次。")
     out.append("")
@@ -941,14 +950,6 @@ def _match_shot(query):
     return None
 
 
-def _shot_for_beat(name, used=None):
-    """按拍次挑一个镜头类型：建立 / 推进 / 交手 / 收。"""
-    rows = _load_ref("shot_ref.json")
-    used = used or set()
-    for nm, row in rows.items():
-        if name in (row.get("beats") or []) and nm not in used:
-            return nm, row
-    return "", None
 
 
 def _entry_medium(item):
