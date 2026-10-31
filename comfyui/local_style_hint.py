@@ -1358,6 +1358,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 光学效果：镜片上的把戏，摄影机"真在现场"的证据
         "optical_zh": ((_match_ref("optical_ref.json", query, []) or {})
                        .get("zh", "")),
+        # 空气：光说怎么照，这张说空气里有什么
+        "air_zh": ((_match_ref("atmosphere_ref.json", query, []) or {})
+                   .get("zh", "")),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1650,6 +1653,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _op = c.get("optical_zh") or ""
     if _op:
         seg.append(f"{_op}。")
+    # 空气：光是"怎么照"，这里说"空气里有什么"
+    _air = c.get("air_zh") or ""
+    if _air:
+        seg.append(f"{_air}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

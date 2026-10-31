@@ -1,0 +1,62 @@
+{
+  "_about": "氛围与天气：场景中的空气。以前只写光，没写空气里有什么。",
+  "_why": "镜头里的空气很少是空的。雨让告别更重，雾遮住要来的东西，浮尘让静止的画面显得有生命。这是少数完全属于剧本层面的视觉选择。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/atmosphere （11 种氛围与天气；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "点名就用，输出一句「空气：…」。与光表分工：光说怎么照，这张说空气里有什么。",
+
+  "雨": {
+    "kw": ["雨", "下雨", "雨中", "雨里"],
+    "zh": "空气：雨从上方落下，在逆光里才看得见，地面被打出细密的溅点",
+    "en": "rain falling and only visible against the light, the ground answering with fine splashes"
+  },
+  "雾": {
+    "kw": ["雾", "大雾", "雾里"],
+    "zh": "空气：雾把远处吃掉，光在雾里化成一圈圈晕；每个轮廓都成了疑问",
+    "en": "fog eating the distance, light blooming in rings, every silhouette a question"
+  },
+  "薄雾": {
+    "kw": ["薄雾", "水汽", "大气透视"],
+    "zh": "空气：一层薄薄的水汽或尘，只让远处变淡，近处仍然锐；纵深和规模都出来了",
+    "en": "a thin veil of moisture or dust fading only the distance, near objects still sharp"
+  },
+  "烟": {
+    "kw": ["烟", "烟雾", "香烟"],
+    "zh": "空气：烟在空气里流动、接住光，背后的一切都变柔；房间的重量先于台词到达",
+    "en": "smoke drifting and catching the light, everything behind it softened"
+  },
+  "浮尘": {
+    "kw": ["浮尘", "灰尘", "尘埃"],
+    "zh": "空气：极小的颗粒悬在一束光里发亮；时间在这里沉淀很久了",
+    "en": "fine motes suspended and lit inside a shaft of light"
+  },
+  "蒸汽": {
+    "kw": ["蒸汽", "热气", "白气", "呼气"],
+    "zh": "空气：水汽从排气口、锅炉或身体上升，被光照亮后散开；这里很热，或者在呼吸",
+    "en": "vapour rising from a vent, a boiler or a body, lit and dispersing"
+  },
+  "雪": {
+    "kw": ["雪", "下雪", "雪里"],
+    "zh": "空气：雪缓慢落下，把世界覆白、把声音吸掉；地上的一切痕迹都无处躲",
+    "en": "snow falling slowly, the world blanked white, every mark on the ground exposed"
+  },
+  "湿地面": {
+    "kw": ["湿地面", "打湿", "wet down", "积水"],
+    "zh": "空气：地面被打湿，表面反光，把每一处光源都映一遍；城市像刚下过雨",
+    "en": "ground wetted down so every surface mirrors a light source"
+  },
+  "火花余烬": {
+    "kw": ["火花", "余烬", "火星"],
+    "zh": "空气：发亮的颗粒被抛出去，在暗里划出弧线或慢慢飘落；热度变得看得见",
+    "en": "glowing particles thrown out, arcing or drifting down through the dark"
+  },
+  "沙尘暴": {
+    "kw": ["沙尘暴", "风沙", "沙墙"],
+    "zh": "空气：沙尘从远处压过来，最后把人物困在里面，世界缩到几米之内",
+    "en": "a wall of dust arriving from the distance until the world is a few metres wide"
+  },
+  "水下": {
+    "kw": ["水下", "水里", "潜"],
+    "zh": "空气：摄影机在水面之下，光在这里弯折，声音发闷，身体开始漂",
+    "en": "below the surface, light bending, sound muffled, the body starting to float"
+  }
+}
