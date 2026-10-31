@@ -1307,6 +1307,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         "risks": _scene_risks(query),
         # 媒介式风格的「画面材质」：视频模型只吃这一句
         "shot": _match_shot(query),
+        # 构图：原来完全空着的一维
+        "comp_zh": ((_match_ref("composition_ref.json", query, kw) or {})
+                    .get("zh", "")),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1573,6 +1576,9 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     if _med:
         seg.append(f"{_med}。")
     # 点名的镜头类型优先：它是机位的具体写法，比"推近/固定"细
+    _comp = c.get("comp_zh") or ""
+    if _comp:
+        seg.append(f"{_comp}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

@@ -1,0 +1,122 @@
+{
+  "_about": "构图表：物体在画框里的位置，以及它让观众感觉到什么。这是原来完全没有的一维。",
+  "_why": "摄影层有景深/质感/调色/情绪/焦段，唯独没有构图——而构图是单个画面的语法：谁大、谁小、谁居中、谁被推到边缘。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/composition （25 种技法的分类与含义；授权未核实，只取结构、用我们自己的话写）",
+  "_usage": "查询里点名某种构图就用那种，输出一句「构图：…」；不点名不写。",
+
+  "三分": {
+    "kw": ["三分", "九宫格"],
+    "zh": "构图：主体和眼睛压在两条竖线、两条横线的交点上，不在正中；留白那半边也在讲故事",
+    "en": "subject and eyeline on the thirds intersections, not centred, the empty side carrying the story"
+  },
+  "黄金分割": {
+    "kw": ["黄金分割", "螺旋"],
+    "zh": "构图：主体落在 1:1.618 的分割线上，视线顺着画面里的形状走，最后收在一个点上",
+    "en": "subject on the golden section, the eye travelling the forms to a single rest point"
+  },
+  "中心": {
+    "kw": ["中心构图", "居中", "正中"],
+    "zh": "构图：主体死死压在画面正中，正对镜头；视线无处游移，显得刻意、对峙",
+    "en": "subject dead centre facing the lens, nowhere for the eye to wander, confrontational"
+  },
+  "对称": {
+    "kw": ["对称"],
+    "zh": "构图：中轴线两侧的形状与人数彼此呼应；任何一处破格都会立刻跳出来",
+    "en": "mirrored across a central axis, any break in the symmetry reading instantly"
+  },
+  "非对称": {
+    "kw": ["非对称", "偏重"],
+    "zh": "构图：一侧的分量远重于另一侧，视线会不断在空的那边找东西",
+    "en": "weight piled on one side, the eye searching the empty half"
+  },
+  "引导线": {
+    "kw": ["引导线", "透视线"],
+    "zh": "构图：道路、铁轨、墙面或阴影从画面边缘伸进去，指向主体",
+    "en": "roads, rails or shadow-lines reaching in from the frame edge toward the subject"
+  },
+  "框中框": {
+    "kw": ["框中框", "门框", "窗框"],
+    "zh": "构图：用门、窗、镜子或拱形把主体再框一次，人像是被困住或被窥视",
+    "en": "a doorway, window or arch framing the subject again, caged or watched"
+  },
+  "留白": {
+    "kw": ["留白", "空白"],
+    "zh": "构图：大片空白占掉大半个画面（天空、雪地、素墙），衬出人的渺小",
+    "en": "most of the frame empty sky, snow or wall, the figure made small"
+  },
+  "前景兴趣": {
+    "kw": ["前景兴趣", "前景物"],
+    "zh": "构图：近处放一个东西或一个人（虚的），主要动作在更远处；纵深立刻出来",
+    "en": "a soft object or shoulder close to the lens with the action further back"
+  },
+  "三层纵深": {
+    "kw": ["三层", "层次纵深"],
+    "zh": "构图：前景有遮挡、中间是主要动作、背景里生活还在继续",
+    "en": "foreground occlusion, action in the middle, life continuing behind"
+  },
+  "对角线": {
+    "kw": ["对角线", "斜线"],
+    "zh": "构图：楼梯、绳索、屋顶或影子斜穿画面；即使没有动作，画面也在动",
+    "en": "stairs, ropes or shadows cutting diagonally, motion without movement"
+  },
+  "三角": {
+    "kw": ["三角构图"],
+    "zh": "构图：三张脸或三个人物摆成一个三角，视线在三点之间来回",
+    "en": "three faces or figures in a triangle, the eye cycling the corners"
+  },
+  "头顶留白": {
+    "kw": ["头顶", "headroom"],
+    "zh": "构图：头顶到上边框的距离要刚好——太少局促，太多渺小",
+    "en": "headroom neither cramped nor dwarfing"
+  },
+  "视线方向留白": {
+    "kw": ["视线留白", "前方留白", "lead room"],
+    "zh": "构图：空白留在他看的方向或走的方向上，动势有地方去",
+    "en": "space left in the direction of the gaze or movement"
+  },
+  "反向留白": {
+    "kw": ["反向留白", "背后留白"],
+    "zh": "构图：空白留在他脑后、靠画框最近的那边；空间像是在收紧",
+    "en": "space behind the head instead of ahead, the frame closing in"
+  },
+  "重复图案": {
+    "kw": ["重复", "图案"],
+    "zh": "构图：一排排同样的窗、桌、制服填满画面；打破图案的那个立刻被看见",
+    "en": "rows of identical windows, desks or uniforms, the one break reading first"
+  },
+  "图底对比": {
+    "kw": ["图底", "图底关系"],
+    "zh": "构图：主体与背景在影调、色彩或焦点上拉开对比，拥挤里也一眼找到他",
+    "en": "subject separated from ground by tone, colour or focus alone"
+  },
+  "一点透视": {
+    "kw": ["一点透视", "灭点"],
+    "zh": "构图：摄影机正对走廊或道路，所有线条收进画面正中的一个灭点",
+    "en": "camera square to a corridor, every line converging on one point at centre"
+  },
+  "脏画面": {
+    "kw": ["脏画面", "前景遮挡"],
+    "zh": "构图：透过贴近镜头的失焦物（肩膀、门框、路人）拍，观众像站在角色中间",
+    "en": "shot past a soft shoulder or doorframe, the viewer inside the scene"
+  },
+  "干净画面": {
+    "kw": ["干净画面", "无遮挡"],
+    "zh": "构图：前景空无一物，背景没有东西抢注意力；人显得孤立、暴露、被彻底聚焦",
+    "en": "nothing in front, nothing competing behind, the figure exposed"
+  },
+  "镜面": {
+    "kw": ["镜面", "倒影"],
+    "zh": "构图：通过镜子、玻璃或水洼拍，一个人被分成两个",
+    "en": "through glass, mirror or puddle, one figure split into two"
+  },
+  "画幅式全景": {
+    "kw": ["tableau", "画幅式", "舞台式"],
+    "zh": "构图：静止、正面的大全景，整场戏装进一个画面，像一幅画",
+    "en": "static frontal wide, the whole scene arranged as a single painting"
+  },
+  "窥视": {
+    "kw": ["窥视", "偷看"],
+    "zh": "构图：透过百叶窗、树枝缝隙、锁孔拍；观众成了偷看的那个人",
+    "en": "through blinds, branches or a keyhole, the viewer made the watcher"
+  }
+}
