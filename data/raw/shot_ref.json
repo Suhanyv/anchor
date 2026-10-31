@@ -1,0 +1,47 @@
+{
+  "_about": "镜头类型 → 一条能直接用的机位指令。来源：实测那条水墨雨天视频里真正成立的两个镜头。",
+  "_why": "「背面跟拍」和「脚下特写」是那条片子里唯二成立的镜头，而提示词里根本没写它们——是模型自己切的。既然它证明这两个镜头有效，就该进库，由我们主动指定，而不是碰运气。",
+  "_usage": "查询里点名了某种镜头就用那种；提案分镜按拍次挑（建立/交手/收各有一组）。",
+  "_rule": "每个镜头只写一件事：机位在哪、跟谁、画面里有什么动。不写情绪。",
+
+  "背面跟拍": {
+    "kw": ["跟拍", "跟着跑", "背后", "背影", "跟住"],
+    "zh": "机位在人背后同距离跟着，人一直占画面中央，背景连续往后流",
+    "en": "camera behind the subject at a constant distance, the subject held centre, background streaming backward",
+    "motion": "跟随背影",
+    "allows_move": true,
+    "beats": ["建立", "推进"]
+  },
+  "侧面跟拍": {
+    "kw": ["侧面跟", "侧跟", "平行跟着"],
+    "zh": "机位在人侧面同速平移，人始终在画面三分之一处，脚步与地面同时可见",
+    "en": "camera tracking alongside at the same speed, the subject on a third, feet and ground both visible",
+    "motion": "横移",
+    "allows_move": true,
+    "beats": ["推进", "交手"]
+  },
+  "脚下特写": {
+    "kw": ["脚下", "脚部", "水花", "地面特写", "脚步"],
+    "zh": "机位贴地，只拍脚与地面：每一步踩下去水花溅开，其余全虚",
+    "en": "camera at ground level, only feet and ground, a splash at every step, everything else soft",
+    "motion": "贴地",
+    "allows_move": true,
+    "beats": ["推进", "触发"]
+  },
+  "正面推进": {
+    "kw": ["正面", "迎向镜头", "朝镜头来"],
+    "zh": "机位在人正前方缓慢后退，人一直朝镜头来，脸保持在同一位置",
+    "en": "camera retreating ahead of the subject, the face held in place as they come toward the lens",
+    "motion": "缓慢推近",
+    "allows_move": true,
+    "beats": ["建立"]
+  },
+  "空镜收尾": {
+    "kw": ["空镜", "只拍环境", "人不出现", "留白收"],
+    "zh": "人不入画，只拍他刚离开的地方：地面、水痕、还在动的东西",
+    "en": "no figure in frame, only the place just left behind: ground, water marks, whatever still moves",
+    "motion": "固定",
+    "allows_move": false,
+    "beats": ["收"]
+  }
+}

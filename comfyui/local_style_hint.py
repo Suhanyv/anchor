@@ -708,8 +708,14 @@ def _strip_cmd(q, fallback=True):
             if len(w) >= 2:
                 t = _re.sub(_re.escape(w), " ", t, flags=_re.I)
     # 3) 生成动词
+    #    必须以行首/标点开头，或后面就是标点——否则会把词肚子里的字吃掉。
+    #    实测：「背面跟拍一个女孩」里的"拍一个"被当成命令词删掉，
+    #    剩「背面跟 女孩」，镜头名字被啃了一半。
     for w in _CMD_WORDS:
-        t = t.replace(w, " ")
+        t = _re.sub(r"(^|[，,。；;：:\s])" + _re.escape(w) + r"(?=[，,。；;：:\s]|$)",
+                    r"\1", t)
+        # 句首那种「拍一段…」还要再收一次（上面要求后面也是标点，太严）
+        t = _re.sub(r"^\s*" + _re.escape(w), "", t)
     # 4) 收尾
     t = t.strip()
     for w in _TAIL_WORDS:
@@ -878,6 +884,47 @@ def _scene_light(query):
             if key in table:
                 return table[key]
     return None
+
+
+def _match_shot_name(query):
+    """返回 (完整名, 被剥伤的残留)，用来把正文修回来。
+
+    实测：「背面跟拍一个女孩…」被剥成「背面跟 女孩…」——
+    "跟拍"里的字被当成指令词吃掉了一个。点名了镜头类型，
+    正文就该保留完整的那个说法。
+    """
+    rows = _load_ref("shot_ref.json")
+    q = query or ""
+    for name, row in rows.items():
+        for k in (row.get("kw") or [name]):
+            if k and k in q:
+                for i in range(len(k)):
+                    broken = k[:i] + k[i + 1:]
+                    if len(broken) >= 2 and broken in q:
+                        return k, broken
+                return k, k
+    return "", ""
+
+
+def _match_shot(query):
+    """查询点名的镜头类型 -> 词条 dict 或 None。"""
+    rows = _load_ref("shot_ref.json")
+    q = query or ""
+    for name, row in rows.items():
+        for k in (row.get("kw") or [name]):
+            if k and k in q:
+                return row
+    return None
+
+
+def _shot_for_beat(name, used=None):
+    """按拍次挑一个镜头类型：建立 / 推进 / 交手 / 收。"""
+    rows = _load_ref("shot_ref.json")
+    used = used or set()
+    for nm, row in rows.items():
+        if name in (row.get("beats") or []) and nm not in used:
+            return nm, row
+    return "", None
 
 
 def _entry_medium(item):
@@ -1211,6 +1258,10 @@ def _core(item, subj, craft, mat, domain, query=""):
     # 原句里已经点了这个名就不用再补（"和僵尸对打，对面是僵尸"是重复）
     if _sec.get("zh") and _sec["zh"] not in _szh:
         _szh = f"{_szh}，对面是{_sec['zh']}"
+    # 镜头类型被点名时，正文里那个被剥伤的名字（"背面跟"）要恢复成本来的说法
+    _shotn = _match_shot_name(query)
+    if _shotn:
+        _szh = _szh.replace(_shotn[1], _shotn[0])
     if _sec.get("phrase") and subject_phrase:
         subject_phrase = f"{subject_phrase} facing {_sec['phrase']}"
 
@@ -1234,6 +1285,7 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 风险：具体到这一条的失败方式
         "risks": _scene_risks(query),
         # 媒介式风格的「画面材质」：视频模型只吃这一句
+        "shot": _match_shot(query),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1499,7 +1551,13 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _med = c.get("medium_zh") or ""
     if _med:
         seg.append(f"{_med}。")
-    seg.append(f"0 到 {half} 秒，{who}，{move}。")
+    # 点名的镜头类型优先：它是机位的具体写法，比"推近/固定"细
+    _shot = c.get("shot") or {}
+    if _shot.get("zh"):
+        seg.append(f"机位：{_shot['zh']}。")
+        seg.append(f"0 到 {half} 秒，{who}，画面从这里开始。")
+    else:
+        seg.append(f"0 到 {half} 秒，{who}，{move}。")
     # 第二段：能从动作表推出的就写出来，推不出才留占位符
     _bmid, _bend = c.get("beat_mid") or "", c.get("beat_end") or ""
     if _bmid:
@@ -1518,8 +1576,11 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     if _all:
         seg.append("技法：" + "；".join(_all[:5]) + "。")
     # 机位锁：实测那条视频自己切了三个镜头，「极缓推近」拦不住。
-    _lock = ("一镜到底，不切镜，机位不换位置" if c.get("motion") in ("STATIC", "SLOW")
-             else "只有一种运动，不追加第二个机位")
+    # 锁定要跟镜头类型走：跟拍本来就该动，一刀切会逼模型自己切镜（实测）
+    _moves = bool((c.get("shot") or {}).get("allows_move")) or \
+        c.get("motion") not in ("STATIC", "SLOW")
+    _lock = ("一镜到底，不切镜，只有一种运动，不追加第二个机位" if _moves
+             else "一镜到底，不切镜，机位不换位置")
     seg.append(f"{c['ar']}，{_lock}，全程保持主体清晰、背景自然虚化。")
     # 环境声能推出来就写死；推不出来才留占位符
     _snd = c.get("sound_zh") or ""
