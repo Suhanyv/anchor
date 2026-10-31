@@ -898,6 +898,14 @@ def _scene_light(query):
     return None
 
 
+def shot_size_auto(subj, query):
+    """两个主体同框时补一句两人镜头。认不出第二个人就返回空。"""
+    if not ((subj or {}).get("second") or {}).get("zh"):
+        return ""
+    row = _load_ref("shot_size_ref.json").get("两人镜头") or {}
+    return row.get("zh", "")
+
+
 def _match_shot_name(query):
     """返回 (完整名, 被剥伤的残留)，用来把正文修回来。
 
@@ -1226,7 +1234,7 @@ def _core(item, subj, craft, mat, domain, query=""):
     # **但类型片视觉压过场景光**：整包已经写明了光，再叠一条场景光就是打架。
     # 实测「黑色电影，一个人坐在办公室」同时出现"荧光灯，偏绿的冷白"
     # 和"黑白，硬光低调布光"——两种光在一段里互相拆台。
-    _gl_row = _match_ref("genre_look_ref.json", query, kw)
+    _gl_row = _match_ref("genre_look_ref.json", query, [])
     if _gl_row:
         _lp = None
     else:
@@ -1325,14 +1333,18 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 媒介式风格的「画面材质」：视频模型只吃这一句
         "shot": _match_shot(query),
         # 构图：原来完全空着的一维
-        "comp_zh": ((_match_ref("composition_ref.json", query, kw) or {})
+        "comp_zh": ((_match_ref("composition_ref.json", query, []) or {})
                     .get("zh", "")),
         # 脸部光型：同一支蜡烛从侧面打和从底下打，是两场戏
-        "facelight_zh": ((_match_ref("face_light_ref.json", query, kw) or {})
+        "facelight_zh": ((_match_ref("face_light_ref.json", query, []) or {})
                          .get("zh", "")),
         # 类型片视觉：给一个名字等于给一包光、镜头、色彩、布景
-        "genrelook_zh": ((_match_ref("genre_look_ref.json", query, kw) or {})
+        "genrelook_zh": ((_match_ref("genre_look_ref.json", query, []) or {})
                          .get("zh", "")),
+        # 景别：观众站得有多近。认不出两个主体时，两人镜头由模板自动补
+        "shotsize_zh": ((shot_size_auto(subj, query))
+                        if not _match_ref("shot_size_ref.json", query, [])
+                        else (_match_ref("shot_size_ref.json", query, []) or {}).get("zh", "")),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1609,6 +1621,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _gl = c.get("genrelook_zh") or ""
     if _gl:
         seg.append(f"{_gl}。")
+    # 景别：观众站得有多近（两个主体同框时由 shot_size_auto 自动补）
+    _ss = c.get("shotsize_zh") or ""
+    if _ss:
+        seg.append(f"{_ss}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

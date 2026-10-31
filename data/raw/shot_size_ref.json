@@ -1,0 +1,107 @@
+{
+  "_about": "景别与框法：观众站得有多近。以前只有摄影层里一个「中景深」，没有景别这一维。",
+  "_why": "景别就是距离，距离就是情感。远景把人放进世界，特写把观众放进人心里。另有「两人镜头/三人/群像」直接服务第二主体。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/shot-size （20 种景别；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "点名就用，输出一句「景别：…」。没点名但认出了两个主体时，自动补「两人镜头」——两个人在一个画面里才看得出关系。",
+
+  "大特写": {
+    "kw": ["大特写", "extreme close"],
+    "zh": "景别：画面里只剩一个局部——一只眼、一片嘴唇、一截指尖；平时没人注意的东西被放大到一面墙那么大",
+    "en": "only one detail in frame — an eye, a lip, a fingertip — enlarged to the size of a wall"
+  },
+  "特写": {
+    "kw": ["特写", "close up", "近景"],
+    "zh": "景别：从下巴到头顶框住一张脸，或让一件东西占满画面；观众开始读心思，不再读情节",
+    "en": "chin to crown, a face filling the frame, or an object at that scale"
+  },
+  "中近景": {
+    "kw": ["中近景", "medium close"],
+    "zh": "景别：胸上方到头顶；表情看得清，姿态和衣着也还留得住",
+    "en": "chest up, expression clear, posture and clothing still readable"
+  },
+  "中景": {
+    "kw": ["中景", "medium shot"],
+    "zh": "景别：腰部以上；脸、手、体态同时在，像隔一张桌子说话",
+    "en": "waist up, face and hands and bearing together, like talking across a table"
+  },
+  "牛仔中景": {
+    "kw": ["牛仔中景", "cowboy"],
+    "zh": "景别：大腿中部往上；腰胯和搭在腰间的手都在画面里，随时能动手",
+    "en": "mid-thigh up, the holster and the hand at the hip kept in frame"
+  },
+  "全身": {
+    "kw": ["全身", "full shot"],
+    "zh": "景别：头顶到脚底，上下各留一点余量；看得出他怎么站、怎么走、周围有多大",
+    "en": "head to foot with a little air above and below, the whole body and its space"
+  },
+  "远景": {
+    "kw": ["远景", "wide shot"],
+    "zh": "景别：人拍得小，空间占满画面；谁站在哪、隔多远、这地方什么感觉，一眼看清",
+    "en": "the figure small, the space filling the frame, positions and distances legible"
+  },
+  "大远景": {
+    "kw": ["大远景", "extreme wide"],
+    "zh": "景别：景观辽阔到人只剩一个点，甚至看不见；世界的尺度压下来",
+    "en": "landscape so wide the figure is a dot or absent, the world setting the scale"
+  },
+  "定场": {
+    "kw": ["定场", "establishing"],
+    "zh": "景别：开场用，从外面远处拍，先把地点交代掉；人还没说话，观众已经知道身在何处",
+    "en": "outside and at distance, the place established before anyone speaks"
+  },
+  "主镜": {
+    "kw": ["主镜", "master shot"],
+    "zh": "景别：一个机位从头拍到尾，够宽，把所有人都收进来；成片里可能只用片段，但整场戏靠它撑住",
+    "en": "one angle covering the whole scene, wide enough for everyone, the scene's spine"
+  },
+  "两人镜头": {
+    "kw": ["两人镜头", "两个人同框", "two shot"],
+    "zh": "景别：两个人同框——并排、面对面或一前一后；看的是关系本身：距离、平衡、谁靠近谁躲",
+    "en": "two in frame together, side by side or facing, the relationship itself: distance, balance, who leans in"
+  },
+  "三人镜头": {
+    "kw": ["三人镜头", "three shot"],
+    "zh": "景别：三个人同框，摆成三角或一条线；一眼看出谁跟谁一伙、谁被排除在外",
+    "en": "three in frame, in a triangle or a line, alliances readable at a glance"
+  },
+  "群像": {
+    "kw": ["群像", "group shot"],
+    "zh": "景别：四人以上同框，先看到一整群人（队伍、家族、一伙），再分辨其中的个体",
+    "en": "four or more in frame, the group read first, the individuals after"
+  },
+  "插入镜头": {
+    "kw": ["插入镜头", "insert"],
+    "zh": "景别：切到件东西、一份文件、一块屏幕或一双手的特写，取自场景内部；观众比片中人物先知道",
+    "en": "a cut to an object, document, screen or pair of hands inside the scene, the audience knowing first"
+  },
+  "切出": {
+    "kw": ["切出", "cutaway"],
+    "zh": "景别：短暂离开主线，切到场景里别的东西——钟、窗、旁观者、一只动物——再切回来",
+    "en": "a brief look away — a clock, a window, a bystander, an animal — then back"
+  },
+  "反应镜头": {
+    "kw": ["反应镜头", "reaction"],
+    "zh": "景别：不拍事件本身，拍它落在某人脸上的样子；观众靠这张脸理解发生了什么",
+    "en": "not the event but what it lands on in someone's face"
+  },
+  "过肩": {
+    "kw": ["过肩", "over the shoulder", "OTS"],
+    "zh": "景别：越过一个人的肩和头去拍对面那个，前景虚焦；观众坐在听的人背后",
+    "en": "over a shoulder and head, foreground soft, the audience behind the listener"
+  },
+  "单人镜": {
+    "kw": ["单人镜", "single"],
+    "zh": "景别：只框一个人，画面里没有别人；给他一条私密通道，同时把他和周围隔开",
+    "en": "one person alone in frame, a private channel to them, everyone else withheld"
+  },
+  "采访构图": {
+    "kw": ["采访构图", "interview framing"],
+    "zh": "景别：受访者放在三分之一处，目光略微偏出镜头，望向他看不见的一个人；留白在视线那一侧",
+    "en": "subject on a third, gaze just off lens toward someone unseen, lead room on the gaze side"
+  },
+  "产品镜头": {
+    "kw": ["产品镜头", "product shot"],
+    "zh": "景别：把单一物件孤立出来，构图干净，用光突出形状与材质；它被拍成值得渴望的东西",
+    "en": "a single object isolated, cleanly composed, lit for shape and material"
+  }
+}
