@@ -171,7 +171,7 @@ def main():
 
     print("\n=== 建议 ===")
     cur = {"subject": N.SUBJECT_FLOOR, "craft": N.CRAFT_FLOOR,
-           "material": N.MATERIAL_FLOOR, "scene": N.SCENE_FLOOR}
+           "material": N.MAT_FLOOR, "scene": N.SCENE_FLOOR}
     for k in ("subject", "craft", "material", "scene"):
         print(f"  {k:<10} 现在 {cur[k]:.2f}  ->  建议 {suggest[k]:.2f}")
 
