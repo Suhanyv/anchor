@@ -67,6 +67,11 @@ $env:HF_HOME='F:\llm\cache\hf'; $env:HF_HUB_OFFLINE='1'; $env:PYTHONIOENCODING='
 | **构图** | `composition_ref.json` | **24** |
 | **脸部光型** | `face_light_ref.json` | **14** |
 | **类型片视觉** | `genre_look_ref.json` | **20** |
+| **景别** | `shot_size_ref.json` | **20** |
+| **机位角度** | `camera_angle_ref.json` | **17** |
+| **调色** | `color_ref.json` | **15** |
+| **剪辑转场** | `edit_ref.json` | **16**（仅多镜）|
+| **光学效果** | `optical_ref.json` | **16** |
 
 **每张表里都有 `_about` / `_why`，用来说明"为什么要这张表"。改数据前先读它。**
 
@@ -89,6 +94,21 @@ $env:HF_HOME='F:\llm\cache\hf'; $env:HF_HUB_OFFLINE='1'; $env:PYTHONIOENCODING='
 **这三张表的 `_source` 指向同一个站**：`screenweaver.ai/zh/film-techniques`
 （授权未核实，**只取结构、用我们自己的话写**，源地址记在文件里）。
 那个站还有这些页没捞：景别 / 机位角度 / 色彩 / 光学效果 / 剪辑转场 / 氛围天气 / 镜头与光学。
+
+**2026-10-31 续：上面七页已经捞完六页**，共新增 **142 条**：
+构图 24 · 光型 14 · 类型片 20 · 景别 20 · 角度 17 · 调色 15 · 剪辑 16 · 光学 16。
+**只剩「氛围与天气」和「镜头与光学」两页没捞。**
+
+捞的过程中撞到三个真 bug，都值得记住：
+
+1. **调色从三档写死变 15 档**：以前 `_cine_line` 只有暖金/青橙/自然色三个候选。
+2. **`_match_ref` 会拿风格标签去匹配表**：黑泽明的关键词里有「群像」，
+   于是「一个女孩在雨里跑」被判成群像镜头。**导演的标签能拽进一整个景别。**
+   新四张表改成只认查询原话。
+3. **一张有语法错的表会静静失败**：`color_ref.json` 少了个逗号，
+   `_load_ref` 捕获异常返回空表，界面上什么都没发生。**表坏了不会报错，只会没效果。**
+   改表后必须跑 `python -c "import json;json.load(open(...))"`。
+
 
 
 ---
