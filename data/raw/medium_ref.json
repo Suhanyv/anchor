@@ -1,0 +1,46 @@
+{
+  "_about": "媒介式风格 → 画面材质。有些风格名对视频模型几乎无效，必须写成画面本身的材质。",
+  "_why": "实测：提示词写「文人水墨：水墨、留白、笔触」，生成出来是写实电影感，一点水墨都没有。风格名像调色参考，不像画面材质。所以这类风格要额外给一句「画面是什么做的」。",
+  "_usage": "风格实体命中下表 -> 在正文里加一句「画面：…」；视频模型看的是这一句。",
+
+  "文人水墨": {
+    "zh": "画面：整幅是水墨，宣纸纤维可见，只有墨的浓淡和纸的米黄，没有照片质感，边缘是笔扫开的",
+    "en": "ink on xuan paper, paper fibre visible, only washes of ink and the cream of the sheet, edges swept by the brush"
+  },
+  "水墨": {
+    "zh": "画面：整幅是水墨，宣纸纤维可见，只有墨的浓淡和纸的米黄，没有照片质感",
+    "en": "ink on xuan paper, only washes of ink and the cream of the sheet"
+  },
+  "皮影": {
+    "zh": "画面：皮影，人物是剪影，边缘透光发亮，关节处能看出分片，幕布有横向的织纹",
+    "en": "shadow puppetry, figures as cut silhouettes, light through the edges, visible joints, woven screen texture"
+  },
+  "浮世绘": {
+    "zh": "画面：浮世绘木版画，平涂色块，轮廓线清楚的黑边，没有渐变和阴影",
+    "en": "ukiyo-e woodblock, flat colour fields, a clear black keyline, no gradients"
+  },
+  "木刻": {
+    "zh": "画面：木刻版画，刀痕方向的排线，只有黑白两色，边缘有木纹的毛刺",
+    "en": "woodcut, hatching along the knife direction, black and white only, burrs at the edges"
+  },
+  "剪纸": {
+    "zh": "画面：剪纸，纸的厚度在边缘显形，颜色只有几层，光从背后透过来",
+    "en": "paper cut-out, the sheet's thickness visible at the edge, a few flat colours, light coming through"
+  },
+  "壁画": {
+    "zh": "画面：壁画，墙面颗粒，颜料有剥落，裂缝从画面中间穿过",
+    "en": "wall painting, gritty plaster, flaking pigment, a crack running through the frame"
+  },
+  "油画": {
+    "zh": "画面：油画，颜料厚度可见，笔触方向一致，边缘有堆叠的亮部",
+    "en": "oil on canvas, paint depth visible, consistent brush direction, impasto at the highlights"
+  },
+  "蓝晒": {
+    "zh": "画面：蓝晒印相，普鲁士蓝单色，纸边发白，边缘有涂层的不均匀",
+    "en": "cyanotype, prussian blue monochrome, pale paper margins, uneven coating at the edge"
+  },
+  "素描": {
+    "zh": "画面：铅笔素描，纸面颗粒在排线之间露出来，暗部靠叠加而不是涂黑",
+    "en": "pencil drawing, paper grain showing between strokes, darks built by layering"
+  }
+}

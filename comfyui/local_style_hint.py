@@ -880,6 +880,24 @@ def _scene_light(query):
     return None
 
 
+def _entry_medium(item):
+    """媒介式风格（水墨/皮影/浮世绘…）-> 一句「画面是什么做的」。
+
+    实测：提示词写「文人水墨：水墨、留白、笔触」，生成出来是写实电影感。
+    风格名像调色参考，不像画面材质；视频模型看的是后者。
+    """
+    rows = _load_ref("medium_ref.json")
+    if not rows or not item:
+        return "", ""
+    names = [str(item.get("director_zh") or ""), str(item.get("director") or "")]
+    names += [str(x) for x in (item.get("kw_zh") or [])]
+    for name, row in rows.items():
+        for nm in names:
+            if nm and name in nm:
+                return row.get("zh") or "", row.get("en") or ""
+    return "", ""
+
+
 def _scene_risks(query, limit=3):
     """这条会怎么废。返回具体风险短语，最多 limit 条。
 
@@ -1215,6 +1233,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         "beat_end": _scene_beats(query)[1],
         # 风险：具体到这一条的失败方式
         "risks": _scene_risks(query),
+        # 媒介式风格的「画面材质」：视频模型只吃这一句
+        "medium_zh": _entry_medium(item)[0],
+        "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
         "ar": params.get("ar") or ("21:9" if domain == "prompt_video" else "2.35:1"),
         # 时长以"这一镜的运动幅度"为准（我们自己的表），
@@ -1474,6 +1495,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     if style:
         seg.append(f"{style}。")
     seg.append(f"{who}。")
+    # 媒介式风格：风格名对视频模型几乎无效，必须另给一句画面材质
+    _med = c.get("medium_zh") or ""
+    if _med:
+        seg.append(f"{_med}。")
     seg.append(f"0 到 {half} 秒，{who}，{move}。")
     # 第二段：能从动作表推出的就写出来，推不出才留占位符
     _bmid, _bend = c.get("beat_mid") or "", c.get("beat_end") or ""
@@ -1492,7 +1517,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _all = [x for x in _all if x]
     if _all:
         seg.append("技法：" + "；".join(_all[:5]) + "。")
-    seg.append(f"{c['ar']}，全程保持主体清晰、背景自然虚化。")
+    # 机位锁：实测那条视频自己切了三个镜头，「极缓推近」拦不住。
+    _lock = ("一镜到底，不切镜，机位不换位置" if c.get("motion") in ("STATIC", "SLOW")
+             else "只有一种运动，不追加第二个机位")
+    seg.append(f"{c['ar']}，{_lock}，全程保持主体清晰、背景自然虚化。")
     # 环境声能推出来就写死；推不出来才留占位符
     _snd = c.get("sound_zh") or ""
     seg.append(f"只使用{_snd}，不要配乐，不要字幕。" if _snd
