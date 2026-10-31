@@ -571,6 +571,10 @@ def _cine_line(c):
     _cr = c.get("color_row") or {}
     if _cr.get("short"):
         grade = _cr["short"]
+    # 焦段同理：写死的几档换成 15 档
+    _lr = c.get("lens_row") or {}
+    if _lr.get("short"):
+        lens = _lr["short"]
     _glz = c.get("genrelook_zh") or ""
     if _glz:
         if "黑白" in _glz:
@@ -1361,6 +1365,8 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 空气：光说怎么照，这张说空气里有什么
         "air_zh": ((_match_ref("atmosphere_ref.json", query, []) or {})
                    .get("zh", "")),
+        # 镜头：焦距决定空间的感觉
+        "lens_row": (_match_ref("lens_ref.json", query, []) or {}),
         "medium_zh": _entry_medium(item)[0],
         "medium": _entry_medium(item)[1],
         "weak": weak, "score": score,
@@ -1657,6 +1663,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     _air = c.get("air_zh") or ""
     if _air:
         seg.append(f"{_air}。")
+    # 镜头：焦距决定空间的感觉
+    _ln = (c.get("lens_row") or {}).get("desc") or ""
+    if _ln:
+        seg.append(f"{_ln}。")
     _shot = c.get("shot") or {}
     if _shot.get("zh"):
         seg.append(f"机位：{_shot['zh']}。")

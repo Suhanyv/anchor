@@ -1,0 +1,97 @@
+{
+  "_about": "镜头与光学：焦距决定空间的感觉。广角把观众拽进动作，长焦把观众变成旁观者。",
+  "_why": "摄影层的焦段以前是写死的几档（35/50/85mm），而同一张脸用不同焦段拍出来是不同的人。这张表按「效果」索引，不按参数。",
+  "_source": "https://www.screenweaver.ai/zh/film-techniques/lenses （15 种镜头；授权未核实，只取结构，用我们自己的话写）",
+  "_usage": "命中就用 short 填进摄影层的焦段位，desc 另起一句「镜头：…」。",
+
+  "14mm": {
+    "kw": ["14mm", "超广角"],
+    "short": "14mm 超广角",
+    "desc": "镜头：视野极大，边缘被拉伸，近和远之间的距离被夸大；贴脸会把脸拧变形，退远则景物吞掉人",
+    "en": "very wide, edges stretched, near and far pulled apart"
+  },
+  "24mm": {
+    "kw": ["24mm", "广角"],
+    "short": "24mm 广角",
+    "desc": "镜头：比人眼更宽，但没有超广角那种夸张；人清楚，周围一大片空间也清楚",
+    "en": "wider than the eye without the distortion, figure and space both legible"
+  },
+  "35mm": {
+    "kw": ["35mm"],
+    "short": "35mm",
+    "desc": "镜头：够近，显亲密；够广，装得下环境；脸和空间都自然，像你站在他旁边",
+    "en": "close enough to be intimate, wide enough for the room, the scale left natural"
+  },
+  "50mm": {
+    "kw": ["50mm", "标准镜头"],
+    "short": "50mm 标准",
+    "desc": "镜头：最接近人眼，不拉伸不压缩；脸自然，房间保持真实比例，观众是个见证者",
+    "en": "the eye's own perspective, nothing stretched or compressed, the viewer a witness"
+  },
+  "85mm": {
+    "kw": ["85mm", "人像镜头"],
+    "short": "85mm 人像",
+    "desc": "镜头：中长焦，在中距离把人脸拍得比例好看，背景化成柔和的虚；观众开始读一个人",
+    "en": "short telephoto, flattering on a face at a middle distance, background dissolved"
+  },
+  "135mm": {
+    "kw": ["135mm", "中长焦"],
+    "short": "135mm",
+    "desc": "镜头：从远处把人框紧，身后的空间被压平成一层层柔化的景；离脸很近，离人很远",
+    "en": "framing tight from a distance, the space behind flattened into soft layers"
+  },
+  "200mm": {
+    "kw": ["200mm", "长焦镜头"],
+    "short": "200mm 长焦",
+    "desc": "镜头：从很远拍，前后一切都压成一堵平面；朝镜头走来的人怎么也走不近",
+    "en": "everything flattened into one plane, a figure walking in who never arrives"
+  },
+  "变形宽银幕": {
+    "kw": ["变形镜头", "anamorphic", "宽银幕"],
+    "short": "变形宽银幕",
+    "desc": "镜头：椭圆形的焦外光斑加横向的光晕拉丝，2.39:1；装得下辽阔，也装得下好几个人",
+    "en": "oval bokeh and horizontal flare streaks in a 2.39 frame, landscape and people at once"
+  },
+  "鱼眼": {
+    "kw": ["鱼眼", "fisheye"],
+    "short": "鱼眼",
+    "desc": "镜头：直线弯成曲线，中心凸起，边缘下坠；现实失去了形状",
+    "en": "straight lines curling, the centre bulging, the edges falling away"
+  },
+  "移轴": {
+    "kw": ["移轴", "tilt shift"],
+    "short": "移轴",
+    "desc": "镜头：只有窄窄一条是清楚的，其余强烈虚化；从高处拍，街道像桌上沙盘",
+    "en": "a single narrow band in focus, the rest heavily blurred, the city as a tabletop model"
+  },
+  "微距": {
+    "kw": ["微距", "macro"],
+    "short": "微距",
+    "desc": "镜头：贴到极近，把微小的东西放大到占满画面，景深只有几毫米；一滴水、一粒锈都有分量",
+    "en": "focused at a few centimetres, a drop or a fleck of rust filling the frame"
+  },
+  "探针": {
+    "kw": ["探针", "probe lens"],
+    "short": "探针镜头",
+    "desc": "镜头：细长管状，前端极薄，能伸进很窄的地方贴脸拍，同时远处还清楚；像缩到昆虫大小在表面走",
+    "en": "a slender tube reaching into a narrow space, close on a surface while the distance stays sharp"
+  },
+  "分离屈光": {
+    "kw": ["分离屈光", "split diopter"],
+    "short": "分离屈光",
+    "desc": "镜头：半片附加镜让一边极近对焦、另一边极远对焦；两个主体同时清楚，中间有不自然的牵引",
+    "en": "half a diopter splitting the frame, near and far both sharp with an odd pull between them"
+  },
+  "复古镜头": {
+    "kw": ["复古镜头", "vintage lens", "老镜头"],
+    "short": "复古镜头",
+    "desc": "镜头：边缘更软，对比更低，高光带暖晕，虚化会转；像来自另一个年代，或某个人的记忆",
+    "en": "softer edges, lower contrast, warm halation, swirling bokeh, like another decade's memory"
+  },
+  "长焦压缩": {
+    "kw": ["长焦压缩", "空间压缩", "telephoto compression"],
+    "short": "长焦压缩",
+    "desc": "镜头：远处用长焦拍，本来隔得远的东西看起来叠在一起；拥挤、压迫，或一段跨不过去的距离",
+    "en": "distant objects stacked as if adjacent, the world compressed and closing"
+  }
+}
