@@ -373,5 +373,35 @@
     ],
     "zh": "几乎没有声音，只有舱体的极低频和呼吸",
     "en": "almost nothing, a low hull resonance and breathing"
+  },
+  "海上": {
+    "kw": [
+      "渔船",
+      "海上",
+      "暴风雨",
+      "浪"
+    ],
+    "zh": "浪打在船壳上，风在桅杆和绳索之间叫，引擎在下面低鸣",
+    "en": "waves against the hull, wind in rigging, an engine below"
+  },
+  "停车": {
+    "kw": [
+      "停在",
+      "停下",
+      "熄火",
+      "车里等"
+    ],
+    "zh": "发动机怠速很低，雨刷一格一格地刮，桥上的风从车侧过去",
+    "en": "an engine at low idle, wipers on one setting, wind passing the side"
+  },
+  "户外细声": {
+    "kw": [
+      "蚂蚁",
+      "蹲在",
+      "地面",
+      "草丛"
+    ],
+    "zh": "风很小，远处有车过去，近处只有很细的虫声和衣料摩擦",
+    "en": "little wind, a car far off, insects and fabric close by"
   }
 }
