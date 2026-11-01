@@ -571,10 +571,6 @@ def _cine_line(c):
     _cr = c.get("color_row") or {}
     if _cr.get("short"):
         grade = _cr["short"]
-    # 焦段同理：写死的几档换成 15 档
-    _lr = c.get("lens_row") or {}
-    if _lr.get("short"):
-        lens = _lr["short"]
     _glz = c.get("genrelook_zh") or ""
     if _glz:
         if "黑白" in _glz:
@@ -585,6 +581,11 @@ def _cine_line(c):
             grade = _CINE["grade"][2]          # 暖金
     mood = _CINE["mood"][0] if has(("lonely", "孤独", "压抑", "melancholy", "冰冷")) else _CINE["mood"][3]
     lens = _CINE["lens"][2] if has(("close", "特写", "肖像", "脸")) else _CINE["lens"][1]
+    # 焦段：镜头表优先。必须放在上面这行**之后**——
+    # 之前放在前面被重算冲掉了，正文说"中长焦"摄影层却写"50mm 标准"（实测）。
+    _lr = c.get("lens_row") or {}
+    if _lr.get("short"):
+        lens = _lr["short"]
 
     primary = f"摄影层：{dof}；{tex}；{grade}；{mood}；{lens}。"
     alts = ("备选（换一个即可）：" +
@@ -923,6 +924,34 @@ def shot_size_auto(subj, query):
     return row.get("zh", "")
 
 
+_TECH_TABLES = ("composition_ref.json", "face_light_ref.json",
+                "genre_look_ref.json", "shot_size_ref.json",
+                "camera_angle_ref.json", "color_ref.json",
+                "optical_ref.json", "lens_ref.json",
+                "edit_ref.json", "shot_ref.json")
+
+
+def _strip_tech_terms(text):
+    """把技术指令的名字从正文里剥掉。
+
+    实测：「跳漂法，低角度，85mm，空镜，雨里，一个道士…」整句进了正文，
+    模型会把 85mm 和空镜当成画面内容。
+    空气表不在名单里——它的词（雨/雪/雾）是内容，剥了句子就断了。
+    """
+    t = text or ""
+    for fn in _TECH_TABLES:
+        for name, row in (_load_ref(fn) or {}).items():
+            for k in ([name] + list(row.get("kw") or [])):
+                if k and k in t:
+                    # 长后缀先剥：否则「跳漂法」会先被剥成「法」（实测踩过）
+                    for _suf in ("风格", "镜头", "效果", "法", "式", "调", "风", ""):
+                        if k + _suf in t:
+                            t = t.replace(k + _suf, "")
+    t = __import__("re").sub(r"[，,、]\s*(?=[，,、])", "", t)
+    t = __import__("re").sub(r"^[，,、\s]+", "", t).strip(" ，,、")
+    return t or (text or "")
+
+
 def _match_shot_name(query):
     """返回 (完整名, 被剥伤的残留)，用来把正文修回来。
 
@@ -1250,7 +1279,10 @@ def _core(item, subj, craft, mat, domain, query=""):
         _lp = _scene_light(query) or _match_ref("light_ref.json", query, kw)
     if _lp:
         zh_light.append(_lp["zh"])
-    else:
+    elif not _gl_row:
+        # 兜底：没有光词时拿风格关键词凑一句。
+        # **但类型片在场时不能兜**——它已经写明了光，
+        # 再拿「蒸汽、闪烁、前移」冒充光就是一句话里两个光（实测）。
         if mat and mat.get("hit"):
             zh_light.append(mat.get("zh") or "")
         if craft and craft.get("hit"):
@@ -1309,7 +1341,7 @@ def _core(item, subj, craft, mat, domain, query=""):
     # 第二主体并进主体描述——一处折叠，所有模板自动生效。
     # 「一个道士，和僵尸对打」以前只出一个道士，对面那位整个消失。
     _sec = (subj or {}).get("second") or {}
-    _szh = _strip_style_mention(_strip_cmd(query), item)
+    _szh = _strip_tech_terms(_strip_style_mention(_strip_cmd(query), item))
     # 原句里已经点了这个名就不用再补（"和僵尸对打，对面是僵尸"是重复）
     if _sec.get("zh") and _sec["zh"] not in _szh:
         _szh = f"{_szh}，对面是{_sec['zh']}"
@@ -1362,6 +1394,10 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 光学效果：镜片上的把戏，摄影机"真在现场"的证据
         "optical_zh": ((_match_ref("optical_ref.json", query, []) or {})
                        .get("zh", "")),
+        # 光的兜底：类型片在场时留空——它已经写明了光，
+        # 再兜一个"自然光"就是一段里两种光（实测）
+        "light_default": ("" if ((_match_ref("genre_look_ref.json", query, []) or {})
+                                  .get("zh")) else "自然光"),
         # 空气：光说怎么照，这张说空气里有什么
         "air_zh": ((_match_ref("atmosphere_ref.json", query, []) or {})
                    .get("zh", "")),
@@ -1554,7 +1590,7 @@ def _fmt_seedance(item, subj, craft, mat, domain, query=""):
     dur = int(str(c["dur"]).rstrip("s") or 6)
     half = max(2, dur // 2)
     who = c["subject_zh"] or "<主体：外观、服装、位置>"
-    light = c["zh_light"] or "自然光"
+    light = c["zh_light"] or c.get("light_default", "自然光")
     move = _MOVE_ZH.get(c["motion"], "缓慢推近")
     act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
     lines = []
@@ -1603,7 +1639,7 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
             who = who.replace(f"用{_nm}，", "").replace(f"用{_nm}", "")
             who = who.replace(f"，{_nm}", "").replace(_nm, "")
     who = who.strip("，,、 ") or (c["subject_zh"] or "<主体>")
-    light = c["zh_light"] or "自然光"
+    light = c["zh_light"] or c.get("light_default", "自然光")
     style = c["zh_style"] or ""
     # 运镜优先查表：查询里写了"贴地/横移/环绕"，就不该一律给"极缓推近"。
     # 全片每个镜头都"极缓推近"是实测出来的一个通病。
@@ -1721,7 +1757,7 @@ def _fmt_seedance_kf(item, subj, craft, mat, domain, query=""):
     c = _core(item, subj, craft, mat, domain, query)
     dur = int(str(c["dur"]).rstrip("s") or 6)
     who = c["subject_zh"] or "<主体>"
-    light = c["zh_light"] or "自然光"
+    light = c["zh_light"] or c.get("light_default", "自然光")
     return "\n".join([
         f"以图片 1 至图片 N 的顺序作为关键帧，制作 {dur} 秒 {c['ar']} 的短片。",
         "",
@@ -1786,7 +1822,7 @@ def _fmt_sora(item, subj, craft, mat, domain, query=""):
     if dur > 8:
         dur = 8   # 该文实测：新手先做 5~8 秒更稳
     who = c["subject_zh"] or "<主体：年龄/外观/服装/道具>"
-    light = c["zh_light"] or "自然光，色温与方向写清"
+    light = c["zh_light"] or c.get("light_default") or "自然光，色温与方向写清"
     move = _MOVE_ZH.get(c["motion"], "缓慢推近")
     act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
     return "\n".join([
@@ -1869,7 +1905,7 @@ def _fmt_minimax(item, subj, craft, mat, domain, query=""):
     c = _core(item, subj, craft, mat, domain, query)
     dur = int(str(c["dur"]).rstrip("s") or 6)
     who = c["subject_zh"] or "<主体：谁>"
-    light = c["zh_light"] or "自然光"
+    light = c["zh_light"] or c.get("light_default", "自然光")
     move = _KL_MOVE.get(c["motion"], _KL_MOVE["SLOW"])
     act = _KL_ACT.get(c["motion"], _KL_ACT["SLOW"])
     end_shot = "主体特写" if c["motion"] != "STATIC" else "原构图"
@@ -1989,7 +2025,7 @@ def _fmt_kling(item, subj, craft, mat, domain, query=""):
     # 场景我们确实不知道（检索只给风格与光），老实留占位符，
     # 否则「场景」和「光线」两栏会重复同一句风格词。
     scene = c["scene"] or "<写清地点与关键物件>"
-    light = c["zh_light"] or "自然光"
+    light = c["zh_light"] or c.get("light_default", "自然光")
     return (
         f"{who}，面部特征与服装保持不变。"
         f"{act}。"
@@ -2286,7 +2322,25 @@ def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
                            if r.get("type") != "scene"
                            and (r.get("subject_zh") or "") != (s.get("subject_zh") or "")]
             if _others:
-                _jj, _rr = max(_others, key=lambda t: float(ssims[t[0]]))
+                # 逐字点名的优先：实测「道士和僵尸对打」把「赛博朋克都市」
+                # 当成了对手，因为它的分数更高，而僵尸明明写在句子里。
+                # 只认非场景、且名字真的写在句子里的；
+                # 多个命中时取名字最长的那个（"赛博朋克都市" vs "僵尸"，
+                # 句中只有"赛博朋克"，按长度算它并不更长，按类型它该出局）
+                _ex_others = [(j, r) for j, r in _others
+                              if r.get("type") != "scene" and _exact_hits(q, [r])]
+                # 取离对抗动词最近的那个：对手就在动词左边。
+                _vpos = min([q.find(v) for v in
+                             ("对打", "对峙", "交战", "交手", "搏斗", "打斗",
+                              "面对", "迎战", "对垒", "对视") if v in q] or [len(q)])
+                def _near(t):
+                    names = ([t[1].get("subject_zh") or ""]
+                             + list(t[1].get("kw_zh") or []))
+                    pos = [q.find(k) for k in names if k and k in q and q.find(k) < _vpos]
+                    return -(max(pos) if pos else -1)
+                _ex_others.sort(key=_near)
+                _jj, _rr = ((_ex_others[0] if _ex_others else None)
+                            or max(_others, key=lambda t: float(ssims[t[0]])))
                 _sc2 = float(ssims[_jj])
                 # 闸：要么逐字命中（僵尸就写在句子里），要么分数真够高。
                 # 只按"相对主体分的比例"会误报：实测「骑士和一个对手对峙」
