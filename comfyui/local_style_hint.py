@@ -1043,6 +1043,9 @@ def _scene_risks(query, limit=3):
     q = query or ""
     pools = []
     for name, row in rows.items():
+        # not 对风险表同样有效：海上的雨不该带出「纸箱穿模」（实测）
+        if any(w in q for w in (row.get("not") or [])):
+            continue
         if any(k in q for k in (row.get("kw") or [name])):
             rs = [r for r in (row.get("risk") or []) if r not in
                   [x for p in pools for x in p]]
@@ -1121,6 +1124,10 @@ def _match_ref(filename, query, kw=None):
             if want in (row.get("kw") or []):
                 return row
     for name, row in table.items():
+        # not：这一条不适用于哪些语境。命中就跳过，继续找下一条。
+        # 实测：出租车「停着」不该拿到侧滑和尾尘；海上的雨不是街道的雨。
+        if any(w in q for w in (row.get("not") or [])):
+            continue
         for k in (row.get("kw") or [name]):
             if k and k in q:
                 return row
@@ -1675,7 +1682,9 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     style = c["zh_style"] or ""
     # 运镜优先查表：查询里写了"贴地/横移/环绕"，就不该一律给"极缓推近"。
     # 全片每个镜头都"极缓推近"是实测出来的一个通病。
-    _mv = _match_ref("motion_ref.json", query, c.get("kw") or [])
+    # 运镜只认查询原话：风格标签里可能有「下降」这种词，
+    # 会把"蹲着"变成一个升降镜头（实测）。
+    _mv = _match_ref("motion_ref.json", query, [])
     if _mv:
         move = _mv["zh"]
         # 正文里已经写了这个词就别再重复一次：
