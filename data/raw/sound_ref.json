@@ -337,5 +337,41 @@
     ],
     "zh": "列车怠速的低鸣、气刹放气、广播在头顶",
     "en": "a train idling, air brakes, an announcement overhead"
+  },
+  "法庭": {
+    "kw": [
+      "法庭",
+      "审判",
+      "被告"
+    ],
+    "zh": "木槌一声，纸页翻动，很多人在很低的音量里清嗓子",
+    "en": "a gavel, pages turned, a room of throats cleared quietly"
+  },
+  "手术室": {
+    "kw": [
+      "手术",
+      "缝合",
+      "无影灯"
+    ],
+    "zh": "监护仪的规律提示音、金属器械放进托盘的一声",
+    "en": "a monitor's steady tone, instruments set into a tray"
+  },
+  "山路": {
+    "kw": [
+      "山路",
+      "石阶",
+      "挑夫"
+    ],
+    "zh": "风从坡上下来，扁担吱呀，脚步踩在石头上",
+    "en": "wind down the slope, a carrying pole creaking, feet on stone"
+  },
+  "太空舱": {
+    "kw": [
+      "太空舱",
+      "舷窗",
+      "舱内"
+    ],
+    "zh": "几乎没有声音，只有舱体的极低频和呼吸",
+    "en": "almost nothing, a low hull resonance and breathing"
   }
 }
