@@ -321,5 +321,22 @@
       "集市",
       "早市"
     ]
+  },
+  "站灯": {
+    "zh": "加油站顶棚的几支灯管压下来，地面反光，周围全是黑的",
+    "en": "canopy strip lights pressing down, the ground reflecting, everything beyond in darkness",
+    "kw": [
+      "加油站",
+      "深夜加油站"
+    ]
+  },
+  "城市夜光": {
+    "zh": "城市的光从下面和四周泛上来，天空是暗橙色的，人和栏杆只有轮廓",
+    "en": "city light coming up from below, the sky dark orange, figures reduced to edges",
+    "kw": [
+      "天台",
+      "楼顶",
+      "深夜天台"
+    ]
   }
 }
