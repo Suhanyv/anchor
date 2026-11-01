@@ -258,5 +258,34 @@
     ],
     "zh": "打火机一声，吸气时的细响，烟灰落下的轻响",
     "en": "a lighter, a draw of breath, ash falling"
+  },
+  "理发店": {
+    "kw": [
+      "理发",
+      "剃头",
+      "推子",
+      "剪刀"
+    ],
+    "zh": "电推子的嗡鸣忽高忽低，剪刀在耳朵边合拢的脆响，椅子转轴一声",
+    "en": "clippers rising and falling, scissors closing near an ear, a chair swivelling"
+  },
+  "阳台": {
+    "kw": [
+      "阳台",
+      "晾衣",
+      "晒"
+    ],
+    "zh": "布被抖开的一声，衣架挂上杆子，楼下很远有人在说话",
+    "en": "a sheet snapped open, a hanger set on the rail, voices far below"
+  },
+  "婚宴": {
+    "kw": [
+      "婚礼",
+      "婚宴",
+      "敬酒",
+      "酒席"
+    ],
+    "zh": "很多杯碰在一起，笑和说话叠着，椅子在地面上蹭",
+    "en": "many glasses meeting at once, laughter over speech, chairs scraping"
   }
 }

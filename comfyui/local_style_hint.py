@@ -1319,10 +1319,8 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 兜底：没有光词时拿风格关键词凑一句。
         # **但类型片在场时不能兜**——它已经写明了光，
         # 再拿「蒸汽、闪烁、前移」冒充光就是一句话里两个光（实测）。
-        if mat and mat.get("hit"):
-            zh_light.append(mat.get("zh") or "")
-        if craft and craft.get("hit"):
-            zh_light.append(craft.get("zh") or "")
+        # 曾经在这里把材质/工艺的 zh 当光填，实测输出「喷漆钢」——
+        # 材质不是光源，宁可空着让模板留占位符，也不能拿它冒充光。
         if not zh_light and kw and not weak:
             zh_light.append("、".join(kw[:3]))
     zh_light = "；".join([x for x in zh_light if x])
@@ -2527,7 +2525,7 @@ class LocalStyleHint:
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
                 "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v26.jsonl")}),
-                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v21.jsonl")}),
+                "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v22.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
                 # 改为默认开启：赢家通吃规则上线后，材质通道不再污染其它渠道
