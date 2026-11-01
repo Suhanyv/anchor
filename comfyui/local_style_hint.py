@@ -1341,8 +1341,13 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 材质不是光源，宁可空着让模板留占位符，也不能拿它冒充光。
         # 风格不可信时也不能拿它的关键词冒充光——
         # 否则开头会出现「道士、桃木剑、黄符。」（实测）
-        if not zh_light and kw and not weak and not _style_untrusted(item, query):
-            zh_light.append("、".join(kw[:3]))
+        # 只有"像光的词"能冒充光（光/亮/暗/调/色/夜）；
+        # 实测「阳台、晾衣杆」被当成光写进去了——那不是光源。
+        _lightish = [w for w in (kw or [])
+                     if any(t in w for t in ("光", "亮", "暗", "调", "色", "夜"))]
+        if (not zh_light and _lightish and not weak
+                and not _style_untrusted(item, query)):
+            zh_light.append("、".join(_lightish[:3]))
     zh_light = "；".join([x for x in zh_light if x])
 
     # 图生视频：外观已在首帧里，这里给显式占位符（不是留空——

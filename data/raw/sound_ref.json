@@ -437,5 +437,15 @@
     ],
     "zh": "房间里几乎没有声音，只有自己的呼吸和墙面反射的一点回响",
     "en": "almost nothing, your own breathing and a little slap off bare walls"
+  },
+  "缝衣": {
+    "kw": [
+      "缝衣服",
+      "缝一件",
+      "针线",
+      "补衣服"
+    ],
+    "zh": "针穿过布的细微一声，线被拉直时擦过布面，屋里有钟在走",
+    "en": "a needle through cloth, thread drawn taut across the weave, a clock in the room"
   }
 }
