@@ -200,5 +200,36 @@
       "庙",
       "神殿"
     ]
+  },
+  "菜市场": {
+    "kw": [
+      "菜市场",
+      "市场",
+      "摊位",
+      "集市",
+      "早市",
+      "鱼摊"
+    ],
+    "zh": "周围全是人声和叫卖，秤砣落下的脆响，塑料袋被抖开",
+    "en": "voices and calling, a scale weight dropping, plastic bags shaken open"
+  },
+  "公园": {
+    "kw": [
+      "公园",
+      "长椅",
+      "鸽子",
+      "散步"
+    ],
+    "zh": "鸟叫、远处孩子、喷泉的水声，脚踩在落叶或砂石上",
+    "en": "birds, children somewhere, a fountain, feet on leaves or gravel"
+  },
+  "公交站": {
+    "kw": [
+      "公交站",
+      "站台",
+      "等车"
+    ],
+    "zh": "发动机怠速、气刹放气、报站的女声从远处传来",
+    "en": "an idling engine, air brakes releasing, a stop announcement far off"
   }
 }

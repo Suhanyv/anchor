@@ -311,5 +311,15 @@
       "夜路",
       "做法"
     ]
+  },
+  "市场光": {
+    "zh": "顶棚漏下的日光和几支灯管混在一起，湿地面把这两种光都反一遍",
+    "en": "daylight through a canopy mixed with strip lights, both mirrored off wet floor",
+    "kw": [
+      "菜市场",
+      "市场",
+      "集市",
+      "早市"
+    ]
   }
 }
