@@ -87,6 +87,16 @@ def check(q, out):
             bad.append(f"泄漏:{t}")
             break
 
+    # ③ 主体是动物，节拍里不该出现"人"
+    ANIMALS = ("狗", "猫", "鸟", "鸽子", "马", "牛", "鲸", "鱼", "蛇", "熊")
+    if beat and any(w in q for w in ANIMALS) and "人" in beat:
+        bad.append("动物配了人的动作")
+
+    # ④ 没写兵器，节拍里不该出现兵器
+    WEAPON_WORDS = ("剑", "刀", "枪", "斧", "矛", "棍", "弓", "兵器")
+    if beat and "兵器" in beat and not any(w in q for w in WEAPON_WORDS):
+        bad.append("空手却写兵器")
+
     two = any(x.startswith("景别") and "两个人同框" in x for x in out.split("。"))
     empty = any("人不入画" in x for x in out.split("。"))
     if two and empty:

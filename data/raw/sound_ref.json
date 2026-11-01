@@ -403,5 +403,32 @@
     ],
     "zh": "风很小，远处有车过去，近处只有很细的虫声和衣料摩擦",
     "en": "little wind, a car far off, insects and fabric close by"
+  },
+  "抢食": {
+    "kw": [
+      "抢",
+      "最后一块",
+      "争"
+    ],
+    "zh": "碗筷碰在一起，椅子被推了一下，有人在笑或者在急",
+    "en": "chopsticks and bowls knocking, a chair pushed, laughter or urgency"
+  },
+  "狗": {
+    "kw": [
+      "狗",
+      "犬",
+      "门口等"
+    ],
+    "zh": "爪子在地面上来回走，鼻子呼气，远处有人家的声音",
+    "en": "paws pacing on the floor, breathing through the nose, a household far off"
+  },
+  "空房间": {
+    "kw": [
+      "空房间",
+      "空屋",
+      "只有一张床"
+    ],
+    "zh": "房间里几乎没有声音，只有自己的呼吸和墙面反射的一点回响",
+    "en": "almost nothing, your own breathing and a little slap off bare walls"
   }
 }
