@@ -231,5 +231,32 @@
     ],
     "zh": "发动机怠速、气刹放气、报站的女声从远处传来",
     "en": "an idling engine, air brakes releasing, a stop announcement far off"
+  },
+  "电梯": {
+    "kw": [
+      "电梯",
+      "电梯口",
+      "楼层"
+    ],
+    "zh": "电机在头顶转，轿厢到站的提示音，门开的摩擦",
+    "en": "a motor overhead, an arrival chime, doors sliding"
+  },
+  "数钱": {
+    "kw": [
+      "数钱",
+      "点钞",
+      "钱"
+    ],
+    "zh": "纸币被手指捻开的声音，纸边互相摩擦，很轻但很清楚",
+    "en": "paper money being counted, edges rubbing, quiet but distinct"
+  },
+  "抽烟": {
+    "kw": [
+      "抽烟",
+      "点烟",
+      "烟"
+    ],
+    "zh": "打火机一声，吸气时的细响，烟灰落下的轻响",
+    "en": "a lighter, a draw of breath, ash falling"
   }
 }
