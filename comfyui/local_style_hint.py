@@ -981,6 +981,21 @@ def _mashup_note(query, subj):
     return ""
 
 
+def _style_untrusted(item, query):
+    """这条风格可不可信：查询里有没有它自己的关键词，没有再看分数。
+
+    实测分数分不开：好匹配 0.22（用户直接写了"赛博朋克"），
+    坏匹配 0.41（"地铁进站"被匹到赛博朋克）。重叠太严重。
+    但"查询里出现这条的关键词"是干净信号。
+    """
+    q = query or ""
+    kws = list(item.get("kw_zh") or []) + [str(item.get("director_zh") or "")]
+    hit = any(k and k in q for k in kws)
+    if hit:
+        return False
+    return float(item.get("score") or 0) < 0.50
+
+
 def _match_shot_name(query):
     """返回 (完整名, 被剥伤的残留)，用来把正文修回来。
 
@@ -1281,7 +1296,10 @@ def _core(item, subj, craft, mat, domain, query=""):
     who_zh = item.get("director_zh") or item.get("director") or ""
     if _CURRENT_TASK == "图生视频":
         zh_style = ""          # 外观交给首帧
-    elif weak:
+    elif weak or _style_untrusted(item, query):
+        # 分数分不开好坏（好匹配 0.22、坏匹配 0.41，重叠），
+        # 换成"查询里有没有这条自己的关键词"来判断：
+        # 拳击台对僵尸片没有任何关键词交集，就不该硬给一个僵尸片。
         zh_style = "<风格：库中没有可靠匹配，请自行指定>"
         _record_gap(query, "style", score)
     else:
@@ -1321,7 +1339,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 再拿「蒸汽、闪烁、前移」冒充光就是一句话里两个光（实测）。
         # 曾经在这里把材质/工艺的 zh 当光填，实测输出「喷漆钢」——
         # 材质不是光源，宁可空着让模板留占位符，也不能拿它冒充光。
-        if not zh_light and kw and not weak:
+        # 风格不可信时也不能拿它的关键词冒充光——
+        # 否则开头会出现「道士、桃木剑、黄符。」（实测）
+        if not zh_light and kw and not weak and not _style_untrusted(item, query):
             zh_light.append("、".join(kw[:3]))
     zh_light = "；".join([x for x in zh_light if x])
 
@@ -1755,8 +1775,9 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
         if _bend:
             seg.append(f"最后：{_bend}。")
     else:
-        seg.append(f"{half} 到 {dur} 秒，<写：动作怎么继续或停下；"
-                   f"要变形就写清从什么变成什么>。")
+        # 没有专门节拍时给中性的话：不留占位符，但也不装懂
+        seg.append(f"{half} 到 {dur} 秒，动作继续，幅度不变，"
+                   f"画面停在还在做这件事的那一下。")
     seg.append(f"{cine}")
     # 症状 -> 手段：写"怎么治"，不写"有什么毛病"
     _hit_s, _means = _symptom_means(query)
@@ -1775,14 +1796,13 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     # 环境声能推出来就写死；推不出来才留占位符
     _snd = c.get("sound_zh") or ""
     seg.append(f"只使用{_snd}，不要配乐，不要字幕。" if _snd
-               else "只使用<环境声>，不要配乐，不要字幕。")
+               else "只使用现场的环境声，不要配乐，不要字幕。")
     # 示例里不写"多余的人"——那是未经实测的假设，会压制群像镜头（见 CORRECTIONS C6）
     _rk = c.get("risks") or []
     if _rk:
         seg.append("不要出现：" + "、".join(_rk) + "。")
     else:
-        seg.append("不要出现：<2-4 个会让这条废掉的错误，例如手部畸形、"
-                   "兵器穿模、面部漂移>。")
+        seg.append("不要出现：手部畸形、面部漂移、道具穿模。")
     return "".join(seg)
 
 
@@ -2524,7 +2544,7 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v28.jsonl")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v29.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v24.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),

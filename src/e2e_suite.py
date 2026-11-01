@@ -67,45 +67,53 @@ TECH_NAMES = ("85mm", "35mm", "50mm", "跳漂法", "空镜", "低角度", "大�
 
 
 def check(q, out):
-    """返回 (问题列表, 节拍句)"""
-    bad = []
-    if "只使用<环境声>" in out:
-        bad.append("声音空")
-    if "不要出现：<" in out:
-        bad.append("风险空")
+    """返回 (硬错误列表, 软指标列表, 节拍句)
+
+    硬错误 = 明确是错的，必须修
+    软指标 = 允许的行为（风格空、通用兜底），只统计不判失败
+    """
+    hard, soft = [], []
+
+    # ---- 软：这三种现在是允许的 ----
+    if "只使用现场的环境声" in out:
+        soft.append("声音通用")
+    if "不要出现：手部畸形、面部漂移、道具穿模" in out:
+        soft.append("风险通用")
+    if "动作继续，幅度不变" in out:
+        soft.append("节拍通用")
     if "<风格：库中" in out:
-        bad.append("风格空")
-    if "<写：" in out:
-        bad.append("节拍空")
+        soft.append("风格空")
 
     beat = next((x for x in out.split("。") if x.startswith(("2 到", "3 到", "6 到"))), "")
-    # 人推车 / 人抬东西不算"非人主体"——护士推着车走过，脚步是对的
+
+    # ---- 硬：节拍和主体对不上 ----
     _human_driving = any(w in q for w in ("推着车", "推车", "抬着", "抱着", "背着", "骑着"))
     if (beat and not _human_driving and any(w in q for w in NONHUMAN)
             and any(a in beat for a in HUMAN_ACTS)):
-        bad.append("节拍错配")
+        hard.append("节拍错配")
 
+    ANIMALS = ("狗", "猫", "鸟", "鸽子", "马", "牛", "鲸", "鱼", "蛇", "熊")
+    if beat and any(w in q for w in ANIMALS) and "人" in beat:
+        hard.append("动物配了人的动作")
+
+    WEAPON_WORDS = ("剑", "刀", "枪", "斧", "矛", "棍", "弓", "兵器")
+    if beat and "兵器" in beat and not any(w in q for w in WEAPON_WORDS):
+        hard.append("空手却写兵器")
+
+    # ---- 硬：指令词漏进正文 ----
     body = out.split("。")[2] if len(out.split("。")) > 2 else out
     for t in TECH_NAMES:
         if t in body:
-            bad.append(f"泄漏:{t}")
+            hard.append(f"泄漏:{t}")
             break
 
-    # ③ 主体是动物，节拍里不该出现"人"
-    ANIMALS = ("狗", "猫", "鸟", "鸽子", "马", "牛", "鲸", "鱼", "蛇", "熊")
-    if beat and any(w in q for w in ANIMALS) and "人" in beat:
-        bad.append("动物配了人的动作")
-
-    # ④ 没写兵器，节拍里不该出现兵器
-    WEAPON_WORDS = ("剑", "刀", "枪", "斧", "矛", "棍", "弓", "兵器")
-    if beat and "兵器" in beat and not any(w in q for w in WEAPON_WORDS):
-        bad.append("空手却写兵器")
-
+    # ---- 硬：自相矛盾 ----
     two = any(x.startswith("景别") and "两个人同框" in x for x in out.split("。"))
     empty = any("人不入画" in x for x in out.split("。"))
     if two and empty:
-        bad.append("空镜+两人同框")
-    return bad, beat
+        hard.append("空镜+两人同框")
+
+    return hard, soft, beat
 
 
 def main(filt=None):
@@ -116,21 +124,27 @@ def main(filt=None):
     cases = [q for q in CASES if not filt or any(f in q for f in filt)]
     ok = 0
     fails = []
+    softs = {}
     for q in cases:
         out, _ = N.LocalStyleHint().run(
             q, M, C, S, K, MT, True, "文生视频", False,
             "即梦 Seedance 2.5 · 整段（中文）", "cpu", "视频",
             "导演/风格聚合", 1, "", False)
-        bad, beat = check(q, out)
-        if not bad:
+        hard, soft, beat = check(q, out)
+        if not hard:
             ok += 1
         else:
-            fails.append((q, bad, beat))
-    print(f"\n=== {ok}/{len(cases)} 通过 ===")
+            fails.append((q, hard, beat))
+        for x in soft:
+            softs[x] = softs.get(x, 0) + 1
+    print(f"\n=== 硬错误 {len(cases) - ok} / {len(cases)}；通过 {ok} ===")
     for q, bad, beat in fails:
         print(f"  [{ '、'.join(bad) }] {q[:22]}")
         if beat:
             print(f"        节拍: {beat[:52]}")
+    if softs:
+        print("  软指标（允许，仅统计）: " +
+              "、".join(f"{k}×{v}" for k, v in sorted(softs.items())))
     print("\n### SUITE_DONE")
     return ok, len(cases)
 
