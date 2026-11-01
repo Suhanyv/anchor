@@ -44,7 +44,14 @@
       "香烟"
     ],
     "zh": "空气：烟在空气里流动、接住光，背后的一切都变柔；房间的重量先于台词到达",
-    "en": "smoke drifting and catching the light, everything behind it softened"
+    "en": "smoke drifting and catching the light, everything behind it softened",
+    "not": [
+      "夜市",
+      "街头",
+      "露天",
+      "外面",
+      "街上"
+    ]
   },
   "浮尘": {
     "kw": [

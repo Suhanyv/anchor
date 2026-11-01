@@ -257,7 +257,14 @@
       "烟"
     ],
     "zh": "打火机一声，吸气时的细响，烟灰落下的轻响",
-    "en": "a lighter, a draw of breath, ash falling"
+    "en": "a lighter, a draw of breath, ash falling",
+    "not": [
+      "油烟",
+      "炊烟",
+      "烟囱",
+      "香烟的烟",
+      "冒烟"
+    ]
   },
   "理发店": {
     "kw": [
@@ -287,5 +294,48 @@
     ],
     "zh": "很多杯碰在一起，笑和说话叠着，椅子在地面上蹭",
     "en": "many glasses meeting at once, laughter over speech, chairs scraping"
+  },
+  "审讯室": {
+    "kw": [
+      "审讯",
+      "审问"
+    ],
+    "zh": "灯管的电流声，椅子一次挪动，纸页翻过去",
+    "en": "a tube light humming, a chair shifting once, a page turned"
+  },
+  "法场": {
+    "kw": [
+      "法场",
+      "刑场"
+    ],
+    "zh": "很多人在低声说话，铁器碰在地上，风把旗子吹得响",
+    "en": "a crowd murmuring, iron set down on stone, a banner snapping"
+  },
+  "夜市": {
+    "kw": [
+      "夜市",
+      "大排档",
+      "小吃街"
+    ],
+    "zh": "铁板上的油爆，人声混在一起，塑料袋和铁签碰",
+    "en": "oil spitting on a griddle, overlapping voices, bags and skewers"
+  },
+  "考场": {
+    "kw": [
+      "考场",
+      "考试",
+      "答题"
+    ],
+    "zh": "笔尖刮纸的声音很多但很轻，偶尔一声椅子响",
+    "en": "many pens on paper, quiet, an occasional chair"
+  },
+  "月台": {
+    "kw": [
+      "月台",
+      "站台",
+      "送别"
+    ],
+    "zh": "列车怠速的低鸣、气刹放气、广播在头顶",
+    "en": "a train idling, air brakes, an announcement overhead"
   }
 }
