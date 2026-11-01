@@ -917,8 +917,15 @@ def _scene_light(query):
 
 
 def shot_size_auto(subj, query):
-    """两个主体同框时补一句两人镜头。认不出第二个人就返回空。"""
+    """两个主体同框时补一句两人镜头。认不出第二个人、或这一镜是空镜，就返回空。
+
+    空镜里没有人，再说"两人同框"是直接对立（实测出现过：
+    景别说两个人，机位说人不入画）。
+    """
     if not ((subj or {}).get("second") or {}).get("zh"):
+        return ""
+    _sh = _match_shot(query) or {}
+    if "人不入画" in (_sh.get("zh") or "") or _sh.get("allows_move") is False:
         return ""
     row = _load_ref("shot_size_ref.json").get("两人镜头") or {}
     return row.get("zh", "")
@@ -950,6 +957,28 @@ def _strip_tech_terms(text):
     t = __import__("re").sub(r"[，,、]\s*(?=[，,、])", "", t)
     t = __import__("re").sub(r"^[，,、\s]+", "", t).strip(" ，,、")
     return t or (text or "")
+
+
+_MODERN_LOOKS = ("赛博朋克", "科技黑色", "蒸汽波", "反乌托邦", "梦核", "伪纪录")
+_PERIOD_WORDS = ("道士", "僵尸", "符", "竹简", "甲", "剑", "江湖", "武侠",
+                 "官服", "书案", "马车", "灯笼", "寺院")
+
+
+def _mashup_note(query, subj):
+    """类型片和主体不在同一个年代时给一句提示。不改内容，只提醒。"""
+    q = query or ""
+    rows = _load_ref("genre_look_ref.json")
+    hit = ""
+    for name, row in rows.items():
+        if any(k in q for k in (row.get("kw") or [name])):
+            hit = name
+            break
+    if not hit or not any(m in hit for m in _MODERN_LOOKS):
+        return ""
+    if any(w in q for w in _PERIOD_WORDS):
+        return ("时代混搭：类型片是现代向，主体是古装向。"
+                "成立就留（科技道术），不成立就换一个类型片。")
+    return ""
 
 
 def _match_shot_name(query):
@@ -1401,6 +1430,9 @@ def _core(item, subj, craft, mat, domain, query=""):
         # 空气：光说怎么照，这张说空气里有什么
         "air_zh": ((_match_ref("atmosphere_ref.json", query, []) or {})
                    .get("zh", "")),
+        # 时代混搭提示：类型片和主体不在同一个年代时，说一声但不改内容。
+        # 赛博朋克 + 道士僵尸是成立的混搭（科技道术），所以**只提示、不拦**。
+        "mashup_note": _mashup_note(query, subj),
         # 镜头：焦距决定空间的感觉
         "lens_row": (_match_ref("lens_ref.json", query, []) or {}),
         "medium_zh": _entry_medium(item)[0],
