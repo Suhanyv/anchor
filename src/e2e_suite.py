@@ -88,12 +88,22 @@ def check(q, out):
 
     # ---- 硬：节拍和主体对不上 ----
     _human_driving = any(w in q for w in ("推着车", "推车", "抬着", "抱着", "背着", "骑着"))
-    if (beat and not _human_driving and any(w in q for w in NONHUMAN)
+    # 有"人"在场（一个人 / 人蹲 / 人推）就不是非人主体
+    _has_person = any(w in q for w in ("一个人", "个人", "男人", "女人", "老人",
+                                       "孩子", "母亲", "父亲", "男孩", "女孩"))
+    if (beat and not _human_driving and not _has_person
+            and any(w in q for w in NONHUMAN)
             and any(a in beat for a in HUMAN_ACTS)):
         hard.append("节拍错配")
 
+    # 动物判据要防词肚子里的字：「斑马线」不是马，木马不是马
     ANIMALS = ("狗", "猫", "鸟", "鸽子", "马", "牛", "鲸", "鱼", "蛇", "熊")
-    if beat and any(w in q for w in ANIMALS) and "人" in beat:
+    COMPOUND = ("斑马线", "木马", "马赛克", "马桶", "马上", "海马", "马灯",
+                "鱼缸", "鲸鱼女孩")
+    _q2 = q
+    for c in COMPOUND:
+        _q2 = _q2.replace(c, "")
+    if beat and any(w in _q2 for w in ANIMALS) and "人" in beat:
         hard.append("动物配了人的动作")
 
     WEAPON_WORDS = ("剑", "刀", "枪", "斧", "矛", "棍", "弓", "兵器")
