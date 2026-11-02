@@ -463,5 +463,136 @@
     ],
     "zh": "针穿过布的细微一声，线被拉直时擦过布面，屋里有钟在走",
     "en": "a needle through cloth, thread drawn taut across the weave, a clock in the room"
+  },
+  "厨房": {
+    "kw": [
+      "厨房",
+      "切菜",
+      "切姜",
+      "砧板",
+      "灶台"
+    ],
+    "zh": "刀落在砧板上的钝响，油在锅里响，抽油烟机在头顶",
+    "en": "a knife on the board, oil in the pan, an extractor overhead"
+  },
+  "楼道": {
+    "kw": [
+      "楼道",
+      "楼梯",
+      "扶着栏杆",
+      "下楼"
+    ],
+    "zh": "脚步在水泥台阶上回响，楼上有人关门，声控灯延时灭掉",
+    "en": "footsteps echoing on concrete, a door upstairs, a light clicking off"
+  },
+  "木工": {
+    "kw": [
+      "木匠",
+      "刨",
+      "木屑",
+      "木板"
+    ],
+    "zh": "刨子贴着木面推过去的长声，木屑落地，锯子偶尔一下",
+    "en": "a plane drawn along grain, shavings falling, a saw once"
+  },
+  "机缝": {
+    "kw": [
+      "缝纫机",
+      "踩踏板",
+      "机头"
+    ],
+    "zh": "针杆上下走的密响，踏板一下一下，线轴在转",
+    "en": "a needle bar hammering, the pedal in rhythm, a bobbin turning"
+  },
+  "窑": {
+    "kw": [
+      "窑",
+      "烧窑",
+      "窑口"
+    ],
+    "zh": "火在窑里走的声音，木头塌下去，外面风很大",
+    "en": "fire drawing through a kiln, wood settling, wind outside"
+  },
+  "天桥": {
+    "kw": [
+      "天桥",
+      "过街",
+      "桥上走"
+    ],
+    "zh": "脚下的车流声从下面上来，栏杆被风带出低频的响",
+    "en": "traffic rising from below, a railing humming in wind"
+  },
+  "镜子": {
+    "kw": [
+      "镜子",
+      "对着镜子",
+      "涂口红"
+    ],
+    "zh": "很轻的呼吸，盖子合上的一声，屋里别的地方有响动",
+    "en": "quiet breathing, a lid closing, a sound elsewhere in the flat"
+  },
+  "雾": {
+    "kw": [
+      "雾",
+      "雾里",
+      "看不清"
+    ],
+    "zh": "声音被雾吸掉，只剩很近的脚步声和远处一声汽笛",
+    "en": "sound swallowed by fog, footsteps close, a horn far off"
+  },
+  "雨屋檐": {
+    "kw": [
+      "屋檐",
+      "雨线",
+      "雨从"
+    ],
+    "zh": "水从檐口连成一线落下的密响，下面是水面的回声",
+    "en": "water falling in an unbroken line, a hollow answer below"
+  },
+  "夜路": {
+    "kw": [
+      "路灯",
+      "月光",
+      "水泥地",
+      "夜里的路"
+    ],
+    "zh": "几乎没有声音，只有自己的脚步和远处一只狗",
+    "en": "almost nothing: own footsteps and a dog far off"
+  },
+  "厂房": {
+    "kw": [
+      "厂房",
+      "废弃",
+      "空地"
+    ],
+    "zh": "空间很大，脚步有回音，铁皮被风推得响",
+    "en": "a large empty room, footsteps arriving back, sheet metal in wind"
+  },
+  "停电": {
+    "kw": [
+      "停电",
+      "黑暗里",
+      "没有电"
+    ],
+    "zh": "所有机器的嗡鸣同时消失，只剩呼吸和远处的应急灯",
+    "en": "every hum stopping at once, breathing, an emergency light far off"
+  },
+  "算盘": {
+    "kw": [
+      "算盘",
+      "拨算盘",
+      "掌柜"
+    ],
+    "zh": "珠子在杆上撞的清响，一串连着拨过去，纸张翻动",
+    "en": "beads striking rods in runs, paper turning"
+  },
+  "绣": {
+    "kw": [
+      "绣",
+      "绣一幅",
+      "针脚"
+    ],
+    "zh": "针穿过布面的一声，线拉过去，绷子在手上轻轻响",
+    "en": "a needle through cloth, thread drawn through, a frame creaking"
   }
 }
