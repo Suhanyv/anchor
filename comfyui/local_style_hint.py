@@ -1457,7 +1457,10 @@ def _core(item, subj, craft, mat, domain, query=""):
     who_zh = item.get("director_zh") or item.get("director") or ""
     if _CURRENT_TASK == "图生视频":
         zh_style = ""          # 外观交给首帧
-    elif weak or _style_untrusted(item, query):
+    elif (weak or _style_untrusted(item, query)) and not item.get("_named"):
+        # 点名的实体不信"弱/不可信"这两道闸：
+        # 实测「慢电影，一个人坐在窗前」名字明明在句子里，
+        # 却因为被别人的文档压过而输出"自然光"。
         # 记下来：这是"人真的这么说、而库没覆盖"的证据
         _record_style_gap(query)
         # 分数分不开好坏（好匹配 0.22、坏匹配 0.41，重叠），
@@ -2713,7 +2716,7 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v34.jsonl")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v36.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v24.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
