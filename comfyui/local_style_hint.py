@@ -1099,6 +1099,9 @@ def _scene_beats(query):
             [n for n in rows if n not in order and not n.startswith("_")]
     for name in names:
         row = rows.get(name) or {}
+        # not 对节拍同样有效：否则「不说话」会拿到说话节拍（实测）
+        if any(w in q for w in (row.get("not") or [])):
+            continue
         if any(k in q for k in (row.get("kw") or [name])):
             return (row.get("mid") or ""), (row.get("end") or "")
     return "", ""
@@ -2549,7 +2552,7 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v30.jsonl")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v31.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v24.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),

@@ -175,7 +175,14 @@
       "熄火",
       "停在",
       "泊",
-      "靠边"
+      "靠边",
+      "车站",
+      "公交站",
+      "月台",
+      "自行车",
+      "地铁",
+      "楼下的车",
+      "看楼下的"
     ]
   },
   "太空": {
@@ -399,7 +406,16 @@
       "车里等"
     ],
     "zh": "发动机怠速很低，雨刷一格一格地刮，桥上的风从车侧过去",
-    "en": "an engine at low idle, wipers on one setting, wind passing the side"
+    "en": "an engine at low idle, wipers on one setting, wind passing the side",
+    "not": [
+      "车站",
+      "公交站",
+      "月台",
+      "自行车",
+      "地铁",
+      "楼下的车",
+      "看楼下的"
+    ]
   },
   "户外细声": {
     "kw": [
