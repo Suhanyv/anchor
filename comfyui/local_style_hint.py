@@ -177,6 +177,12 @@ def _load(model_dir, corpus_path, device, subject_path=None, craft_path=None, ma
                    "crafts": crafts, "craft_emb": craft_emb,
                    "materials": materials, "mat_emb": mat_emb,
                    "tok": tok, "enc": enc, "device": device}
+    # 记一份给语义匹配用（_sem_top(None, ...) 走这里）。
+    # 不记的话语义兜底会静默失效——它返回空列表，看起来和"没命中"一样。
+    try:
+        _SEM_ST[0] = _CACHE[key]
+    except Exception:
+        pass
     return _CACHE[key]
 
 
@@ -1004,6 +1010,61 @@ def _load_alias():
     return _ALIAS_CACHE["alias"]
 
 
+_SEM_CACHE = {}
+_SEM_ST = [None]
+
+
+def _sem_index(st, filename):
+    """给一张词表建语义索引：每条把 zh/desc + kw 拼成一句再编码。只建一次。"""
+    if filename in _SEM_CACHE:
+        return _SEM_CACHE[filename]
+    rows = _load_ref(filename)
+    if not rows:
+        _SEM_CACHE[filename] = None
+        return None
+    try:
+        names, texts = [], []
+        for name, row in rows.items():
+            z = row.get("zh") or row.get("desc") or ""
+            kws = "、".join(row.get("kw") or [])
+            texts.append(f"{z}。{kws}")
+            names.append(name)
+        emb = _encode_texts(st["tok"], st["enc"], st["device"], texts, "passage: ")
+        _SEM_CACHE[filename] = {"names": names,
+                                "rows": [rows[n] for n in names],
+                                "emb": emb}
+    except Exception:
+        _SEM_CACHE[filename] = None
+    return _SEM_CACHE[filename]
+
+
+def _sem_top(st, filename, query, k=1):
+    """语义检索一张表，返回 [(score, name)] 降序。st 为 None 时用最近一次加载的。"""
+    st = st or _SEM_ST[0]
+    if st is None:
+        return []
+    idx = _sem_index(st, filename)
+    if not idx or not (query or "").strip():
+        return []
+    try:
+        import torch
+        qe = _encode_texts(st["tok"], st["enc"], st["device"], [query], "query: ")
+        with torch.no_grad():
+            sims = (idx["emb"] @ qe.T).squeeze(-1).cpu().numpy()
+        order = sims.argsort()[::-1][:k]
+        return [(float(sims[i]), idx["names"][i]) for i in order]
+    except Exception:
+        return []
+
+
+def _sem_row(filename, name):
+    idx = _SEM_CACHE.get(filename) or {}
+    for n, r in zip(idx.get("names") or [], idx.get("rows") or []):
+        if n == name:
+            return r
+    return {}
+
+
 def _expand_query(q):
     """把罕见词映射成类别词，拼到查询后面（只在风格检索时用）。"""
     rows = _load_alias()
@@ -1113,6 +1174,9 @@ def _entry_medium(item):
     return "", ""
 
 
+RISK_SEM_FLOOR = 0.55   # 实测：数钱→手部小物件 0.632（对）；颠锅→火窑 0.257（错，被挡）
+
+
 def _scene_risks(query, limit=3):
     """这条会怎么废。返回具体风险短语，最多 limit 条。
 
@@ -1132,6 +1196,16 @@ def _scene_risks(query, limit=3):
                   [x for p in pools for x in p]]
             if rs:
                 pools.append(rs)
+    if not pools:
+        # 关键词一条都没中：走语义。**要同时过下限和领先幅度**——
+        # 实测「拆纸箱」把"算盘 0.622 vs 审讯室 0.562"当成命中，
+        # 领先只有 0.06，其实是在猜；而「数钱」是 0.609 vs 0.449，领先 0.16。
+        top = _sem_top(None, "risk_ref.json", q, 2)
+        if (top and top[0][0] >= RISK_SEM_FLOOR
+                and (len(top) < 2 or top[0][0] - top[1][0] >= 0.10)):
+            rs = _sem_row("risk_ref.json", top[0][1]).get("risk") or []
+            if rs:
+                pools.append(list(rs))
     # 每类轮流取一条：否则「道士打僵尸」只会拿到打斗那组，
     # 僵尸特有的风险（关节太顺、符纸飘得不像纸）一条都进不来。
     out = []
@@ -1146,6 +1220,9 @@ def _scene_risks(query, limit=3):
         if i > 8:
             break
     return out[:limit]
+
+
+BEAT_SEM_FLOOR = 0.45   # 实测：数钱→数 0.682（对）；颠锅→切 0.331（勉强，作下限参考）
 
 
 def _scene_beats(query):
@@ -1170,17 +1247,32 @@ def _scene_beats(query):
             continue
         if any(k in q for k in (row.get("kw") or [name])):
             return (row.get("mid") or ""), (row.get("end") or "")
+    # 关键词一条都没中：走语义，要过下限 + 领先幅度（理由同风险那处）
+    top = _sem_top(None, "beat_ref.json", q, 2)
+    if (top and top[0][0] >= BEAT_SEM_FLOOR
+            and (len(top) < 2 or top[0][0] - top[1][0] >= 0.10)):
+        row = _sem_row("beat_ref.json", top[0][1])
+        return (row.get("mid") or ""), (row.get("end") or "")
     return "", ""
 
 
+SOUND_SEM_FLOOR = 0.48   # 实测：颠锅→厨房 0.481（对）；数钱→数钱 0.609（对）
+
+
 def _scene_sound(query):
-    """场景 → 环境声。命中返回 (zh, en)，否则 ("", "")。
+    """场景 → 环境声。关键词优先，不中走语义（带下限）。
 
     声音是最后一块空白：一直写「只使用<环境声>」等于让模型自己猜。
     没有公开源（Freesound 要 token，实测 401），
     但每个场景的环境声就那么几种，可以人工写。
     """
     row = _match_ref("sound_ref.json", query, [])
+    if not row:
+        # 语义兜底：过下限 + 领先幅度（理由同风险那处）
+        top = _sem_top(None, "sound_ref.json", query, 2)
+        if (top and top[0][0] >= SOUND_SEM_FLOOR
+                and (len(top) < 2 or top[0][0] - top[1][0] >= 0.10)):
+            row = _sem_row("sound_ref.json", top[0][1])
     if not row:
         return "", ""
     return (row.get("zh") or ""), (row.get("en") or "")
