@@ -981,6 +981,33 @@ def _mashup_note(query, subj):
     return ""
 
 
+_STYLE_WANTED = os.path.join(ROOT, "data/raw/style_wanted.jsonl")
+
+
+def _record_style_gap(query):
+    """记下"风格没匹配上"的真实句子，供之后补条目用。去重。"""
+    q = (query or "").strip()
+    if len(q) < 4:
+        return
+    try:
+        seen = set()
+        if os.path.exists(_STYLE_WANTED):
+            with open(_STYLE_WANTED, encoding="utf-8") as f:
+                for line in f:
+                    try:
+                        seen.add(json.loads(line).get("query", ""))
+                    except Exception:
+                        continue
+        if q in seen:
+            return
+        with open(_STYLE_WANTED, "a", encoding="utf-8") as f:
+            f.write(json.dumps({"query": q,
+                                "ts": time.strftime("%Y-%m-%d %H:%M:%S")},
+                               ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
 def _style_untrusted(item, query):
     """这条风格可不可信：查询里有没有它自己的关键词，没有再看分数。
 
@@ -1300,6 +1327,8 @@ def _core(item, subj, craft, mat, domain, query=""):
     if _CURRENT_TASK == "图生视频":
         zh_style = ""          # 外观交给首帧
     elif weak or _style_untrusted(item, query):
+        # 记下来：这是"人真的这么说、而库没覆盖"的证据
+        _record_style_gap(query)
         # 分数分不开好坏（好匹配 0.22、坏匹配 0.41，重叠），
         # 换成"查询里有没有这条自己的关键词"来判断：
         # 拳击台对僵尸片没有任何关键词交集，就不该硬给一个僵尸片。
@@ -2552,7 +2581,7 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v33.jsonl")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v34.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v24.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
