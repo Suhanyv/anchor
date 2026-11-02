@@ -984,6 +984,45 @@ def _mashup_note(query, subj):
 _STYLE_WANTED = os.path.join(ROOT, "data/raw/style_wanted.jsonl")
 
 
+_ALIAS_CACHE = {}
+
+
+def _load_alias():
+    """读别名表。**不能走 _load_ref**——那里只收值为 dict 的条目，
+    而这张表的值是 list，会被整张过滤掉（实测一次都没生效）。"""
+    if "alias" in _ALIAS_CACHE:
+        return _ALIAS_CACHE["alias"]
+    try:
+        import json as _json
+        p = os.path.join(ROOT, "data/raw/query_alias.json")
+        with open(p, encoding="utf-8") as f:
+            t = _json.load(f)
+        _ALIAS_CACHE["alias"] = {k: v for k, v in t.items()
+                                 if not k.startswith("_") and isinstance(v, list)}
+    except Exception:
+        _ALIAS_CACHE["alias"] = {}
+    return _ALIAS_CACHE["alias"]
+
+
+def _expand_query(q):
+    """把罕见词映射成类别词，拼到查询后面（只在风格检索时用）。"""
+    rows = _load_alias()
+    if not rows:
+        return q or ""
+    add = []
+    for k, vs in rows.items():
+        if k and k in (q or ""):
+            add.extend(vs)
+    if not add:
+        return q or ""
+    seen, uniq = set(), []
+    for w in add:
+        if w not in seen:
+            seen.add(w)
+            uniq.append(w)
+    return (q or "") + "，" + "、".join(uniq[:6])
+
+
 def _record_style_gap(query):
     """记下"风格没匹配上"的真实句子，供之后补条目用。去重。"""
     q = (query or "").strip()
@@ -2339,7 +2378,8 @@ def _named_style(q, corpus):
 def _rank(q, model_dir, corpus_path, device, topk, by, domain="auto",
           subject_path=None, craft_path=None, material_path=None, use_material=False):
     st = _load(model_dir, corpus_path, device, subject_path, craft_path, material_path)
-    qe = _encode_query(st, q)
+    # 风格检索用扩展后的查询（罕见词 -> 类别词）；其他通道仍用原话
+    qe = _encode_query(st, _expand_query(q))
     sims = (st["doc_emb"] @ qe).numpy()
     corpus = st["corpus"]
 
