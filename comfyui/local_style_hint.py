@@ -2840,7 +2840,14 @@ class LocalStyleHint:
                 dbg = (f"平局修正: 题材 {_by_name['主体'][1]:.4f} 与 {winner[0]} "
                        f"{winner[1]:.4f} 差在 {SUBJECT_TIE_MARGIN} 内 -> 判题材赢\n" + dbg)
                 winner = _by_name["主体"]
-        if winner is None:
+        # 用户点名的风格不参与比大小。
+        # 实测：「慢电影，一个人坐在窗前」的风格分是 **-0.046**（去偏把它减成负的），
+        # 于是主体/材质随便一个正分都"高于风格"，赢家通吃把风格整个挤掉，
+        # 输出变成"自然光"。名字是用户自己写的，就该用它。
+        if items[0].get("_named"):
+            dbg = ("最终: 用户点名了风格 -> 固定用这个风格"
+                   f"（风格 {top_style:.4f}，不比大小）\n" + dbg)
+        elif winner is None:
             dbg = (f"最终: 风格最高或无人过门槛 -> 不拼内容 (风格 {top_style:.4f})\n" + dbg)
         else:
             name, sc, obj = winner
