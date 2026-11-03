@@ -55,6 +55,17 @@ def switch_corpus(ver):
     json.dump(w, open(WF, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
 
+def smoke_ok():
+    """跑 smoke，返回通过条数（0-3）。这是第二道闸：
+    只量 bulk 会漏掉"这个指标变好、那个指标变坏"的情况（实测踩过）。"""
+    out = subprocess.run([PY, os.path.join(ROOT, "src", "smoke_test.py")],
+                         capture_output=True, text=True, encoding="utf-8",
+                         env={**os.environ, "PYTHONIOENCODING": "utf-8"})
+    txt = (out.stdout or "") + (out.stderr or "")
+    m = re.search(r"===\s*(\d+)\s*/\s*(\d+)\s*通过", txt)
+    return int(m.group(1)) if m else 0
+
+
 def measure():
     """跑批量评测，只取数字"""
     out = subprocess.run([PY, os.path.join(ROOT, "src", "e2e_bulk.py")],
@@ -82,6 +93,7 @@ def main(cand_path):
 
     print("  ① 量基线…")
     base = measure()
+    base["smoke"] = smoke_ok()
     print(f"     {base}")
     if not base:
         print("  ✗ 量不出来，中止")
@@ -109,10 +121,13 @@ def main(cand_path):
 
     print("  ③ 再量…")
     after = measure()
+    after["smoke"] = smoke_ok()
     print(f"     {after}")
 
     ok = (after.get("hard", 99) <= base.get("hard", 99)
-          and after.get("heldout_style", 999) < base.get("heldout_style", 0))
+          and after.get("heldout_style", 999) < base.get("heldout_style", 0)
+          # smoke 不许比基线差：一个指标变好、另一个变坏，不算变好
+          and after.get("smoke", 0) >= base.get("smoke", 0))
     if ok:
         print("  ✅ 留出集变好，保留")
     else:
