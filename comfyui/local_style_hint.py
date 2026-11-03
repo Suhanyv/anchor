@@ -548,8 +548,12 @@ def _plan_duration(platform, q, asked=None):
     return total, per, n, line
 
 
-def _cine_line(c):
-    """摄影层：主选一个值写进正文，备选另起一行。"""
+def _cine_parts(c):
+    """只算值不排版：返回 {dof, tex, grade, mood, lens}。
+
+    抽出来是为了让「视觉方向」能复用同一套选择逻辑，
+    避免两处各算一套（以前焦段就是这样写岔的）。
+    """
     tags = " ".join(c.get("tags") or []).lower()
     kw = " ".join(c.get("kw") or "")
 
@@ -593,7 +597,14 @@ def _cine_line(c):
     if _lr.get("short"):
         lens = _lr["short"]
 
-    primary = f"摄影层：{dof}；{tex}；{grade}；{mood}；{lens}。"
+    return {"dof": dof, "tex": tex, "grade": grade, "mood": mood, "lens": lens}
+
+
+def _cine_line(c):
+    """摄影层：主选一个值写进正文，备选另起一行。"""
+    p = _cine_parts(c)
+    primary = (f"摄影层：{p['dof']}；{p['tex']}；{p['grade']}；"
+               f"{p['mood']}；{p['lens']}。")
     alts = ("备选（换一个即可）：" +
             " / ".join([_CINE["dof"][2], _CINE["tex"][2], _CINE["grade"][1],
                         _CINE["mood"][5], _CINE["lens"][0]]) + "。")
@@ -1869,6 +1880,10 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     who = who.strip("，,、 ") or (c["subject_zh"] or "<主体>")
     light = c["zh_light"] or c.get("light_default", "自然光")
     style = c["zh_style"] or ""
+    # 曾经在这里生成过"视觉方向"（雨天；自然色；50mm；数码质感）。
+    # **撤掉了**：四个词里三个是没命中时的默认值，等于把"不知道"包装成"知道"。
+    # 占位符更诚实——你看得见它不会，就会自己填。
+    _look = ""
     # 运镜优先查表：查询里写了"贴地/横移/环绕"，就不该一律给"极缓推近"。
     # 全片每个镜头都"极缓推近"是实测出来的一个通病。
     # 运镜只认查询原话：风格标签里可能有「下降」这种词，
@@ -1891,7 +1906,12 @@ def _fmt_seedance_prose(item, subj, craft, mat, domain, query=""):
     if light and style and light.strip("。； ")[:6] in style:
         light = ""
     seg = [f"{light}。"] if light else []
-    if style:
+    if style and not str(style).startswith("<风格"):
+        seg.append(f"{style}。")
+    elif _look:
+        # 没有可信作者风格：给一句"视觉方向"，比占位符有用，且标明是推断
+        seg.append(f"{_look}。")
+    elif style:
         seg.append(f"{style}。")
     seg.append(f"{who}。")
     # 媒介式风格：风格名对视频模型几乎无效，必须另给一句画面材质
