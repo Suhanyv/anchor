@@ -1095,10 +1095,35 @@ def _expand_query(q):
     return (q or "") + "，" + "、".join(uniq[:6])
 
 
+_EVAL_SET = [None]
+
+
+def _in_eval_set(q):
+    """这句是不是评测集（data/eval/cases_120.txt + smoke/suite）里的。
+
+    是就不能记进待补清单，否则等于拿留出集训练自己。
+    """
+    if _EVAL_SET[0] is None:
+        s = set()
+        try:
+            for line in open(os.path.join(ROOT, "data/eval/cases_120.txt"),
+                             encoding="utf-8"):
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    s.add(line)
+        except Exception:
+            pass
+        _EVAL_SET[0] = s
+    return (q or "").strip() in _EVAL_SET[0]
+
+
 def _record_style_gap(query):
     """记下"风格没匹配上"的真实句子，供之后补条目用。去重。"""
     q = (query or "").strip()
     if len(q) < 4:
+        return
+    # 评测集里的句子不许进待补清单（否则等于拿留出集训练）
+    if _in_eval_set(q):
         return
     try:
         seen = set()
