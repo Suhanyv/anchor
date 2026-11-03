@@ -2736,7 +2736,7 @@ class LocalStyleHint:
                 "中文描述": ("STRING", {"multiline": True,
                                        "default": "远远的镜头，一条草船在江上，有个老渔夫在划"}),
                 "模型目录": ("STRING", {"default": os.path.join(ROOT, "models/e5-director-c27")}),
-                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v36.jsonl")}),
+                "语料文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/corpus_v38.jsonl")}),
                 "题材文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/subjects_v24.jsonl")}),
                 "工艺文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/crafts_v9.jsonl")}),
                 "材质文件": ("STRING", {"default": os.path.join(ROOT, "data/raw/materials_v12.jsonl")}),
@@ -3074,7 +3074,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {"LocalStyleHint": "中文风格提示-本地 (Loca
         <项目根>/...
    b. 搬进 ComfyUI（约 470MB）：
         ComfyUI\\models\\prompt_retrieval\\e5-director-v4-noleak\\
-        ComfyUI\\models\\prompt_retrieval\\corpus_v4.jsonl
+        ComfyUI\\models\\prompt_retrieval\\corpus_v38.jsonl
       然后把节点的「模型目录」「语料文件」两个输入改成对应绝对路径。
 
 3) 装依赖（只有这一步会碰 ComfyUI 的环境）
