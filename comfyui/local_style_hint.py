@@ -926,6 +926,9 @@ def _scene_light(query):
         return None
     table = _load_ref("light_ref.json")
     for r in rules:
+        # not：这条规则不适用于哪些语境（医院走廊里的长椅不是公园）
+        if any(w in q for w in (r.get("not") or [])):
+            continue
         if any(w in q for w in (r.get("when") or [])):
             key = r.get("light")
             if key in table:

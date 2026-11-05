@@ -1,7 +1,56 @@
 {
-  "_about": "场景 → 声音。声音是最后一整维空白：提示词里一直写「只使用<环境声>」，等于把这一维整个交给模型去猜。",
-  "_why": "没有公开源可用（Freesound 要注册 token，实测 401），但声音本身是可以人工策展的：每个场景的环境声就那么几种。这张表和「场景→光」同一个做法。",
-  "_usage": "按顺序匹配，命中就把环境声写死；不命中仍留 <环境声> 占位符（该空就空）。",
+  "医院": {
+    "zh": "走廊尽头的轮子声，监护仪的规律提示音，远处有人低声说话",
+    "en": "a trolley far down the corridor, a monitor's steady tone, low voices",
+    "kw": [
+      "医院",
+      "急诊",
+      "病房",
+      "诊室"
+    ],
+    "not": [
+      "门口",
+      "门外",
+      "外面",
+      "路边",
+      "院子里"
+    ]
+  },
+  "手术室": {
+    "kw": [
+      "手术",
+      "缝合",
+      "无影灯"
+    ],
+    "zh": "监护仪的规律提示音、金属器械放进托盘的一声",
+    "en": "a monitor's steady tone, instruments set into a tray"
+  },
+  "法庭": {
+    "kw": [
+      "法庭",
+      "审判",
+      "被告"
+    ],
+    "zh": "木槌一声，纸页翻动，很多人在很低的音量里清嗓子",
+    "en": "a gavel, pages turned, a room of throats cleared quietly"
+  },
+  "审讯室": {
+    "kw": [
+      "审讯",
+      "审问"
+    ],
+    "zh": "灯管的电流声，椅子一次挪动，纸页翻过去",
+    "en": "a tube light humming, a chair shifting once, a page turned"
+  },
+  "电梯": {
+    "kw": [
+      "电梯",
+      "电梯口",
+      "楼层"
+    ],
+    "zh": "电机在头顶转，轿厢到站的提示音，门开的摩擦",
+    "en": "a motor overhead, an arrival chime, doors sliding"
+  },
   "雨": {
     "zh": "雨打在铁皮和地面上，鞋踩进水里，远处车流压过湿路面",
     "en": "rain on metal and stone, footsteps through water, traffic hissing on wet asphalt",
@@ -51,23 +100,6 @@
       "办公室",
       "教室",
       "走廊"
-    ]
-  },
-  "医院": {
-    "zh": "走廊尽头的轮子声，监护仪的规律提示音，远处有人低声说话",
-    "en": "a trolley far down the corridor, a monitor's steady tone, low voices",
-    "kw": [
-      "医院",
-      "急诊",
-      "病房",
-      "诊室"
-    ],
-    "not": [
-      "门口",
-      "门外",
-      "外面",
-      "路边",
-      "院子里"
     ]
   },
   "家": {
@@ -246,15 +278,6 @@
     "zh": "发动机怠速、气刹放气、报站的女声从远处传来",
     "en": "an idling engine, air brakes releasing, a stop announcement far off"
   },
-  "电梯": {
-    "kw": [
-      "电梯",
-      "电梯口",
-      "楼层"
-    ],
-    "zh": "电机在头顶转，轿厢到站的提示音，门开的摩擦",
-    "en": "a motor overhead, an arrival chime, doors sliding"
-  },
   "数钱": {
     "kw": [
       "数钱",
@@ -309,14 +332,6 @@
     "zh": "很多杯碰在一起，笑和说话叠着，椅子在地面上蹭",
     "en": "many glasses meeting at once, laughter over speech, chairs scraping"
   },
-  "审讯室": {
-    "kw": [
-      "审讯",
-      "审问"
-    ],
-    "zh": "灯管的电流声，椅子一次挪动，纸页翻过去",
-    "en": "a tube light humming, a chair shifting once, a page turned"
-  },
   "法场": {
     "kw": [
       "法场",
@@ -351,24 +366,6 @@
     ],
     "zh": "列车怠速的低鸣、气刹放气、广播在头顶",
     "en": "a train idling, air brakes, an announcement overhead"
-  },
-  "法庭": {
-    "kw": [
-      "法庭",
-      "审判",
-      "被告"
-    ],
-    "zh": "木槌一声，纸页翻动，很多人在很低的音量里清嗓子",
-    "en": "a gavel, pages turned, a room of throats cleared quietly"
-  },
-  "手术室": {
-    "kw": [
-      "手术",
-      "缝合",
-      "无影灯"
-    ],
-    "zh": "监护仪的规律提示音、金属器械放进托盘的一声",
-    "en": "a monitor's steady tone, instruments set into a tray"
   },
   "山路": {
     "kw": [
@@ -594,5 +591,8 @@
     ],
     "zh": "针穿过布面的一声，线拉过去，绷子在手上轻轻响",
     "en": "a needle through cloth, thread drawn through, a frame creaking"
-  }
+  },
+  "_about": "场景 → 声音。声音是最后一整维空白：提示词里一直写「只使用<环境声>」，等于把这一维整个交给模型去猜。",
+  "_why": "没有公开源可用（Freesound 要注册 token，实测 401），但声音本身是可以人工策展的：每个场景的环境声就那么几种。这张表和「场景→光」同一个做法。",
+  "_usage": "按顺序匹配，命中就把环境声写死；不命中仍留 <环境声> 占位符（该空就空）。"
 }
