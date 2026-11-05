@@ -25,19 +25,44 @@ STOP = set("""一个人 两个 一个 女人 男人 老人 孩子 有 在 的 �
 起来 正在 忽然 一直 还是 已经 就是 什么 那 这 很 都 也 又 就 而 里 中 外 前 后""".split())
 
 
+LEXICON = r"F:\llm\data\raw\object_lexicon.txt"
+_LEX = [None]
+
+
+def _lex():
+    if _LEX[0] is not None:
+        return _LEX[0]
+    words = []
+    try:
+        for line in open(LEXICON, encoding="utf-8"):
+            w = line.strip()
+            if w and not w.startswith("#"):
+                words.append(w)
+    except Exception:
+        pass
+    words.sort(key=len, reverse=True)      # 最长优先
+    _LEX[0] = words
+    return words
+
+
 def nouns(q):
-    """粗略取名词片段：按标点切开，取 2-4 字的连续汉字段"""
-    segs = re.split(r"[，。、；：！？\s]+", q)
+    """词典最长匹配：从句子取出真正见过的物件/场所词。"""
+    lex = _lex()
+    body = q or ""
+    taken = [False] * len(body)
     out = []
-    for seg in segs:
-        seg = re.sub(r"^(一个|两个|三个|那位|这位)", "", seg)
-        for m in re.finditer(r"[\u4e00-\u9fff]{2,6}", seg):
-            w = m.group(0)
-            if w in STOP or len(w) < 2:
-                continue
-            if w not in out:
-                out.append(w)
-    return out[:4]
+    for w in lex:
+        if not w or len(w) < 2:
+            continue
+        i = body.find(w)
+        while i >= 0:
+            if not any(taken[i:i + len(w)]):
+                for k in range(i, i + len(w)):
+                    taken[k] = True
+                if w not in out:
+                    out.append(w)
+            i = body.find(w, i + 1)
+    return out[:3]
 
 
 def main():
@@ -48,6 +73,20 @@ def main():
     corpus = st["corpus"]
 
     dev = [q for _sec, q, split in load_cases() if split == "dev"]
+    # 加上"真实使用"记下来的句子（评测句在记录时已被过滤）
+    try:
+        import json as _json
+        p = r"F:\llm\data\raw\style_wanted.jsonl"
+        seen_dev = set(dev)
+        for line in open(p, encoding="utf-8"):
+            line = line.strip()
+            if not line:
+                continue
+            q2 = _json.loads(line).get("query", "").strip()
+            if q2 and q2 not in seen_dev:
+                dev.append(q2)          # 和开发集一起当"可学"的输入
+    except Exception:
+        pass
     cands, seen = [], set()
     for q in dev:
         items, _m, _s, _d, _c, _mt = N._rank(
