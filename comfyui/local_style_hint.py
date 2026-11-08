@@ -968,7 +968,10 @@ def _strip_tech_terms(text):
     t = text or ""
     for fn in _TECH_TABLES:
         for name, row in (_load_ref(fn) or {}).items():
-            for k in ([name] + list(row.get("kw") or [])):
+            # 镜头类型只剥名字：它的 kw（脚下/水花/朝镜头来）在这类句子里是内容，
+            # 剥了正文就缺字（实测「只拍一个女孩跑过时的。」）
+            keys = [name] if fn == "shot_ref.json" else ([name] + list(row.get("kw") or []))
+            for k in keys:
                 if k and k in t:
                     # 长后缀先剥：否则「跳漂法」会先被剥成「法」（实测踩过）
                     for _suf in ("风格", "镜头", "效果", "法", "式", "调", "风", ""):
